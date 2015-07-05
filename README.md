@@ -13,9 +13,6 @@ Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à 
 * Utilisable depuis le helpdesk
 * Peut être intégré au plugin "environment".
 
-**Attention : 0.72** - Il faut impérativement faire la procédure d'upgrade si vous migrez d'une version du plugin plus ancienne.
-
-
 ### English
 
 This plugin enables you to manage the accounts of your network and associate them with elements of the inventory
@@ -24,5 +21,3 @@ This plugin enables you to manage the accounts of your network and associate the
 * Mailing system allow to verify expired accounts,
 * Can be used with helpdesk,
 * Can be integrated into "environment" plugin.
-
-**Warning : 0.72** - It is imperative to make the upgrade process if you migrate from an old version of this plugin.
