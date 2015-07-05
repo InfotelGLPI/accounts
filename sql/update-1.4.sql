@@ -1,0 +1,13 @@
+ALTER TABLE `glpi_plugin_comptes` ADD `recursive` tinyint(1) NOT NULL default '0' AFTER `FK_entities`;
+ALTER TABLE `glpi_plugin_compte_profiles` ADD `my_groups` char(1) default NULL AFTER `all_users`;
+ALTER TABLE `glpi_plugin_comptes` ADD `FK_groups` int(11) NOT NULL default '0' AFTER `requester`;
+ALTER TABLE `glpi_plugin_comptes` CHANGE `login` `login` varchar(50) collate utf8_unicode_ci NOT NULL default '';
+ALTER TABLE `glpi_plugin_comptes` CHANGE `mdp` `mdp` varchar(255) collate utf8_unicode_ci NOT NULL default '';
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '2', '3', '0');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '3', '1', '0');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '4', '2', '0');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '5', '4', '0');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '6', '5', '0');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '7', '6', '0');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL , '1902', '8', '7', '0');
+RENAME TABLE `glpi_plugin_comptes`  TO `glpi_plugin_compte` ;

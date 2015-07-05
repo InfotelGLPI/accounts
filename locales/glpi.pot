@@ -1,0 +1,294 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Accounts Development Team
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - Accounts plugin 1.9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-14 15:57+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: hook.php:280
+msgid ""
+"After plugin installation, you must do upgrade of your passwords from here : "
+msgstr ""
+
+#: hook.php:281
+msgid "Upgrading page"
+msgstr ""
+
+#: hook.php:717
+msgid "Associate to account"
+msgstr ""
+
+#: setup.php:79 setup.php:81 setup.php:104 setup.php:106
+#: inc/account.class.php:419 inc/account.class.php:462
+#: inc/account.class.php:675 inc/account_item.class.php:574
+#: inc/account_item.class.php:580 inc/aeskey.class.php:48
+#: inc/aeskey.class.php:160 inc/aeskey.class.php:195 inc/aeskey.class.php:216
+#: inc/hash.class.php:40 inc/hash.class.php:180
+msgid "Encryption key"
+msgid_plural "Encryption keys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: setup.php:138 inc/account.class.php:47
+msgid "Account"
+msgid_plural "Accounts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: setup.php:152
+msgid "This plugin requires GLPI >= 0.84"
+msgstr ""
+
+#: setup.php:159 setup.php:165 setup.php:172 setup.php:179
+msgid "phpX-mcrypt must be installed"
+msgstr ""
+
+#: front/account.form.php:72
+msgid "Uncrypted"
+msgstr ""
+
+#: front/account.php:59 front/account.php:65
+msgid "Type view"
+msgstr ""
+
+#: front/hash.form.php:93 inc/account.class.php:434 inc/account.class.php:499
+#: inc/account.class.php:607 inc/account.class.php:628
+#: inc/account_item.class.php:652 inc/account_item.class.php:682
+#: inc/report.class.php:173
+msgid "Wrong encryption key"
+msgstr ""
+
+#: front/hash.form.php:97 inc/aeskey.class.php:134
+msgid "Encryption key modified"
+msgstr ""
+
+#: front/hash.form.php:101
+msgid "The old or the new encryption key can not be empty"
+msgstr ""
+
+#: front/upgrade.form.php:57
+msgid "1. Define the encryption key and create hash"
+msgstr ""
+
+#: front/upgrade.form.php:62
+msgid "Go to Root Entity"
+msgstr ""
+
+#: inc/account.class.php:108 inc/account.class.php:467
+#: inc/account.class.php:477 inc/account_item.class.php:597
+#: inc/notificationtargetaccount.class.php:52
+#: inc/notificationtargetaccount.class.php:156
+#: inc/notificationtargetaccount.class.php:204
+#: inc/notificationtargetaccount.class.php:247
+msgid "Affected User"
+msgstr ""
+
+#: inc/account.class.php:327 inc/account.class.php:411
+#: inc/account_item.class.php:567
+msgid "There is no encryption key for this entity"
+msgstr ""
+
+#: inc/account.class.php:427 inc/account_item.class.php:660
+msgid "Uncrypt"
+msgstr ""
+
+#: inc/account.class.php:511 inc/account.class.php:520
+#: inc/notificationtargetaccount.class.php:53
+#: inc/notificationtargetaccount.class.php:159
+#: inc/notificationtargetaccount.class.php:205
+#: inc/notificationtargetaccount.class.php:248
+msgid "Affected Group"
+msgstr ""
+
+#: inc/account.class.php:547
+msgid "Empty for infinite"
+msgstr ""
+
+#: inc/account.class.php:603
+msgid "You have not filled the password and encryption key"
+msgstr ""
+
+#: inc/account.class.php:624
+msgid "Password will not be modified"
+msgstr ""
+
+#: inc/account.class.php:665
+msgid "2. Migrate accounts"
+msgstr ""
+
+#: inc/account.class.php:675
+msgid "Account names"
+msgstr ""
+
+#: inc/account.class.php:675 inc/report.class.php:129
+msgid "Uncrypted password"
+msgstr ""
+
+#: inc/account.class.php:702
+msgid "3. If all accounts are migrated, the upgrade is finished"
+msgstr ""
+
+#: inc/account.class.php:941 inc/notificationtargetaccount.class.php:262
+msgid "Accounts expired or accounts which expires"
+msgstr ""
+
+#: inc/account.class.php:1032 inc/notificationtargetaccount.class.php:44
+#: inc/notificationtargetaccount.class.php:196
+msgid "Accounts expired"
+msgstr ""
+
+#: inc/account.class.php:1104
+msgid "Select the wanted account type"
+msgstr ""
+
+#: inc/account.class.php:1213 inc/account_item.class.php:711
+msgid "Don't expire"
+msgstr ""
+
+#: inc/account_item.class.php:527
+msgctxt "button"
+msgid "Associate a account"
+msgstr ""
+
+#: inc/accounttype.class.php:39
+msgid "Type of account"
+msgid_plural "Types of account"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/aeskey.class.php:63
+msgid "Save the encryption key"
+msgstr ""
+
+#: inc/aeskey.class.php:149
+msgid "Warning : saving the encryption key is a security hole"
+msgstr ""
+
+#: inc/aeskey.class.php:182 inc/hash.class.php:102 inc/hash.class.php:195
+msgid "Hash"
+msgstr ""
+
+#: inc/config.class.php:39
+msgid "Plugin Setup"
+msgstr ""
+
+#: inc/config.class.php:64
+msgid "Time of checking of of expiration of accounts"
+msgstr ""
+
+#: inc/config.class.php:73
+msgid "Accounts expired for more than"
+msgstr ""
+
+#: inc/config.class.php:76
+msgid "Accounts expiring in less than"
+msgstr ""
+
+#: inc/hash.class.php:57 inc/hash.class.php:248 inc/report.class.php:195
+msgid "Linked accounts list"
+msgstr ""
+
+#: inc/hash.class.php:58
+msgid "Modification of the encryption key for all password"
+msgstr ""
+
+#: inc/hash.class.php:146
+msgid "WARNING : a encryption key already exist for this entity"
+msgstr ""
+
+#: inc/hash.class.php:160
+msgid ""
+"Warning : if you change used hash, the old accounts will use the old "
+"encryption key"
+msgstr ""
+
+#: inc/hash.class.php:183
+msgid "The hash to insert into the next field for create crypt is : "
+msgstr ""
+
+#: inc/hash.class.php:184
+msgid "Generate hash with this encryption key"
+msgstr ""
+
+#: inc/hash.class.php:186 inc/hash.class.php:251 inc/hash.class.php:268
+msgid "Please fill the encryption key"
+msgstr ""
+
+#: inc/hash.class.php:217
+msgid ""
+"Please do not use special characters like / \\ ' \" & in encryption keys, or "
+"you cannot change it after."
+msgstr ""
+
+#: inc/hash.class.php:284
+msgid ""
+"Warning : if you make a mistake in entering the old or the new key, you "
+"could no longer decrypt your passwords. It is STRONGLY recommended that you "
+"make a backup of the database before."
+msgstr ""
+
+#: inc/hash.class.php:287
+msgid "Old encryption key"
+msgstr ""
+
+#: inc/hash.class.php:296
+msgid "New encryption key"
+msgstr ""
+
+#: inc/hash.class.php:301
+msgid "You want to change the key : "
+msgstr ""
+
+#: inc/hash.class.php:302
+msgid " by the key : "
+msgstr ""
+
+#: inc/notificationstate.class.php:91
+msgid "Add a unused status for expiration mailing"
+msgstr ""
+
+#: inc/notificationstate.class.php:120
+msgid "Unused status for expiration mailing"
+msgstr ""
+
+#: inc/notificationtargetaccount.class.php:43
+msgid "New account"
+msgstr ""
+
+#: inc/notificationtargetaccount.class.php:45
+#: inc/notificationtargetaccount.class.php:197
+msgid "Accounts which expires"
+msgstr ""
+
+#: inc/notificationtargetaccount.class.php:133
+msgid "An account have been created"
+msgstr ""
+
+#: inc/notificationtargetaccount.class.php:186
+msgid "Direct link to created account"
+msgstr ""
+
+#: inc/profile.class.php:37 inc/profile.class.php:146
+msgid "Rights management"
+msgstr ""
+
+#: inc/profile.class.php:157
+msgid "See accounts of my groups"
+msgstr ""
+
+#: inc/profile.class.php:164
+msgid "See all accounts"
+msgstr ""
