@@ -103,20 +103,20 @@ function plugin_version_accounts() {
 
    return array (
             'name' => _n('Account', 'Accounts', 2, 'accounts'),
-            'version' => '2.0.1',
+            'version' => '2.1.0',
             'oldname' => 'compte',
             'license' => 'GPLv2+',
             'author'  => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
             'homepage'=>'https://forge.indepnet.net/projects/accounts',
-            'minGlpiVersion' => '0.85.3',// For compatibility / no install in version < 0.80
+            'minGlpiVersion' => '0.90',
    );
 
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_accounts_check_prerequisites() {
-   if (version_compare(GLPI_VERSION,'0.85.3','lt') || version_compare(GLPI_VERSION,'0.86','ge')) {
-      _e('This plugin requires GLPI >= 0.85.3', 'accounts');
+   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'0.91','ge')) {
+      _e('This plugin requires GLPI >= 0.90', 'accounts');
       return false;
    } else {
       if (TableExists("glpi_comptes")) {//1.0
