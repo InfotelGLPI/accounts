@@ -4,14 +4,14 @@
 
 OldName : **compte**
 
-### Français
+### FranÃ§ais
 
-Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à des éléments de l'inventaire.
-* Détail d'un compte : login / mot de passe, utilisateur, dates de création et d'expiration,
-* Utilisation d'un hash et d'une clé de cryptage pour le hash,
-* Envoi de mails à l'expiration de comptes,
+Ce plugin vous permet de gÃ©rer les comptes de votre rÃ©seau et de les associer Ã  des Ã©lÃ©ments de l'inventaire.
+* DÃ©tail d'un compte : login / mot de passe, utilisateur, dates de crÃ©ation et d'expiration,
+* Utilisation d'un hash et d'une clÃ© de cryptage pour le hash,
+* Envoi de mails Ã  l'expiration de comptes,
 * Utilisable depuis le helpdesk
-* Peut être intégré au plugin "environment".
+* Peut Ãªtre intÃ©grÃ© au plugin "environment":https://github.com/InfotelGLPI/environment.
 
 ### English
 
@@ -20,4 +20,4 @@ This plugin enables you to manage the accounts of your network and associate the
 * Using hash and crypting key,
 * Mailing system allow to verify expired accounts,
 * Can be used with helpdesk,
-* Can be integrated into "environment" plugin.
+* Can be integrated into "environment":https://github.com/InfotelGLPI/environment plugin.
