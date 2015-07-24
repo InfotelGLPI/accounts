@@ -107,7 +107,7 @@ function plugin_version_accounts() {
             'oldname' => 'compte',
             'license' => 'GPLv2+',
             'author'  => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
-            'homepage'=>'https://forge.indepnet.net/projects/accounts',
+            'homepage'=>'https://github.com/InfotelGLPI/accounts',
             'minGlpiVersion' => '0.90',
    );
 
