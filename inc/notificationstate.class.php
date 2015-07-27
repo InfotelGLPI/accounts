@@ -85,12 +85,27 @@ class PluginAccountsNotificationState extends CommonDBTM {
    }
 
    public function showAddForm($target) {
-
+      global $DB;
+      
+      $used = array();
+      $query = "SELECT *
+      FROM `".$this->getTable()."`
+      ORDER BY `plugin_accounts_accountstates_id` ASC ";
+      if ($result = $DB->query($query)) {
+         $number = $DB->numrows($result);
+         if ($number != 0) {
+             while($ligne= $DB->fetch_array($result)) {
+               $used[]=$ligne["plugin_accounts_accountstates_id"];
+            }
+         }
+      }
+      
       echo "<div align='center'><form method='post'  action=\"$target\">";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr ><th colspan='2'>";
       echo __('Add a unused status for expiration mailing', 'accounts')."</th></tr>";
       echo "<tr class='tab_bg_1'><td>";
-      Dropdown::show('PluginAccountsAccountState', array('name' => "plugin_accounts_accountstates_id"));
+      Dropdown::show('PluginAccountsAccountState', array('name' => "plugin_accounts_accountstates_id",
+                                                         'used' => $used));
       echo "</td>";
       echo "<td>";
       echo "<div align='center'>";
