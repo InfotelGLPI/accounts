@@ -1026,7 +1026,7 @@ class PluginAccountsAccount extends CommonDBTM {
             $account_infos[$type][$entity][] = $data;
 
             if (!isset($accounts_infos[$type][$entity])) {
-               $account_messages[$type][$entity] = __('Accounts expired', 'accounts') . "<br />";
+               $account_messages[$type][$entity] = __('Accounts expired or accounts which expires', 'accounts') . "<br />";
             }
             $account_messages[$type][$entity] .= $message;
          }
