@@ -455,13 +455,16 @@ function plugin_accounts_uninstall() {
             "glpi_documents_items",
             "glpi_bookmarks",
             "glpi_logs",
-            "glpi_items_tickets");
+            "glpi_items_tickets",
+             "glpi_dropdowntranslations");
 
    foreach($tables_glpi as $table_glpi)
       $DB->query("DELETE FROM `$table_glpi`
                WHERE `itemtype` = 'PluginAccountsAccount'
                OR `itemtype` = 'PluginAccountsHelpdesk'
-               OR `itemtype` = 'PluginAccountsGroup' ;");
+               OR `itemtype` = 'PluginAccountsGroup'
+               OR `itemtype` = 'PluginAccountsAccountState'
+               OR `itemtype` = 'PluginAccountsAccountType' ;");
     
    if (class_exists('PluginDatainjectionModel')) {
       PluginDatainjectionModel::clean(array('itemtype'=>'PluginAccountsAccount'));

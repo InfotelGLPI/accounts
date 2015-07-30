@@ -35,6 +35,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginAccountsAccountState extends CommonDropdown {
 
    static $rightname = "plugin_accounts";
+   var $can_be_translated  = true;
    
    public static function getTypeName($nb=0) {
 
