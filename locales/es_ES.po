@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Le Rohellec Benoit <blerohellec@hotmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-14 15:57+0100\n"
-"PO-Revision-Date: 2013-11-20 10:23+0000\n"
-"Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
+"PO-Revision-Date: 2015-04-07 12:09+0000\n"
+"Last-Translator: Le Rohellec Benoit <blerohellec@hotmail.com>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/GLPI_accounts/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,22 +40,22 @@ msgstr "Asociar a la cuenta"
 #: inc/hash.class.php:40 inc/hash.class.php:180
 msgid "Encryption key"
 msgid_plural "Encryption keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Clave de cifrado"
+msgstr[1] "Claves de cifrado"
 
 #: setup.php:138 inc/account.class.php:47
 msgid "Account"
 msgid_plural "Accounts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cuenta"
+msgstr[1] "Cuentas"
 
 #: setup.php:152
 msgid "This plugin requires GLPI >= 0.84"
-msgstr ""
+msgstr "Este plugin requiere GLPI >= 0.84"
 
 #: setup.php:159 setup.php:165 setup.php:172 setup.php:179
 msgid "phpX-mcrypt must be installed"
-msgstr ""
+msgstr "La eXtensión mcrypt de PHP tiene que ser presente"
 
 #: front/account.form.php:72
 msgid "Uncrypted"
@@ -73,7 +74,7 @@ msgstr "Clave de cifrado errónea"
 
 #: front/hash.form.php:97 inc/aeskey.class.php:134
 msgid "Encryption key modified"
-msgstr ""
+msgstr "Se modificó la clave de cifrado"
 
 #: front/hash.form.php:101
 msgid "The old or the new encryption key can not be empty"
@@ -85,7 +86,7 @@ msgstr "1. Define la clave de cifrado y crear el hash"
 
 #: front/upgrade.form.php:62
 msgid "Go to Root Entity"
-msgstr ""
+msgstr "Ir a la entidad raíz"
 
 #: inc/account.class.php:108 inc/account.class.php:467
 #: inc/account.class.php:477 inc/account_item.class.php:597
@@ -99,7 +100,7 @@ msgstr "Usuario en cuestión"
 #: inc/account.class.php:327 inc/account.class.php:411
 #: inc/account_item.class.php:567
 msgid "There is no encryption key for this entity"
-msgstr ""
+msgstr "No existe clave de cifrado por esa entidad"
 
 #: inc/account.class.php:427 inc/account_item.class.php:660
 msgid "Uncrypt"
@@ -161,25 +162,25 @@ msgstr "No caduca nunca"
 #: inc/account_item.class.php:527
 msgctxt "button"
 msgid "Associate a account"
-msgstr ""
+msgstr "Asociar una cuenta"
 
 #: inc/accounttype.class.php:39
 msgid "Type of account"
 msgid_plural "Types of account"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tipo de cuenta"
+msgstr[1] "Tipos de cuenta"
 
 #: inc/aeskey.class.php:63
 msgid "Save the encryption key"
-msgstr ""
+msgstr "Salvar la clave de cifrado"
 
 #: inc/aeskey.class.php:149
 msgid "Warning : saving the encryption key is a security hole"
-msgstr "Cuidado : salvar la clave de encriptación es un agujero de seguridad"
+msgstr "Cuidado : salvar la clave de cifrado es un agujero de seguridad"
 
 #: inc/aeskey.class.php:182 inc/hash.class.php:102 inc/hash.class.php:195
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: inc/config.class.php:39
 msgid "Plugin Setup"
@@ -187,19 +188,19 @@ msgstr "Configuración del plugin"
 
 #: inc/config.class.php:64
 msgid "Time of checking of of expiration of accounts"
-msgstr "Periodo de comprobación de validez de las cuentas"
+msgstr "Período de comprobación de validez de las cuentas"
 
 #: inc/config.class.php:73
 msgid "Accounts expired for more than"
-msgstr ""
+msgstr "Cuentas caducadas desde más de"
 
 #: inc/config.class.php:76
 msgid "Accounts expiring in less than"
-msgstr ""
+msgstr "Cuentas que van a caducar en menos de"
 
 #: inc/hash.class.php:57 inc/hash.class.php:248 inc/report.class.php:195
 msgid "Linked accounts list"
-msgstr ""
+msgstr "Lista de cuentas asociadas"
 
 #: inc/hash.class.php:58
 msgid "Modification of the encryption key for all password"
@@ -207,7 +208,7 @@ msgstr "Modificación de la clave de cifrado para todas las contraseñas"
 
 #: inc/hash.class.php:146
 msgid "WARNING : a encryption key already exist for this entity"
-msgstr ""
+msgstr "CUIDADO : una clave de cifrado ya existe por esa entidad"
 
 #: inc/hash.class.php:160
 msgid ""
@@ -231,7 +232,7 @@ msgstr "Por favor, introduzca la clave de cifrado"
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
-msgstr ""
+msgstr "No utilice caracteres especiales como / \\ ' \" & en claves de cifrado, or no podrá cambiarlas."
 
 #: inc/hash.class.php:284
 msgid ""
@@ -258,11 +259,11 @@ msgstr " por la clave? : "
 
 #: inc/notificationstate.class.php:91
 msgid "Add a unused status for expiration mailing"
-msgstr ""
+msgstr "Añadir un estado no utilizado por la notificación de caducidad"
 
 #: inc/notificationstate.class.php:120
 msgid "Unused status for expiration mailing"
-msgstr ""
+msgstr "Estados no utilizados por la notificación de caducidad"
 
 #: inc/notificationtargetaccount.class.php:43
 msgid "New account"

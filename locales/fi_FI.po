@@ -3,34 +3,34 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rafael Fontenelle <rffontenelle@gmail.com>, 2012-2013
+# Ilkka Yläkoski <iylakoski@learn-it2.fi>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-14 15:57+0100\n"
-"PO-Revision-Date: 2013-11-20 10:23+0000\n"
-"Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/GLPI_accounts/language/pt_BR/)\n"
+"PO-Revision-Date: 2015-01-08 08:48+0000\n"
+"Last-Translator: Ilkka Yläkoski <iylakoski@learn-it2.fi>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/GLPI_accounts/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fi_FI\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: hook.php:280
 msgid ""
 "After plugin installation, you must do upgrade of your passwords from here :"
 " "
-msgstr "Após a instalação do plug-in, você deve atualizar suas senhas da aqui :"
+msgstr "Päivitä  liitännäisen asennuksen jälkeen salasanasi tästä alkaen:"
 
 #: hook.php:281
 msgid "Upgrading page"
-msgstr "Página de atualização"
+msgstr "Päivityssivu"
 
 #: hook.php:717
 msgid "Associate to account"
-msgstr "Associar à conta"
+msgstr "Yhdistä tiliin"
 
 #: setup.php:79 setup.php:81 setup.php:104 setup.php:106
 #: inc/account.class.php:419 inc/account.class.php:462
@@ -40,53 +40,53 @@ msgstr "Associar à conta"
 #: inc/hash.class.php:40 inc/hash.class.php:180
 msgid "Encryption key"
 msgid_plural "Encryption keys"
-msgstr[0] "Chave de criptografia"
-msgstr[1] "Chaves de criptografia"
+msgstr[0] "Salausavain"
+msgstr[1] "Salausavaimet"
 
 #: setup.php:138 inc/account.class.php:47
 msgid "Account"
 msgid_plural "Accounts"
-msgstr[0] "Conta"
-msgstr[1] "Contas"
+msgstr[0] "Tili"
+msgstr[1] "Tilit"
 
 #: setup.php:152
 msgid "This plugin requires GLPI >= 0.84"
-msgstr "Este plugin requer GLPI >= 0.84"
+msgstr "Tämä liitännäinen tarvitsee GLPI-version >= 0.84"
 
 #: setup.php:159 setup.php:165 setup.php:172 setup.php:179
 msgid "phpX-mcrypt must be installed"
-msgstr "phpX-mcrypt deve estar instalado"
+msgstr "asenna phpX-mcrypt"
 
 #: front/account.form.php:72
 msgid "Uncrypted"
-msgstr "Descriptografado"
+msgstr "Salaamaton"
 
 #: front/account.php:59 front/account.php:65
 msgid "Type view"
-msgstr "Ver por tipo"
+msgstr "Tyyppinäkymä"
 
 #: front/hash.form.php:93 inc/account.class.php:434 inc/account.class.php:499
 #: inc/account.class.php:607 inc/account.class.php:628
 #: inc/account_item.class.php:652 inc/account_item.class.php:682
 #: inc/report.class.php:173
 msgid "Wrong encryption key"
-msgstr "Chave de criptografia incorreta"
+msgstr "Virheellinen salausvain"
 
 #: front/hash.form.php:97 inc/aeskey.class.php:134
 msgid "Encryption key modified"
-msgstr "Chave de criptografia modificada"
+msgstr "Salausvain muokattu "
 
 #: front/hash.form.php:101
 msgid "The old or the new encryption key can not be empty"
-msgstr "A chave de criptografia antiga ou nova não pode estar fazia"
+msgstr "Vanha ja uusi salausavain eivät voi olla tyhjiä"
 
 #: front/upgrade.form.php:57
 msgid "1. Define the encryption key and create hash"
-msgstr "1. Definir a chave de criptografia e criar o hash"
+msgstr "1. Määritä salausavain ja luo tiiviste"
 
 #: front/upgrade.form.php:62
 msgid "Go to Root Entity"
-msgstr "Ir para a entidade raiz"
+msgstr "Siirry juuriyksikköön"
 
 #: inc/account.class.php:108 inc/account.class.php:467
 #: inc/account.class.php:477 inc/account_item.class.php:597
@@ -95,16 +95,16 @@ msgstr "Ir para a entidade raiz"
 #: inc/notificationtargetaccount.class.php:204
 #: inc/notificationtargetaccount.class.php:247
 msgid "Affected User"
-msgstr "Usuário envovlido"
+msgstr "Koskee käyttäjää"
 
 #: inc/account.class.php:327 inc/account.class.php:411
 #: inc/account_item.class.php:567
 msgid "There is no encryption key for this entity"
-msgstr "Não há chave de criptografia para esta entidade"
+msgstr "Tälle kohteella ei ole salausavainta"
 
 #: inc/account.class.php:427 inc/account_item.class.php:660
 msgid "Uncrypt"
-msgstr "Descriptografar"
+msgstr "Pura salaus"
 
 #: inc/account.class.php:511 inc/account.class.php:520
 #: inc/notificationtargetaccount.class.php:53
@@ -112,184 +112,184 @@ msgstr "Descriptografar"
 #: inc/notificationtargetaccount.class.php:205
 #: inc/notificationtargetaccount.class.php:248
 msgid "Affected Group"
-msgstr "Grupo envolvido"
+msgstr "Koskee ryhmää"
 
 #: inc/account.class.php:547
 msgid "Empty for infinite"
-msgstr "Vazio para infinito"
+msgstr "Lopullisesti tyhjä"
 
 #: inc/account.class.php:603
 msgid "You have not filled the password and encryption key"
-msgstr "Você não inseriu a senha e chave de criptografia"
+msgstr "Anna salasana ja salausavain"
 
 #: inc/account.class.php:624
 msgid "Password will not be modified"
-msgstr "Senha no será modificada"
+msgstr "Salasana ei muutu"
 
 #: inc/account.class.php:665
 msgid "2. Migrate accounts"
-msgstr "2. Migrar contas"
+msgstr "2. Muuta tilit"
 
 #: inc/account.class.php:675
 msgid "Account names"
-msgstr "Nomes das contas"
+msgstr "Tilien nimet"
 
 #: inc/account.class.php:675 inc/report.class.php:129
 msgid "Uncrypted password"
-msgstr "Senha descriptografada"
+msgstr "Salaamaton salasana"
 
 #: inc/account.class.php:702
 msgid "3. If all accounts are migrated, the upgrade is finished"
-msgstr "3. Se todas as contas tiverem sido migradas, a atualização foi concluída"
+msgstr "3. Päivitys on valmis, kun kaikki tilit on muutettu"
 
 #: inc/account.class.php:941 inc/notificationtargetaccount.class.php:262
 msgid "Accounts expired or accounts which expires"
-msgstr "Contas expiradas ou contas que vão expirar"
+msgstr "Vanhentuneet tai vanhenevat tilit"
 
 #: inc/account.class.php:1032 inc/notificationtargetaccount.class.php:44
 #: inc/notificationtargetaccount.class.php:196
 msgid "Accounts expired"
-msgstr "Contas expiradas"
+msgstr "Vanhentuneet tilit"
 
 #: inc/account.class.php:1104
 msgid "Select the wanted account type"
-msgstr "Selecionar o tipo da conta desejada"
+msgstr "Valitse tilityyppi"
 
 #: inc/account.class.php:1213 inc/account_item.class.php:711
 msgid "Don't expire"
-msgstr "Não expirar"
+msgstr "Älä vanhene"
 
 #: inc/account_item.class.php:527
 msgctxt "button"
 msgid "Associate a account"
-msgstr "Associar a uma conta"
+msgstr "Yhdistä tili"
 
 #: inc/accounttype.class.php:39
 msgid "Type of account"
 msgid_plural "Types of account"
-msgstr[0] "Tipo da conta"
-msgstr[1] "Tipos de conta"
+msgstr[0] "Tilityyppi"
+msgstr[1] "Tilityypit"
 
 #: inc/aeskey.class.php:63
 msgid "Save the encryption key"
-msgstr "Salvar a chave de criptografia"
+msgstr "Tallenna salausavain"
 
 #: inc/aeskey.class.php:149
 msgid "Warning : saving the encryption key is a security hole"
-msgstr "Aviso : salvar a chave de criptografia é uma falha de segurança"
+msgstr "Tärkeää: salausavaimen tallennus on tietoturva-aukko"
 
 #: inc/aeskey.class.php:182 inc/hash.class.php:102 inc/hash.class.php:195
 msgid "Hash"
-msgstr "Hash"
+msgstr "Tiiviste"
 
 #: inc/config.class.php:39
 msgid "Plugin Setup"
-msgstr "Configuração do plug-in"
+msgstr "Liitännäisen asetukset"
 
 #: inc/config.class.php:64
 msgid "Time of checking of of expiration of accounts"
-msgstr "Intervalo de verificação da expiração de contas"
+msgstr "Tilien vanhenemisen tarkistusaika"
 
 #: inc/config.class.php:73
 msgid "Accounts expired for more than"
-msgstr "Contas expiradas por mais de"
+msgstr "Tilit jotka vanhentuneet yli"
 
 #: inc/config.class.php:76
 msgid "Accounts expiring in less than"
-msgstr "Contas que vão expirar em menos de"
+msgstr "Tilit jotka vanhentuneet alle"
 
 #: inc/hash.class.php:57 inc/hash.class.php:248 inc/report.class.php:195
 msgid "Linked accounts list"
-msgstr "Lista de contas vinculadas"
+msgstr "Luettelo yhdistetyistä tileistä"
 
 #: inc/hash.class.php:58
 msgid "Modification of the encryption key for all password"
-msgstr "Modificação da chave de criptografia para todas as senhas"
+msgstr "Kaikkien salasanojen salausavaimen muokkaus"
 
 #: inc/hash.class.php:146
 msgid "WARNING : a encryption key already exist for this entity"
-msgstr "AVISO : a chave de criptografia já existe para esta entidade"
+msgstr "Tärkeää : tällä kohteella on jo salausvain."
 
 #: inc/hash.class.php:160
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
-msgstr "Aviso : se você alterar hash usada, as contas antigas vão usar a chave de criptografia antiga"
+msgstr "Tärkeää:  jos muokkaat käytössä olevaa tiivistettä, vanhat tilit käyttävät kuitenkin vanhaa salausavainta."
 
 #: inc/hash.class.php:183
 msgid "The hash to insert into the next field for create crypt is : "
-msgstr "O hash para inserir o próximo campo para criar criptografia é :"
+msgstr "Tiivisteen arvo joka täytetään seuraavaan kenttään salausta varten, on:"
 
 #: inc/hash.class.php:184
 msgid "Generate hash with this encryption key"
-msgstr "Gerar o hash com esta chave de criptografia"
+msgstr "Luo tiiviste tällä salausavaimella"
 
 #: inc/hash.class.php:186 inc/hash.class.php:251 inc/hash.class.php:268
 msgid "Please fill the encryption key"
-msgstr "Por favor preencha a chave de criptografia"
+msgstr "Anna salausvain"
 
 #: inc/hash.class.php:217
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
-msgstr "Por favor, não use caracteres especiais, como / \\ ' \" &, nas chaves de criptografia ou você não poderá altera-la posteriormente."
+msgstr "Älä käytä erikoismerkkejä kuten / \\\\ ' \\\" & salausavaimissa, muuten et voi muuttaa niitä myöhemmin."
 
 #: inc/hash.class.php:284
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
-msgstr "Aviso : se você cometer um erro ao inserir a chave antiga ou chave nova, você não poderá descriptografar suas senhas. É fortemente recomendável que você faça um backup do banco de dados antes."
+msgstr "Tärkeää : salasanojen salausta ei voi enää purkaa, mikäli annat virheellisen uuden tai vanhan salasanan. Tämän vuoksi ota ensin varmuuskopio tietokannasta."
 
 #: inc/hash.class.php:287
 msgid "Old encryption key"
-msgstr "Chave de criptografia antiga"
+msgstr "Vanha salausavain"
 
 #: inc/hash.class.php:296
 msgid "New encryption key"
-msgstr "Chave de criptografia nova"
+msgstr "Uusi salausavain"
 
 #: inc/hash.class.php:301
 msgid "You want to change the key : "
-msgstr "Você deseja alterar a chave :"
+msgstr "Vahvista avaimen : "
 
 #: inc/hash.class.php:302
 msgid " by the key : "
-msgstr "pela chave :"
+msgstr " muutos avaimella : "
 
 #: inc/notificationstate.class.php:91
 msgid "Add a unused status for expiration mailing"
-msgstr "Adicionar um status de não usado para envio de e-mail de expiração"
+msgstr "Lisää käyttämätön tila vanhenemispostin lähetykseen"
 
 #: inc/notificationstate.class.php:120
 msgid "Unused status for expiration mailing"
-msgstr "Status de não usado para envio de e-mail de expiração"
+msgstr "Käyttämätön tila vanhenemispostin lähetyksessä "
 
 #: inc/notificationtargetaccount.class.php:43
 msgid "New account"
-msgstr "Nova conta"
+msgstr "Uusi tili"
 
 #: inc/notificationtargetaccount.class.php:45
 #: inc/notificationtargetaccount.class.php:197
 msgid "Accounts which expires"
-msgstr "Contas que expiram"
+msgstr "Vanhenevat tilit"
 
 #: inc/notificationtargetaccount.class.php:133
 msgid "An account have been created"
-msgstr "Uma conta foi criada"
+msgstr "Tili on luotu"
 
 #: inc/notificationtargetaccount.class.php:186
 msgid "Direct link to created account"
-msgstr "Vínculo direto para conta criada"
+msgstr "Suora linkki luotuun tiliin"
 
 #: inc/profile.class.php:37 inc/profile.class.php:146
 msgid "Rights management"
-msgstr "Gerenciamento de permissões"
+msgstr "Oikeuksien hallinta"
 
 #: inc/profile.class.php:157
 msgid "See accounts of my groups"
-msgstr "Veja as contas dos meus grupos"
+msgstr "Katso ryhmäni kaikkia tilejä"
 
 #: inc/profile.class.php:164
 msgid "See all accounts"
-msgstr "Veja todas as contas"
+msgstr "Katso kaikkia tilejä"

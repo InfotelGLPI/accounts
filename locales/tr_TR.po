@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Kaya Zeren <kayazeren@gmail.com>, 2013
+# Kaya Zeren <kayazeren@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-14 15:57+0100\n"
-"PO-Revision-Date: 2013-11-20 10:23+0000\n"
+"PO-Revision-Date: 2015-07-31 07:09+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/GLPI_accounts/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr[0] "Hesaplar"
 
 #: setup.php:152
 msgid "This plugin requires GLPI >= 0.84"
-msgstr "Bu uyumlu ek GLPI 0.84 ve üzerindeki sürümlerle çalışır"
+msgstr "Bu uygulama eki GLPI 0.84 ve üzerindeki sürümlerle çalışır"
 
 #: setup.php:159 setup.php:165 setup.php:172 setup.php:179
 msgid "phpX-mcrypt must be installed"
