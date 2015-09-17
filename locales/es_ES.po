@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-14 15:57+0100\n"
-"PO-Revision-Date: 2015-04-07 12:09+0000\n"
-"Last-Translator: Le Rohellec Benoit <blerohellec@hotmail.com>\n"
-"Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/GLPI_accounts/language/es_ES/)\n"
+"POT-Creation-Date: 2015-09-17 11:56+0200\n"
+"PO-Revision-Date: 2015-09-17 09:56+0000\n"
+"Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
+"Language-Team: Spanish (Spain) (http://www.transifex.com/tsmr/GLPI_accounts/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,51 +28,41 @@ msgstr ""
 msgid "Upgrading page"
 msgstr ""
 
-#: hook.php:717
+#: hook.php:751
 msgid "Associate to account"
 msgstr "Asociar a la cuenta"
 
-#: setup.php:79 setup.php:81 setup.php:104 setup.php:106
-#: inc/account.class.php:419 inc/account.class.php:462
-#: inc/account.class.php:675 inc/account_item.class.php:574
-#: inc/account_item.class.php:580 inc/aeskey.class.php:48
-#: inc/aeskey.class.php:160 inc/aeskey.class.php:195 inc/aeskey.class.php:216
-#: inc/hash.class.php:40 inc/hash.class.php:180
-msgid "Encryption key"
-msgid_plural "Encryption keys"
-msgstr[0] "Clave de cifrado"
-msgstr[1] "Claves de cifrado"
-
-#: setup.php:138 inc/account.class.php:47
+#: setup.php:105 inc/account.class.php:50 inc/menu.class.php:34
+#: inc/profile.class.php:148 inc/profile.class.php:175
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Cuenta"
 msgstr[1] "Cuentas"
 
-#: setup.php:152
-msgid "This plugin requires GLPI >= 0.84"
-msgstr "Este plugin requiere GLPI >= 0.84"
+#: setup.php:119
+msgid "This plugin requires GLPI >= 0.90"
+msgstr ""
 
-#: setup.php:159 setup.php:165 setup.php:172 setup.php:179
+#: setup.php:126 setup.php:132 setup.php:139 setup.php:146
 msgid "phpX-mcrypt must be installed"
 msgstr "La eXtensión mcrypt de PHP tiene que ser presente"
 
-#: front/account.form.php:72
+#: ajax/log_decrypt.php:43
 msgid "Uncrypted"
 msgstr "Descifrar"
 
-#: front/account.php:59 front/account.php:65
+#: front/account.php:51 front/account.php:56
 msgid "Type view"
 msgstr "Vista por tipo"
 
-#: front/hash.form.php:93 inc/account.class.php:434 inc/account.class.php:499
-#: inc/account.class.php:607 inc/account.class.php:628
-#: inc/account_item.class.php:652 inc/account_item.class.php:682
+#: front/hash.form.php:93 inc/account.class.php:424 inc/account.class.php:474
+#: inc/account.class.php:580 inc/account.class.php:599
+#: inc/account_item.class.php:640 inc/account_item.class.php:657
 #: inc/report.class.php:173
 msgid "Wrong encryption key"
 msgstr "Clave de cifrado errónea"
 
-#: front/hash.form.php:97 inc/aeskey.class.php:134
+#: front/hash.form.php:97 inc/aeskey.class.php:129
 msgid "Encryption key modified"
 msgstr "Se modificó la clave de cifrado"
 
@@ -88,8 +78,8 @@ msgstr "1. Define la clave de cifrado y crear el hash"
 msgid "Go to Root Entity"
 msgstr "Ir a la entidad raíz"
 
-#: inc/account.class.php:108 inc/account.class.php:467
-#: inc/account.class.php:477 inc/account_item.class.php:597
+#: inc/account.class.php:103 inc/account.class.php:443
+#: inc/account.class.php:453 inc/account_item.class.php:588
 #: inc/notificationtargetaccount.class.php:52
 #: inc/notificationtargetaccount.class.php:156
 #: inc/notificationtargetaccount.class.php:204
@@ -97,16 +87,26 @@ msgstr "Ir a la entidad raíz"
 msgid "Affected User"
 msgstr "Usuario en cuestión"
 
-#: inc/account.class.php:327 inc/account.class.php:411
-#: inc/account_item.class.php:567
+#: inc/account.class.php:325 inc/account.class.php:409
+#: inc/account_item.class.php:556
 msgid "There is no encryption key for this entity"
 msgstr "No existe clave de cifrado por esa entidad"
 
-#: inc/account.class.php:427 inc/account_item.class.php:660
+#: inc/account.class.php:417 inc/account.class.php:438
+#: inc/account.class.php:645 inc/account_item.class.php:563
+#: inc/account_item.class.php:571 inc/aeskey.class.php:48
+#: inc/aeskey.class.php:147 inc/aeskey.class.php:182 inc/aeskey.class.php:203
+#: inc/hash.class.php:42 inc/hash.class.php:186 inc/menu.class.php:43
+msgid "Encryption key"
+msgid_plural "Encryption key"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/account.class.php:428 inc/account_item.class.php:649
 msgid "Uncrypt"
 msgstr "Descifrar"
 
-#: inc/account.class.php:511 inc/account.class.php:520
+#: inc/account.class.php:483 inc/account.class.php:492
 #: inc/notificationtargetaccount.class.php:53
 #: inc/notificationtargetaccount.class.php:159
 #: inc/notificationtargetaccount.class.php:205
@@ -114,71 +114,67 @@ msgstr "Descifrar"
 msgid "Affected Group"
 msgstr "Grupo en cuestión"
 
-#: inc/account.class.php:547
+#: inc/account.class.php:519
 msgid "Empty for infinite"
 msgstr "Vacío para infinito"
 
-#: inc/account.class.php:603
+#: inc/account.class.php:576
 msgid "You have not filled the password and encryption key"
 msgstr "Por favor, introduzca la contraseña y la clave de cifrado"
 
-#: inc/account.class.php:624
+#: inc/account.class.php:597
 msgid "Password will not be modified"
 msgstr "La contraseña no será modificada"
 
-#: inc/account.class.php:665
+#: inc/account.class.php:635
 msgid "2. Migrate accounts"
 msgstr "2. Migrar las cuentas"
 
-#: inc/account.class.php:675
+#: inc/account.class.php:645
 msgid "Account names"
 msgstr "Nombres de cuentas"
 
-#: inc/account.class.php:675 inc/report.class.php:129
+#: inc/account.class.php:645 inc/report.class.php:129
 msgid "Uncrypted password"
 msgstr "Contraseña descifrada"
 
-#: inc/account.class.php:702
+#: inc/account.class.php:676
 msgid "3. If all accounts are migrated, the upgrade is finished"
 msgstr "3. Si todas las cuentas fueron migradas, la actualización ha terminado"
 
-#: inc/account.class.php:941 inc/notificationtargetaccount.class.php:262
+#: inc/account.class.php:938 inc/account.class.php:1029
+#: inc/notificationtargetaccount.class.php:262
 msgid "Accounts expired or accounts which expires"
 msgstr "Cuentas caducadas o que van a caducar"
 
-#: inc/account.class.php:1032 inc/notificationtargetaccount.class.php:44
-#: inc/notificationtargetaccount.class.php:196
-msgid "Accounts expired"
-msgstr "Cuentas caducadas"
-
-#: inc/account.class.php:1104
+#: inc/account.class.php:1101
 msgid "Select the wanted account type"
 msgstr "Seleccione el tipo de cuenta deseado"
 
-#: inc/account.class.php:1213 inc/account_item.class.php:711
+#: inc/account.class.php:1214 inc/account_item.class.php:680
 msgid "Don't expire"
 msgstr "No caduca nunca"
 
-#: inc/account_item.class.php:527
+#: inc/account_item.class.php:516
 msgctxt "button"
 msgid "Associate a account"
 msgstr "Asociar una cuenta"
 
-#: inc/accounttype.class.php:39
+#: inc/accounttype.class.php:42
 msgid "Type of account"
 msgid_plural "Types of account"
 msgstr[0] "Tipo de cuenta"
 msgstr[1] "Tipos de cuenta"
 
-#: inc/aeskey.class.php:63
+#: inc/aeskey.class.php:56
 msgid "Save the encryption key"
 msgstr "Salvar la clave de cifrado"
 
-#: inc/aeskey.class.php:149
+#: inc/aeskey.class.php:140
 msgid "Warning : saving the encryption key is a security hole"
 msgstr "Cuidado : salvar la clave de cifrado es un agujero de seguridad"
 
-#: inc/aeskey.class.php:182 inc/hash.class.php:102 inc/hash.class.php:195
+#: inc/aeskey.class.php:169 inc/hash.class.php:104 inc/hash.class.php:206
 msgid "Hash"
 msgstr "Hash"
 
@@ -198,76 +194,81 @@ msgstr "Cuentas caducadas desde más de"
 msgid "Accounts expiring in less than"
 msgstr "Cuentas que van a caducar en menos de"
 
-#: inc/hash.class.php:57 inc/hash.class.php:248 inc/report.class.php:195
+#: inc/hash.class.php:59 inc/hash.class.php:260 inc/report.class.php:195
 msgid "Linked accounts list"
 msgstr "Lista de cuentas asociadas"
 
-#: inc/hash.class.php:58
+#: inc/hash.class.php:60
 msgid "Modification of the encryption key for all password"
 msgstr "Modificación de la clave de cifrado para todas las contraseñas"
 
-#: inc/hash.class.php:146
+#: inc/hash.class.php:153
 msgid "WARNING : a encryption key already exist for this entity"
 msgstr "CUIDADO : una clave de cifrado ya existe por esa entidad"
 
-#: inc/hash.class.php:160
+#: inc/hash.class.php:168
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
 msgstr "CUIDADO : Si cambias el hash actual, las cuentas antiguas seguirán usando la clave de descifrado antigua"
 
-#: inc/hash.class.php:183
+#: inc/hash.class.php:189
 msgid "The hash to insert into the next field for create crypt is : "
 msgstr "El hash a introducir en el siguiente campo para crear el cifrado es : "
 
-#: inc/hash.class.php:184
+#: inc/hash.class.php:191
 msgid "Generate hash with this encryption key"
 msgstr "Generar el hash a partir de esta clave de cifrado"
 
-#: inc/hash.class.php:186 inc/hash.class.php:251 inc/hash.class.php:268
+#: inc/hash.class.php:195 inc/hash.class.php:263 inc/hash.class.php:277
 msgid "Please fill the encryption key"
 msgstr "Por favor, introduzca la clave de cifrado"
 
-#: inc/hash.class.php:217
+#: inc/hash.class.php:228
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
 msgstr "No utilice caracteres especiales como / \\ ' \" & en claves de cifrado, or no podrá cambiarlas."
 
-#: inc/hash.class.php:284
+#: inc/hash.class.php:289
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr "ATENCION : si se equivoca en la introducción de la antigua o la nueva clave, no podrá volver a descifrar sus contraseñas. OBLIGATORIO realizar una copia de la BD antes de proceder."
 
-#: inc/hash.class.php:287
+#: inc/hash.class.php:292
 msgid "Old encryption key"
 msgstr "Clave de cifrado antigua"
 
-#: inc/hash.class.php:296
+#: inc/hash.class.php:301
 msgid "New encryption key"
 msgstr "Clave de cifrado nueva"
 
-#: inc/hash.class.php:301
+#: inc/hash.class.php:306
 msgid "You want to change the key : "
 msgstr ""
 
-#: inc/hash.class.php:302
+#: inc/hash.class.php:307
 msgid " by the key : "
 msgstr " por la clave? : "
 
-#: inc/notificationstate.class.php:91
+#: inc/notificationstate.class.php:105
 msgid "Add a unused status for expiration mailing"
 msgstr "Añadir un estado no utilizado por la notificación de caducidad"
 
-#: inc/notificationstate.class.php:120
+#: inc/notificationstate.class.php:135
 msgid "Unused status for expiration mailing"
 msgstr "Estados no utilizados por la notificación de caducidad"
 
 #: inc/notificationtargetaccount.class.php:43
 msgid "New account"
 msgstr "Nueva cuenta"
+
+#: inc/notificationtargetaccount.class.php:44
+#: inc/notificationtargetaccount.class.php:196
+msgid "Accounts expired"
+msgstr "Cuentas caducadas"
 
 #: inc/notificationtargetaccount.class.php:45
 #: inc/notificationtargetaccount.class.php:197
@@ -282,14 +283,12 @@ msgstr "Se ha creado una cuenta nueva"
 msgid "Direct link to created account"
 msgstr "Enlace a la nueva cuenta creada"
 
-#: inc/profile.class.php:37 inc/profile.class.php:146
-msgid "Rights management"
-msgstr "Permisos de uso"
-
-#: inc/profile.class.php:157
+#: inc/profile.class.php:106 inc/profile.class.php:155
+#: inc/profile.class.php:182
 msgid "See accounts of my groups"
 msgstr "Ver las cuentas de mis grupos"
 
-#: inc/profile.class.php:164
+#: inc/profile.class.php:113 inc/profile.class.php:159
+#: inc/profile.class.php:186
 msgid "See all accounts"
 msgstr "Ver todas las cuentas"
