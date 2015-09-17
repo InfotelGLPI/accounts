@@ -4,6 +4,12 @@
 
 OldName : **compte**
 
+Ce plugin est sur Transifex - Aidez-nous à le traduire :
+https://www.transifex.com/tsmr/GLPI_accounts/
+
+This plugin is on Transifex - Help us to translate :
+https://www.transifex.com/tsmr/GLPI_accounts/
+
 ### Français
 
 Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à des éléments de l'inventaire.
