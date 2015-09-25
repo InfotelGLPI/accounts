@@ -39,7 +39,7 @@ class PluginAccountsAccount extends CommonDBTM {
             'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity', 'Contract');
 
    public $dohistory = true;
-   protected $usenotepadrights = true;
+   protected $usenotepad = true;
    
    /**
     * Return the localized name of the current Type
