@@ -141,6 +141,7 @@ class PluginAccountsReport extends CommonDBTM {
                echo "<input type='hidden' name='hash_id' value='".$ID."'>";
                echo "<input type='hidden' name='id[$IDc]' value='".$IDc."'>";
             }
+            
             $name = "<a href='".$CFG_GLPI["root_doc"]."/plugins/accounts/front/account.form.php?id=".$IDc."'>".$field["name"];
             if ($_SESSION["glpiis_ids_visible"]) $name .= " (".$IDc.")";
             $name .= "</a>";
@@ -257,6 +258,9 @@ class PluginAccountsReport extends CommonDBTM {
          echo "<option value='-".Search::SYLK_OUTPUT."'>".__('All pages in SLK')."</option>";
          echo "<option value='-".Search::CSV_OUTPUT."'>".__('All pages in CSV')."</option>";*/
          echo "</select>&nbsp;";
+         if (GLPI_USE_CSRF_CHECK) {
+            echo "<input type='hidden' id='report_csrf' name='_glpi_csrf_token' value='".Session::getNewCSRFToken()."'>";
+         }
          echo "<input type='image' onClick=\"window.location.reload()\" name='export'  src='".$CFG_GLPI["root_doc"]."/pics/greenbutton.png'
                   title=\"".__s('Export')."\" value=\"".__s('Export')."\">";
          echo "</td>" ;
