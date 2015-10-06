@@ -244,31 +244,31 @@ class PluginAccountsReport extends CommonDBTM {
             echo "<input type='hidden' name=\"".substr($explode[$i],0,$pos)."\" value=\"".
                      substr($explode[$i],$pos+1)."\">";
          }
-         echo "<select name='display_type'>";
-         echo "<option value='".Search::PDF_OUTPUT_LANDSCAPE."'>".__('Current page in landscape PDF').
-         "</option>";
-         echo "<option value='".Search::PDF_OUTPUT_PORTRAIT."'>".__('Current page in portrait PDF').
-         "</option>";
-         echo "<option value='".Search::SYLK_OUTPUT."'>".__('Current page in SLK')."</option>";
-         echo "<option value='".Search::CSV_OUTPUT."'>".__('Current page in CSV')."</option>";
-         /*echo "<option value='-".Search::PDF_OUTPUT_LANDSCAPE."'>".__('All pages in landscape PDF').
-          "</option>";
-         echo "<option value='-".Search::PDF_OUTPUT_PORTRAIT."'>".__('All pages in portrait PDF').
-         "</option>";
-         echo "<option value='-".Search::SYLK_OUTPUT."'>".__('All pages in SLK')."</option>";
-         echo "<option value='-".Search::CSV_OUTPUT."'>".__('All pages in CSV')."</option>";*/
-         echo "</select>&nbsp;";
-         if (GLPI_USE_CSRF_CHECK) {
-            echo "<input type='hidden' id='report_csrf' name='_glpi_csrf_token' value='".Session::getNewCSRFToken()."'>";
-         }
-         echo "<input type='image' onClick=\"window.location.reload()\" name='export'  src='".$CFG_GLPI["root_doc"]."/pics/greenbutton.png'
-                  title=\"".__s('Export')."\" value=\"".__s('Export')."\">";
+         self::showOutputFormat();
+
          echo "</td>" ;
       }
 
       // End pager
       echo "</tr>\n";
       echo "</table><br>\n";
+   }
+   
+   static function showOutputFormat() {
+      global $CFG_GLPI;
+
+      $values['-'.Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');
+      $values['-'.Search::PDF_OUTPUT_PORTRAIT]  = __('All pages in portrait PDF');
+      $values['-'.Search::SYLK_OUTPUT]          = __('All pages in SLK');
+      $values['-'.Search::CSV_OUTPUT]           = __('All pages in CSV');
+
+      Dropdown::showFromArray('display_type', $values);
+      if (GLPI_USE_CSRF_CHECK) {
+         echo "<input type='hidden' id='report_csrf' name='_glpi_csrf_token' value='".Session::getNewCSRFToken()."'>";
+      }
+         
+      echo "<input type='image' name='export' class='pointer' src='".$CFG_GLPI["root_doc"]."/pics/export.png'
+             title=\""._sx('button', 'Export')."\" value=\""._sx('button', 'Export')."\">";
    }
 }
 

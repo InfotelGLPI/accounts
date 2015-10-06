@@ -33,6 +33,11 @@ Session::checkCentralAccess();
 
 if (isset($_POST["display_type"])) {
     
+   if ($_POST["display_type"] < 0) {
+      $_POST["display_type"] = -$_POST["display_type"];
+      $_POST["export_all"]   = 1;
+   }
+   
    $post = $_POST;
     
    $parm["display_type"]   = $post["display_type"];
