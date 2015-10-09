@@ -103,7 +103,7 @@ function plugin_version_accounts() {
 
    return array (
             'name' => _n('Account', 'Accounts', 2, 'accounts'),
-            'version' => '2.1.0',
+            'version' => '2.1.1',
             'oldname' => 'compte',
             'license' => 'GPLv2+',
             'author'  => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
