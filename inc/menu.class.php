@@ -39,7 +39,7 @@ class PluginAccountsMenu extends CommonGLPI {
 
       $image = "<img src='".
             $CFG_GLPI["root_doc"]."/plugins/accounts/pics/cadenas.png' title='".
-            _n('Encryption key', 'Encryption keys', 2)."' alt='".
+            _n('Encryption key', 'Encryption keys', 2, 'accounts')."' alt='".
             _n('Encryption key', 'Encryption keys', 2, 'accounts')."'>";
 
       $menu                                           = array();
