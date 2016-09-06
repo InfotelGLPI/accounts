@@ -319,7 +319,6 @@ class PluginAccountsHash extends CommonDBTM {
 
       $self=new self();
       $self->getFromDB($hash_id);
-      $entities = getSonsOf('glpi_entities', $self->fields['entities_id']);
 
       $account = new PluginAccountsAccount();
       $aeskey  = new PluginAccountsAesKey();
@@ -331,7 +330,7 @@ class PluginAccountsHash extends CommonDBTM {
       $query_= "SELECT *
                 FROM `glpi_plugin_accounts_accounts`
                 WHERE ";
-      $query_.= getEntitiesRestrictRequest(" ","glpi_plugin_accounts_accounts",'',$entities, $self->fields['is_recursive']);
+      $query_.= getEntitiesRestrictRequest(" ","glpi_plugin_accounts_accounts",'',$self->fields['entities_id'], $self->fields['is_recursive']);
 
       $result_=$DB->query($query_);
       if ($DB->numrows($result_)>0){
