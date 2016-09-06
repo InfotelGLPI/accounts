@@ -197,7 +197,7 @@ class PluginAccountsHash extends CommonDBTM {
             } else {
                $('#hash').val(SHA256(SHA256($('#aeskey').val())));
             }
-         });");                                 
+         });");
          echo "</td>";
          echo "</tr>";
       }
@@ -331,7 +331,7 @@ class PluginAccountsHash extends CommonDBTM {
       $query_= "SELECT *
                 FROM `glpi_plugin_accounts_accounts`
                 WHERE ";
-      $query_.= getEntitiesRestrictRequest(" ","glpi_plugin_accounts_accounts",'',$entities);
+      $query_.= getEntitiesRestrictRequest(" ","glpi_plugin_accounts_accounts",'',$entities, $self->fields['is_recursive']);
 
       $result_=$DB->query($query_);
       if ($DB->numrows($result_)>0){
