@@ -16,6 +16,8 @@
    </description>
    <homepage>https://github.com/InfotelGLPI/accounts</homepage>
    <download>https://github.com/InfotelGLPI/accounts/releases</download>
+   <issues>https://github.com/InfotelGLPI/accounts/issues</issues>
+   <readme>https://raw.githubusercontent.com/InfotelGLPI/accounts/master/README.md</readme>
    <authors>
       <author>Xavier Caillaud</author>
       <author>Infotel</author>
