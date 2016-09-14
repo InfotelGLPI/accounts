@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin 1.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-17 11:56+0200\n"
+"POT-Creation-Date: 2016-09-14 08:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,10 +54,10 @@ msgstr ""
 msgid "Type view"
 msgstr ""
 
-#: front/hash.form.php:93 inc/account.class.php:424 inc/account.class.php:474
-#: inc/account.class.php:580 inc/account.class.php:599
+#: front/hash.form.php:93 inc/account.class.php:428 inc/account.class.php:478
+#: inc/account.class.php:584 inc/account.class.php:603
 #: inc/account_item.class.php:640 inc/account_item.class.php:657
-#: inc/report.class.php:173
+#: inc/report.class.php:174
 msgid "Wrong encryption key"
 msgstr ""
 
@@ -77,8 +77,8 @@ msgstr ""
 msgid "Go to Root Entity"
 msgstr ""
 
-#: inc/account.class.php:103 inc/account.class.php:443
-#: inc/account.class.php:453 inc/account_item.class.php:588
+#: inc/account.class.php:103 inc/account.class.php:447
+#: inc/account.class.php:457 inc/account_item.class.php:588
 #: inc/notificationtargetaccount.class.php:52
 #: inc/notificationtargetaccount.class.php:156
 #: inc/notificationtargetaccount.class.php:204
@@ -86,26 +86,27 @@ msgstr ""
 msgid "Affected User"
 msgstr ""
 
-#: inc/account.class.php:325 inc/account.class.php:409
+#: inc/account.class.php:329 inc/account.class.php:413
 #: inc/account_item.class.php:556
 msgid "There is no encryption key for this entity"
 msgstr ""
 
-#: inc/account.class.php:417 inc/account.class.php:438
-#: inc/account.class.php:645 inc/account_item.class.php:563
+#: inc/account.class.php:421 inc/account.class.php:442
+#: inc/account.class.php:649 inc/account_item.class.php:563
 #: inc/account_item.class.php:571 inc/aeskey.class.php:48
 #: inc/aeskey.class.php:147 inc/aeskey.class.php:182 inc/aeskey.class.php:203
-#: inc/hash.class.php:42 inc/hash.class.php:186 inc/menu.class.php:43
+#: inc/hash.class.php:42 inc/hash.class.php:186 inc/menu.class.php:42
+#: inc/menu.class.php:43
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/account.class.php:428 inc/account_item.class.php:649
+#: inc/account.class.php:432 inc/account_item.class.php:649
 msgid "Uncrypt"
 msgstr ""
 
-#: inc/account.class.php:483 inc/account.class.php:492
+#: inc/account.class.php:487 inc/account.class.php:496
 #: inc/notificationtargetaccount.class.php:53
 #: inc/notificationtargetaccount.class.php:159
 #: inc/notificationtargetaccount.class.php:205
@@ -113,44 +114,44 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: inc/account.class.php:519
+#: inc/account.class.php:523
 msgid "Empty for infinite"
 msgstr ""
 
-#: inc/account.class.php:576
+#: inc/account.class.php:580
 msgid "You have not filled the password and encryption key"
 msgstr ""
 
-#: inc/account.class.php:597
+#: inc/account.class.php:601
 msgid "Password will not be modified"
 msgstr ""
 
-#: inc/account.class.php:635
+#: inc/account.class.php:639
 msgid "2. Migrate accounts"
 msgstr ""
 
-#: inc/account.class.php:645
+#: inc/account.class.php:649
 msgid "Account names"
 msgstr ""
 
-#: inc/account.class.php:645 inc/report.class.php:129
+#: inc/account.class.php:649 inc/report.class.php:129
 msgid "Uncrypted password"
 msgstr ""
 
-#: inc/account.class.php:676
+#: inc/account.class.php:680
 msgid "3. If all accounts are migrated, the upgrade is finished"
 msgstr ""
 
-#: inc/account.class.php:938 inc/account.class.php:1029
+#: inc/account.class.php:942 inc/account.class.php:1033
 #: inc/notificationtargetaccount.class.php:262
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: inc/account.class.php:1101
+#: inc/account.class.php:1105
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1214 inc/account_item.class.php:680
+#: inc/account.class.php:1218 inc/account_item.class.php:680
 msgid "Don't expire"
 msgstr ""
 
@@ -193,7 +194,7 @@ msgstr ""
 msgid "Accounts expiring in less than"
 msgstr ""
 
-#: inc/hash.class.php:59 inc/hash.class.php:260 inc/report.class.php:195
+#: inc/hash.class.php:59 inc/hash.class.php:260 inc/report.class.php:196
 msgid "Linked accounts list"
 msgstr ""
 

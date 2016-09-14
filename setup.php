@@ -115,7 +115,7 @@ function plugin_version_accounts() {
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_accounts_check_prerequisites() {
-   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'0.91','ge')) {
+   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'9.2','ge')) {
       _e('This plugin requires GLPI >= 0.90', 'accounts');
       return false;
    } else {
