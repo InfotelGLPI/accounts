@@ -42,7 +42,7 @@ function plugin_accounts_install() {
             && !TableExists("glpi_plugin_accounts_accounts")) {
 
       $install=true;
-      $DB->runFile(GLPI_ROOT ."/plugins/accounts/sql/empty-2.0.0.sql");
+      $DB->runFile(GLPI_ROOT ."/plugins/accounts/sql/empty-2.2.0.sql");
 
 
    } else if (TableExists("glpi_comptes")
@@ -190,7 +190,7 @@ function plugin_accounts_install() {
       $query = "INSERT INTO `glpi_notifications`
                VALUES (NULL, 'New Accounts', 0, 'PluginAccountsAccount', 'new',
                'mail',".$itemtype.",
-                        '', 1, 1, '2010-02-17 22:36:46');";
+                        '', 1, 1, '2010-02-17 22:36:46', '2010-02-17 22:36:46');";
       $result=$DB->query($query);
 
       $query_id = "SELECT `id` FROM `glpi_notificationtemplates`
@@ -214,13 +214,13 @@ function plugin_accounts_install() {
       $query = "INSERT INTO `glpi_notifications`
                VALUES (NULL, 'Alert Expired Accounts', 0, 'PluginAccountsAccount', 'ExpiredAccounts',
                'mail',".$itemtype.",
-                        '', 1, 1, '2010-02-17 22:36:46');";
+                        '', 1, 1, '2010-02-17 22:36:46', '2010-02-17 22:36:46');";
       $result=$DB->query($query);
        
       $query = "INSERT INTO `glpi_notifications`
                VALUES (NULL, 'Alert Accounts Which Expire', 0, 'PluginAccountsAccount', 'AccountsWhichExpire',
                'mail',".$itemtype.",
-                        '', 1, 1, '2010-02-17 22:36:46');";
+                        '', 1, 1, '2010-02-17 22:36:46', '2010-02-17 22:36:46');";
 
       $result=$DB->query($query);
    }
@@ -307,7 +307,7 @@ function plugin_accounts_install() {
 
    PluginAccountsProfile::initProfile();
    PluginAccountsProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
-   $migration = new Migration("2.0.0");
+   $migration = new Migration("2.2.0");
    $migration->dropTable('glpi_plugin_accounts_profiles');
    return true;
 }
