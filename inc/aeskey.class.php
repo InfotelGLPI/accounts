@@ -139,13 +139,13 @@ class PluginAccountsAesKey extends CommonDBTM {
 
       echo "<div class='center red b'>".__('Warning : saving the encryption key is a security hole', 'accounts')."</div></br>";
 
-      $options['colspan'] = 1;
+      $options['colspan'] = 2;
       $this->h->getFromDB($plugin_accounts_hashes_id);
       echo "<input type='hidden' name='plugin_accounts_hashes_id' value='$plugin_accounts_hashes_id'>";
 
-      echo "<tr class='tab_bg_2'><td>";
+      echo "<tr class='tab_bg_2'><td colspan='2'>";
       _e('Encryption key', 'accounts');
-      echo "</td><td>";
+      echo "</td><td colspan='2'>";
       echo "<input type='password' autocomplete='off' name='name' value='".$this->fields["name"]."'>";
       echo "</td>";
       echo "</tr>";
