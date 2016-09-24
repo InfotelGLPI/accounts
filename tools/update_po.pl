@@ -19,7 +19,7 @@ foreach (readdir(DIRHANDLE)){
                         $lang=~s/\.po//;
                         
                         `wget --user=$user --password=$password --output-document=locales/$_ http://www.transifex.com/api/2/project/GLPI_accounts/resource/glpi/translation/$lang/?file=$_`;
-                        sleep(10);
+                        sleep(2);
                      }
             }
 
