@@ -563,7 +563,6 @@ class PluginAccountsAccount extends CommonDBTM {
       Dropdown::showYesNo('is_helpdesk_visible', $this->fields['is_helpdesk_visible']);
       echo "</td>";
       echo "<td colspan='2'>";
-      printf(__('Last update on %s'), Html::convDateTime($this->fields["date_mod"]));
       echo "</td>";
 
       echo "</tr>";
