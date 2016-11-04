@@ -27,32 +27,32 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
-Session::checkRight("config","w");
+Session::checkRight("config", "w");
 
-$plugin=new plugin;
+$plugin = new Plugin;
 
 if ($plugin->isActivated("environment"))
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginenvironmentdisplay","accounts");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
 else
-   Html::header(PluginAccountsAccount::getTypeName(2),'', "admin","pluginaccountsmenu", "account");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "account");
 
-$PluginAccountsHash=new PluginAccountsHash();
-$account=new PluginAccountsAccount();
+$PluginAccountsHash = new PluginAccountsHash();
+$account = new PluginAccountsAccount();
 
 if (isset($_POST["update_encrypted_password"]) && isset($_POST["item"])) {
 
    foreach ($_POST["upgrade_accounts"] as $key => $val) {
       foreach ($_POST["item"] as $key2 => $val2) {
-         $encrypted_password = "encrypted_password$".$key2;
-         $_POST[$encrypted_password]=addslashes($_POST[$encrypted_password]);
+         $encrypted_password = "encrypted_password$" . $key2;
+         $_POST[$encrypted_password] = addslashes($_POST[$encrypted_password]);
          if (isset($_POST[$encrypted_password]) && $_POST[$encrypted_password]) {
-            $query="UPDATE `glpi_plugin_accounts_accounts`
-                     SET `encrypted_password` ='".$_POST[$encrypted_password]."'
-                              WHERE `id` ='".$key2."' ;";
-            $result=$DB->query($query);
-            $_SESSION['plugin_accounts']['upgrade'][]=$key2;
+            $query = "UPDATE `glpi_plugin_accounts_accounts`
+                     SET `encrypted_password` ='" . $_POST[$encrypted_password] . "'
+                              WHERE `id` ='" . $key2 . "' ;";
+            $result = $DB->query($query);
+            $_SESSION['plugin_accounts']['upgrade'][] = $key2;
          }
       }
    }
@@ -62,10 +62,8 @@ if (isset($_POST["update_encrypted_password"]) && isset($_POST["item"])) {
 } else {
 
    $PluginAccountsHash->getFromDB(1);
-   $hash=$PluginAccountsHash->fields["hash"];
+   $hash = $PluginAccountsHash->fields["hash"];
    $account->showAccountsUpgrade($hash);
 }
 
 Html::footer();
-
-?>

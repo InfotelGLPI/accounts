@@ -31,7 +31,8 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
-class PluginAccountsAesKey extends CommonDBTM {
+class PluginAccountsAesKey extends CommonDBTM
+{
 
    static $rightname = "plugin_accounts";
 
@@ -39,16 +40,19 @@ class PluginAccountsAesKey extends CommonDBTM {
     * @var hash
     */
    private $h;
-   
-   public function __construct(){
+
+   public function __construct()
+   {
       $this->h = new PluginAccountsHash();
    }
-   
-   public static function getTypeName($nb=0) {
-      return _n('Encryption key','Encryption key', $nb, 'accounts');
+
+   public static function getTypeName($nb = 0)
+   {
+      return _n('Encryption key', 'Encryption key', $nb, 'accounts');
    }
 
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+   {
 
       if (!$withtemplate) {
          switch ($item->getType()) {
@@ -61,8 +65,9 @@ class PluginAccountsAesKey extends CommonDBTM {
       return '';
    }
 
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
-       
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+   {
+
       $self = new self();
 
       switch ($item->getType()) {
@@ -81,10 +86,11 @@ class PluginAccountsAesKey extends CommonDBTM {
       return true;
    }
 
-   public function getFromDBByHash($plugin_accounts_hashes_id) {
+   public function getFromDBByHash($plugin_accounts_hashes_id)
+   {
       global $DB;
 
-      $query = "SELECT * FROM `".$this->getTable()."`
+      $query = "SELECT * FROM `" . $this->getTable() . "`
                WHERE `plugin_accounts_hashes_id` = '" . $plugin_accounts_hashes_id . "' ";
       if ($result = $DB->query($query)) {
          if ($DB->numrows($result) != 1) {
@@ -100,12 +106,13 @@ class PluginAccountsAesKey extends CommonDBTM {
       return false;
    }
 
-   public static function checkIfAesKeyExists($plugin_accounts_hashes_id) {
+   public static function checkIfAesKeyExists($plugin_accounts_hashes_id)
+   {
 
       $aeskey = false;
       if ($plugin_accounts_hashes_id) {
          $devices = getAllDatasFromTable("glpi_plugin_accounts_aeskeys",
-                  "`plugin_accounts_hashes_id` = '$plugin_accounts_hashes_id' ");
+            "`plugin_accounts_hashes_id` = '$plugin_accounts_hashes_id' ");
          if (!empty($devices)) {
             foreach ($devices as $device) {
                $aeskey = $device["name"];
@@ -116,20 +123,22 @@ class PluginAccountsAesKey extends CommonDBTM {
       }
    }
 
-   public function defineTabs($options=array()) {
+   public function defineTabs($options = array())
+   {
 
       $ong = array();
       $this->addStandardTab(__CLASS__, $ong, $options);
       return $ong;
    }
 
-   public function showForm($ID, $options=array()) {
-      $restrict = getEntitiesRestrictRequest(" ","glpi_plugin_accounts_hashes",'','',$this->h->maybeRecursive());
-      if(countElementsInTable("glpi_plugin_accounts_hashes",$restrict) == 0) {
-         echo "<div class='center red'>".__('Encryption key modified', 'accounts')."</div></br>";
+   public function showForm($ID, $options = array())
+   {
+      $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
+      if (countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
+         echo "<div class='center red'>" . __('Encryption key modified', 'accounts') . "</div></br>";
       }
 
-      $plugin_accounts_hashes_id= -1;
+      $plugin_accounts_hashes_id = -1;
       if (isset($options['plugin_accounts_hashes_id'])) {
          $plugin_accounts_hashes_id = $options['plugin_accounts_hashes_id'];
       }
@@ -137,7 +146,7 @@ class PluginAccountsAesKey extends CommonDBTM {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
-      echo "<div class='center red b'>".__('Warning : saving the encryption key is a security hole', 'accounts')."</div></br>";
+      echo "<div class='center red b'>" . __('Warning : saving the encryption key is a security hole', 'accounts') . "</div></br>";
 
       $options['colspan'] = 2;
       $this->h->getFromDB($plugin_accounts_hashes_id);
@@ -146,14 +155,15 @@ class PluginAccountsAesKey extends CommonDBTM {
       echo "<tr class='tab_bg_2'><td colspan='2'>";
       _e('Encryption key', 'accounts');
       echo "</td><td colspan='2'>";
-      echo "<input type='password' autocomplete='off' name='name' value='".$this->fields["name"]."'>";
+      echo "<input type='password' autocomplete='off' name='name' value='" . $this->fields["name"] . "'>";
       echo "</td>";
       echo "</tr>";
       $options['candel'] = false;
       $this->showFormButtons($options);
    }
 
-   public function prepareInputForAdd($input) {
+   public function prepareInputForAdd($input)
+   {
       // Not attached to hash -> not added
       if (!isset($input['plugin_accounts_hashes_id']) || $input['plugin_accounts_hashes_id'] <= 0) {
          return false;
@@ -161,25 +171,26 @@ class PluginAccountsAesKey extends CommonDBTM {
       return $input;
    }
 
-   public function showAesKey($ID) {
+   public function showAesKey($ID)
+   {
       global $DB;
 
       $this->h->getFromDB($ID);
 
-      Session::initNavigateListItems("PluginAccountsAesKey",__('Hash', 'accounts')." = ".$this->h->fields["name"]);
+      Session::initNavigateListItems("PluginAccountsAesKey", __('Hash', 'accounts') . " = " . $this->h->fields["name"]);
 
-      $candelete =$this->h->can($ID, DELETE);
+      $candelete = $this->h->can($ID, DELETE);
       $query = "SELECT *
       FROM `glpi_plugin_accounts_aeskeys`
       WHERE `plugin_accounts_hashes_id` = '$ID' ";
       $result = $DB->query($query);
-      $rand=mt_rand();
+      $rand = mt_rand();
       echo "<div class='center'>";
       echo "<form method='post' name='show_aeskey$rand' id='show_aeskey$rand' action=\"./aeskey.form.php\">";
       echo "<input type='hidden' name='plugin_accounts_hashes_id' value='" . $ID . "'>";
       echo "<table class='tab_cadre_fixe'>";
 
-      echo "<tr><th colspan='5'>".__('Encryption key', 'accounts')."</th></tr>";
+      echo "<tr><th colspan='5'>" . __('Encryption key', 'accounts') . "</th></tr>";
       echo "<tr><th>&nbsp;</th>";
       echo "<th class='left'>" . __('Name') . "</th>";
       echo "</tr>";
@@ -187,7 +198,7 @@ class PluginAccountsAesKey extends CommonDBTM {
       if ($DB->numrows($result) > 0) {
 
          while ($data = $DB->fetch_array($result)) {
-            Session::addToNavigateListItems("PluginAccountsAesKey",$data['id']);
+            Session::addToNavigateListItems("PluginAccountsAesKey", $data['id']);
             echo "<input type='hidden' name='item[" . $data["id"] . "]' value='" . $ID . "'>";
             echo "<tr class='tab_bg_1 center'>";
             echo "<td width='10'>";
@@ -198,8 +209,8 @@ class PluginAccountsAesKey extends CommonDBTM {
                echo ">";
             }
             echo "</td>";
-            $link=Toolbox::getItemTypeFormURL("PluginAccountsAesKey");
-            echo "<td class='left'><a href='".$link."?id=".$data["id"]."&plugin_accounts_hashes_id=".$ID."'>";
+            $link = Toolbox::getItemTypeFormURL("PluginAccountsAesKey");
+            echo "<td class='left'><a href='" . $link . "?id=" . $data["id"] . "&plugin_accounts_hashes_id=" . $ID . "'>";
             echo __('Encryption key', 'accounts') . "</a></td>";
             echo "</tr>";
          }
@@ -217,5 +228,3 @@ class PluginAccountsAesKey extends CommonDBTM {
    }
 
 }
-
-?>

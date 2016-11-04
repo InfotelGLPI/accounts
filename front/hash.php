@@ -28,20 +28,18 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
-$account=new PluginAccountsAccount();
+$account = new PluginAccountsAccount();
 $account->checkGlobal(UPDATE);
 
-$plugin=new plugin();
+$plugin = new Plugin();
 
 if ($plugin->isActivated("environment"))
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginenvironmentdisplay","hash");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "hash");
 else
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"admin","pluginaccountsmenu","hash");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
 
 Search::show("PluginAccountsHash");
 
 Html::footer();
-
-?>

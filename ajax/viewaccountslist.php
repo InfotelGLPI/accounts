@@ -28,7 +28,7 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -37,8 +37,8 @@ Session::checkLoginUser();
 
 if (isset($_POST["key"])) {
 
-   $options = array('id'     => $_POST["id"],
-                    'aeskey' => $_POST["key"]);
+   $options = array('id' => $_POST["id"],
+      'aeskey' => $_POST["key"]);
 
    $accounts = PluginAccountsReport::queryAccountsList($options);
 
@@ -49,5 +49,3 @@ if (isset($_POST["key"])) {
 }
 
 Html::ajaxFooter();
-
-?>

@@ -27,9 +27,9 @@
  --------------------------------------------------------------------------
  */
 
-$AJAX_INCLUDE=1;
+$AJAX_INCLUDE = 1;
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -37,11 +37,9 @@ Html::header_nocache();
 Session::checkLoginUser();
 
 if (!isset($_GET['target'])) {
-   $_GET['target']=Toolbox::getItemTypeSearchUrl('PluginAccountsAccount');
+   $_GET['target'] = Toolbox::getItemTypeSearchURL('PluginAccountsAccount');
 }
 
 PluginAccountsAccount::showSelector($_GET['target']);
 
 Html::ajaxFooter();
-
-?>

@@ -28,35 +28,35 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
-$plugin = new plugin();
+$plugin = new Plugin();
 
-if ($_SESSION['glpiactiveprofile']['interface'] == 'central'){
+if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
    if ($plugin->isActivated("environment"))
-      Html::header(PluginAccountsAccount::getTypeName(2),'', "assets", "pluginenvironmentdisplay", "accounts");
+      Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
    else
-      Html::header(PluginAccountsAccount::getTypeName(2),'', "admin","pluginaccountsmenu");
+      Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu");
 } else {
    Html::helpHeader(PluginAccountsAccount::getTypeName(2));
 }
 
-$account=new PluginAccountsAccount();
+$account = new PluginAccountsAccount();
 $account->checkGlobal(READ);
 
 if ($account->canView()) {
 
    if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
       echo "<div align='center'>";
-      echo "<a onclick='add_file_modal.dialog(\"open\");' href='#modal_account_content' title='".
-               __s('Type view')."'>".__('Type view', 'accounts')."</a>";
+      echo "<a onclick='add_file_modal.dialog(\"open\");' href='#modal_account_content' title='" .
+         __s('Type view') . "'>" . __('Type view', 'accounts') . "</a>";
       echo "</div>";
 
-      Ajax::createModalWindow('add_file_modal', 
-                              $CFG_GLPI['root_doc']."/plugins/accounts/ajax/accounttree.php",
-                              array('title'        => __('Type view', 'accounts'),
-                                    'width'        => 800,
-                                    'height'       => 400));
+      Ajax::createModalWindow('add_file_modal',
+         $CFG_GLPI['root_doc'] . "/plugins/accounts/ajax/accounttree.php",
+         array('title' => __('Type view', 'accounts'),
+            'width' => 800,
+            'height' => 400));
    }
 
    Search::show("PluginAccountsAccount");
@@ -70,5 +70,3 @@ if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
 } else {
    Html::helpFooter();
 }
-
-?>

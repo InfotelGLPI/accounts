@@ -27,19 +27,17 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
-Session::checkRight("config",UPDATE);
+Session::checkRight("config", UPDATE);
 
-$plugin=new plugin();
+$plugin = new Plugin();
 
 if ($plugin->isActivated("environment"))
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginenvironmentdisplay","accounts");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
 else
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"admin","pluginaccountsmenu", "hash");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
 
 Search::show("PluginAccountsAesKey");
 
 Html::footer();
-
-?>

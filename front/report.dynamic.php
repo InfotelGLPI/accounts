@@ -28,26 +28,26 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 Session::checkCentralAccess();
 
 if (isset($_POST["display_type"])) {
-    
+
    if ($_POST["display_type"] < 0) {
       $_POST["display_type"] = -$_POST["display_type"];
-      $_POST["export_all"]   = 1;
+      $_POST["export_all"] = 1;
    }
-   
+
    $post = $_POST;
-    
-   $parm["display_type"]   = $post["display_type"];
-   $parm["id"]             = $post["hash_id"];
-   $parm["aeskey"]         = $post["aeskey"];
-   $parm["item_type"]      = $post["item_type"];
-   $parm["export_x"]       = $post["export_x"];
-   $parm["export_y"]       = $post["export_y"];
-    
+
+   $parm["display_type"] = $post["display_type"];
+   $parm["id"] = $post["hash_id"];
+   $parm["aeskey"] = $post["aeskey"];
+   $parm["item_type"] = $post["item_type"];
+   $parm["export_x"] = $post["export_x"];
+   $parm["export_y"] = $post["export_y"];
+
    $accounts = array();
    foreach ($post["id"] as $k => $v) {
       $accounts[$k]["id"] = $v;
@@ -67,9 +67,7 @@ if (isset($_POST["display_type"])) {
    foreach ($post["password"] as $k => $v) {
       $accounts[$k]["password"] = $v;
    }
-    
+
    PluginAccountsReport::showAccountsList($parm, $accounts);
 
 }
-
-?>

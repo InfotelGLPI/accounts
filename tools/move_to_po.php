@@ -304,4 +304,3 @@ function search_in_dict($string, $context) {
 
    return "";
 }
-?>

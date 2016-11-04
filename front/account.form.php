@@ -28,20 +28,20 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 if (!isset($_GET["id"])) $_GET["id"] = "";
 if (!isset($_GET["withtemplate"])) $_GET["withtemplate"] = "";
 
-$account      = new PluginAccountsAccount();
+$account = new PluginAccountsAccount();
 $account_item = new PluginAccountsAccount_Item();
 
 if (isset($_POST["add"])) {
 
    $account->check(-1, CREATE, $_POST);
-   $newID=$account->add($_POST);
+   $newID = $account->add($_POST);
    if ($_SESSION['glpibackcreated']) {
-      Html::redirect($account->getFormURL()."?id=".$newID);
+      Html::redirect($account->getFormURL() . "?id=" . $newID);
    }
    Html::back();
 
@@ -53,7 +53,7 @@ if (isset($_POST["add"])) {
 
 } else if (isset($_POST["delete"])) {
 
-   $account->check($_POST['id'],DELETE);
+   $account->check($_POST['id'], DELETE);
    $account->delete($_POST);
    $account->redirectToList();
 
@@ -65,14 +65,14 @@ if (isset($_POST["add"])) {
 
 } else if (isset($_POST["purge"])) {
 
-   $account->check($_POST['id'],PURGE);
-   $account->delete($_POST,1);
+   $account->check($_POST['id'], PURGE);
+   $account->delete($_POST, 1);
    $account->redirectToList();
 
 } else if (isset($_POST["additem"])) {
 
-   if (!empty($_POST['itemtype'])&&$_POST['items_id']>0) {
-      $account_item->check(-1,UPDATE,$_POST);
+   if (!empty($_POST['itemtype']) && $_POST['items_id'] > 0) {
+      $account_item->check(-1, UPDATE, $_POST);
       $account_item->addItem($_POST);
    }
    Html::back();
@@ -81,8 +81,8 @@ if (isset($_POST["add"])) {
 
    foreach ($_POST["item"] as $key => $val) {
       $input = array('id' => $key);
-      if ($val==1) {
-         $account_item->check($key,UPDATE);
+      if ($val == 1) {
+         $account_item->check($key, UPDATE);
          $account_item->delete($input);
       }
    }
@@ -93,7 +93,7 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST["deleteaccounts"])) {
 
    $input = array('id' => $_POST["id"]);
-   $account_item->check($_POST["id"],UPDATE);
+   $account_item->check($_POST["id"], UPDATE);
    $account_item->delete($input);
    Html::back();
 
@@ -104,9 +104,9 @@ if (isset($_POST["add"])) {
    if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
       $plugin = new Plugin();
       if ($plugin->isActivated("environment"))
-         Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginenvironmentdisplay","accounts");
+         Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
       else
-         Html::header(PluginAccountsAccount::getTypeName(2),'',"admin","pluginaccountsmenu");
+         Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu");
    } else {
       Html::helpHeader(PluginAccountsAccount::getTypeName(2));
    }
@@ -119,5 +119,3 @@ if (isset($_POST["add"])) {
       Html::helpFooter();
    }
 }
-
-?>

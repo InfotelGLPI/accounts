@@ -28,49 +28,47 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 if (!isset($_GET["id"])) $_GET["id"] = "";
 
 $plugin = new Plugin();
 if ($plugin->isActivated("accounts")) {
-    
-   Session::checkRight("config", UPDATE);
-   $PluginAccountsHash=new PluginAccountsHash();
-   $PluginAccountsHash->getFromDB(1);
-   $hash=$PluginAccountsHash->fields["hash"];
 
-   $update=0;
-   if (countElementsInTable("glpi_plugin_accounts_accounts")>0) {
-      $update=1;
+   Session::checkRight("config", UPDATE);
+   $PluginAccountsHash = new PluginAccountsHash();
+   $PluginAccountsHash->getFromDB(1);
+   $hash = $PluginAccountsHash->fields["hash"];
+
+   $update = 0;
+   if (countElementsInTable("glpi_plugin_accounts_accounts") > 0) {
+      $update = 1;
    }
 
    if (empty($hash)) {
 
       if ($plugin->isActivated("environment"))
-         Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginenvironmentdisplay","accounts");
+         Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
       else
-         Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginaccountsmenu", "account");
+         Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginaccountsmenu", "account");
 
       if ($_SESSION['glpiactive_entity'] == 0) {
-         if ($update==1) {
-            echo "<div class='center b'>".__('Upgrade')."</div><br><br>";
-            echo "<div class='center b'>".__('1. Define the encryption key and create hash', 'accounts')."</div><br><br>";
+         if ($update == 1) {
+            echo "<div class='center b'>" . __('Upgrade') . "</div><br><br>";
+            echo "<div class='center b'>" . __('1. Define the encryption key and create hash', 'accounts') . "</div><br><br>";
             $options = array("update" => true, "upgrade" => 1);
-            $PluginAccountsHash->showForm(1,$options);
+            $PluginAccountsHash->showForm(1, $options);
          }
       } else {
-         echo "<div class='center red'>".__('Go to Root Entity', 'accounts')."</div>";
+         echo "<div class='center red'>" . __('Go to Root Entity', 'accounts') . "</div>";
       }
       Html::footer();
 
    }
 } else {
-   Html::header(__('Setup'),'',"config", "plugins");
+   Html::header(__('Setup'), '', "config", "plugins");
    echo "<div align='center'><br><br>";
-   echo "<img src=\"".$CFG_GLPI["root_doc"]."/pics/warning.png\" alt=\"warning\"><br><br>";
+   echo "<img src=\"" . $CFG_GLPI["root_doc"] . "/pics/warning.png\" alt=\"warning\"><br><br>";
    echo "<b>__('Please activate the plugin', 'accounts')</b></div>";
    Html::footer();
 }
-
-?>

@@ -31,13 +31,15 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
-class PluginAccountsNotificationState extends CommonDBTM {
+class PluginAccountsNotificationState extends CommonDBTM
+{
 
-   public function getFromDBbyState($plugin_accounts_accountstates_id) {
+   public function getFromDBbyState($plugin_accounts_accountstates_id)
+   {
       global $DB;
 
-      $query = "SELECT * FROM `".$this->getTable()."` " .
-               "WHERE `plugin_accounts_accountstates_id` = '" . $plugin_accounts_accountstates_id . "' ";
+      $query = "SELECT * FROM `" . $this->getTable() . "` " .
+         "WHERE `plugin_accounts_accountstates_id` = '" . $plugin_accounts_accountstates_id . "' ";
       if ($result = $DB->query($query)) {
          if ($DB->numrows($result) != 1) {
             return false;
@@ -52,17 +54,18 @@ class PluginAccountsNotificationState extends CommonDBTM {
       return false;
    }
 
-   public function findStates() {
+   public function findStates()
+   {
       global $DB;
 
-      $queryBranch='';
+      $queryBranch = '';
       // Recherche les enfants
 
-      $queryChilds= "SELECT `plugin_accounts_accountstates_id`
-               FROM `".$this->getTable()."`";
+      $queryChilds = "SELECT `plugin_accounts_accountstates_id`
+               FROM `" . $this->getTable() . "`";
       if ($resultChilds = $DB->query($queryChilds)) {
          while ($dataChilds = $DB->fetch_array($resultChilds)) {
-            $child=$dataChilds["plugin_accounts_accountstates_id"];
+            $child = $dataChilds["plugin_accounts_accountstates_id"];
             $queryBranch .= ",$child";
          }
       }
@@ -70,59 +73,62 @@ class PluginAccountsNotificationState extends CommonDBTM {
       return $queryBranch;
    }
 
-   public function addNotificationState($plugin_accounts_accountstates_id) {
+   public function addNotificationState($plugin_accounts_accountstates_id)
+   {
 
       if ($this->getFromDBbyState($plugin_accounts_accountstates_id)) {
 
          $this->update(array(
-                  'id'=>$this->fields['id'],
-                  'plugin_accounts_accountstates_id'=>$plugin_accounts_accountstates_id));
+            'id' => $this->fields['id'],
+            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id));
       } else {
 
          $this->add(array(
-                  'plugin_accounts_accountstates_id'=>$plugin_accounts_accountstates_id));
+            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id));
       }
    }
 
-   public function showAddForm($target) {
+   public function showAddForm($target)
+   {
       global $DB;
-      
+
       $used = array();
       $query = "SELECT *
-      FROM `".$this->getTable()."`
+      FROM `" . $this->getTable() . "`
       ORDER BY `plugin_accounts_accountstates_id` ASC ";
       if ($result = $DB->query($query)) {
          $number = $DB->numrows($result);
          if ($number != 0) {
-             while($ligne= $DB->fetch_array($result)) {
-               $used[]=$ligne["plugin_accounts_accountstates_id"];
+            while ($ligne = $DB->fetch_array($result)) {
+               $used[] = $ligne["plugin_accounts_accountstates_id"];
             }
          }
       }
-      
+
       echo "<div align='center'><form method='post'  action=\"$target\">";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr ><th colspan='2'>";
-      echo __('Add a unused status for expiration mailing', 'accounts')."</th></tr>";
+      echo __('Add a unused status for expiration mailing', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1'><td>";
       Dropdown::show('PluginAccountsAccountState', array('name' => "plugin_accounts_accountstates_id",
-                                                         'used' => $used));
+         'used' => $used));
       echo "</td>";
       echo "<td>";
       echo "<div align='center'>";
-      echo "<input type='submit' name='add' value=\""._sx('button','Add')."\" class='submit' >";
+      echo "<input type='submit' name='add' value=\"" . _sx('button', 'Add') . "\" class='submit' >";
       echo "</div></td></tr>";
       echo "</table>";
       Html::closeForm();
       echo "</div>";
    }
 
-   public function showForm($target) {
+   public function showForm($target)
+   {
       global $DB;
 
-      $rand=mt_rand();
+      $rand = mt_rand();
 
       $query = "SELECT *
-               FROM `".$this->getTable()."`
+               FROM `" . $this->getTable() . "`
                         ORDER BY `plugin_accounts_accountstates_id` ASC ";
       if ($result = $DB->query($query)) {
          $number = $DB->numrows($result);
@@ -132,10 +138,10 @@ class PluginAccountsNotificationState extends CommonDBTM {
             echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand' action=\"$target\">";
             echo "<table class='tab_cadre_fixe' cellpadding='5'>";
             echo "<tr>";
-            echo "<th></th><th>".__('Unused status for expiration mailing', 'accounts')."</th>";
+            echo "<th></th><th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
             echo "</tr>";
-            while($ligne= $DB->fetch_array($result)) {
-               $ID=$ligne["id"];
+            while ($ligne = $DB->fetch_array($result)) {
+               $ID = $ligne["id"];
                echo "<tr class='tab_bg_1'>";
                echo "<td class='center' width='10'>";
                echo "<input type='hidden' name='id' value='$ID'>";
@@ -143,7 +149,7 @@ class PluginAccountsNotificationState extends CommonDBTM {
                echo "</td>";
                echo "<td>";
                echo Dropdown::getDropdownName("glpi_plugin_accounts_accountstates",
-                        $ligne["plugin_accounts_accountstates_id"]);
+                  $ligne["plugin_accounts_accountstates_id"]);
                echo "</td>";
                echo "</tr>";
             }
@@ -158,5 +164,3 @@ class PluginAccountsNotificationState extends CommonDBTM {
       }
    }
 }
-
-?>

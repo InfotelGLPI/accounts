@@ -28,59 +28,62 @@
  */
 
 // Init the hooks of the plugins -Needed
-function plugin_init_accounts() {
-   global $PLUGIN_HOOKS, $CFG_GLPI;
-    
-   $PLUGIN_HOOKS['csrf_compliant']['accounts']   = true;
+function plugin_init_accounts()
+{
+   global $PLUGIN_HOOKS;
+
+   $PLUGIN_HOOKS['csrf_compliant']['accounts'] = true;
    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
-   $PLUGIN_HOOKS['change_profile']['accounts'] = array('PluginAccountsProfile','initProfile');
-    
+   $PLUGIN_HOOKS['change_profile']['accounts'] = array('PluginAccountsProfile', 'initProfile');
+
    if (Session::getLoginUserID()) {
 
       // Params : plugin name - string type - number - attributes
-      Plugin::registerClass('PluginAccountsAccount', 
-                           array('linkgroup_types'             => true,
-                                 'linkuser_types'              => true,
-                                 'linkgroup_tech_types'        => true,
-                                 'linkuser_tech_types'         => true,
-                                 'document_types'              => true,
-                                 'ticket_types'                => true,
-                                 'helpdesk_visible_types'      => true,
-                                 'notificationtemplates_types' => true,
-                                 'header_types'                => true
-                                 )
+      Plugin::registerClass('PluginAccountsAccount',
+         array('linkgroup_types' => true,
+            'linkuser_types' => true,
+            'linkgroup_tech_types' => true,
+            'linkuser_tech_types' => true,
+            'document_types' => true,
+            'ticket_types' => true,
+            'helpdesk_visible_types' => true,
+            'notificationtemplates_types' => true,
+            'header_types' => true
+         )
       );
 
       Plugin::registerClass('PluginAccountsConfig',
-      array('addtabon' => 'CronTask'));
-       
-      Plugin::registerClass('PluginAccountsProfile',
-      array('addtabon' => 'Profile'));
-      
-      $plugin = new Plugin();
-      if (!$plugin->isActivated('environment') 
-         && Session::haveRight("plugin_accounts", READ)) {
+         array('addtabon' => 'CronTask'));
 
-         $PLUGIN_HOOKS["menu_toadd"]['accounts'] = array('admin'  => 'PluginAccountsMenu');
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
-      } 
-      if ($plugin->isActivated('environment') 
-         && Session::haveRight("plugin_accounts", READ)) {
+      Plugin::registerClass('PluginAccountsProfile',
+         array('addtabon' => 'Profile'));
+
+      $plugin = new Plugin();
+      if (!$plugin->isActivated('environment')
+         && Session::haveRight("plugin_accounts", READ)
+      ) {
+
+         $PLUGIN_HOOKS["menu_toadd"]['accounts'] = array('admin' => 'PluginAccountsMenu');
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
       }
-      
+      if ($plugin->isActivated('environment')
+         && Session::haveRight("plugin_accounts", READ)
+      ) {
+         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
+      }
+
       if (Session::haveRight("plugin_accounts", UPDATE)) {
          $PLUGIN_HOOKS['use_massive_action']['accounts'] = 1;
       }
-      
+
       $PLUGIN_HOOKS['redirect_page']['accounts'] = "front/account.form.php";
-      
+
       //Clean Plugin on Profile delete
       if (class_exists('PluginAccountsAccount_Item')) { // only if plugin activated
          $PLUGIN_HOOKS['plugin_datainjection_populate']['accounts']
-         = 'plugin_datainjection_populate_accounts';
+            = 'plugin_datainjection_populate_accounts';
       }
-       
+
       // Add specific files to add to the header : javascript or css
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/getparameter.js";
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/crypt.js";
@@ -99,48 +102,52 @@ function plugin_init_accounts() {
 }
 
 // Get the name and the version of the plugin - Needed
-function plugin_version_accounts() {
+function plugin_version_accounts()
+{
 
-   return array (
-            'name' => _n('Account', 'Accounts', 2, 'accounts'),
-            'version' => '2.2.0',
-            'oldname' => 'compte',
-            'license' => 'GPLv2+',
-            'author'  => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
-            'homepage'=>'https://github.com/InfotelGLPI/accounts',
-            'minGlpiVersion' => '9.1',
+   return array(
+      'name' => _n('Account', 'Accounts', 2, 'accounts'),
+      'version' => '2.2.0',
+      'oldname' => 'compte',
+      'license' => 'GPLv2+',
+      'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
+      'homepage' => 'https://github.com/InfotelGLPI/accounts',
+      'minGlpiVersion' => '9.1',
    );
 
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
-function plugin_accounts_check_prerequisites() {
-   if (version_compare(GLPI_VERSION,'9.1','lt') || version_compare(GLPI_VERSION,'9.2','ge')) {
+function plugin_accounts_check_prerequisites()
+{
+   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
       _e('This plugin requires GLPI >= 9.1', 'accounts');
       return false;
    } else {
       if (TableExists("glpi_comptes")) {//1.0
-         if (countElementsInTable("glpi_comptes")>0 && function_exists("mcrypt_encrypt")) {
+         if (countElementsInTable("glpi_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             _e('phpX-mcrypt must be installed', 'accounts');
          }
       } else if (TableExists("glpi_plugin_comptes")) {//1.1
-         if (countElementsInTable("glpi_plugin_comptes")>0 && function_exists("mcrypt_encrypt")) {
+         if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             _e('phpX-mcrypt must be installed', 'accounts');
          }
       } else if (!TableExists("glpi_plugin_compte_mailing")
-               && TableExists("glpi_plugin_comptes")) {//1.3
-         if (countElementsInTable("glpi_plugin_comptes")>0 && function_exists("mcrypt_encrypt")) {
+         && TableExists("glpi_plugin_comptes")
+      ) {//1.3
+         if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             _e('phpX-mcrypt must be installed', 'accounts');
          }
       } else if (TableExists("glpi_plugin_compte")
-               && FieldExists("glpi_plugin_compte_profiles","interface")) {//1.4
-         if (countElementsInTable("glpi_plugin_compte")>0 && function_exists("mcrypt_encrypt")) {
+         && FieldExists("glpi_plugin_compte_profiles", "interface")
+      ) {//1.4
+         if (countElementsInTable("glpi_plugin_compte") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             _e('phpX-mcrypt must be installed', 'accounts');
@@ -153,13 +160,13 @@ function plugin_accounts_check_prerequisites() {
 
 // Uninstall process for plugin : need to return true if succeeded
 //may display messages or add to message after redirect
-function plugin_accounts_check_config() {
+function plugin_accounts_check_config()
+{
    return true;
 }
 
-function plugin_datainjection_migratetypes_accounts($types) {
+function plugin_datainjection_migratetypes_accounts($types)
+{
    $types[1900] = 'PluginAccountsAccount';
    return $types;
 }
-
-?>

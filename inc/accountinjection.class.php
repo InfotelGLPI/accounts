@@ -27,29 +27,34 @@
  --------------------------------------------------------------------------
  */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
 class PluginAccountsAccountInjection extends PluginAccountsAccount
-implements PluginDatainjectionInjectionInterface {
+   implements PluginDatainjectionInjectionInterface
+{
 
-   static function getTable() {
-   
+   static function getTable()
+   {
+
       $parenttype = get_parent_class();
       return $parenttype::getTable();
-      
+
    }
 
-   public function isPrimaryType() {
+   public function isPrimaryType()
+   {
       return true;
    }
 
-   public function connectedTo() {
+   public function connectedTo()
+   {
       return array();
    }
 
-   public function getOptions($primary_type = '') {
+   public function getOptions($primary_type = '')
+   {
 
       $tab = Search::getOptions(get_parent_class($this));
 
@@ -59,13 +64,13 @@ implements PluginDatainjectionInjectionInterface {
       $tab[16]['linkfield'] = 'locations_id';
       //$blacklist = PluginDatainjectionCommonInjectionLib::getBlacklistedOptions();
       //Remove some options because some fields cannot be imported
-      $notimportable = array(8,14,30,80);
+      $notimportable = array(8, 14, 30, 80);
       $options['ignore_fields'] = $notimportable;
-      $options['displaytype'] = array("dropdown"       => array(2,10,12,16),
-               "user"           => array(3),
-               "multiline_text" => array(7),
-               "date"           => array(5,6),
-               "bool"           => array(11,13));
+      $options['displaytype'] = array("dropdown" => array(2, 10, 12, 16),
+         "user" => array(3),
+         "multiline_text" => array(7),
+         "date" => array(5, 6),
+         "bool" => array(11, 13));
 
       $tab = PluginDatainjectionCommonInjectionLib::addToSearchOptions($tab, $options, $this);
 
@@ -75,11 +80,15 @@ implements PluginDatainjectionInjectionInterface {
    /**
     * Standard method to delete an object into glpi
     * WILL BE INTEGRATED INTO THE CORE IN 0.80
-    * @param fields fields to add into glpi
-    * @param options options used during creation
+    * @param array $values
+    * @param array|options $options
+    * @return an
+    * @internal param fields $fields to add into glpi
+    * @internal param options $options used during creation
     */
-   public function deleteObject($values=array(), $options=array()) {
-      $lib = new PluginDatainjectionCommonInjectionLib($this,$values,$options);
+   public function deleteObject($values = array(), $options = array())
+   {
+      $lib = new PluginDatainjectionCommonInjectionLib($this, $values, $options);
       $lib->deleteObject();
       return $lib->getInjectionResults();
    }
@@ -87,16 +96,17 @@ implements PluginDatainjectionInjectionInterface {
    /**
     * Standard method to add an object into glpi
     * WILL BE INTEGRATED INTO THE CORE IN 0.80
-    * @param values fields to add into glpi
-    * @param options options used during creation
+    * @param array|fields $values
+    * @param array|options $options
     * @return an array of IDs of newly created objects : for example array(Computer=>1, Networkport=>10)
+    * @internal param fields $values to add into glpi
+    * @internal param options $options used during creation
     */
-   public function addOrUpdateObject($values=array(), $options=array()) {
-      $lib = new PluginDatainjectionCommonInjectionLib($this,$values,$options);
+   public function addOrUpdateObject($values = array(), $options = array())
+   {
+      $lib = new PluginDatainjectionCommonInjectionLib($this, $values, $options);
       $lib->processAddOrUpdate();
       return $lib->getInjectionResults();
    }
 
 }
-
-?>

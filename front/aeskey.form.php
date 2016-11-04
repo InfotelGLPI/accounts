@@ -28,28 +28,28 @@
  */
 
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 if (!isset($_GET["id"])) $_GET["id"] = "";
-if(!isset($_GET["plugin_accounts_hashes_id"])) $_GET["plugin_accounts_hashes_id"] = "";
+if (!isset($_GET["plugin_accounts_hashes_id"])) $_GET["plugin_accounts_hashes_id"] = "";
 
-Session::checkRight("config",UPDATE);
+Session::checkRight("config", UPDATE);
 
-$aeskey=new PluginAccountsAesKey();
+$aeskey = new PluginAccountsAesKey();
 
-$plugin=new plugin();
+$plugin = new Plugin();
 
 if ($plugin->isActivated("environment"))
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"assets","pluginenvironmentdisplay","accounts","hash");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
 else
-   Html::header(PluginAccountsAccount::getTypeName(2),'',"admin","pluginaccountsmenu", "hash");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
 
 if (isset($_POST["add"])) {
    if ($aeskey->canCreate()) {
-      $newID=$aeskey->add($_POST);
+      $newID = $aeskey->add($_POST);
    }
    if ($_SESSION['glpibackcreated']) {
-      Html::redirect($aeskey->getFormURL()."?id=".$newID);
+      Html::redirect($aeskey->getFormURL() . "?id=" . $newID);
    }
    Html::back();
 
@@ -63,16 +63,14 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST["delete"])) {
    if ($aeskey->canCreate()) {
       foreach ($_POST["check"] as $ID => $value) {
-         $aeskey->delete(array("id"=>$ID),1);
+         $aeskey->delete(array("id" => $ID), 1);
       }
    }
    Html::back();
 
 } else {
-   $aeskey->display(array('id' => $_GET['id'], 
-                          'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]));
+   $aeskey->display(array('id' => $_GET['id'],
+      'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]));
 }
 
 Html::footer();
-
-?>
