@@ -31,11 +31,19 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsProfile
+ */
 class PluginAccountsProfile extends Profile
 {
 
    static $rightname = "profile";
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $withtemplate
+    * @return string
+    */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
    {
 
@@ -46,6 +54,12 @@ class PluginAccountsProfile extends Profile
    }
 
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $tabnum
+    * @param int $withtemplate
+    * @return bool
+    */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
    {
 
@@ -63,6 +77,9 @@ class PluginAccountsProfile extends Profile
       return true;
    }
 
+   /**
+    * @param $ID
+    */
    static function createFirstAccess($ID)
    {
       //85
@@ -149,6 +166,10 @@ class PluginAccountsProfile extends Profile
       echo "</div>";
    }
 
+   /**
+    * @param bool $all
+    * @return array
+    */
    static function getHelpdeskRights($all = false)
    {
 
@@ -177,6 +198,10 @@ class PluginAccountsProfile extends Profile
       return $rights;
    }
 
+   /**
+    * @param bool $all
+    * @return array
+    */
    static function getAllRights($all = false)
    {
 

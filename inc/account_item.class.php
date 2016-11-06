@@ -32,6 +32,9 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsAccount_Item
+ */
 class PluginAccountsAccount_Item extends CommonDBRelation
 {
 
@@ -142,6 +145,10 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    }
 
 
+   /**
+    * @param PluginAccountsAccount $item
+    * @return int
+    */
    private static function countForAccount(PluginAccountsAccount $item)
    {
 
@@ -155,6 +162,10 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    }
 
 
+   /**
+    * @param CommonDBTM $item
+    * @return int
+    */
    private static function countForItem(CommonDBTM $item)
    {
 
@@ -163,6 +174,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                AND `items_id` = '" . $item->getID() . "'");
    }
 
+   /**
+    * @param $plugin_accounts_accounts_id
+    * @param $items_id
+    * @param $itemtype
+    * @return bool
+    */
    public function getFromDBbyAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype)
    {
       global $DB;
@@ -185,6 +202,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       return false;
    }
 
+   /**
+    * @param $values
+    */
    public function addItem($values)
    {
 
@@ -194,6 +214,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
    }
 
+   /**
+    * @param $plugin_accounts_accounts_id
+    * @param $items_id
+    * @param $itemtype
+    * @return bool
+    */
    public function deleteItemByAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype)
    {
 
@@ -244,9 +270,16 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          echo "<tr class='tab_bg_2'><th colspan='2'>" . __('Add an item') . "</th></tr>";
 
          echo "<tr class='tab_bg_1'><td class='right'>";
-         Dropdown::showAllItems("items_id", 0, 0,
-            ($account->fields['is_recursive'] ? -1 : $account->fields['entities_id']),
-            PluginAccountsAccount::getTypes(), false, true);
+         Dropdown::showSelectItemFromItemtypes(array('items_id_name' => 'items_id',
+            'itemtypes'=>PluginAccountsAccount::getTypes(true),
+            'entity_restrict'
+            => ($account->fields['is_recursive']
+               ?getSonsOf('glpi_entities',
+                  $account->fields['entities_id'])
+               :$account->fields['entities_id']),
+            'checkright'
+            => true,
+         ));
          echo "</td><td class='center'>";
          echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='submit'>";
          echo "<input type='hidden' name='plugin_accounts_accounts_id' value='$instID'>";
@@ -412,7 +445,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     */
    static function showForItem(CommonDBTM $item, $withtemplate = '')
    {
-      global $DB, $CFG_GLPI;
+      global $DB;
 
       $ID = $item->getField('id');
 
@@ -557,6 +590,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
       //hash
       $hashclass = new PluginAccountsHash();
+      $hash_id = 0;
       $hash = 0;
       $restrict = getEntitiesRestrictRequest(" ",
          "glpi_plugin_accounts_hashes",

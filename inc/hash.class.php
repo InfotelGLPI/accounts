@@ -31,6 +31,9 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsHash
+ */
 class PluginAccountsHash extends CommonDBTM
 {
 
@@ -38,22 +41,37 @@ class PluginAccountsHash extends CommonDBTM
 
    public $dohistory = true;
 
+   /**
+    * @param int $nb
+    * @return translated
+    */
    public static function getTypeName($nb = 0)
    {
 
       return _n('Encryption key', 'Encryption keys', $nb, 'accounts');
    }
 
+   /**
+    * @return bool
+    */
    public static function canCreate()
    {
       return Session::haveRight(static::$rightname, UPDATE);
    }
 
+   /**
+    * @return bool
+    */
    public static function canView()
    {
       return Session::haveRight(static::$rightname, READ);
    }
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $withtemplate
+    * @return array|string
+    */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
    {
 
@@ -69,6 +87,12 @@ class PluginAccountsHash extends CommonDBTM
       return '';
    }
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $tabnum
+    * @param int $withtemplate
+    * @return bool
+    */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
    {
 
@@ -93,6 +117,9 @@ class PluginAccountsHash extends CommonDBTM
       return true;
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptions()
    {
 
@@ -135,6 +162,10 @@ class PluginAccountsHash extends CommonDBTM
       return $tab;
    }
 
+   /**
+    * @param array $options
+    * @return array
+    */
    public function defineTabs($options = array())
    {
 
@@ -147,6 +178,11 @@ class PluginAccountsHash extends CommonDBTM
       return $ong;
    }
 
+   /**
+    * @param $ID
+    * @param array $options
+    * @return bool
+    */
    public function showForm($ID, $options = array())
    {
 

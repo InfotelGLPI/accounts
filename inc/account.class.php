@@ -32,6 +32,9 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsAccount
+ */
 class PluginAccountsAccount extends CommonDBTM
 {
 
@@ -258,8 +261,9 @@ class PluginAccountsAccount extends CommonDBTM
    /**
     * Prepare input datas for adding the item
     *
+    * @param datas $input
     * @return array $input
-    **/
+    */
    public function prepareInputForAdd($input)
    {
 
@@ -405,7 +409,7 @@ class PluginAccountsAccount extends CommonDBTM
 
       //hash
       $hash = 0;
-
+      $hash_id = 0;
       $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', $this->getEntityID(), $hashclass->maybeRecursive());
       $hashes = getAllDatasFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
@@ -643,7 +647,7 @@ class PluginAccountsAccount extends CommonDBTM
 
       $restrict = " 1=1 ORDER BY `name` ";
       $accounts = getAllDatasFromTable($this->getTable(), $restrict);
-
+      $ID = 0;
       if (!empty($accounts)) {
          echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand'  action=\"./account.upgrade.php\">";
          echo "<table class='tab_cadre' cellpadding='5'>";
@@ -766,9 +770,8 @@ class PluginAccountsAccount extends CommonDBTM
     *
     * @since version 0.84
     * @param $checkitem link item to check right   (default NULL)
-    *
-    * @return $array of massive actions
-    **/
+    * @return an $array of massive actions
+    */
    public function getSpecificMassiveActions($checkitem = NULL)
    {
       $isadmin = static::canUpdate();
@@ -789,6 +792,14 @@ class PluginAccountsAccount extends CommonDBTM
       return $actions;
    }
 
+   /**
+    * @param MassiveAction $ma
+    * @return bool|false
+    */
+   /**
+    * @param MassiveAction $ma
+    * @return bool|false
+    */
    static function showMassiveActionsSubForm(MassiveAction $ma)
    {
 
@@ -798,14 +809,22 @@ class PluginAccountsAccount extends CommonDBTM
             echo Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
             return true;
          case "install" :
-            Dropdown::showAllItems("item_item", 0, 0, -1, self::getTypes(true),
-               false, false, 'typeitem');
+            Dropdown::showSelectItemFromItemtypes(array('items_id_name' => 'item_item',
+            'itemtype_name' => 'typeitem',
+               'itemtypes'=>self::getTypes(true),
+               'checkright'
+               => true,
+               ));
             echo Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
             return true;
             break;
          case "uninstall" :
-            Dropdown::showAllItems("item_item", 0, 0, -1, self::getTypes(true),
-               false, false, 'typeitem');
+            Dropdown::showSelectItemFromItemtypes(array('items_id_name' => 'item_item',
+               'itemtype_name' => 'typeitem',
+               'itemtypes'=>self::getTypes(true),
+               'checkright'
+               => true,
+            ));
             echo Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'));
             return true;
             break;
@@ -905,12 +924,10 @@ class PluginAccountsAccount extends CommonDBTM
          case 'uninstall':
             $input = $ma->getInput();
             foreach ($ids as $key) {
-               if ($val == 1) {
-                  if ($account_item->deleteItemByAccountsAndItem($key, $input['item_item'], $input['typeitem'])) {
-                     $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
-                  } else {
-                     $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
-                  }
+               if ($account_item->deleteItemByAccountsAndItem($key, $input['item_item'], $input['typeitem'])) {
+                  $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+               } else {
+                  $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
                }
             }
             break;
@@ -921,9 +938,8 @@ class PluginAccountsAccount extends CommonDBTM
     * Get the standard massive actions which are forbidden
     *
     * @since version 0.84
-    *
-    * @return $array of massive actions
-    **/
+    * @return an|array $array of massive actions
+    */
    public function getForbiddenStandardMassiveAction()
    {
       $forbidden = parent::getForbiddenStandardMassiveAction();
@@ -1240,6 +1256,14 @@ class PluginAccountsAccount extends CommonDBTM
       return '';
    }
 
+   /**
+    * @param string $interface
+    * @return array
+    */
+   /**
+    * @param string $interface
+    * @return array
+    */
    function getRights($interface = 'central')
    {
 

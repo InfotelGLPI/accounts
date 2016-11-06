@@ -31,9 +31,17 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsConfig
+ */
 class PluginAccountsConfig extends CommonDBTM
 {
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $withtemplate
+    * @return string|translated
+    */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
    {
 
@@ -44,6 +52,12 @@ class PluginAccountsConfig extends CommonDBTM
    }
 
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $tabnum
+    * @param int $withtemplate
+    * @return bool
+    */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
    {
       global $CFG_GLPI;
@@ -56,6 +70,10 @@ class PluginAccountsConfig extends CommonDBTM
       return true;
    }
 
+   /**
+    * @param $target
+    * @param $ID
+    */
    public function showForm($target, $ID)
    {
 

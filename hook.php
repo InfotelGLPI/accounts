@@ -27,6 +27,9 @@
  --------------------------------------------------------------------------
  */
 
+/**
+ * @return bool
+ */
 function plugin_accounts_install()
 {
    global $DB, $CFG_GLPI;
@@ -35,7 +38,6 @@ function plugin_accounts_install()
 
    $install = false;
    $update78 = false;
-   $update80 = false;
    $update171 = false;
    if (!TableExists("glpi_plugin_compte")
       && !TableExists("glpi_plugin_comptes")
@@ -340,6 +342,11 @@ function plugin_accounts_updatev14()
    }
 }
 
+/**
+ * @param $Texte
+ * @param $action
+ * @return string
+ */
 function plugin_accounts_crypte($Texte, $action)
 {
    //$algo = "blowfish"; // ou la constante php MCRYPT_BLOWFISH
@@ -386,6 +393,9 @@ function plugin_accounts_configure15()
    }
 }
 
+/**
+ * @return bool
+ */
 function plugin_accounts_uninstall()
 {
    global $DB;
@@ -506,6 +516,10 @@ function plugin_accounts_postinit()
    }
 }
 
+/**
+ * @param $types
+ * @return mixed
+ */
 function plugin_accounts_AssignToTicket($types)
 {
 
@@ -517,6 +531,9 @@ function plugin_accounts_AssignToTicket($types)
 }
 
 // Define dropdown relations
+/**
+ * @return array
+ */
 function plugin_accounts_getDatabaseRelations()
 {
 
@@ -555,6 +572,9 @@ function plugin_accounts_getDatabaseRelations()
 }
 
 // Define Dropdown tables to be manage in GLPI :
+/**
+ * @return array
+ */
 function plugin_accounts_getDropdown()
 {
 
@@ -568,6 +588,10 @@ function plugin_accounts_getDropdown()
       return array();
 }
 
+/**
+ * @param $itemtype
+ * @return array
+ */
 function plugin_accounts_getAddSearchOptions($itemtype)
 {
 
@@ -599,6 +623,14 @@ function plugin_accounts_getAddSearchOptions($itemtype)
    return $sopt;
 }
 
+/**
+ * @param $type
+ * @param $ref_table
+ * @param $new_table
+ * @param $linkfield
+ * @param $already_link_tables
+ * @return string
+ */
 function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, &$already_link_tables)
 {
 
@@ -614,6 +646,10 @@ function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, 
    return "";
 }
 
+/**
+ * @param $type
+ * @return string
+ */
 function plugin_accounts_addDefaultWhere($type)
 {
 
@@ -663,6 +699,13 @@ function plugin_accounts_forceGroupBy($type)
    return false;
 }
 
+/**
+ * @param $type
+ * @param $ID
+ * @param $data
+ * @param $num
+ * @return string
+ */
 function plugin_accounts_displayConfigItem($type, $ID, $data, $num)
 {
 
@@ -679,6 +722,13 @@ function plugin_accounts_displayConfigItem($type, $ID, $data, $num)
    return "";
 }
 
+/**
+ * @param $type
+ * @param $ID
+ * @param $data
+ * @param $num
+ * @return string
+ */
 function plugin_accounts_giveItem($type, $ID, $data, $num)
 {
    global $DB;
@@ -767,6 +817,10 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
 
 ////// SPECIFIC MODIF MASSIVE FUNCTIONS ///////
 
+/**
+ * @param $type
+ * @return array
+ */
 function plugin_accounts_MassiveActions($type)
 {
 

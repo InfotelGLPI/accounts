@@ -32,6 +32,9 @@ if (!defined('GLPI_ROOT')) {
 }
 
 // Class NotificationTarget
+/**
+ * Class PluginAccountsNotificationTargetAccount
+ */
 class PluginAccountsNotificationTargetAccount extends NotificationTarget
 {
 
@@ -40,6 +43,9 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget
    const ACCOUNT_TECHUSER = 1902;
    const ACCOUNT_TECHGROUP = 1903;
 
+   /**
+    * @return array
+    */
    public function getEvents()
    {
       return array('new' => __('New account', 'accounts'),
@@ -59,6 +65,10 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget
       $this->addTarget(self::ACCOUNT_TECHGROUP, __('Group in charge of the hardware'));
    }
 
+   /**
+    * @param $data
+    * @param $options
+    */
    public function getSpecificTargets($data, $options)
    {
 
@@ -136,6 +146,10 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget
       }
    }
 
+   /**
+    * @param $event
+    * @param array $options
+    */
    public function getDatasForTemplate($event, $options = array())
    {
       global $CFG_GLPI;
@@ -250,6 +264,9 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget
       }
    }
 
+   /**
+    *
+    */
    function getTags()
    {
 

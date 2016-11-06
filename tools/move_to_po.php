@@ -187,6 +187,11 @@ fclose($pot);
 fclose($po);
 
 
+/**
+ * @param $string
+ * @param $context
+ * @return string
+ */
 function search_in_dict($string, $context) {
    global $REFLANG, $LANG;
 

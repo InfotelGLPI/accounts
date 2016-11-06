@@ -31,9 +31,16 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsReport
+ */
 class PluginAccountsReport extends CommonDBTM
 {
 
+   /**
+    * @param $values
+    * @return array
+    */
    public static function queryAccountsList($values)
    {
       global $DB;
@@ -49,6 +56,7 @@ class PluginAccountsReport extends CommonDBTM
       } else {
          $entities = $PluginAccountsHash->getEntityID();
       }
+      $list = array();
       if ($aeskey) {
          $query = "SELECT `glpi_plugin_accounts_accounts`.*,
                   `glpi_plugin_accounts_accounttypes`.`name` AS type
@@ -63,7 +71,6 @@ class PluginAccountsReport extends CommonDBTM
             $accounts[] = $data;
          }
 
-         $list = array();
          if (!empty($accounts)) {
 
             foreach ($accounts as $account) {
@@ -83,6 +90,10 @@ class PluginAccountsReport extends CommonDBTM
       return $list;
    }
 
+   /**
+    * @param $values
+    * @param $list
+    */
    public static function showAccountsList($values, $list)
    {
       global $CFG_GLPI;
@@ -198,11 +209,19 @@ class PluginAccountsReport extends CommonDBTM
       echo Search::showFooter($output_type, __('Linked accounts list', 'accounts'));
    }
 
+   /**
+    * @param $start
+    * @param $numrows
+    * @param $target
+    * @param $parameters
+    * @param int $item_type_output
+    * @param int $item_type_output_param
+    */
    public static function printPager($start, $numrows, $target, $parameters, $item_type_output = 0, $item_type_output_param = 0)
    {
       global $CFG_GLPI;
 
-      $list_limit = $_SESSION['glpilist_limit'];
+      //$list_limit = $_SESSION['glpilist_limit'];
       // Forward is the next step forward
       //$forward = $start + $list_limit;
 
@@ -210,7 +229,7 @@ class PluginAccountsReport extends CommonDBTM
       //$end = $numrows - $list_limit;
 
       // Human readable count starts here
-      $current_start = $start + 1;
+      //$current_start = $start + 1;
 
       // And the human is viewing from start to end
 //      $current_end = $current_start + $list_limit - 1;

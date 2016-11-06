@@ -80,6 +80,7 @@ if (isset($_POST["add"])) {
       require_once(GLPI_ROOT . '/plugins/accounts/inc/aes.function.php');
 
       $hash = 0;
+      $hash_id = 0;
       $restrict = "`entities_id` = '" . $_SESSION['glpiactive_entity'] . "'";
       $hashes = getAllDatasFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {

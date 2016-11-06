@@ -41,10 +41,12 @@
 /**
  * AES Cipher function: encrypt 'input' with Rijndael algorithm
  *
- * @param input message as byte-array (16 bytes)
- * @param w     key schedule as 2D byte-array (Nr+1 x Nb bytes) -
+ * @param message $input
+ * @param key $w
+ * @return ciphertext as byte-array (16 bytes)
+ * @internal param message $input as byte-array (16 bytes)
+ * @internal param key $w schedule as 2D byte-array (Nr+1 x Nb bytes) -
  *              generated from the cipher key by KeyExpansion()
- * @return      ciphertext as byte-array (16 bytes)
  */
 function plugin_accounts_Cipher($input, $w)
 {    // main Cipher function
@@ -73,6 +75,13 @@ function plugin_accounts_Cipher($input, $w)
 }
 
 
+/**
+ * @param $state
+ * @param $w
+ * @param $rnd
+ * @param $Nb
+ * @return mixed
+ */
 function plugin_accounts_AddRoundKey($state, $w, $rnd, $Nb)
 {  // xor Round Key into state S
    for ($r = 0; $r < 4; $r++) {
@@ -81,6 +90,11 @@ function plugin_accounts_AddRoundKey($state, $w, $rnd, $Nb)
    return $state;
 }
 
+/**
+ * @param $s
+ * @param $Nb
+ * @return mixed
+ */
 function plugin_accounts_SubBytes($s, $Nb)
 {    // apply SBox to state S
    global $Sbox;  // PHP needs explicit declaration to access global variables!
@@ -90,6 +104,11 @@ function plugin_accounts_SubBytes($s, $Nb)
    return $s;
 }
 
+/**
+ * @param $s
+ * @param $Nb
+ * @return mixed
+ */
 function plugin_accounts_ShiftRows($s, $Nb)
 {    // shift row r of state S left by r bytes
    $t = array(4);
@@ -100,6 +119,11 @@ function plugin_accounts_ShiftRows($s, $Nb)
    return $s;  // see fp.gladman.plus.com/cryptography_technology/rijndael/aes.spec.311.pdf
 }
 
+/**
+ * @param $s
+ * @param $Nb
+ * @return mixed
+ */
 function plugin_accounts_MixColumns($s, $Nb)
 {   // combine bytes of each col of state S
    for ($c = 0; $c < 4; $c++) {
@@ -122,8 +146,9 @@ function plugin_accounts_MixColumns($s, $Nb)
  * Key expansion for Rijndael Cipher(): performs key expansion on cipher key
  * to generate a key schedule
  *
- * @param key cipher key byte-array (16 bytes)
- * @return    key schedule as 2D byte-array (Nr+1 x Nb bytes)
+ * @param cipher $key
+ * @return key schedule as 2D byte-array (Nr+1 x Nb bytes)
+ * @internal param cipher $key key byte-array (16 bytes)
  */
 function plugin_accounts_KeyExpansion($key)
 {  // generate Key Schedule from Cipher Key
@@ -154,6 +179,10 @@ function plugin_accounts_KeyExpansion($key)
    return $w;
 }
 
+/**
+ * @param $w
+ * @return mixed
+ */
 function plugin_accounts_SubWord($w)
 {    // apply SBox to 4-byte word w
    global $Sbox;  // PHP needs explicit declaration to access global variables!
@@ -161,6 +190,10 @@ function plugin_accounts_SubWord($w)
    return $w;
 }
 
+/**
+ * @param $w
+ * @return mixed
+ */
 function plugin_accounts_RotWord($w)
 {    // rotate 4-byte word w left by one byte
    $tmp = $w[0];
@@ -209,10 +242,13 @@ $Rcon = array(array(0x00, 0x00, 0x00, 0x00),
  *
  * Unicode multi-byte character safe
  *
- * @param plaintext source text to be encrypted
- * @param password  the password to use to generate a key
- * @param nBits     number of bits to be used in the key (128, 192, or 256)
- * @return          encrypted text
+ * @param source $plaintext
+ * @param the $password
+ * @param number $nBits
+ * @return encrypted text
+ * @internal param source $plaintext text to be encrypted
+ * @internal param the $password password to use to generate a key
+ * @internal param number $nBits of bits to be used in the key (128, 192, or 256)
  */
 function plugin_accounts_AESEncryptCtr($plaintext, $password, $nBits)
 {
@@ -276,10 +312,13 @@ function plugin_accounts_AESEncryptCtr($plaintext, $password, $nBits)
 /**
  * Decrypt a text encrypted by AES in counter mode of operation
  *
- * @param ciphertext source text to be decrypted
- * @param password   the password to use to generate a key
- * @param nBits      number of bits to be used in the key (128, 192, or 256)
- * @return           decrypted text
+ * @param source $ciphertext
+ * @param the $password
+ * @param number $nBits
+ * @return decrypted text
+ * @internal param source $ciphertext text to be decrypted
+ * @internal param the $password password to use to generate a key
+ * @internal param number $nBits of bits to be used in the key (128, 192, or 256)
  */
 function plugin_accounts_AESDecryptCtr($ciphertext, $password, $nBits)
 {
@@ -353,6 +392,11 @@ function plugin_accounts_AESDecryptCtr($ciphertext, $password, $nBits)
 // return $a;
 // }
 
+/**
+ * @param $a
+ * @param $b
+ * @return number
+ */
 function plugin_accounts_urs($a, $b)
 {
    return bindec("0" . substr(decbin($a), $b));

@@ -31,10 +31,16 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsAccountInjection
+ */
 class PluginAccountsAccountInjection extends PluginAccountsAccount
    implements PluginDatainjectionInjectionInterface
 {
 
+   /**
+    * @return mixed
+    */
    static function getTable()
    {
 
@@ -43,16 +49,26 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
 
    }
 
+   /**
+    * @return bool
+    */
    public function isPrimaryType()
    {
       return true;
    }
 
+   /**
+    * @return array
+    */
    public function connectedTo()
    {
       return array();
    }
 
+   /**
+    * @param string $primary_type
+    * @return array|the
+    */
    public function getOptions($primary_type = '')
    {
 

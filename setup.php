@@ -102,6 +102,9 @@ function plugin_init_accounts()
 }
 
 // Get the name and the version of the plugin - Needed
+/**
+ * @return array
+ */
 function plugin_version_accounts()
 {
 
@@ -118,6 +121,9 @@ function plugin_version_accounts()
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
+/**
+ * @return bool
+ */
 function plugin_accounts_check_prerequisites()
 {
    if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
@@ -160,11 +166,18 @@ function plugin_accounts_check_prerequisites()
 
 // Uninstall process for plugin : need to return true if succeeded
 //may display messages or add to message after redirect
+/**
+ * @return bool
+ */
 function plugin_accounts_check_config()
 {
    return true;
 }
 
+/**
+ * @param $types
+ * @return mixed
+ */
 function plugin_datainjection_migratetypes_accounts($types)
 {
    $types[1900] = 'PluginAccountsAccount';

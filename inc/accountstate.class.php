@@ -33,12 +33,19 @@ if (!defined('GLPI_ROOT')) {
 }
 
 // Class for a Dropdown
+/**
+ * Class PluginAccountsAccountState
+ */
 class PluginAccountsAccountState extends CommonDropdown
 {
 
    static $rightname = "dropdown";
    var $can_be_translated = true;
 
+   /**
+    * @param int $nb
+    * @return translated
+    */
    public static function getTypeName($nb = 0)
    {
 

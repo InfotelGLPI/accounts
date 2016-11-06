@@ -28,10 +28,16 @@
  --------------------------------------------------------------------------
  */
 
+/**
+ * Class PluginAccountsMenu
+ */
 class PluginAccountsMenu extends CommonGLPI
 {
    static $rightname = 'plugin_accounts';
 
+   /**
+    * @return translated
+    */
    static function getMenuName()
    {
       return _n('Account', 'Accounts', 2, 'accounts');

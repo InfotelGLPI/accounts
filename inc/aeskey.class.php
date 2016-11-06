@@ -31,6 +31,9 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+ * Class PluginAccountsAesKey
+ */
 class PluginAccountsAesKey extends CommonDBTM
 {
 
@@ -41,16 +44,28 @@ class PluginAccountsAesKey extends CommonDBTM
     */
    private $h;
 
+   /**
+    * PluginAccountsAesKey constructor.
+    */
    public function __construct()
    {
       $this->h = new PluginAccountsHash();
    }
 
+   /**
+    * @param int $nb
+    * @return translated
+    */
    public static function getTypeName($nb = 0)
    {
       return _n('Encryption key', 'Encryption key', $nb, 'accounts');
    }
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $withtemplate
+    * @return string|translated
+    */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
    {
 
@@ -65,6 +80,12 @@ class PluginAccountsAesKey extends CommonDBTM
       return '';
    }
 
+   /**
+    * @param CommonGLPI $item
+    * @param int $tabnum
+    * @param int $withtemplate
+    * @return bool
+    */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
    {
 
@@ -86,6 +107,10 @@ class PluginAccountsAesKey extends CommonDBTM
       return true;
    }
 
+   /**
+    * @param $plugin_accounts_hashes_id
+    * @return bool
+    */
    public function getFromDBByHash($plugin_accounts_hashes_id)
    {
       global $DB;
@@ -106,6 +131,10 @@ class PluginAccountsAesKey extends CommonDBTM
       return false;
    }
 
+   /**
+    * @param $plugin_accounts_hashes_id
+    * @return bool
+    */
    public static function checkIfAesKeyExists($plugin_accounts_hashes_id)
    {
 
@@ -123,6 +152,10 @@ class PluginAccountsAesKey extends CommonDBTM
       }
    }
 
+   /**
+    * @param array $options
+    * @return array
+    */
    public function defineTabs($options = array())
    {
 
@@ -131,6 +164,10 @@ class PluginAccountsAesKey extends CommonDBTM
       return $ong;
    }
 
+   /**
+    * @param $ID
+    * @param array $options
+    */
    public function showForm($ID, $options = array())
    {
       $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
@@ -162,6 +199,10 @@ class PluginAccountsAesKey extends CommonDBTM
       $this->showFormButtons($options);
    }
 
+   /**
+    * @param datas $input
+    * @return bool|datas
+    */
    public function prepareInputForAdd($input)
    {
       // Not attached to hash -> not added
@@ -171,6 +212,9 @@ class PluginAccountsAesKey extends CommonDBTM
       return $input;
    }
 
+   /**
+    * @param $ID
+    */
    public function showAesKey($ID)
    {
       global $DB;
