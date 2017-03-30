@@ -190,7 +190,7 @@ class PluginAccountsAesKey extends CommonDBTM
       echo "<input type='hidden' name='plugin_accounts_hashes_id' value='$plugin_accounts_hashes_id'>";
 
       echo "<tr class='tab_bg_2'><td colspan='2'>";
-      _e('Encryption key', 'accounts');
+      echo __('Encryption key', 'accounts');
       echo "</td><td colspan='2'>";
       echo "<input type='password' autocomplete='off' name='name' value='" . $this->fields["name"] . "'>";
       echo "</td>";

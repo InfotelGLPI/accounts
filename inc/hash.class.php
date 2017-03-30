@@ -290,7 +290,6 @@ class PluginAccountsHash extends CommonDBTM
          echo "</div>";
       }
       return true;
-      //$this->addDivForTabs();
 
    }
 

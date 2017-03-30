@@ -110,7 +110,7 @@ function plugin_version_accounts()
 
    return array(
       'name' => _n('Account', 'Accounts', 2, 'accounts'),
-      'version' => '2.2.0',
+      'version' => '2.3.0',
       'oldname' => 'compte',
       'license' => 'GPLv2+',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
@@ -126,21 +126,21 @@ function plugin_version_accounts()
  */
 function plugin_accounts_check_prerequisites()
 {
-   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
-      _e('This plugin requires GLPI >= 9.1', 'accounts');
+   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
+      echo __('This plugin requires GLPI >= 9.1', 'accounts');
       return false;
    } else {
       if (TableExists("glpi_comptes")) {//1.0
          if (countElementsInTable("glpi_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
-            _e('phpX-mcrypt must be installed', 'accounts');
+            echo __('phpX-mcrypt must be installed', 'accounts');
          }
       } else if (TableExists("glpi_plugin_comptes")) {//1.1
          if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
-            _e('phpX-mcrypt must be installed', 'accounts');
+            echo __('phpX-mcrypt must be installed', 'accounts');
          }
       } else if (!TableExists("glpi_plugin_compte_mailing")
          && TableExists("glpi_plugin_comptes")
@@ -148,7 +148,7 @@ function plugin_accounts_check_prerequisites()
          if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
-            _e('phpX-mcrypt must be installed', 'accounts');
+            echo __('phpX-mcrypt must be installed', 'accounts');
          }
       } else if (TableExists("glpi_plugin_compte")
          && FieldExists("glpi_plugin_compte_profiles", "interface")
@@ -156,7 +156,7 @@ function plugin_accounts_check_prerequisites()
          if (countElementsInTable("glpi_plugin_compte") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
-            _e('phpX-mcrypt must be installed', 'accounts');
+            echo __('phpX-mcrypt must be installed', 'accounts');
          }
       } else {
          return true;

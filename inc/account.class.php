@@ -337,7 +337,7 @@ class PluginAccountsAccount extends CommonDBTM
       if ($ID < 1 && countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
          echo "<div class='center'>" . __('There is no encryption key for this entity', 'accounts') . "<br><br>";
          echo "<a href='" . Toolbox::getItemTypeSearchURL('PluginAccountsAccount') . "'>";
-         _e('Back');
+         echo __('Back');
          echo "</a></div>";
          return false;
       }

@@ -45,7 +45,7 @@ if (isset($_POST["key"])) {
    PluginAccountsReport::showAccountsList($options, $accounts);
 
 } else {
-   _e('Access denied');
+   echo __('Access denied');
 }
 
 Html::ajaxFooter();
