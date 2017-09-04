@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Amandine Manceau, 2017
 # Doru  DEACONU <dumitrudeaconu@yahoo.com>, 2013-2014
 # Doru  DEACONU <dumitrudeaconu@yahoo.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-14 08:06+0200\n"
-"PO-Revision-Date: 2016-09-24 15:02+0000\n"
-"Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
+"POT-Creation-Date: 2017-09-04 08:45+0200\n"
+"PO-Revision-Date: 2017-09-04 06:51+0000\n"
+"Last-Translator: Amandine Manceau\n"
 "Language-Team: Romanian (Romania) (http://www.transifex.com/tsmr/GLPI_accounts/language/ro_RO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,281 +20,279 @@ msgstr ""
 "Language: ro_RO\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: hook.php:280
+#: hook.php:287
 msgid ""
 "After plugin installation, you must do upgrade of your passwords from here :"
 " "
 msgstr "După instalarea pluginului, trebuie sa actualizaţi parolele dvs de aici :"
 
-#: hook.php:281
+#: hook.php:288
 msgid "Upgrading page"
 msgstr "Pagina de actualizare"
 
-#: hook.php:751
+#: hook.php:829
 msgid "Associate to account"
 msgstr "Asociază la contul"
 
-#: setup.php:105 inc/account.class.php:50 inc/menu.class.php:34
-#: inc/profile.class.php:148 inc/profile.class.php:175
+#: setup.php:112 inc/account.class.php:57 inc/menu.class.php:43
+#: inc/profile.class.php:179 inc/profile.class.php:211
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Cont"
 msgstr[1] "Conturi"
 msgstr[2] "Conturi"
 
-#: setup.php:119
-msgid "This plugin requires GLPI >= 0.90"
+#: setup.php:130
+msgid "This plugin requires GLPI >= 9.1"
 msgstr ""
 
-#: setup.php:126 setup.php:132 setup.php:139 setup.php:146
+#: setup.php:137 setup.php:143 setup.php:151 setup.php:159
 msgid "phpX-mcrypt must be installed"
 msgstr "phpX-mcrypt tebuie să fie instalat"
 
-#: ajax/log_decrypt.php:43
+#: ajax/log_decrypt.php:44
 msgid "Uncrypted"
 msgstr "Decriptată"
 
-#: front/account.php:51 front/account.php:56
+#: front/account.php:52 front/account.php:57
 msgid "Type view"
 msgstr "Tip vizualizare"
 
-#: front/hash.form.php:93 inc/account.class.php:428 inc/account.class.php:478
-#: inc/account.class.php:584 inc/account.class.php:603
-#: inc/account_item.class.php:640 inc/account_item.class.php:657
-#: inc/report.class.php:174
+#: front/hash.form.php:95 inc/account.class.php:437 inc/account.class.php:486
+#: inc/account.class.php:591 inc/account.class.php:610
+#: inc/account_item.class.php:691 inc/account_item.class.php:707
+#: inc/report.class.php:187
 msgid "Wrong encryption key"
 msgstr "Cheie criptare greşită"
 
-#: front/hash.form.php:97 inc/aeskey.class.php:129
+#: front/hash.form.php:99 inc/aeskey.class.php:175
 msgid "Encryption key modified"
 msgstr "Cheie criptare modificată"
 
-#: front/hash.form.php:101
+#: front/hash.form.php:103
 msgid "The old or the new encryption key can not be empty"
 msgstr "Vechea sau noua cheie de criptare nu poate fi goală"
 
-#: front/upgrade.form.php:57
+#: front/upgrade.form.php:58
 msgid "1. Define the encryption key and create hash"
 msgstr "1. Definiţi cheia de criptare ţi creaţi hash - ul"
 
-#: front/upgrade.form.php:62
+#: front/upgrade.form.php:63
 msgid "Go to Root Entity"
 msgstr "Dute la entitatea rădăcină"
 
-#: inc/account.class.php:103 inc/account.class.php:447
-#: inc/account.class.php:457 inc/account_item.class.php:588
-#: inc/notificationtargetaccount.class.php:52
-#: inc/notificationtargetaccount.class.php:156
-#: inc/notificationtargetaccount.class.php:204
-#: inc/notificationtargetaccount.class.php:247
+#: inc/account.class.php:110 inc/account.class.php:455
+#: inc/account.class.php:465 inc/account_item.class.php:640
+#: inc/notificationtargetaccount.class.php:59
+#: inc/notificationtargetaccount.class.php:172
+#: inc/notificationtargetaccount.class.php:221
+#: inc/notificationtargetaccount.class.php:271
 msgid "Affected User"
 msgstr "Utilizator afectat"
 
-#: inc/account.class.php:329 inc/account.class.php:413
-#: inc/account_item.class.php:556
+#: inc/account.class.php:338 inc/account.class.php:422
+#: inc/account_item.class.php:608
 msgid "There is no encryption key for this entity"
 msgstr "Nu există cheie de criptare pentru această entitate"
 
-#: inc/account.class.php:421 inc/account.class.php:442
-#: inc/account.class.php:649 inc/account_item.class.php:563
-#: inc/account_item.class.php:571 inc/aeskey.class.php:48
-#: inc/aeskey.class.php:147 inc/aeskey.class.php:182 inc/aeskey.class.php:203
-#: inc/hash.class.php:42 inc/hash.class.php:186 inc/menu.class.php:42
-#: inc/menu.class.php:43
+#: inc/account.class.php:430 inc/account.class.php:450
+#: inc/account.class.php:654 inc/account_item.class.php:615
+#: inc/account_item.class.php:623 inc/aeskey.class.php:61
+#: inc/aeskey.class.php:193 inc/aeskey.class.php:237 inc/aeskey.class.php:258
+#: inc/hash.class.php:51 inc/hash.class.php:232 inc/menu.class.php:55
+#: inc/menu.class.php:56
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: inc/account.class.php:432 inc/account_item.class.php:649
+#: inc/account.class.php:440 inc/account_item.class.php:699
 msgid "Uncrypt"
 msgstr "Decriptare"
 
-#: inc/account.class.php:487 inc/account.class.php:496
-#: inc/notificationtargetaccount.class.php:53
-#: inc/notificationtargetaccount.class.php:159
-#: inc/notificationtargetaccount.class.php:205
-#: inc/notificationtargetaccount.class.php:248
+#: inc/account.class.php:495 inc/account.class.php:504
+#: inc/notificationtargetaccount.class.php:60
+#: inc/notificationtargetaccount.class.php:175
+#: inc/notificationtargetaccount.class.php:222
+#: inc/notificationtargetaccount.class.php:272
 msgid "Affected Group"
 msgstr "Grup afectat"
 
-#: inc/account.class.php:523
+#: inc/account.class.php:531
 msgid "Empty for infinite"
 msgstr "Gol pentru infinit"
 
-#: inc/account.class.php:580
+#: inc/account.class.php:587
 msgid "You have not filled the password and encryption key"
 msgstr "Nu a-ţi completat parola şi cheia de criptare"
 
-#: inc/account.class.php:601
+#: inc/account.class.php:608
 msgid "Password will not be modified"
 msgstr "Parola nu poate fi modificată"
 
-#: inc/account.class.php:639
+#: inc/account.class.php:644
 msgid "2. Migrate accounts"
 msgstr "2. Migrare conturi"
 
-#: inc/account.class.php:649
+#: inc/account.class.php:654
 msgid "Account names"
 msgstr "Nume conturi"
 
-#: inc/account.class.php:649 inc/report.class.php:129
+#: inc/account.class.php:654 inc/report.class.php:142
 msgid "Uncrypted password"
 msgstr "Parolă decriptată"
 
-#: inc/account.class.php:680
+#: inc/account.class.php:685
 msgid "3. If all accounts are migrated, the upgrade is finished"
 msgstr "3. Dacă toate conturile sunt migrate, actualizarea este terminată"
 
-#: inc/account.class.php:942 inc/account.class.php:1033
-#: inc/notificationtargetaccount.class.php:262
+#: inc/account.class.php:971 inc/account.class.php:1065
+#: inc/notificationtargetaccount.class.php:290
 msgid "Accounts expired or accounts which expires"
 msgstr "Conturi expirate sau caonturi ce vor expira"
 
-#: inc/account.class.php:1105
+#: inc/account.class.php:1136
 msgid "Select the wanted account type"
 msgstr "Selectaţi tipul de cont dorit"
 
-#: inc/account.class.php:1218 inc/account_item.class.php:680
+#: inc/account.class.php:1251 inc/account_item.class.php:730
 msgid "Don't expire"
 msgstr "Nu expiră"
 
-#: inc/account_item.class.php:516
+#: inc/account_item.class.php:567
 msgctxt "button"
 msgid "Associate a account"
 msgstr "Asociază la cont"
 
-#: inc/accounttype.class.php:42
+#: inc/accounttype.class.php:52
 msgid "Type of account"
 msgid_plural "Types of account"
 msgstr[0] "Tip cont"
 msgstr[1] "Tipuri cont"
 msgstr[2] "Tipuri cont"
 
-#: inc/aeskey.class.php:56
+#: inc/aeskey.class.php:75
 msgid "Save the encryption key"
 msgstr "Înregistrează cheia de criptare"
 
-#: inc/aeskey.class.php:140
+#: inc/aeskey.class.php:186
 msgid "Warning : saving the encryption key is a security hole"
 msgstr "Atenţie : salvarea cheii de criptare este o breşă de securitate"
 
-#: inc/aeskey.class.php:169 inc/hash.class.php:104 inc/hash.class.php:206
+#: inc/aeskey.class.php:224 inc/hash.class.php:138 inc/hash.class.php:251
 msgid "Hash"
 msgstr "Hash"
 
-#: inc/config.class.php:39
+#: inc/config.class.php:49
 msgid "Plugin Setup"
 msgstr "Configurare plugin"
 
-#: inc/config.class.php:64
+#: inc/config.class.php:86
 msgid "Time of checking of of expiration of accounts"
 msgstr "Interval de timp a verificării expirării conturilor"
 
-#: inc/config.class.php:73
+#: inc/config.class.php:95
 msgid "Accounts expired for more than"
 msgstr "Conturi expirate de mai mult de"
 
-#: inc/config.class.php:76
+#: inc/config.class.php:98
 msgid "Accounts expiring in less than"
 msgstr "Conturi care expiră în mai puţin de"
 
-#: inc/hash.class.php:59 inc/hash.class.php:260 inc/report.class.php:196
+#: inc/hash.class.php:82 inc/hash.class.php:308 inc/report.class.php:209
 msgid "Linked accounts list"
 msgstr "Listă conturi legate"
 
-#: inc/hash.class.php:60
+#: inc/hash.class.php:83
 msgid "Modification of the encryption key for all password"
 msgstr "Modifacarea cheii de criptare pentru toate parolele"
 
-#: inc/hash.class.php:153
+#: inc/hash.class.php:199
 msgid "WARNING : a encryption key already exist for this entity"
 msgstr "ATENŢIE: O cheie de criptare există deja pentru această entitate"
 
-#: inc/hash.class.php:168
+#: inc/hash.class.php:214
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
 msgstr "ATENŢIE: dacă dvs schimbaţi hash-ul utilizat, vechile conturi vor utiliza vechea cheie de criptare "
 
-#: inc/hash.class.php:189
-msgid "The hash to insert into the next field for create crypt is : "
-msgstr "Hash - ul de inserat in câmpul următor pentru criptare este :"
-
-#: inc/hash.class.php:191
+#: inc/hash.class.php:236
 msgid "Generate hash with this encryption key"
 msgstr "Generare hash pornind de la aceasta cheie de criptare"
 
-#: inc/hash.class.php:195 inc/hash.class.php:263 inc/hash.class.php:277
+#: inc/hash.class.php:240 inc/hash.class.php:311 inc/hash.class.php:325
 msgid "Please fill the encryption key"
 msgstr "Completaţi vă rog cheia de criptare"
 
-#: inc/hash.class.php:228
+#: inc/hash.class.php:273
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
 msgstr "Nu utilizaţi vă rog caractere speciale ca  / \\ ' \" &  în cheia de criptare , veţi risca să nu mai puteţi să le schimbaţi A"
 
-#: inc/hash.class.php:289
+#: inc/hash.class.php:341
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr "ATENŢIE : dacă greşiţi la introducerea vechei sau noi chei, nu veţi mai putea decripta parolele dvs. Este deci puternic recomandat să faceţi o salvare a bazei de date înainte."
 
-#: inc/hash.class.php:292
+#: inc/hash.class.php:344
 msgid "Old encryption key"
 msgstr "Cheia veche de criptare"
 
-#: inc/hash.class.php:301
+#: inc/hash.class.php:353
 msgid "New encryption key"
 msgstr "Cheie de criptare nouă"
 
-#: inc/hash.class.php:306
+#: inc/hash.class.php:358
 msgid "You want to change the key : "
 msgstr "Doriţi să modificaţi cheia :"
 
-#: inc/hash.class.php:307
+#: inc/hash.class.php:359
 msgid " by the key : "
 msgstr "după cheia :"
 
-#: inc/notificationstate.class.php:105
+#: inc/notificationstate.class.php:126
 msgid "Add a unused status for expiration mailing"
 msgstr "Adaugă un statut neutilizat pentru mailuri de expirare"
 
-#: inc/notificationstate.class.php:135
+#: inc/notificationstate.class.php:160
 msgid "Unused status for expiration mailing"
 msgstr "Statut neutilizat pentru mailuri de expirare"
 
-#: inc/notificationtargetaccount.class.php:43
+#: inc/notificationtargetaccount.class.php:48
 msgid "New account"
 msgstr "Cont nou"
 
-#: inc/notificationtargetaccount.class.php:44
-#: inc/notificationtargetaccount.class.php:196
+#: inc/notificationtargetaccount.class.php:49
+#: inc/notificationtargetaccount.class.php:213
 msgid "Accounts expired"
 msgstr "Conturi expirate"
 
-#: inc/notificationtargetaccount.class.php:45
-#: inc/notificationtargetaccount.class.php:197
+#: inc/notificationtargetaccount.class.php:50
+#: inc/notificationtargetaccount.class.php:214
 msgid "Accounts which expires"
 msgstr "Conturi care vor expira"
 
-#: inc/notificationtargetaccount.class.php:133
-msgid "An account have been created"
+#: inc/notificationtargetaccount.class.php:148
+#: inc/notificationtargetaccount.class.php:287
+msgid "An account has been created"
 msgstr "Un cont nou a fost creat"
 
-#: inc/notificationtargetaccount.class.php:186
+#: inc/notificationtargetaccount.class.php:202
+#: inc/notificationtargetaccount.class.php:266
 msgid "Direct link to created account"
 msgstr "Link direct către contul creat"
 
-#: inc/profile.class.php:106 inc/profile.class.php:155
-#: inc/profile.class.php:182
+#: inc/profile.class.php:131 inc/profile.class.php:186
+#: inc/profile.class.php:218
 msgid "See accounts of my groups"
 msgstr "Vezi conturile grupurilor mele"
 
-#: inc/profile.class.php:113 inc/profile.class.php:159
-#: inc/profile.class.php:186
+#: inc/profile.class.php:138 inc/profile.class.php:190
+#: inc/profile.class.php:222
 msgid "See all accounts"
 msgstr "Vezi toate conturile"
