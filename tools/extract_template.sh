@@ -17,5 +17,3 @@ xgettext *.php */*.php --copyright-holder='Accounts Development Team' --package-
 ##tx set --execute --auto-local -r GLPI_ocsinventoryng.glpi_ocsinventoryng-version-100 'locales/<lang>.po' --source-lang en --source-file locales/glpi.pot
 ## tx push -s
 ## tx pull -a
-
-
