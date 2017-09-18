@@ -115,7 +115,7 @@ function plugin_version_accounts()
       'license' => 'GPLv2+',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
       'homepage' => 'https://github.com/InfotelGLPI/accounts',
-      'minGlpiVersion' => '9.1',
+      'minGlpiVersion' => '9.2',
    );
 
 }
@@ -124,34 +124,35 @@ function plugin_version_accounts()
 /**
  * @return bool
  */
-function plugin_accounts_check_prerequisites()
-{
-   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
-      echo __('This plugin requires GLPI >= 9.1', 'accounts');
+function plugin_accounts_check_prerequisites() {
+   global $DB;
+
+   if (version_compare(GLPI_VERSION, '9.2', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
+      echo __('This plugin requires GLPI >= 9.2', 'accounts');
       return false;
    } else {
-      if (TableExists("glpi_comptes")) {//1.0
+      if ($DB->tableExists("glpi_comptes")) {//1.0
          if (countElementsInTable("glpi_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');
          }
-      } else if (TableExists("glpi_plugin_comptes")) {//1.1
+      } else if ($DB->tableExists("glpi_plugin_comptes")) {//1.1
          if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');
          }
-      } else if (!TableExists("glpi_plugin_compte_mailing")
-         && TableExists("glpi_plugin_comptes")
+      } else if (!$DB->tableExists("glpi_plugin_compte_mailing")
+         && $DB->tableExists("glpi_plugin_comptes")
       ) {//1.3
          if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');
          }
-      } else if (TableExists("glpi_plugin_compte")
-         && FieldExists("glpi_plugin_compte_profiles", "interface")
+      } else if ($DB->tableExists("glpi_plugin_compte")
+         && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")
       ) {//1.4
          if (countElementsInTable("glpi_plugin_compte") > 0 && function_exists("mcrypt_encrypt")) {
             return true;

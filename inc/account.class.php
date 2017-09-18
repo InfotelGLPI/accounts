@@ -512,7 +512,7 @@ class PluginAccountsAccount extends CommonDBTM
 
       echo "<td>" . __('Creation date') . "</td>";
       echo "<td>";
-      Html::showDateFormItem("date_creation", $this->fields["date_creation"], true, true);
+      Html::showDateField("date_creation", ['value' => $this->fields["date_creation"]]);
       echo "</td>";
 
       echo "<td>" . __('Technician in charge of the hardware') . "</td>";
@@ -531,7 +531,7 @@ class PluginAccountsAccount extends CommonDBTM
       Html::showToolTip(nl2br(__('Empty for infinite', 'accounts')));
       echo "</td>";
       echo "<td>";
-      Html::showDateFormItem("date_expiration", $this->fields["date_expiration"], true, true);
+      Html::showDateField("date_expiration", ['value' => $this->fields["date_expiration"]]);
       echo "</td>";
 
       echo "<td>" . __('Group in charge of the hardware') . "</td><td>";
