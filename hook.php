@@ -155,7 +155,7 @@ function plugin_accounts_install() {
    }
 
    if ($install || $update78) {
-
+      /***** Begin Notif New account *****/
       //Do One time on 0.78
       $query_id = "SELECT `id` FROM `glpi_notificationtemplates`
                WHERE `itemtype`='PluginAccountsAccount'
@@ -182,10 +182,22 @@ function plugin_accounts_install() {
       $DB->query($query);
 
       $query = "INSERT INTO `glpi_notifications` 
-                (`name`, `entities_id`, `itemtype`, `event`, `notificationtemplates_id`, `is_recursive`, `is_active`) 
-               VALUES ('New Accounts', 0, 'PluginAccountsAccount', 'new', " . $itemtype . ", 1, 1);";
+                (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`, `is_active`) 
+               VALUES ('New Accounts', 0, 'PluginAccountsAccount', 'new', 1, 1);";
       $DB->query($query);
 
+      $query_id = "SELECT `id` FROM `glpi_notifications`
+               WHERE `name` = 'New Accounts' AND `itemtype` = 'PluginAccountsAccount' AND `event` = 'new'";
+      $result = $DB->query($query_id) or die ($DB->error());
+      $notification = $DB->result($result, 0, 'id');
+
+      $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
+               VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
+      $DB->query($query);
+
+      /***** End Notif New account *****/
+
+      /***** Begin Notif Alert Expired *****/
       $query_id = "SELECT `id` FROM `glpi_notificationtemplates`
                WHERE `itemtype`='PluginAccountsAccount'
                AND `name` = 'Alert Accounts'";
@@ -205,17 +217,35 @@ function plugin_accounts_install() {
       $DB->query($query);
 
       $query = "INSERT INTO `glpi_notifications` 
-              (`name`, `entities_id`, `itemtype`, `event`, `notificationtemplates_id`, `is_recursive`, `is_active`) 
-               VALUES ('Alert Expired Accounts', 0, 'PluginAccountsAccount', 'ExpiredAccounts',
-               " . $itemtype . ", 1, 1);";
+              (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`, `is_active`) 
+               VALUES ('Alert Expired Accounts', 0, 'PluginAccountsAccount', 'ExpiredAccounts', 1, 1);";
+      $DB->query($query);
+
+      $query_id = "SELECT `id` FROM `glpi_notifications`
+               WHERE `name` = 'Alert Expired Accounts' AND `itemtype` = 'PluginAccountsAccount' AND `event` = 'ExpiredAccounts'";
+      $result = $DB->query($query_id) or die ($DB->error());
+      $notification = $DB->result($result, 0, 'id');
+
+      $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
+               VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
       $DB->query($query);
 
       $query = "INSERT INTO `glpi_notifications`
-                (`name`, `entities_id`, `itemtype`, `event`, `notificationtemplates_id`, `is_recursive`, `is_active`) 
-               VALUES ('Alert Accounts Which Expire', 0, 'PluginAccountsAccount', 'AccountsWhichExpire',
-               " . $itemtype . ", 1, 1);";
-
+                (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`, `is_active`) 
+               VALUES ('Alert Accounts Which Expire', 0, 'PluginAccountsAccount', 'AccountsWhichExpire', 1, 1);";
       $DB->query($query);
+
+      $query_id = "SELECT `id` FROM `glpi_notifications`
+               WHERE `name` = 'Alert Accounts Which Expire' AND `itemtype` = 'PluginAccountsAccount' AND `event` = 'AccountsWhichExpire'";
+      $result = $DB->query($query_id) or die ($DB->error());
+      $notification = $DB->result($result, 0, 'id');
+
+      $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
+               VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
+      $DB->query($query);
+
+      /***** End Notif Alert Expired *****/
+
    }
    if ($update78) {
       //Do One time on 0.78
@@ -239,18 +269,18 @@ function plugin_accounts_install() {
 
       Plugin::migrateItemType(
          array(1900 => 'PluginAccountsAccount',
-            1901 => 'PluginAccountsHelpdesk',
-            1902 => 'PluginAccountsGroup'),
-         array("glpi_bookmarks", "glpi_bookmarks_users", "glpi_displaypreferences",
-            "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"),
+               1901 => 'PluginAccountsHelpdesk',
+               1902 => 'PluginAccountsGroup'),
+         array("glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
+               "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"),
          array("glpi_plugin_accounts_accounts_items"));
 
       Plugin::migrateItemType(
          array(1200 => "PluginAppliancesAppliance",
-            1300 => "PluginWebapplicationsWebapplication",
-            1700 => "PluginCertificatesCertificate",
-            4400 => "PluginDomainsDomain",
-            2400 => "PluginDatabasesDatabase"),
+               1300 => "PluginWebapplicationsWebapplication",
+               1700 => "PluginCertificatesCertificate",
+               4400 => "PluginDomainsDomain",
+               2400 => "PluginDatabasesDatabase"),
          array("glpi_plugin_accounts_accounts_items"));
 
    }
@@ -416,6 +446,7 @@ function plugin_accounts_uninstall() {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
 
    $notif = new Notification();
+   $notif_template = new Notification_NotificationTemplate();
 
    $options = array('itemtype' => 'PluginAccountsAccount',
                     'event'    => 'new',
@@ -434,6 +465,7 @@ function plugin_accounts_uninstall() {
                     'FIELDS'   => 'id');
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
+
    }
 
    //templates
@@ -450,11 +482,15 @@ function plugin_accounts_uninstall() {
          $translation->delete($data_template);
       }
       $template->delete($data);
+
+      foreach ($DB->request('glpi_notifications_notificationtemplates', $options_template) as $data_template) {
+         $notif_template->delete($data_template);
+      }
    }
 
    $tables_glpi = array("glpi_displaypreferences",
                         "glpi_documents_items",
-                        "glpi_bookmarks",
+                        "glpi_savedsearches",
                         "glpi_logs",
                         "glpi_items_tickets",
                         "glpi_dropdowntranslations");
