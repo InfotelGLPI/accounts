@@ -140,7 +140,8 @@ class PluginAccountsAesKey extends CommonDBTM
 
       $aeskey = false;
       if ($plugin_accounts_hashes_id) {
-         $devices = getAllDatasFromTable("glpi_plugin_accounts_aeskeys",
+         $dbu = new DbUtils();
+         $devices = $dbu->getAllDataFromTable("glpi_plugin_accounts_aeskeys",
             "`plugin_accounts_hashes_id` = '$plugin_accounts_hashes_id' ");
          if (!empty($devices)) {
             foreach ($devices as $device) {

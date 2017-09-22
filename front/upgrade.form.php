@@ -41,7 +41,8 @@ if ($plugin->isActivated("accounts")) {
    $hash = $PluginAccountsHash->fields["hash"];
 
    $update = 0;
-   if (countElementsInTable("glpi_plugin_accounts_accounts") > 0) {
+   $dbu    = new DbUtils();
+   if ($dbu->countElementsInTable("glpi_plugin_accounts_accounts") > 0) {
       $update = 1;
    }
 

@@ -34,8 +34,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginAccountsHash
  */
-class PluginAccountsHash extends CommonDBTM
-{
+class PluginAccountsHash extends CommonDBTM {
 
    static $rightname = "config";
 
@@ -43,10 +42,10 @@ class PluginAccountsHash extends CommonDBTM
 
    /**
     * @param int $nb
+    *
     * @return translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Encryption key', 'Encryption keys', $nb, 'accounts');
    }
@@ -54,31 +53,29 @@ class PluginAccountsHash extends CommonDBTM
    /**
     * @return bool
     */
-   public static function canCreate()
-   {
+   public static function canCreate() {
       return Session::haveRight(static::$rightname, UPDATE);
    }
 
    /**
     * @return bool
     */
-   public static function canView()
-   {
+   public static function canView() {
       return Session::haveRight(static::$rightname, READ);
    }
 
    /**
     * @param CommonGLPI $item
-    * @param int $withtemplate
+    * @param int        $withtemplate
+    *
     * @return array|string
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
-   {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (!$withtemplate) {
          switch ($item->getType()) {
             case __CLASS__ :
-               $ong = array();
+               $ong    = array();
                $ong[2] = __('Linked accounts list', 'accounts');
                $ong[3] = __('Modification of the encryption key for all password', 'accounts');
                return $ong;
@@ -89,12 +86,12 @@ class PluginAccountsHash extends CommonDBTM
 
    /**
     * @param CommonGLPI $item
-    * @param int $tabnum
-    * @param int $withtemplate
+    * @param int        $tabnum
+    * @param int        $withtemplate
+    *
     * @return bool
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-   {
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
       if ($item->getType() == __CLASS__) {
 
@@ -104,7 +101,7 @@ class PluginAccountsHash extends CommonDBTM
                if (!$key) {
                   self::showSelectAccountsList($item->getID());
                } else {
-                  $parm = array("id" => $item->getID(), "aeskey" => $key);
+                  $parm     = array("id" => $item->getID(), "aeskey" => $key);
                   $accounts = PluginAccountsReport::queryAccountsList($parm);
                   PluginAccountsReport::showAccountsList($parm, $accounts);
                }
@@ -120,43 +117,42 @@ class PluginAccountsHash extends CommonDBTM
    /**
     * @return array
     */
-   public function getSearchOptions()
-   {
+   public function getSearchOptions() {
 
       $tab = array();
 
       $tab['common'] = self::getTypeName(2);
 
-      $tab[1]['table'] = $this->getTable();
-      $tab[1]['field'] = 'name';
-      $tab[1]['name'] = __('Name');
-      $tab[1]['datatype'] = 'itemlink';
+      $tab[1]['table']         = $this->getTable();
+      $tab[1]['field']         = 'name';
+      $tab[1]['name']          = __('Name');
+      $tab[1]['datatype']      = 'itemlink';
       $tab[1]['itemlink_type'] = $this->getType();
 
-      $tab[2]['table'] = $this->getTable();
-      $tab[2]['field'] = 'hash';
-      $tab[2]['name'] = __('Hash', 'accounts');
+      $tab[2]['table']         = $this->getTable();
+      $tab[2]['field']         = 'hash';
+      $tab[2]['name']          = __('Hash', 'accounts');
       $tab[2]['massiveaction'] = false;
 
-      $tab[7]['table'] = $this->getTable();
-      $tab[7]['field'] = 'comment';
-      $tab[7]['name'] = __('Comments');
+      $tab[7]['table']    = $this->getTable();
+      $tab[7]['field']    = 'comment';
+      $tab[7]['name']     = __('Comments');
       $tab[7]['datatype'] = 'text';
 
-      $tab[11]['table'] = $this->getTable();
-      $tab[11]['field'] = 'is_recursive';
-      $tab[11]['name'] = __('Child entities');
+      $tab[11]['table']    = $this->getTable();
+      $tab[11]['field']    = 'is_recursive';
+      $tab[11]['name']     = __('Child entities');
       $tab[11]['datatype'] = 'bool';
 
-      $tab[14]['table'] = $this->getTable();
-      $tab[14]['field'] = 'date_mod';
-      $tab[14]['name'] = __('Last update');
+      $tab[14]['table']         = $this->getTable();
+      $tab[14]['field']         = 'date_mod';
+      $tab[14]['name']          = __('Last update');
       $tab[14]['massiveaction'] = false;
-      $tab[14]['datatype'] = 'datetime';
+      $tab[14]['datatype']      = 'datetime';
 
-      $tab[80]['table'] = 'glpi_entities';
-      $tab[80]['field'] = 'completename';
-      $tab[80]['name'] = __('Entity');
+      $tab[80]['table']    = 'glpi_entities';
+      $tab[80]['field']    = 'completename';
+      $tab[80]['name']     = __('Entity');
       $tab[80]['datatype'] = 'dropdown';
 
       return $tab;
@@ -164,10 +160,10 @@ class PluginAccountsHash extends CommonDBTM
 
    /**
     * @param array $options
+    *
     * @return array
     */
-   public function defineTabs($options = array())
-   {
+   public function defineTabs($options = array()) {
 
       $ong = array();
       $this->addDefaultFormTab($ong);
@@ -179,24 +175,25 @@ class PluginAccountsHash extends CommonDBTM
    }
 
    /**
-    * @param $ID
+    * @param       $ID
     * @param array $options
+    *
     * @return bool
     */
-   public function showForm($ID, $options = array())
-   {
+   public function showForm($ID, $options = array()) {
 
       if (!$this->canView()) return false;
 
       $restrict = getEntitiesRestrictRequest(" ",
-         "glpi_plugin_accounts_hashes",
-         '', '', $this->maybeRecursive());
+                                             "glpi_plugin_accounts_hashes",
+                                             '', '', $this->maybeRecursive());
 
+      $dbu = new DbUtils();
       if ($ID < 1
-         && countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0
+          && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0
       ) {
          echo "<div class='center red'>" .
-            __('WARNING : a encryption key already exist for this entity', 'accounts') . "</div></br>";
+              __('WARNING : a encryption key already exist for this entity', 'accounts') . "</div></br>";
       }
       /*
             if ($ID > 0) {
@@ -211,8 +208,8 @@ class PluginAccountsHash extends CommonDBTM
 
       if (!$options['upgrade'] && $options['update'] == 1) {
          echo "<div class='center red'>"
-            . __('Warning : if you change used hash, the old accounts will use the old encryption key', 'accounts') .
-            "</font><br><br>";
+              . __('Warning : if you change used hash, the old accounts will use the old encryption key', 'accounts') .
+              "</font><br><br>";
       }
 
       $this->initForm($ID, $options);
@@ -233,8 +230,8 @@ class PluginAccountsHash extends CommonDBTM
          echo "<td>";
          echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
          echo "&nbsp;<input type='button' id='generate_hash'" .
-            "value='" . __s('Generate hash with this encryption key', 'accounts') .
-            "' class='submit'>";
+              "value='" . __s('Generate hash with this encryption key', 'accounts') .
+              "' class='submit'>";
          echo Html::scriptBlock("$(document).on('click', '#generate_hash', function(event) {
             if ($('#aeskey').val() == '') {
                alert('" . __('Please fill the encryption key', 'accounts') . "');
@@ -296,8 +293,7 @@ class PluginAccountsHash extends CommonDBTM
    /**
     * @param $ID
     */
-   public static function showSelectAccountsList($ID)
-   {
+   public static function showSelectAccountsList($ID) {
       global $CFG_GLPI;
 
       $rand = mt_rand();
@@ -334,8 +330,7 @@ class PluginAccountsHash extends CommonDBTM
    /**
     * @param $hash_id
     */
-   public static function showHashChangeForm($hash_id)
-   {
+   public static function showHashChangeForm($hash_id) {
 
       echo "<div class='center red'>";
       echo "<b>" . __('Warning : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') . "</b></div><br>";
@@ -344,7 +339,7 @@ class PluginAccountsHash extends CommonDBTM
       echo __('Old encryption key', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
       $aesKey = new PluginAccountsAesKey();
-      $key = "";
+      $key    = "";
       if ($aesKey->getFromDBByHash($hash_id) && isset($aesKey->fields["name"]))
          $key = "value='" . $aesKey->fields["name"] . "' ";
       echo "<input type='password' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
@@ -355,7 +350,7 @@ class PluginAccountsHash extends CommonDBTM
       echo "<input type='password' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
       echo "</td></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
-      $message = __('You want to change the key : ', 'accounts');
+      $message  = __('You want to change the key : ', 'accounts');
       $message2 = __(' by the key : ', 'accounts');
       echo "<input type='hidden' name='ID' value='" . $hash_id . "'>";
       echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='submit'
@@ -371,18 +366,17 @@ class PluginAccountsHash extends CommonDBTM
     * @param $newaeskey
     * @param $hash_id
     */
-   public static function updateHash($oldaeskey, $newaeskey, $hash_id)
-   {
+   public static function updateHash($oldaeskey, $newaeskey, $hash_id) {
       global $DB;
 
       $self = new self();
       $self->getFromDB($hash_id);
 
       $account = new PluginAccountsAccount();
-      $aeskey = new PluginAccountsAesKey();
+      $aeskey  = new PluginAccountsAesKey();
 
-      $oldhash = hash("sha256", $oldaeskey);
-      $newhash = hash("sha256", $newaeskey);
+      $oldhash      = hash("sha256", $oldaeskey);
+      $newhash      = hash("sha256", $newaeskey);
       $newhashstore = hash("sha256", $newhash);
       // uncrypt passwords for update
       $query_ = "SELECT *
@@ -399,13 +393,13 @@ class PluginAccountsHash extends CommonDBTM
             $newpassword = addslashes(plugin_accounts_AESEncryptCtr($oldpassword, $newhash, 256));
 
             $account->update(array(
-               'id' => $data["id"],
-               'encrypted_password' => $newpassword));
+                                'id'                 => $data["id"],
+                                'encrypted_password' => $newpassword));
          }
          $self->update(array('id' => $hash_id, 'hash' => $newhashstore));
 
          if ($aeskey->getFromDBByHash($hash_id) && isset($aeskey->fields["name"])) {
-            $values["id"] = $aeskey->fields["id"];
+            $values["id"]   = $aeskey->fields["id"];
             $values["name"] = $newaeskey;
             $aeskey->update($values);
          }

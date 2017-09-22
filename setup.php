@@ -127,18 +127,20 @@ function plugin_version_accounts()
 function plugin_accounts_check_prerequisites() {
    global $DB;
 
+   $dbu = new DbUtils();
+
    if (version_compare(GLPI_VERSION, '9.2', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
       echo __('This plugin requires GLPI >= 9.2', 'accounts');
       return false;
    } else {
       if ($DB->tableExists("glpi_comptes")) {//1.0
-         if (countElementsInTable("glpi_comptes") > 0 && function_exists("mcrypt_encrypt")) {
+         if ($dbu->countElementsInTable("glpi_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');
          }
       } else if ($DB->tableExists("glpi_plugin_comptes")) {//1.1
-         if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
+         if ($dbu->countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');
@@ -146,7 +148,7 @@ function plugin_accounts_check_prerequisites() {
       } else if (!$DB->tableExists("glpi_plugin_compte_mailing")
          && $DB->tableExists("glpi_plugin_comptes")
       ) {//1.3
-         if (countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
+         if ($dbu->countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');
@@ -154,7 +156,7 @@ function plugin_accounts_check_prerequisites() {
       } else if ($DB->tableExists("glpi_plugin_compte")
          && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")
       ) {//1.4
-         if (countElementsInTable("glpi_plugin_compte") > 0 && function_exists("mcrypt_encrypt")) {
+         if ($dbu->countElementsInTable("glpi_plugin_compte") > 0 && function_exists("mcrypt_encrypt")) {
             return true;
          } else {
             echo __('phpX-mcrypt must be installed', 'accounts');

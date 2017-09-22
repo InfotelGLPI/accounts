@@ -593,11 +593,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       $hash_id = 0;
       $hash = 0;
       $restrict = getEntitiesRestrictRequest(" ",
-         "glpi_plugin_accounts_hashes",
-         '',
-         $item->getEntityID(),
-         $hashclass->maybeRecursive());
-      $hashes = getAllDatasFromTable("glpi_plugin_accounts_hashes", $restrict);
+                                             "glpi_plugin_accounts_hashes",
+                                             '',
+                                             $item->getEntityID(),
+                                             $hashclass->maybeRecursive());
+      $dbu = new DbUtils();
+      $hashes = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
          foreach ($hashes as $hashe) {
             $hash = $hashe["hash"];
