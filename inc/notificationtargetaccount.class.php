@@ -55,7 +55,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
     *
     * @param string $event
     */
-   public function getAdditionalTargets($event = '') {
+   public function addAdditionalTargets($event = '') {
       $this->addTarget(self::ACCOUNT_USER, __('Affected User', 'accounts'));
       $this->addTarget(self::ACCOUNT_GROUP, __('Affected Group', 'accounts'));
       $this->addTarget(self::ACCOUNT_TECHUSER, __('Technician in charge of the hardware'));
