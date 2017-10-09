@@ -278,7 +278,7 @@ class PluginAccountsAccount extends CommonDBTM {
    public function post_addItem() {
       global $CFG_GLPI;
 
-      if ($CFG_GLPI["use_mailing"]) {
+      if ($CFG_GLPI["notifications_mailing"]) {
          NotificationEvent::raiseEvent("new", $this);
       }
    }
@@ -1027,7 +1027,7 @@ class PluginAccountsAccount extends CommonDBTM {
    public static function cronAccountsAlert($task = NULL) {
       global $DB, $CFG_GLPI;
 
-      if (!$CFG_GLPI["use_mailing"]) {
+      if (!$CFG_GLPI["notifications_mailing"]) {
          return 0;
       }
 
