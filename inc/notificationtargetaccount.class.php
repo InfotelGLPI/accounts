@@ -88,7 +88,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
 
    //Get receipient
    public function getUserAddress() {
-      return $this->getUserByField("users_id");
+      return $this->addUserByField("users_id");
    }
 
    public function getGroupAddress() {
@@ -106,14 +106,14 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
                            WHERE `glpi_groups_users`.`groups_id` = '" . $this->obj->fields[$group_field] . "'";
 
          foreach ($DB->request($query) as $data) {
-            $this->addToAddressesList($data);
+            $this->addToRecipientsList($data);
          }
       }
    }
 
    //Get receipient
    function getUserTechAddress() {
-      return $this->getUserByField("users_id_tech");
+      return $this->addUserByField("users_id_tech");
    }
 
    public function getGroupTechAddress() {
@@ -131,7 +131,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
                            WHERE `glpi_groups_users`.`groups_id` = '" . $this->obj->fields[$group_field] . "'";
 
          foreach ($DB->request($query) as $data) {
-            $this->addToAddressesList($data);
+            $this->addToRecipientsList($data);
          }
       }
    }
