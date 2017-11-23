@@ -86,5 +86,5 @@ ALTER TABLE `glpi_plugin_accounts_configs`
    CHANGE `delay` `delay_expired` varchar(50) collate utf8_unicode_ci NOT NULL default '30',
    ADD `delay_whichexpire` varchar(50) collate utf8_unicode_ci NOT NULL default '30';
 
-INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'New Accounts', 'PluginAccountsAccount', '2010-02-17 22:36:46','',NULL);
-INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'Alert Accounts', 'PluginAccountsAccount', '2010-02-23 11:37:46','',NULL);
+INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'New Accounts', 'PluginAccountsAccount', '2010-02-17 22:36:46','',NULL, '2010-02-17 22:36:46');
+INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'Alert Accounts', 'PluginAccountsAccount', '2010-02-23 11:37:46','',NULL, '2010-02-17 22:36:46');
