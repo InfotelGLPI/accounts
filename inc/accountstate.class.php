@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -46,8 +46,7 @@ class PluginAccountsAccountState extends CommonDropdown
     * @param int $nb
     * @return translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Status', 'Statuses', $nb);
    }

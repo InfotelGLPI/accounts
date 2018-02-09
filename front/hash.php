@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -35,10 +35,11 @@ $account->checkGlobal(UPDATE);
 
 $plugin = new Plugin();
 
-if ($plugin->isActivated("environment"))
+if ($plugin->isActivated("environment")) {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "hash");
-else
+} else {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
+}
 
 Search::show("PluginAccountsHash");
 

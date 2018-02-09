@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -57,8 +57,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     *
     * @return array of massive actions
     **/
-   public function getForbiddenStandardMassiveAction()
-   {
+   public function getForbiddenStandardMassiveAction() {
 
       $forbidden = parent::getForbiddenStandardMassiveAction();
       $forbidden[] = 'update';
@@ -71,13 +70,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param CommonDBTM|Object $item Object to use
     * @return nothing
     */
-   public static function cleanForItem(CommonDBTM $item)
-   {
+   public static function cleanForItem(CommonDBTM $item) {
 
       $temp = new self();
       $temp->deleteByCriteria(
-         array('itemtype' => $item->getType(),
-            'items_id' => $item->getField('id'))
+         ['itemtype' => $item->getType(),
+            'items_id' => $item->getField('id')]
       );
    }
 
@@ -93,8 +91,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param bool|int $withtemplate boolean  is a template object ? (default 0)
     * @return string tab name
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
-   {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (!$withtemplate) {
          if ($item->getType() == 'PluginAccountsAccount'
@@ -129,8 +126,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param bool|int $withtemplate boolean  is a template object ? (default 0)
     * @return true
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-   {
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
       if ($item->getType() == 'PluginAccountsAccount') {
 
@@ -149,8 +145,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param PluginAccountsAccount $item
     * @return int
     */
-   private static function countForAccount(PluginAccountsAccount $item)
-   {
+   private static function countForAccount(PluginAccountsAccount $item) {
 
       $types = implode("','", $item->getTypes());
       if (empty($types)) {
@@ -166,8 +161,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param CommonDBTM $item
     * @return int
     */
-   private static function countForItem(CommonDBTM $item)
-   {
+   private static function countForItem(CommonDBTM $item) {
 
       return countElementsInTable('glpi_plugin_accounts_accounts_items',
          "`itemtype`='" . $item->getType() . "'
@@ -180,8 +174,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param $itemtype
     * @return bool
     */
-   public function getFromDBbyAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype)
-   {
+   public function getFromDBbyAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype) {
       global $DB;
 
       $query = "SELECT * FROM `" . $this->getTable() . "` " .
@@ -205,12 +198,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    /**
     * @param $values
     */
-   public function addItem($values)
-   {
+   public function addItem($values) {
 
-      $this->add(array('plugin_accounts_accounts_id' => $values['plugin_accounts_accounts_id'],
+      $this->add(['plugin_accounts_accounts_id' => $values['plugin_accounts_accounts_id'],
          'items_id' => $values['items_id'],
-         'itemtype' => $values['itemtype']));
+         'itemtype' => $values['itemtype']]);
 
    }
 
@@ -220,11 +212,10 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param $itemtype
     * @return bool
     */
-   public function deleteItemByAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype)
-   {
+   public function deleteItemByAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype) {
 
       if ($this->getFromDBbyAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype)) {
-         $this->delete(array('id' => $this->fields["id"]));
+         $this->delete(['id' => $this->fields["id"]]);
          return true;
       }
       return false;
@@ -241,8 +232,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     *
     * @return bool
     */
-   public static function showForAccount(PluginAccountsAccount $account)
-   {
+   public static function showForAccount(PluginAccountsAccount $account) {
       global $DB;
 
       $instID = $account->fields['id'];
@@ -270,7 +260,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          echo "<tr class='tab_bg_2'><th colspan='2'>" . __('Add an item') . "</th></tr>";
 
          echo "<tr class='tab_bg_1'><td class='right'>";
-         Dropdown::showSelectItemFromItemtypes(array('items_id_name' => 'items_id',
+         Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'items_id',
             'itemtypes'=>PluginAccountsAccount::getTypes(true),
             'entity_restrict'
             => ($account->fields['is_recursive']
@@ -279,7 +269,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                :$account->fields['entities_id']),
             'checkright'
             => true,
-         ));
+         ]);
          echo "</td><td class='center'>";
          echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='submit'>";
          echo "<input type='hidden' name='plugin_accounts_accounts_id' value='$instID'>";
@@ -443,8 +433,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     *
     * @return bool
     */
-   static function showForItem(CommonDBTM $item, $withtemplate = '')
-   {
+   static function showForItem(CommonDBTM $item, $withtemplate = '') {
       global $DB;
 
       $ID = $item->getField('id');
@@ -474,8 +463,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          $first_groups = true;
          $groups = "";
          foreach ($_SESSION['glpigroups'] as $val) {
-            if (!$first_groups) $groups .= ",";
-            else $first_groups = false;
+            if (!$first_groups) {
+               $groups .= ",";
+            } else {
+               $first_groups = false;
+            }
             $groups .= "'" . $val . "'";
          }
          $ASSIGN = "( `groups_id` IN ($groups) OR `users_id` = '$who') ";
@@ -505,9 +497,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       $number = $DB->numrows($result);
       $i = 0;
 
-      $accounts = array();
+      $accounts = [];
       $account = new PluginAccountsAccount();
-      $used = array();
+      $used = [];
       if ($numrows = $DB->numrows($result)) {
          while ($data = $DB->fetch_assoc($result)) {
             $accounts[$data['assocID']] = $data;
@@ -543,7 +535,6 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
          echo "<div class='firstbloc'>";
 
-
          if (Session::haveRight('plugin_accounts', READ)
             && ($nb > count($used))
          ) {
@@ -560,8 +551,8 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                echo "<input type='hidden' name='tickets_id' value='$ID'>";
             }
 
-            PluginAccountsAccount::dropdownAccount(array('entity' => $entities,
-               'used' => $used));
+            PluginAccountsAccount::dropdownAccount(['entity' => $entities,
+               'used' => $used]);
             echo "</td><td class='center' width='20%'>";
             echo "<input type='submit' name='additem' value=\"" .
                _sx('button', 'Associate a account', 'accounts') . "\" class='submit'>";
@@ -577,7 +568,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       echo "<div class='spaced'>";
       if ($canedit && $number && ($withtemplate < 2)) {
          Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-         $massiveactionparams = array('num_displayed' => $number);
+         $massiveactionparams = ['num_displayed' => $number];
          Html::showMassiveActions($massiveactionparams);
       }
       echo "<table class='tab_cadre_fixe'>";
@@ -616,9 +607,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             echo __('Encryption key', 'accounts');
             echo "&nbsp;<input type='password' name='aeskey' id='aeskey' autocomplete='off'>";
          } else {
-            echo Html::hidden('aeskey', array('value' => $aeskey->fields["name"],
+            echo Html::hidden('aeskey', ['value' => $aeskey->fields["name"],
                'id' => 'aeskey',
-               'autocomplete' => 'off'));
+               'autocomplete' => 'off']);
          }
       } else {
          echo __('Encryption key', 'accounts');
@@ -626,7 +617,6 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          echo $alert;
          echo "</div>";
       }
-
 
       echo "<tr>";
       if ($canedit && $number && ($withtemplate < 2)) {
@@ -643,7 +633,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       echo "<th>" . __('Creation date') . "</th>";
       echo "<th>" . __('Expiration date') . "</th>";
       echo "</tr>";
-      $used = array();
+      $used = [];
 
       if ($number) {
 
@@ -652,7 +642,6 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             //        %2$s is the name of the item (used for headings of a list)
             sprintf(__('%1$s = %2$s'),
                $item->getTypeName(1), $item->getName()));
-
 
          foreach ($accounts as $data) {
             $accountID = $data["id"];
@@ -681,9 +670,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             echo "<td class='center'>";
             //hash
             if (isset($hash_id) && $aeskey->getFromDBByHash($hash_id) && $aeskey->fields["name"]) {
-               echo Html::hidden("encrypted_password$accountID", array('value' => $data["encrypted_password"],
+               echo Html::hidden("encrypted_password$accountID", ['value' => $data["encrypted_password"],
                   'id' => "encrypted_password$accountID",
-                  'autocomplete' => 'off'));
+                  'autocomplete' => 'off']);
                echo "<input type='text' id='hidden_password$accountID' value='' size='30' >";
 
                echo Html::scriptBlock("
@@ -699,9 +688,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
                echo "&nbsp;<input type='button' id='decrypt_link$accountID' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
                         class='submit'>";
-               echo Html::hidden("encrypted_password$accountID", array('value' => $data["encrypted_password"],
+               echo Html::hidden("encrypted_password$accountID", ['value' => $data["encrypted_password"],
                   'id' => "encrypted_password$accountID",
-                  'autocomplete' => 'off'));
+                  'autocomplete' => 'off']);
 
                echo Html::scriptBlock("$(document).on('click', '#decrypt_link$accountID', function(event) {
                   if (!check_hash()) {
@@ -737,10 +726,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          }
       }
 
-
       echo "</table>";
-      echo Html::hidden('good_hash', array('value' => $hash,
-         'id' => 'good_hash'));
+      echo Html::hidden('good_hash', ['value' => $hash,
+         'id' => 'good_hash']);
 
       if ($canedit && $number && ($withtemplate < 2)) {
          $massiveactionparams['ontop'] = false;

@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -33,10 +33,11 @@ include('../../../inc/includes.php');
 $plugin = new Plugin();
 
 if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-   if ($plugin->isActivated("environment"))
+   if ($plugin->isActivated("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-   else
+   } else {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu");
+   }
 } else {
    Html::helpHeader(PluginAccountsAccount::getTypeName(2));
 }
@@ -54,9 +55,9 @@ if ($account->canView()) {
 
       Ajax::createModalWindow('add_file_modal',
          $CFG_GLPI['root_doc'] . "/plugins/accounts/ajax/accounttree.php",
-         array('title' => __('Type view', 'accounts'),
+         ['title' => __('Type view', 'accounts'),
             'width' => 800,
-            'height' => 400));
+            'height' => 400]);
    }
 
    Search::show("PluginAccountsAccount");

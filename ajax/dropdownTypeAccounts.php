@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ Session::checkCentralAccess();
 
 // Make a select box
 if (isset($_POST["accounttype"])) {
-   $used = array();
+   $used = [];
 
    // Clean used array
    if (isset($_POST['used']) && is_array($_POST['used']) && (count($_POST['used']) > 0)) {
@@ -55,11 +55,11 @@ if (isset($_POST["accounttype"])) {
    }
 
    Dropdown::show('PluginAccountsAccount',
-      array('name' => $_POST['myname'],
+      ['name' => $_POST['myname'],
          'used' => $used,
          'width' => '50%',
          'entity' => $_POST['entity'],
          'rand' => $_POST['rand'],
-         'condition' => "glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id='" . $_POST["accounttype"] . "'"));
+         'condition' => "glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id='" . $_POST["accounttype"] . "'"]);
 
 }

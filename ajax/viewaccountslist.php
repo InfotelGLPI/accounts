@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -37,8 +37,8 @@ Session::checkLoginUser();
 
 if (isset($_POST["key"])) {
 
-   $options = array('id' => $_POST["id"],
-      'aeskey' => $_POST["key"]);
+   $options = ['id' => $_POST["id"],
+      'aeskey' => $_POST["key"]];
 
    $accounts = PluginAccountsReport::queryAccountsList($options);
 

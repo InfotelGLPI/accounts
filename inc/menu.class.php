@@ -10,7 +10,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -38,16 +38,14 @@ class PluginAccountsMenu extends CommonGLPI
    /**
     * @return translated
     */
-   static function getMenuName()
-   {
+   static function getMenuName() {
       return _n('Account', 'Accounts', 2, 'accounts');
    }
 
    /**
     * @return array
     */
-   static function getMenuContent()
-   {
+   static function getMenuContent() {
       global $CFG_GLPI;
 
       $image = "<img src='" .
@@ -55,7 +53,7 @@ class PluginAccountsMenu extends CommonGLPI
          _n('Encryption key', 'Encryption keys', 2, 'accounts') . "' alt='" .
          _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'>";
 
-      $menu = array();
+      $menu = [];
       $menu['title'] = self::getMenuName();
       $menu['page'] = "/plugins/accounts/front/account.php";
       $menu['page'] = "/plugins/accounts/front/account.php";
@@ -85,8 +83,7 @@ class PluginAccountsMenu extends CommonGLPI
       return $menu;
    }
 
-   static function removeRightsFromSession()
-   {
+   static function removeRightsFromSession() {
       if (isset($_SESSION['glpimenu']['admin']['types']['PluginAccountsMenu'])) {
          unset($_SESSION['glpimenu']['admin']['types']['PluginAccountsMenu']);
       }

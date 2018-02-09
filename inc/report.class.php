@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -41,8 +41,7 @@ class PluginAccountsReport extends CommonDBTM
     * @param $values
     * @return array
     */
-   public static function queryAccountsList($values)
-   {
+   public static function queryAccountsList($values) {
       global $DB;
 
       $ID = $values["id"];
@@ -56,7 +55,7 @@ class PluginAccountsReport extends CommonDBTM
       } else {
          $entities = $PluginAccountsHash->getEntityID();
       }
-      $list = array();
+      $list = [];
       if ($aeskey) {
          $query = "SELECT `glpi_plugin_accounts_accounts`.*,
                   `glpi_plugin_accounts_accounttypes`.`name` AS type
@@ -94,8 +93,7 @@ class PluginAccountsReport extends CommonDBTM
     * @param $values
     * @param $list
     */
-   public static function showAccountsList($values, $list)
-   {
+   public static function showAccountsList($values, $list) {
       global $CFG_GLPI;
 
       $ID = $values["id"];
@@ -118,8 +116,9 @@ class PluginAccountsReport extends CommonDBTM
       // Set display type for export if define
       $output_type = Search::HTML_OUTPUT;
 
-      if (isset($values["display_type"]))
+      if (isset($values["display_type"])) {
          $output_type = $values["display_type"];
+      }
 
       $header_num = 1;
       $nbcols = 4;
@@ -135,8 +134,9 @@ class PluginAccountsReport extends CommonDBTM
 
       echo Search::showNewLine($output_type);
       echo Search::showHeaderItem($output_type, __('Name'), $header_num);
-      if (Session::isMultiEntitiesMode())
+      if (Session::isMultiEntitiesMode()) {
          echo Search::showHeaderItem($output_type, __('Entity'), $header_num);
+      }
       echo Search::showHeaderItem($output_type, __('Type'), $header_num);
       echo Search::showHeaderItem($output_type, __('Login'), $header_num);
       echo Search::showHeaderItem($output_type, __('Uncrypted password', 'accounts'), $header_num);
@@ -156,7 +156,9 @@ class PluginAccountsReport extends CommonDBTM
             }
 
             $name = "<a href='" . $CFG_GLPI["root_doc"] . "/plugins/accounts/front/account.form.php?id=" . $IDc . "'>" . $field["name"];
-            if ($_SESSION["glpiis_ids_visible"]) $name .= " (" . $IDc . ")";
+            if ($_SESSION["glpiis_ids_visible"]) {
+               $name .= " (" . $IDc . ")";
+            }
             $name .= "</a>";
             echo Search::showItem($output_type, $name, $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
@@ -217,8 +219,7 @@ class PluginAccountsReport extends CommonDBTM
     * @param int $item_type_output
     * @param int $item_type_output_param
     */
-   public static function printPager($start, $numrows, $target, $parameters, $item_type_output = 0, $item_type_output_param = 0)
-   {
+   public static function printPager($start, $numrows, $target, $parameters, $item_type_output = 0, $item_type_output_param = 0) {
       global $CFG_GLPI;
 
       //$list_limit = $_SESSION['glpilist_limit'];
@@ -232,17 +233,17 @@ class PluginAccountsReport extends CommonDBTM
       //$current_start = $start + 1;
 
       // And the human is viewing from start to end
-//      $current_end = $current_start + $list_limit - 1;
-//      if ($current_end > $numrows) {
-//         $current_end = $numrows;
-//      }
+      //      $current_end = $current_start + $list_limit - 1;
+      //      if ($current_end > $numrows) {
+      //         $current_end = $numrows;
+      //      }
 
       // Backward browsing
-//      if ($current_start - $list_limit <= 0) {
-//         $back = 0;
-//      } else {
-//         $back = $start - $list_limit;
-//      }
+      //      if ($current_start - $list_limit <= 0) {
+      //         $back = 0;
+      //      } else {
+      //         $back = $start - $list_limit;
+      //      }
 
       // Print it
 
@@ -258,9 +259,10 @@ class PluginAccountsReport extends CommonDBTM
          echo "<td class='tab_bg_2' width='30%'>";
 
          echo "<input type='hidden' name='item_type' value='PluginAccountsReport'>";
-         if ($item_type_output_param != 0)
+         if ($item_type_output_param != 0) {
             echo "<input type='hidden' name='item_type_param' value='" .
                serialize($item_type_output_param) . "'>";
+         }
          $explode = explode("&amp;", $parameters);
          for ($i = 0; $i < count($explode); $i++) {
             $pos = strpos($explode[$i], '=');
@@ -277,8 +279,7 @@ class PluginAccountsReport extends CommonDBTM
       echo "</table><br>\n";
    }
 
-   static function showOutputFormat()
-   {
+   static function showOutputFormat() {
       global $CFG_GLPI;
 
       $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');

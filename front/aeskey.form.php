@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -30,8 +30,12 @@
 
 include('../../../inc/includes.php');
 
-if (!isset($_GET["id"])) $_GET["id"] = "";
-if (!isset($_GET["plugin_accounts_hashes_id"])) $_GET["plugin_accounts_hashes_id"] = "";
+if (!isset($_GET["id"])) {
+   $_GET["id"] = "";
+}
+if (!isset($_GET["plugin_accounts_hashes_id"])) {
+   $_GET["plugin_accounts_hashes_id"] = "";
+}
 
 Session::checkRight("config", UPDATE);
 
@@ -39,10 +43,11 @@ $aeskey = new PluginAccountsAesKey();
 
 $plugin = new Plugin();
 
-if ($plugin->isActivated("environment"))
+if ($plugin->isActivated("environment")) {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-else
+} else {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
+}
 
 if (isset($_POST["add"])) {
    if ($aeskey->canCreate()) {
@@ -63,14 +68,14 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST["delete"])) {
    if ($aeskey->canCreate()) {
       foreach ($_POST["check"] as $ID => $value) {
-         $aeskey->delete(array("id" => $ID), 1);
+         $aeskey->delete(["id" => $ID], 1);
       }
    }
    Html::back();
 
 } else {
-   $aeskey->display(array('id' => $_GET['id'],
-      'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]));
+   $aeskey->display(['id' => $_GET['id'],
+      'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]]);
 }
 
 Html::footer();

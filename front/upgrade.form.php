@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -30,7 +30,9 @@
 
 include('../../../inc/includes.php');
 
-if (!isset($_GET["id"])) $_GET["id"] = "";
+if (!isset($_GET["id"])) {
+   $_GET["id"] = "";
+}
 
 $plugin = new Plugin();
 if ($plugin->isActivated("accounts")) {
@@ -48,16 +50,17 @@ if ($plugin->isActivated("accounts")) {
 
    if (empty($hash)) {
 
-      if ($plugin->isActivated("environment"))
+      if ($plugin->isActivated("environment")) {
          Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-      else
+      } else {
          Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginaccountsmenu", "account");
+      }
 
       if ($_SESSION['glpiactive_entity'] == 0) {
          if ($update == 1) {
             echo "<div class='center b'>" . __('Upgrade') . "</div><br><br>";
             echo "<div class='center b'>" . __('1. Define the encryption key and create hash', 'accounts') . "</div><br><br>";
-            $options = array("update" => true, "upgrade" => 1);
+            $options = ["update" => true, "upgrade" => 1];
             $PluginAccountsHash->showForm(1, $options);
          }
       } else {
