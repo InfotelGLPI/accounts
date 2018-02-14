@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -30,8 +30,12 @@
 
 include('../../../inc/includes.php');
 
-if (!isset($_GET["id"])) $_GET["id"] = "";
-if (!isset($_GET["withtemplate"])) $_GET["withtemplate"] = "";
+if (!isset($_GET["id"])) {
+   $_GET["id"] = "";
+}
+if (!isset($_GET["withtemplate"])) {
+   $_GET["withtemplate"] = "";
+}
 
 $account = new PluginAccountsAccount();
 $account_item = new PluginAccountsAccount_Item();
@@ -80,7 +84,7 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST["deleteitem"])) {
 
    foreach ($_POST["item"] as $key => $val) {
-      $input = array('id' => $key);
+      $input = ['id' => $key];
       if ($val == 1) {
          $account_item->check($key, UPDATE);
          $account_item->delete($input);
@@ -92,7 +96,7 @@ if (isset($_POST["add"])) {
    //from items ?
 } else if (isset($_POST["deleteaccounts"])) {
 
-   $input = array('id' => $_POST["id"]);
+   $input = ['id' => $_POST["id"]];
    $account_item->check($_POST["id"], UPDATE);
    $account_item->delete($input);
    Html::back();
@@ -103,15 +107,16 @@ if (isset($_POST["add"])) {
 
    if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
       $plugin = new Plugin();
-      if ($plugin->isActivated("environment"))
+      if ($plugin->isActivated("environment")) {
          Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-      else
+      } else {
          Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu");
+      }
    } else {
       Html::helpHeader(PluginAccountsAccount::getTypeName(2));
    }
 
-   $account->display(array('id' => $_GET['id']));
+   $account->display(['id' => $_GET['id']]);
 
    if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
       Html::footer();

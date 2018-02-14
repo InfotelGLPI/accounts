@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -30,7 +30,9 @@
 
 include('../../../inc/includes.php');
 
-if (!isset($_GET["id"])) $_GET["id"] = "";
+if (!isset($_GET["id"])) {
+   $_GET["id"] = "";
+}
 
 $account = new PluginAccountsAccount();
 $account->checkGlobal(UPDATE);
@@ -55,7 +57,7 @@ if (isset($_POST["add"])) {
       $hashClass->update($_POST);
 
       plugin_accounts_configure15();
-      $_SESSION['plugin_accounts']['upgrade'] = array();
+      $_SESSION['plugin_accounts']['upgrade'] = [];
       Html::redirect("./account.upgrade.php");
    } else {
       Html::back();
@@ -107,12 +109,13 @@ if (isset($_POST["add"])) {
    }
 } else {
 
-   if ($plugin->isActivated("environment"))
+   if ($plugin->isActivated("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "hash");
-   else
+   } else {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
+   }
 
-   $options = array("id" => $_GET['id'], "update" => false, "upgrade" => 0);
+   $options = ["id" => $_GET['id'], "update" => false, "upgrade" => 0];
    $hashClass->display($options);
    Html::footer();
 

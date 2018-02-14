@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -28,19 +28,18 @@
  */
 
 // Init the hooks of the plugins -Needed
-function plugin_init_accounts()
-{
+function plugin_init_accounts() {
    global $PLUGIN_HOOKS;
 
    $PLUGIN_HOOKS['csrf_compliant']['accounts'] = true;
    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
-   $PLUGIN_HOOKS['change_profile']['accounts'] = array('PluginAccountsProfile', 'initProfile');
+   $PLUGIN_HOOKS['change_profile']['accounts'] = ['PluginAccountsProfile', 'initProfile'];
 
    if (Session::getLoginUserID()) {
 
       // Params : plugin name - string type - number - attributes
       Plugin::registerClass('PluginAccountsAccount',
-         array('linkgroup_types' => true,
+         ['linkgroup_types' => true,
             'linkuser_types' => true,
             'linkgroup_tech_types' => true,
             'linkuser_tech_types' => true,
@@ -49,21 +48,21 @@ function plugin_init_accounts()
             'helpdesk_visible_types' => true,
             'notificationtemplates_types' => true,
             'header_types' => true
-         )
+         ]
       );
 
       Plugin::registerClass('PluginAccountsConfig',
-         array('addtabon' => 'CronTask'));
+         ['addtabon' => 'CronTask']);
 
       Plugin::registerClass('PluginAccountsProfile',
-         array('addtabon' => 'Profile'));
+         ['addtabon' => 'Profile']);
 
       $plugin = new Plugin();
       if (!$plugin->isActivated('environment')
          && Session::haveRight("plugin_accounts", READ)
       ) {
 
-         $PLUGIN_HOOKS["menu_toadd"]['accounts'] = array('admin' => 'PluginAccountsMenu');
+         $PLUGIN_HOOKS["menu_toadd"]['accounts'] = ['admin' => 'PluginAccountsMenu'];
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
       }
       if ($plugin->isActivated('environment')
@@ -92,7 +91,6 @@ function plugin_init_accounts()
       }
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "lib/lightcrypt.js";
 
-
       $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 
       // End init, when all types are registered
@@ -105,10 +103,9 @@ function plugin_init_accounts()
 /**
  * @return array
  */
-function plugin_version_accounts()
-{
+function plugin_version_accounts() {
 
-   return array(
+   return [
       'name' => _n('Account', 'Accounts', 2, 'accounts'),
       'version' => '2.3.0',
       'oldname' => 'compte',
@@ -116,7 +113,7 @@ function plugin_version_accounts()
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
       'homepage' => 'https://github.com/InfotelGLPI/accounts',
       'minGlpiVersion' => '9.2',
-   );
+   ];
 
 }
 
@@ -172,8 +169,7 @@ function plugin_accounts_check_prerequisites() {
 /**
  * @return bool
  */
-function plugin_accounts_check_config()
-{
+function plugin_accounts_check_config() {
    return true;
 }
 
@@ -181,8 +177,7 @@ function plugin_accounts_check_config()
  * @param $types
  * @return mixed
  */
-function plugin_datainjection_migratetypes_accounts($types)
-{
+function plugin_datainjection_migratetypes_accounts($types) {
    $types[1900] = 'PluginAccountsAccount';
    return $types;
 }

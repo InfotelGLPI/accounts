@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -41,8 +41,7 @@ class PluginAccountsNotificationState extends CommonDBTM
     * @param $plugin_accounts_accountstates_id
     * @return bool
     */
-   public function getFromDBbyState($plugin_accounts_accountstates_id)
-   {
+   public function getFromDBbyState($plugin_accounts_accountstates_id) {
       global $DB;
 
       $query = "SELECT * FROM `" . $this->getTable() . "` " .
@@ -64,8 +63,7 @@ class PluginAccountsNotificationState extends CommonDBTM
    /**
     * @return string
     */
-   public function findStates()
-   {
+   public function findStates() {
       global $DB;
 
       $queryBranch = '';
@@ -86,29 +84,27 @@ class PluginAccountsNotificationState extends CommonDBTM
    /**
     * @param $plugin_accounts_accountstates_id
     */
-   public function addNotificationState($plugin_accounts_accountstates_id)
-   {
+   public function addNotificationState($plugin_accounts_accountstates_id) {
 
       if ($this->getFromDBbyState($plugin_accounts_accountstates_id)) {
 
-         $this->update(array(
+         $this->update([
             'id' => $this->fields['id'],
-            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id));
+            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
       } else {
 
-         $this->add(array(
-            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id));
+         $this->add([
+            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
       }
    }
 
    /**
     * @param $target
     */
-   public function showAddForm($target)
-   {
+   public function showAddForm($target) {
       global $DB;
 
-      $used = array();
+      $used = [];
       $query = "SELECT *
       FROM `" . $this->getTable() . "`
       ORDER BY `plugin_accounts_accountstates_id` ASC ";
@@ -125,8 +121,8 @@ class PluginAccountsNotificationState extends CommonDBTM
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr ><th colspan='2'>";
       echo __('Add a unused status for expiration mailing', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1'><td>";
-      Dropdown::show('PluginAccountsAccountState', array('name' => "plugin_accounts_accountstates_id",
-         'used' => $used));
+      Dropdown::show('PluginAccountsAccountState', ['name' => "plugin_accounts_accountstates_id",
+         'used' => $used]);
       echo "</td>";
       echo "<td>";
       echo "<div align='center'>";
@@ -140,8 +136,7 @@ class PluginAccountsNotificationState extends CommonDBTM
    /**
     * @param $target
     */
-   public function showForm($target)
-   {
+   public function showForm($target) {
       global $DB;
 
       $rand = mt_rand();
@@ -174,7 +169,7 @@ class PluginAccountsNotificationState extends CommonDBTM
             }
 
             Html::openArrowMassives("massiveaction_form$rand", true);
-            Html::closeArrowMassives(array('delete' => __('Delete permanently')));
+            Html::closeArrowMassives(['delete' => __('Delete permanently')]);
 
             echo "</table>";
             Html::closeForm();

@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -48,7 +48,7 @@ if (isset($_POST["display_type"])) {
    $parm["export_x"] = $post["export_x"];
    $parm["export_y"] = $post["export_y"];
 
-   $accounts = array();
+   $accounts = [];
    foreach ($post["id"] as $k => $v) {
       $accounts[$k]["id"] = $v;
    }

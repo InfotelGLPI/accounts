@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -75,7 +75,7 @@ class PluginAccountsHash extends CommonDBTM {
       if (!$withtemplate) {
          switch ($item->getType()) {
             case __CLASS__ :
-               $ong    = array();
+               $ong    = [];
                $ong[2] = __('Linked accounts list', 'accounts');
                $ong[3] = __('Modification of the encryption key for all password', 'accounts');
                return $ong;
@@ -101,7 +101,7 @@ class PluginAccountsHash extends CommonDBTM {
                if (!$key) {
                   self::showSelectAccountsList($item->getID());
                } else {
-                  $parm     = array("id" => $item->getID(), "aeskey" => $key);
+                  $parm     = ["id" => $item->getID(), "aeskey" => $key];
                   $accounts = PluginAccountsReport::queryAccountsList($parm);
                   PluginAccountsReport::showAccountsList($parm, $accounts);
                }
@@ -119,7 +119,7 @@ class PluginAccountsHash extends CommonDBTM {
     */
    public function getSearchOptions() {
 
-      $tab = array();
+      $tab = [];
 
       $tab['common'] = self::getTypeName(2);
 
@@ -163,9 +163,9 @@ class PluginAccountsHash extends CommonDBTM {
     *
     * @return array
     */
-   public function defineTabs($options = array()) {
+   public function defineTabs($options = []) {
 
-      $ong = array();
+      $ong = [];
       $this->addDefaultFormTab($ong);
       $this->addStandardTab(__CLASS__, $ong, $options);
       $this->addStandardTab('PluginAccountsAesKey', $ong, $options);
@@ -180,9 +180,11 @@ class PluginAccountsHash extends CommonDBTM {
     *
     * @return bool
     */
-   public function showForm($ID, $options = array()) {
+   public function showForm($ID, $options = []) {
 
-      if (!$this->canView()) return false;
+      if (!$this->canView()) {
+         return false;
+      }
 
       $restrict = getEntitiesRestrictRequest(" ",
                                              "glpi_plugin_accounts_hashes",
@@ -324,7 +326,6 @@ class PluginAccountsHash extends CommonDBTM {
          }
       });");
 
-
    }
 
    /**
@@ -340,8 +341,9 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<tr class='tab_bg_1 center'><td>";
       $aesKey = new PluginAccountsAesKey();
       $key    = "";
-      if ($aesKey->getFromDBByHash($hash_id) && isset($aesKey->fields["name"]))
+      if ($aesKey->getFromDBByHash($hash_id) && isset($aesKey->fields["name"])) {
          $key = "value='" . $aesKey->fields["name"] . "' ";
+      }
       echo "<input type='password' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
       echo "</td></tr>";
       echo "<tr><th>";
@@ -392,11 +394,11 @@ class PluginAccountsHash extends CommonDBTM {
             $oldpassword = addslashes(plugin_accounts_AESDecryptCtr($data['encrypted_password'], $oldhash, 256));
             $newpassword = addslashes(plugin_accounts_AESEncryptCtr($oldpassword, $newhash, 256));
 
-            $account->update(array(
+            $account->update([
                                 'id'                 => $data["id"],
-                                'encrypted_password' => $newpassword));
+                                'encrypted_password' => $newpassword]);
          }
-         $self->update(array('id' => $hash_id, 'hash' => $newhashstore));
+         $self->update(['id' => $hash_id, 'hash' => $newhashstore]);
 
          if ($aeskey->getFromDBByHash($hash_id) && isset($aeskey->fields["name"])) {
             $values["id"]   = $aeskey->fields["id"];

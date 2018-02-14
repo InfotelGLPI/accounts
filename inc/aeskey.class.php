@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -47,8 +47,7 @@ class PluginAccountsAesKey extends CommonDBTM
    /**
     * PluginAccountsAesKey constructor.
     */
-   public function __construct()
-   {
+   public function __construct() {
       $this->h = new PluginAccountsHash();
    }
 
@@ -56,8 +55,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param int $nb
     * @return translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
       return _n('Encryption key', 'Encryption key', $nb, 'accounts');
    }
 
@@ -66,8 +64,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param int $withtemplate
     * @return string|translated
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
-   {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (!$withtemplate) {
          switch ($item->getType()) {
@@ -86,8 +83,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param int $withtemplate
     * @return bool
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-   {
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
       $self = new self();
 
@@ -98,7 +94,7 @@ class PluginAccountsAesKey extends CommonDBTM
                $self->showAesKey($item->getID());
             }
             if (!$key) {
-               $self->showForm("", array('plugin_accounts_hashes_id' => $item->getID()));
+               $self->showForm("", ['plugin_accounts_hashes_id' => $item->getID()]);
             }
             break;
          case __CLASS__ :
@@ -111,8 +107,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param $plugin_accounts_hashes_id
     * @return bool
     */
-   public function getFromDBByHash($plugin_accounts_hashes_id)
-   {
+   public function getFromDBByHash($plugin_accounts_hashes_id) {
       global $DB;
 
       $query = "SELECT * FROM `" . $this->getTable() . "`
@@ -135,8 +130,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param $plugin_accounts_hashes_id
     * @return bool
     */
-   public static function checkIfAesKeyExists($plugin_accounts_hashes_id)
-   {
+   public static function checkIfAesKeyExists($plugin_accounts_hashes_id) {
 
       $aeskey = false;
       if ($plugin_accounts_hashes_id) {
@@ -148,8 +142,9 @@ class PluginAccountsAesKey extends CommonDBTM
                $aeskey = $device["name"];
                return $aeskey;
             }
-         } else
+         } else {
             return $aeskey;
+         }
       }
    }
 
@@ -157,10 +152,9 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param array $options
     * @return array
     */
-   public function defineTabs($options = array())
-   {
+   public function defineTabs($options = []) {
 
-      $ong = array();
+      $ong = [];
       $this->addStandardTab(__CLASS__, $ong, $options);
       return $ong;
    }
@@ -169,8 +163,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param $ID
     * @param array $options
     */
-   public function showForm($ID, $options = array())
-   {
+   public function showForm($ID, $options = []) {
       $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
       if (countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
          echo "<div class='center red'>" . __('Encryption key modified', 'accounts') . "</div></br>";
@@ -204,8 +197,7 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param datas $input
     * @return bool|datas
     */
-   public function prepareInputForAdd($input)
-   {
+   public function prepareInputForAdd($input) {
       // Not attached to hash -> not added
       if (!isset($input['plugin_accounts_hashes_id']) || $input['plugin_accounts_hashes_id'] <= 0) {
          return false;
@@ -216,8 +208,7 @@ class PluginAccountsAesKey extends CommonDBTM
    /**
     * @param $ID
     */
-   public function showAesKey($ID)
-   {
+   public function showAesKey($ID) {
       global $DB;
 
       $this->h->getFromDB($ID);
@@ -249,8 +240,9 @@ class PluginAccountsAesKey extends CommonDBTM
             echo "<td width='10'>";
             if ($candelete) {
                echo "<input type='checkbox' name='check[" . $data["id"] . "]'";
-               if (isset($_POST['check']) && $_POST['check'] == 'all')
+               if (isset($_POST['check']) && $_POST['check'] == 'all') {
                   echo " checked ";
+               }
                echo ">";
             }
             echo "</td>";
@@ -263,7 +255,7 @@ class PluginAccountsAesKey extends CommonDBTM
 
          if ($candelete) {
             Html::openArrowMassives("show_aeskey$rand", true);
-            Html::closeArrowMassives(array('delete' => __('Delete permanently')));
+            Html::closeArrowMassives(['delete' => __('Delete permanently')]);
          }
       } else {
          echo "</table>";

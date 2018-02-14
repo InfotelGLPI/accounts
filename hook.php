@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -45,7 +45,6 @@ function plugin_accounts_install() {
 
       $install = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.2.0.sql");
-
 
    } else if ($DB->tableExists("glpi_comptes")
       && !$DB->fieldExists("glpi_comptes", "notes")) {
@@ -268,20 +267,20 @@ function plugin_accounts_install() {
       $DB->query($query);
 
       Plugin::migrateItemType(
-         array(1900 => 'PluginAccountsAccount',
+         [1900 => 'PluginAccountsAccount',
                1901 => 'PluginAccountsHelpdesk',
-               1902 => 'PluginAccountsGroup'),
-         array("glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
-               "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"),
-         array("glpi_plugin_accounts_accounts_items"));
+               1902 => 'PluginAccountsGroup'],
+         ["glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
+               "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
+         ["glpi_plugin_accounts_accounts_items"]);
 
       Plugin::migrateItemType(
-         array(1200 => "PluginAppliancesAppliance",
+         [1200 => "PluginAppliancesAppliance",
                1300 => "PluginWebapplicationsWebapplication",
                1700 => "PluginCertificatesCertificate",
                4400 => "PluginDomainsDomain",
-               2400 => "PluginDatabasesDatabase"),
-         array("glpi_plugin_accounts_accounts_items"));
+               2400 => "PluginDatabasesDatabase"],
+         ["glpi_plugin_accounts_accounts_items"]);
 
    }
 
@@ -305,7 +304,7 @@ function plugin_accounts_install() {
       Session::addMessageAfterRedirect($msg, ERROR);
    }
 
-   $notepad_tables = array('glpi_plugin_accounts_accounts');
+   $notepad_tables = ['glpi_plugin_accounts_accounts'];
 
    foreach ($notepad_tables as $t) {
       // Migrate data
@@ -398,9 +397,9 @@ function plugin_accounts_configure15() {
          $password = addslashes(plugin_accounts_crypte($data['encrypted_password'], 3));
 
          $PluginAccountsAccount = new PluginAccountsAccount();
-         $PluginAccountsAccount->update(array(
+         $PluginAccountsAccount->update([
             'id' => $data["id"],
-            'encrypted_password' => $password));
+            'encrypted_password' => $password]);
 
       }
    }
@@ -415,7 +414,7 @@ function plugin_accounts_uninstall() {
    include_once(GLPI_ROOT . "/plugins/accounts/inc/profile.class.php");
    include_once(GLPI_ROOT . "/plugins/accounts/inc/menu.class.php");
 
-   $tables = array("glpi_plugin_accounts_accounts",
+   $tables = ["glpi_plugin_accounts_accounts",
                    "glpi_plugin_accounts_accounts_items",
                    "glpi_plugin_accounts_accounttypes",
                    "glpi_plugin_accounts_accountstates",
@@ -423,13 +422,14 @@ function plugin_accounts_uninstall() {
                    "glpi_plugin_accounts_hashs",
                    "glpi_plugin_accounts_hashes",
                    "glpi_plugin_accounts_aeskeys",
-                   "glpi_plugin_accounts_notificationstates");
+                   "glpi_plugin_accounts_notificationstates"];
 
-   foreach ($tables as $table)
+   foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
+   }
 
    //old versions
-   $tables = array("glpi_plugin_comptes",
+   $tables = ["glpi_plugin_comptes",
                    "glpi_plugin_compte_device",
                    "glpi_dropdown_plugin_compte_type",
                    "glpi_dropdown_plugin_compte_status",
@@ -440,29 +440,30 @@ function plugin_accounts_uninstall() {
                    "glpi_plugin_compte",
                    "glpi_plugin_compte_hash",
                    "glpi_plugin_compte_aeskey",
-                   "glpi_plugin_accounts_profiles");
+                   "glpi_plugin_accounts_profiles"];
 
-   foreach ($tables as $table)
+   foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
+   }
 
    $notif = new Notification();
    $notif_template = new Notification_NotificationTemplate();
 
-   $options = array('itemtype' => 'PluginAccountsAccount',
+   $options = ['itemtype' => 'PluginAccountsAccount',
                     'event'    => 'new',
-                    'FIELDS'   => 'id');
+                    'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
-   $options = array('itemtype' => 'PluginAccountsAccount',
+   $options = ['itemtype' => 'PluginAccountsAccount',
                     'event'    => 'ExpiredAccounts',
-                    'FIELDS'   => 'id');
+                    'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
-   $options = array('itemtype' => 'PluginAccountsAccount',
+   $options = ['itemtype' => 'PluginAccountsAccount',
                     'event'    => 'AccountsWhichExpire',
-                    'FIELDS'   => 'id');
+                    'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
 
@@ -471,11 +472,11 @@ function plugin_accounts_uninstall() {
    //templates
    $template    = new NotificationTemplate();
    $translation = new NotificationTemplateTranslation();
-   $options     = array('itemtype' => 'PluginAccountsAccount',
-                        'FIELDS'   => 'id');
+   $options     = ['itemtype' => 'PluginAccountsAccount',
+                        'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
-      $options_template = array('notificationtemplates_id' => $data['id'],
-                                'FIELDS'                   => 'id');
+      $options_template = ['notificationtemplates_id' => $data['id'],
+                                'FIELDS'                   => 'id'];
 
       foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template)
                as $data_template) {
@@ -488,29 +489,30 @@ function plugin_accounts_uninstall() {
       }
    }
 
-   $tables_glpi = array("glpi_displaypreferences",
+   $tables_glpi = ["glpi_displaypreferences",
                         "glpi_documents_items",
                         "glpi_savedsearches",
                         "glpi_logs",
                         "glpi_items_tickets",
-                        "glpi_dropdowntranslations");
+                        "glpi_dropdowntranslations"];
 
-   foreach ($tables_glpi as $table_glpi)
+   foreach ($tables_glpi as $table_glpi) {
       $DB->query("DELETE FROM `$table_glpi`
                WHERE `itemtype` = 'PluginAccountsAccount'
                OR `itemtype` = 'PluginAccountsHelpdesk'
                OR `itemtype` = 'PluginAccountsGroup'
                OR `itemtype` = 'PluginAccountsAccountState'
                OR `itemtype` = 'PluginAccountsAccountType' ;");
+   }
 
    if (class_exists('PluginDatainjectionModel')) {
-      PluginDatainjectionModel::clean(array('itemtype' => 'PluginAccountsAccount'));
+      PluginDatainjectionModel::clean(['itemtype' => 'PluginAccountsAccount']);
    }
 
    //Delete rights associated with the plugin
    $profileRight = new ProfileRight();
    foreach (PluginAccountsProfile::getAllRights() as $right) {
-      $profileRight->deleteByCriteria(array('name' => $right['field']));
+      $profileRight->deleteByCriteria(['name' => $right['field']]);
    }
    PluginAccountsProfile::removeRightsFromSession();
 
@@ -522,12 +524,12 @@ function plugin_accounts_uninstall() {
 function plugin_accounts_postinit() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['item_purge']['accounts'] = array();
+   $PLUGIN_HOOKS['item_purge']['accounts'] = [];
 
    foreach (PluginAccountsAccount::getTypes(true) as $type) {
 
       $PLUGIN_HOOKS['item_purge']['accounts'][$type]
-         = array('PluginAccountsAccount_Item', 'cleanForItem');
+         = ['PluginAccountsAccount_Item', 'cleanForItem'];
 
       CommonGLPI::registerStandardTab($type, 'PluginAccountsAccount_Item');
    }
@@ -555,36 +557,37 @@ function plugin_accounts_getDatabaseRelations() {
 
    $plugin = new Plugin();
 
-   if ($plugin->isActivated("accounts"))
-      return array(
-         "glpi_plugin_accounts_accounttypes"  => array(
+   if ($plugin->isActivated("accounts")) {
+      return [
+         "glpi_plugin_accounts_accounttypes"  => [
             "glpi_plugin_accounts_accounts" => "plugin_accounts_accounttypes_id"
-         ),
-         "glpi_plugin_accounts_accountstates" => array(
+         ],
+         "glpi_plugin_accounts_accountstates" => [
             "glpi_plugin_accounts_accounts"      => "plugin_accounts_accountstates_id",
             "glpi_plugin_accounts_mailingstates" => "plugin_accounts_accountstates_id"
-         ),
-         "glpi_plugin_accounts_accounts"      => array(
+         ],
+         "glpi_plugin_accounts_accounts"      => [
             "glpi_plugin_accounts_accounts_items" => "plugin_accounts_accounts_id"
-         ),
-         "glpi_entities"                      => array(
+         ],
+         "glpi_entities"                      => [
             "glpi_plugin_accounts_accounts"     => "entities_id",
             "glpi_plugin_accounts_accounttypes" => "entities_id"
-         ),
-         "glpi_users"                         => array(
+         ],
+         "glpi_users"                         => [
             "glpi_plugin_accounts_accounts" => "users_id",
             "glpi_plugin_accounts_accounts" => "users_id_tech"
-         ),
-         "glpi_groups"                        => array(
+         ],
+         "glpi_groups"                        => [
             "glpi_plugin_accounts_accounts" => "groups_id",
             "glpi_plugin_accounts_accounts" => "groups_id_tech"
-         ),
-         "glpi_locations"                     => array(
+         ],
+         "glpi_locations"                     => [
             "glpi_plugin_accounts_accounts" => "locations_id"
-         )
-      );
-   else
-      return array();
+         ]
+      ];
+   } else {
+      return [];
+   }
 }
 
 // Define Dropdown tables to be manage in GLPI :
@@ -594,13 +597,14 @@ function plugin_accounts_getDatabaseRelations() {
 function plugin_accounts_getDropdown() {
 
    $plugin = new Plugin();
-   if ($plugin->isActivated("accounts"))
-      return array(
+   if ($plugin->isActivated("accounts")) {
+      return [
          "PluginAccountsAccountType"  => PluginAccountsAccountType::getTypeName(2),
          "PluginAccountsAccountState" => PluginAccountsAccountState::getTypeName(2)
-      );
-   else
-      return array();
+      ];
+   } else {
+      return [];
+   }
 }
 
 /**
@@ -610,7 +614,7 @@ function plugin_accounts_getDropdown() {
  */
 function plugin_accounts_getAddSearchOptions($itemtype) {
 
-   $sopt = array();
+   $sopt = [];
 
    if (in_array($itemtype, PluginAccountsAccount::getTypes(true))) {
       if (Session::haveRight("plugin_accounts", READ)) {
@@ -622,15 +626,15 @@ function plugin_accounts_getAddSearchOptions($itemtype) {
          $sopt[1900]['massiveaction'] = false;
          $sopt[1900]['itemlink_type'] = 'PluginAccountsAccount';
          if ($itemtype != 'User') {
-            $sopt[1900]['joinparams'] = array('beforejoin' => array('table'      => 'glpi_plugin_accounts_accounts_items',
-                                                                    'joinparams' => array('jointype' => 'itemtype_item')));
+            $sopt[1900]['joinparams'] = ['beforejoin' => ['table'      => 'glpi_plugin_accounts_accounts_items',
+                                                                    'joinparams' => ['jointype' => 'itemtype_item']]];
          }
          $sopt[1901]['table']         = 'glpi_plugin_accounts_accounttypes';
          $sopt[1901]['field']         = 'name';
          $sopt[1901]['name']          = PluginAccountsAccount::getTypeName(2) . " - " . __('Type');
          $sopt[1901]['forcegroupby']  = true;
-         $sopt[1901]['joinparams']    = array('beforejoin' => array(array('table'      => 'glpi_plugin_accounts_accounts',
-                                                                          'joinparams' => $sopt[1900]['joinparams'])));
+         $sopt[1901]['joinparams']    = ['beforejoin' => [['table'      => 'glpi_plugin_accounts_accounts',
+                                                                          'joinparams' => $sopt[1900]['joinparams']]]];
          $sopt[1901]['datatype']      = 'dropdown';
          $sopt[1901]['massiveaction'] = false;
       }
@@ -676,8 +680,11 @@ function plugin_accounts_addDefaultWhere($type) {
                $first_groups = true;
                $groups       = "";
                foreach ($_SESSION['glpigroups'] as $val) {
-                  if (!$first_groups) $groups .= ",";
-                  else $first_groups = false;
+                  if (!$first_groups) {
+                     $groups .= ",";
+                  } else {
+                     $first_groups = false;
+                  }
                   $groups .= "'" . $val . "'";
                }
                return " (`glpi_plugin_accounts_accounts`.`groups_id` IN (
@@ -730,8 +737,9 @@ function plugin_accounts_displayConfigItem($type, $ID, $data, $num) {
 
    switch ($table . '.' . $field) {
       case "glpi_plugin_accounts_accounts.date_expiration" :
-         if ($data[$num] <= date('Y-m-d') && !empty($data[$num]))
+         if ($data[$num] <= date('Y-m-d') && !empty($data[$num])) {
             return " class=\"deleted\" ";
+         }
          break;
    }
    return "";
@@ -808,7 +816,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                            $query .= " ORDER BY `glpi_entities`.`completename`, `" . $table_item . "`.`$column` ";
                         }
 
-                        if ($result_linked = $DB->query($query))
+                        if ($result_linked = $DB->query($query)) {
                            if ($DB->numrows($result_linked)) {
                               $item = new $itemtype();
                               while ($data = $DB->fetch_assoc($result_linked)) {
@@ -816,10 +824,13 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                                     $out .= $item::getTypeName() . " - " . $item->getLink() . "<br>";
                                  }
                               }
-                           } else
+                           } else {
                               $out .= ' ';
-                     } else
+                           }
+                        }
+                     } else {
                         $out .= ' ';
+                     }
                   }
                }
                return $out;
@@ -840,11 +851,11 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
 function plugin_accounts_MassiveActions($type) {
 
    if (in_array($type, PluginAccountsAccount::getTypes(true))) {
-      return array(
+      return [
          'PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts')
-      );
+      ];
    }
-   return array();
+   return [];
 }
 
 /*
@@ -855,7 +866,7 @@ function plugin_accounts_MassiveActionsProcess($data) {
    $res = array('ok' => 0,
             'ko' => 0,
             'noright' => 0);
-    
+
    switch ($data['action']) {
 
       case "plugin_accounts_add_item" :

@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -42,8 +42,7 @@ class PluginAccountsConfig extends CommonDBTM
     * @param int $withtemplate
     * @return string|translated
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
-   {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if ($item->getType() == 'CronTask' && $item->getField('name') == "AccountsAlert") {
          return __('Plugin Setup', 'accounts');
@@ -58,8 +57,7 @@ class PluginAccountsConfig extends CommonDBTM
     * @param int $withtemplate
     * @return bool
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-   {
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       global $CFG_GLPI;
 
       if ($item->getType() == 'CronTask') {
@@ -74,8 +72,7 @@ class PluginAccountsConfig extends CommonDBTM
     * @param $target
     * @param $ID
     */
-   public function showForm($target, $ID)
-   {
+   public function showForm($target, $ID) {
 
       $this->getFromDB($ID);
       $delay_expired = $this->fields["delay_expired"];

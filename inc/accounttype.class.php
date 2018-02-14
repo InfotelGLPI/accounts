@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -46,8 +46,7 @@ class PluginAccountsAccountType extends CommonDropdown
     * @param int $nb
     * @return translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Type of account', 'Types of account', $nb, 'accounts');
    }
@@ -57,8 +56,7 @@ class PluginAccountsAccountType extends CommonDropdown
     * @param $entity
     * @return ID|int|the
     */
-   public static function transfer($ID, $entity)
-   {
+   public static function transfer($ID, $entity) {
       global $DB;
 
       if ($ID > 0) {

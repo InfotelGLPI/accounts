@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -67,10 +67,10 @@ class PluginAccountsProfile extends Profile {
          $prof = new self();
 
          self::addDefaultProfileInfos($ID,
-                                      array('plugin_accounts'               => 0,
+                                      ['plugin_accounts'               => 0,
                                             'plugin_accounts_my_groups'     => 0,
                                             'plugin_accounts_open_ticket'   => 0,
-                                            'plugin_accounts_see_all_users' => 0));
+                                            'plugin_accounts_see_all_users' => 0]);
          $prof->showForm($ID);
       }
       return true;
@@ -82,10 +82,10 @@ class PluginAccountsProfile extends Profile {
    static function createFirstAccess($ID) {
       //85
       self::addDefaultProfileInfos($ID,
-                                   array('plugin_accounts'               => 127,
+                                   ['plugin_accounts'               => 127,
                                          'plugin_accounts_my_groups'     => 1,
                                          'plugin_accounts_open_ticket'   => 1,
-                                         'plugin_accounts_see_all_users' => 1), true);
+                                         'plugin_accounts_see_all_users' => 1], true);
    }
 
    /**
@@ -100,10 +100,10 @@ class PluginAccountsProfile extends Profile {
     * @internal param value $target url of target
     *
     */
-   function showForm($profiles_id = 0, $openform = TRUE, $closeform = TRUE) {
+   function showForm($profiles_id = 0, $openform = true, $closeform = true) {
 
       echo "<div class='firstbloc'>";
-      if (($canedit = Session::haveRightsOr(self::$rightname, array(CREATE, UPDATE, PURGE)))
+      if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE]))
           && $openform) {
          $profile = new Profile();
          echo "<form method='post' action='" . $profile->getFormURL() . "'>";
@@ -116,46 +116,46 @@ class PluginAccountsProfile extends Profile {
       if ($profile->getField('interface') == 'central') {
          $rights = $this->getAllRights();
       }
-      $profile->displayRightsChoiceMatrix($rights, array('canedit'       => $canedit,
+      $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                                                          'default_class' => 'tab_bg_2',
-                                                         'title'         => __('General')));
+                                                         'title'         => __('General')]);
 
       echo "<table class='tab_cadre_fixehov'>";
-      $effective_rights = ProfileRight::getProfileRights($profiles_id, array('plugin_accounts_see_all_users',
-                                                                             'plugin_accounts_my_groups'));
+      $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_accounts_see_all_users',
+                                                                             'plugin_accounts_my_groups']);
 
       echo "<tr class='tab_bg_2'>";
       echo "<td width='20%'>" . __('See accounts of my groups', 'accounts') . "</td>";
       echo "<td colspan='5'>";
-      Html::showCheckbox(array('name'    => '_plugin_accounts_my_groups',
-                               'checked' => $effective_rights['plugin_accounts_my_groups']));
+      Html::showCheckbox(['name'    => '_plugin_accounts_my_groups',
+                               'checked' => $effective_rights['plugin_accounts_my_groups']]);
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_2'>";
       echo "<td width='20%'>" . __('See all accounts', 'accounts') . "</td>";
       echo "<td colspan='5'>";
-      Html::showCheckbox(array('name'    => '_plugin_accounts_see_all_users',
-                               'checked' => $effective_rights['plugin_accounts_see_all_users']));
+      Html::showCheckbox(['name'    => '_plugin_accounts_see_all_users',
+                               'checked' => $effective_rights['plugin_accounts_see_all_users']]);
       echo "</td></tr>\n";
       echo "</table>";
 
       echo "<table class='tab_cadre_fixehov'>";
       echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Helpdesk') . "</th></tr>\n";
 
-      $effective_rights = ProfileRight::getProfileRights($profiles_id, array('plugin_accounts_open_ticket'));
+      $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_accounts_open_ticket']);
       echo "<tr class='tab_bg_2'>";
       echo "<td width='20%'>" . __('Associable items to a ticket') . "</td>";
       echo "<td colspan='5'>";
-      Html::showCheckbox(array('name'    => '_plugin_accounts_open_ticket',
-                               'checked' => $effective_rights['plugin_accounts_open_ticket']));
+      Html::showCheckbox(['name'    => '_plugin_accounts_open_ticket',
+                               'checked' => $effective_rights['plugin_accounts_open_ticket']]);
       echo "</td></tr>\n";
       echo "</table>";
 
       if ($canedit
           && $closeform) {
          echo "<div class='center'>";
-         echo Html::hidden('id', array('value' => $profiles_id));
-         echo Html::submit(_sx('button', 'Save'), array('name' => 'update'));
+         echo Html::hidden('id', ['value' => $profiles_id]);
+         echo Html::submit(_sx('button', 'Save'), ['name' => 'update']);
          echo "</div>\n";
          Html::closeForm();
       }
@@ -169,26 +169,25 @@ class PluginAccountsProfile extends Profile {
     */
    static function getHelpdeskRights($all = false) {
 
-
-      $rights = array(
-         array('rights' => Profile::getRightsFor('PluginAccountsAccount', 'helpdesk'),
+      $rights = [
+         ['rights' => Profile::getRightsFor('PluginAccountsAccount', 'helpdesk'),
                'label'  => _n('Account', 'Accounts', 2, 'accounts'),
                'field'  => 'plugin_accounts'
-         ),
-      );
+         ],
+      ];
 
       if ($all) {
-         $rights[] = array('itemtype' => 'PluginAccountsAccount',
+         $rights[] = ['itemtype' => 'PluginAccountsAccount',
                            'label'    => __('See accounts of my groups', 'accounts'),
-                           'field'    => 'plugin_accounts_my_groups');
+                           'field'    => 'plugin_accounts_my_groups'];
 
-         $rights[] = array('itemtype' => 'PluginAccountsAccount',
+         $rights[] = ['itemtype' => 'PluginAccountsAccount',
                            'label'    => __('See all accounts', 'accounts'),
-                           'field'    => 'plugin_accounts_see_all_users');
+                           'field'    => 'plugin_accounts_see_all_users'];
 
-         $rights[] = array('itemtype' => 'PluginAccountsAccount',
+         $rights[] = ['itemtype' => 'PluginAccountsAccount',
                            'label'    => __('Associable items to a ticket'),
-                           'field'    => 'plugin_accounts_open_ticket');
+                           'field'    => 'plugin_accounts_open_ticket'];
       }
 
       return $rights;
@@ -201,26 +200,25 @@ class PluginAccountsProfile extends Profile {
     */
    static function getAllRights($all = false) {
 
-
-      $rights = array(
-         array('rights' => Profile::getRightsFor('PluginAccountsAccount', 'central'),
+      $rights = [
+         ['rights' => Profile::getRightsFor('PluginAccountsAccount', 'central'),
                'label'  => _n('Account', 'Accounts', 2, 'accounts'),
                'field'  => 'plugin_accounts'
-         ),
-      );
+         ],
+      ];
 
       if ($all) {
-         $rights[] = array('itemtype' => 'PluginAccountsAccount',
+         $rights[] = ['itemtype' => 'PluginAccountsAccount',
                            'label'    => __('See accounts of my groups', 'accounts'),
-                           'field'    => 'plugin_accounts_my_groups');
+                           'field'    => 'plugin_accounts_my_groups'];
 
-         $rights[] = array('itemtype' => 'PluginAccountsAccount',
+         $rights[] = ['itemtype' => 'PluginAccountsAccount',
                            'label'    => __('See all accounts', 'accounts'),
-                           'field'    => 'plugin_accounts_see_all_users');
+                           'field'    => 'plugin_accounts_see_all_users'];
 
-         $rights[] = array('itemtype' => 'PluginAccountsAccount',
+         $rights[] = ['itemtype' => 'PluginAccountsAccount',
                            'label'    => __('Associable items to a ticket'),
-                           'field'    => 'plugin_accounts_open_ticket');
+                           'field'    => 'plugin_accounts_open_ticket'];
       }
 
       return $rights;
@@ -269,10 +267,10 @@ class PluginAccountsProfile extends Profile {
       foreach ($DB->request('glpi_plugin_accounts_profiles',
                             "`profiles_id`='$profiles_id'") as $profile_data) {
 
-         $matching       = array('accounts'    => 'plugin_accounts',
+         $matching       = ['accounts'    => 'plugin_accounts',
                                  'all_users'   => 'plugin_accounts_see_all_users',
                                  'my_groups'   => 'plugin_accounts_my_groups',
-                                 'open_ticket' => 'plugin_accounts_open_ticket');
+                                 'open_ticket' => 'plugin_accounts_open_ticket'];
          $current_rights = ProfileRight::getProfileRights($profiles_id, array_values($matching));
          foreach ($matching as $old => $new) {
             if (!isset($current_rights[$old])) {
@@ -296,7 +294,7 @@ class PluginAccountsProfile extends Profile {
       foreach ($profile->getAllRights(true) as $data) {
          if ($dbu->countElementsInTable("glpi_profilerights",
                                   "`name` = '" . $data['field'] . "'") == 0) {
-            ProfileRight::addProfileRights(array($data['field']));
+            ProfileRight::addProfileRights([$data['field']]);
          }
       }
 
@@ -335,7 +333,7 @@ class PluginAccountsProfile extends Profile {
       foreach ($rights as $right => $value) {
          if ($dbu->countElementsInTable('glpi_profilerights',
                                         "`profiles_id`='$profiles_id' AND `name`='$right'") && $drop_existing) {
-            $profileRight->deleteByCriteria(array('profiles_id' => $profiles_id, 'name' => $right));
+            $profileRight->deleteByCriteria(['profiles_id' => $profiles_id, 'name' => $right]);
          }
          if (!$dbu->countElementsInTable('glpi_profilerights',
                                          "`profiles_id`='$profiles_id' AND `name`='$right'")) {

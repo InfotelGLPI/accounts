@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -45,9 +45,9 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
     * @return array
     */
    public function getEvents() {
-      return array('new'                 => __('New account', 'accounts'),
+      return ['new'                 => __('New account', 'accounts'),
                    'ExpiredAccounts'     => __('Accounts expired', 'accounts'),
-                   'AccountsWhichExpire' => __('Accounts which expires', 'accounts'));
+                   'AccountsWhichExpire' => __('Accounts which expires', 'accounts')];
    }
 
    /**
@@ -140,7 +140,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
     * @param       $event
     * @param array $options
     */
-   public function addDataForTemplate($event, $options = array()) {
+   public function addDataForTemplate($event, $options = []) {
       global $CFG_GLPI;
 
       if ($event == 'new') {
@@ -160,7 +160,6 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $this->data['##lang.account.type##'] = __('Type');
          $this->data['##account.type##']      = Dropdown::getDropdownName('glpi_plugin_accounts_accounttypes',
                                                                            $this->obj->getField('plugin_accounts_accounttypes_id'));
-
 
          $this->data['##lang.account.state##'] = __('Status');
          $this->data['##account.state##']      = Dropdown::getDropdownName('glpi_plugin_accounts_accountstates',
@@ -229,7 +228,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $this->data['##lang.account.comment##']        = __('Comments');
 
          foreach ($options['accounts'] as $id => $account) {
-            $tmp = array();
+            $tmp = [];
 
             $tmp['##account.name##']           = $account['name'];
             $tmp['##account.type##']           = Dropdown::getDropdownName('glpi_plugin_accounts_accounttypes',
@@ -260,7 +259,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
     */
    function getTags() {
 
-      $tags = array('account.action'         => __('Action'),
+      $tags = ['account.action'         => __('Action'),
                     'account.entity'         => __('Entity'),
                     'account.id'             => __('ID'),
                     'account.url'            => __('Direct link to created account', 'accounts'),
@@ -276,21 +275,21 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
                     'account.others'         => __('Others'),
                     'account.datecreation'   => __('Creation date'),
                     'account.dateexpiration' => __('Expiration date'),
-                    'account.comment'        => __('Comments'));
+                    'account.comment'        => __('Comments')];
       foreach ($tags as $tag => $label) {
-         $this->addTagToList(array('tag'   => $tag, 'label' => $label,
-                                   'value' => true));
+         $this->addTagToList(['tag'   => $tag, 'label' => $label,
+                                   'value' => true]);
       }
 
-      $this->addTagToList(array('tag'   => '##lang.account.title##',
+      $this->addTagToList(['tag'   => '##lang.account.title##',
                                 'value' => false,
-                                'label' => __('An account has been created', 'accounts')));
+                                'label' => __('An account has been created', 'accounts')]);
 
-      $this->addTagToList(array('tag'     => 'accounts',
+      $this->addTagToList(['tag'     => 'accounts',
                                 'label'   => __('Accounts expired or accounts which expires', 'accounts'),
                                 'value'   => false,
                                 'foreach' => true,
-                                'events'  => array('AccountsWhichExpire', 'ExpiredAccounts')));
+                                'events'  => ['AccountsWhichExpire', 'ExpiredAccounts']]);
 
       asort($this->tag_descriptions);
    }

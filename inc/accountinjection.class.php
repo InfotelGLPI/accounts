@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of accounts.
 
  accounts is free software; you can redistribute it and/or modify
@@ -41,8 +41,7 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
    /**
     * @return mixed
     */
-   static function getTable()
-   {
+   static function getTable() {
 
       $parenttype = get_parent_class();
       return $parenttype::getTable();
@@ -52,25 +51,22 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
    /**
     * @return bool
     */
-   public function isPrimaryType()
-   {
+   public function isPrimaryType() {
       return true;
    }
 
    /**
     * @return array
     */
-   public function connectedTo()
-   {
-      return array();
+   public function connectedTo() {
+      return [];
    }
 
    /**
     * @param string $primary_type
     * @return array|the
     */
-   public function getOptions($primary_type = '')
-   {
+   public function getOptions($primary_type = '') {
 
       $tab = Search::getOptions(get_parent_class($this));
 
@@ -80,13 +76,13 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
       $tab[16]['linkfield'] = 'locations_id';
       //$blacklist = PluginDatainjectionCommonInjectionLib::getBlacklistedOptions();
       //Remove some options because some fields cannot be imported
-      $notimportable = array(8, 14, 30, 80);
+      $notimportable = [8, 14, 30, 80];
       $options['ignore_fields'] = $notimportable;
-      $options['displaytype'] = array("dropdown" => array(2, 10, 12, 16),
-         "user" => array(3),
-         "multiline_text" => array(7),
-         "date" => array(5, 6),
-         "bool" => array(11, 13));
+      $options['displaytype'] = ["dropdown" => [2, 10, 12, 16],
+         "user" => [3],
+         "multiline_text" => [7],
+         "date" => [5, 6],
+         "bool" => [11, 13]];
 
       $tab = PluginDatainjectionCommonInjectionLib::addToSearchOptions($tab, $options, $this);
 
@@ -102,8 +98,7 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
     * @internal param fields $fields to add into glpi
     * @internal param options $options used during creation
     */
-   public function deleteObject($values = array(), $options = array())
-   {
+   public function deleteObject($values = [], $options = []) {
       $lib = new PluginDatainjectionCommonInjectionLib($this, $values, $options);
       $lib->deleteObject();
       return $lib->getInjectionResults();
@@ -118,8 +113,7 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
     * @internal param fields $values to add into glpi
     * @internal param options $options used during creation
     */
-   public function addOrUpdateObject($values = array(), $options = array())
-   {
+   public function addOrUpdateObject($values = [], $options = []) {
       $lib = new PluginDatainjectionCommonInjectionLib($this, $values, $options);
       $lib->processAddOrUpdate();
       return $lib->getInjectionResults();
