@@ -66,7 +66,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
     * @param $data
     * @param $options
     */
-   public function getSpecificTargets($data, $options) {
+   public function addSpecificTargets($data, $options) {
 
       //Look for all targets whose type is Notification::ITEM_USER
       switch ($data['items_id']) {
