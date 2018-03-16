@@ -1259,10 +1259,9 @@ class PluginAccountsAccount extends CommonDBTM {
     */
    function getRights($interface = 'central') {
 
-      $values = [];
+      $values = parent::getRights();
 
       if ($interface == 'helpdesk') {
-         $values = parent::getRights();
          unset($values[CREATE], $values[DELETE], $values[PURGE]);
       }
       return $values;
