@@ -216,18 +216,30 @@ class PluginAccountsAesKey extends CommonDBTM
       Session::initNavigateListItems("PluginAccountsAesKey", __('Hash', 'accounts') . " = " . $this->h->fields["name"]);
 
       $candelete = $this->h->can($ID, DELETE);
-      $query = "SELECT *
-      FROM `glpi_plugin_accounts_aeskeys`
-      WHERE `plugin_accounts_hashes_id` = '$ID' ";
-      $result = $DB->query($query);
+      $query     = "SELECT *
+                     FROM `glpi_plugin_accounts_aeskeys`
+                     WHERE `plugin_accounts_hashes_id` = '$ID' ";
+      $result    = $DB->query($query);
+      $numrows   = $DB->numrows($result);
+
       $rand = mt_rand();
       echo "<div class='center'>";
-      echo "<form method='post' name='show_aeskey$rand' id='show_aeskey$rand' action=\"./aeskey.form.php\">";
+
       echo "<input type='hidden' name='plugin_accounts_hashes_id' value='" . $ID . "'>";
+
+      if ($candelete && $numrows) {
+         Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
+         $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
+         Html::showMassiveActions($massiveactionparams);
+      }
+
       echo "<table class='tab_cadre_fixe'>";
 
-      echo "<tr><th colspan='5'>" . __('Encryption key', 'accounts') . "</th></tr>";
-      echo "<tr><th>&nbsp;</th>";
+      echo "<tr><th colspan='" . ($candelete ? 2 : 1) . "'>" . __('Encryption key', 'accounts') . "</th></tr>";
+      echo "<tr>";
+      if ($candelete && $numrows) {
+         echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+      }
       echo "<th class='left'>" . __('Name') . "</th>";
       echo "</tr>";
 
@@ -237,31 +249,44 @@ class PluginAccountsAesKey extends CommonDBTM
             Session::addToNavigateListItems("PluginAccountsAesKey", $data['id']);
             echo "<input type='hidden' name='item[" . $data["id"] . "]' value='" . $ID . "'>";
             echo "<tr class='tab_bg_1 center'>";
-            echo "<td width='10'>";
             if ($candelete) {
-               echo "<input type='checkbox' name='check[" . $data["id"] . "]'";
-               if (isset($_POST['check']) && $_POST['check'] == 'all') {
-                  echo " checked ";
-               }
-               echo ">";
+               echo "<td width='10'>";
+               Html::showMassiveActionCheckBox(__CLASS__, $data["id"]);
+               echo "</td>";
             }
-            echo "</td>";
             $link = Toolbox::getItemTypeFormURL("PluginAccountsAesKey");
             echo "<td class='left'><a href='" . $link . "?id=" . $data["id"] . "&plugin_accounts_hashes_id=" . $ID . "'>";
             echo __('Encryption key', 'accounts') . "</a></td>";
             echo "</tr>";
          }
+
+         echo "<tr>";
+         if ($candelete && $numrows) {
+            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+         }
+         echo "<th class='left'>" . __('Name') . "</th>";
+         echo "</tr>";
          echo "</table>";
 
          if ($candelete) {
-            Html::openArrowMassives("show_aeskey$rand", true);
-            Html::closeArrowMassives(['delete' => __('Delete permanently')]);
+            $massiveactionparams['ontop'] = false;
+            Html::showMassiveActions($massiveactionparams);
+            Html::closeForm();
          }
       } else {
          echo "</table>";
       }
-      Html::closeForm();
       echo "</div>";
+   }
+
+   /**
+    * @return an|array
+    */
+   function getForbiddenStandardMassiveAction() {
+
+      $forbidden   = parent::getForbiddenStandardMassiveAction();
+      $forbidden[] = 'update';
+      return $forbidden;
    }
 
 }

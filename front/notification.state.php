@@ -32,25 +32,13 @@ include('../../../inc/includes.php');
 
 Session::checkRight("config", UPDATE);
 
-$config = new PluginAccountsConfig();
-$notif = new PluginAccountsNotificationState();
-
 if (isset($_POST["add"])) {
-
+   $notif = new PluginAccountsNotificationState();
    $notif->addNotificationState($_POST['plugin_accounts_accountstates_id']);
    Html::back();
 
-} else if (isset($_POST["delete"])) {
-
-   foreach ($_POST["item"] as $key => $val) {
-      if ($val == 1) {
-         $notif->delete(['id' => $key]);
-      }
-   }
-   Html::back();
-
 } else if (isset($_POST["update"])) {
-
+   $config = new PluginAccountsConfig();
    $config->update($_POST);
    Html::back();
 
