@@ -272,7 +272,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          ]);
          echo "</td><td class='center'>";
          echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='submit'>";
-         echo "<input type='hidden' name='plugin_accounts_accounts_id' value='$instID'>";
+         echo Html::hidden('plugin_accounts_accounts_id', ['value' => $instID]);
          echo "</td></tr>";
          echo "</table>";
          Html::closeForm();
@@ -543,12 +543,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             echo "<table class='tab_cadre_fixe'>";
             echo "<tr class='tab_bg_1'>";
             echo "<td colspan='4' class='center'>";
-            echo "<input type='hidden' name='entities_id' value='$entity'>";
-            echo "<input type='hidden' name='is_recursive' value='$is_recursive'>";
-            echo "<input type='hidden' name='itemtype' value='" . $item->getType() . "'>";
-            echo "<input type='hidden' name='items_id' value='$ID'>";
+            echo Html::hidden('entities_id', ['value' => $entity]);
+            echo Html::hidden('is_recursive', ['value' => $is_recursive]);
+            echo Html::hidden('itemtype', ['value' => $item->getType()]);
+            echo Html::hidden('items_id', ['value' => $ID]);
             if ($item->getType() == 'Ticket') {
-               echo "<input type='hidden' name='tickets_id' value='$ID'>";
+               echo Html::hidden('tickets_id', ['value' => $ID]);
             }
 
             PluginAccountsAccount::dropdownAccount(['entity' => $entities,

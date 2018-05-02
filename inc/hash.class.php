@@ -276,7 +276,7 @@ class PluginAccountsHash extends CommonDBTM {
       if ($options['upgrade']) {
          echo "<tr class='tab_bg_1'>";
          echo "<td class='center' colspan='2'>";
-         echo "<input type='hidden' name='id' value='1'>";
+         echo Html::hidden('id', ['value' => 1]);
          echo "<input type='submit' name='upgrade' value=\"" . _sx('button', 'Upgrade') . "\" class='submit' >";
          echo "</td></tr>";
       }
@@ -354,7 +354,7 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<tr class='tab_bg_1 center'><td>";
       $message  = __('You want to change the key : ', 'accounts');
       $message2 = __(' by the key : ', 'accounts');
-      echo "<input type='hidden' name='ID' value='" . $hash_id . "'>";
+      echo Html::hidden('ID', ['value' => $hash_id]);
       echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='submit'
       onclick='return (confirm(\"$message\" +  document.getElementById(\"aeskey\").value + \"$message2\" + document.getElementById(\"aeskeynew\").value)) '>";
       echo "</td></tr>";

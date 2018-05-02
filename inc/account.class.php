@@ -602,7 +602,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
             echo "<tr>";
             echo "<td class='tab_bg_2'  colspan='4 top'><div align='center'>";
-            echo "<input type='hidden' name='id' value=\"$ID\">";
+            echo Html::hidden('id', ['value' => $ID]);
             echo "<input type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='submit' >";
             echo Html::scriptBlock("$('#account_form').submit(function(event){
                if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
@@ -659,7 +659,7 @@ class PluginAccountsAccount extends CommonDBTM {
             if (!in_array($ID, $_SESSION['plugin_accounts']['upgrade'])) {
                echo "<tr class='tab_bg_1'>";
                echo "<td class='center'>";
-               echo "<input type='hidden' name='update_encrypted_password' value='1'>";
+               echo Html::hidden('update_encrypted_password', ['value' => 1]);
                echo "<input type='checkbox' checked name='item[$ID]' value='1'>";
                echo "</td>";
                echo "<td>";

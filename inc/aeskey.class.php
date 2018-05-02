@@ -181,7 +181,7 @@ class PluginAccountsAesKey extends CommonDBTM
 
       $options['colspan'] = 2;
       $this->h->getFromDB($plugin_accounts_hashes_id);
-      echo "<input type='hidden' name='plugin_accounts_hashes_id' value='$plugin_accounts_hashes_id'>";
+      echo Html::hidden('plugin_accounts_hashes_id', ['value' => $plugin_accounts_hashes_id]);
 
       echo "<tr class='tab_bg_2'><td colspan='2'>";
       echo __('Encryption key', 'accounts');
@@ -223,7 +223,7 @@ class PluginAccountsAesKey extends CommonDBTM
       $rand = mt_rand();
       echo "<div class='center'>";
       echo "<form method='post' name='show_aeskey$rand' id='show_aeskey$rand' action=\"./aeskey.form.php\">";
-      echo "<input type='hidden' name='plugin_accounts_hashes_id' value='" . $ID . "'>";
+      echo Html::hidden('plugin_accounts_hashes_id', ['value' => $ID]);
       echo "<table class='tab_cadre_fixe'>";
 
       echo "<tr><th colspan='5'>" . __('Encryption key', 'accounts') . "</th></tr>";

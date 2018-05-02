@@ -158,7 +158,7 @@ class PluginAccountsNotificationState extends CommonDBTM
                $ID = $ligne["id"];
                echo "<tr class='tab_bg_1'>";
                echo "<td class='center' width='10'>";
-               echo "<input type='hidden' name='id' value='$ID'>";
+               echo Html::hidden('id', ['value' => $ID]);
                echo "<input type='checkbox' name='item[$ID]' value='1'>";
                echo "</td>";
                echo "<td>";

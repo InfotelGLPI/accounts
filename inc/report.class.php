@@ -151,8 +151,8 @@ class PluginAccountsReport extends CommonDBTM
 
             $IDc = $field["id"];
             if ($output_type == Search::HTML_OUTPUT) {
-               echo "<input type='hidden' name='hash_id' value='" . $ID . "'>";
-               echo "<input type='hidden' name='id[$IDc]' value='" . $IDc . "'>";
+               echo Html::hidden('hash_id', ['value' => $ID]);
+               echo Html::hidden('id[$IDc]', ['value' => $IDc]);
             }
 
             $name = "<a href='" . $CFG_GLPI["root_doc"] . "/plugins/accounts/front/account.form.php?id=" . $IDc . "'>" . $field["name"];
@@ -162,21 +162,21 @@ class PluginAccountsReport extends CommonDBTM
             $name .= "</a>";
             echo Search::showItem($output_type, $name, $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
-               echo "<input type='hidden' name='name[$IDc]' value='" . $field["name"] . "'>";
+               echo Html::hidden('name[$IDc]', ['value' => $field["name"]]);
             }
             if (Session::isMultiEntitiesMode()) {
                echo Search::showItem($output_type, $field['entities_id'], $item_num, $row_num);
                if ($output_type == Search::HTML_OUTPUT) {
-                  echo "<input type='hidden' name='entities_id[$IDc]' value='" . $field["entities_id"] . "'>";
+                  echo Html::hidden('entities_id[$IDc]', ['value' => $field["entities_id"]]);
                }
             }
             echo Search::showItem($output_type, $field["type"], $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
-               echo "<input type='hidden' name='type[$IDc]' value='" . $field["type"] . "'>";
+               echo Html::hidden('type[$IDc]', ['value' => $field["type"]]);
             }
             echo Search::showItem($output_type, $field["login"], $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
-               echo "<input type='hidden' name='login[$IDc]' value='" . $field["login"] . "'>";
+               echo Html::hidden('login[$IDc]', ['value' => $field["login"]]);
             }
             if ($output_type == Search::HTML_OUTPUT) {
                $encrypted = $field["password"];
@@ -258,7 +258,7 @@ class PluginAccountsReport extends CommonDBTM
       ) {
          echo "<td class='tab_bg_2' width='30%'>";
 
-         echo "<input type='hidden' name='item_type' value='PluginAccountsReport'>";
+         echo Html::hidden('item_type', ['value' => 'PluginAccountsReport']);
          if ($item_type_output_param != 0) {
             echo "<input type='hidden' name='item_type_param' value='" .
                serialize($item_type_output_param) . "'>";
@@ -289,7 +289,7 @@ class PluginAccountsReport extends CommonDBTM
 
       Dropdown::showFromArray('display_type', $values);
       if (GLPI_USE_CSRF_CHECK) {
-         echo "<input type='hidden' id='report_csrf' name='_glpi_csrf_token' value='" . Session::getNewCSRFToken() . "'>";
+         echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
       }
 
       echo "<input type='image' name='export' class='pointer' src='" . $CFG_GLPI["root_doc"] . "/pics/export.png'
