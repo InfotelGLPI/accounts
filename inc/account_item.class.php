@@ -480,7 +480,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                        `glpi_plugin_accounts_accounts`.`name` AS assocName,
                        `glpi_plugin_accounts_accounts`.*
                 FROM `glpi_plugin_accounts_accounts_items`
-                LEFT JOIN `glpi_plugin_accounts_accounts`
+                JOIN `glpi_plugin_accounts_accounts`
                  ON (`glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id`=`glpi_plugin_accounts_accounts`.`id`)
                 LEFT JOIN `glpi_entities` ON (`glpi_plugin_accounts_accounts`.`entities_id`=`glpi_entities`.`id`)
                 WHERE `glpi_plugin_accounts_accounts_items`.`items_id` = '$ID'

@@ -718,7 +718,7 @@ class PluginAccountsAccount extends CommonDBTM {
                getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '', $p['entity'], true);
 
       if (count($p['used'])) {
-         $where .= " AND `id` NOT IN (0, " . implode(",", $p['used']) . ")";
+         $where .= " AND `id` NOT IN (0, " . implode(",", array_filter($p['used'])) . ")";
       }
 
       $query  = "SELECT *
@@ -735,9 +735,9 @@ class PluginAccountsAccount extends CommonDBTM {
          $values[$data['id']] = $data['name'];
       }
       $rand     = mt_rand();
-      $out      = Dropdown::showFromArray('_accounttype', $values, ['width'   => '30%',
-                                                                         'rand'    => $rand,
-                                                                         'display' => false]);
+      $out = Dropdown::showFromArray('_accounttype', $values, ['width'   => '30%',
+                                                               'rand'    => $rand,
+                                                               'display' => false]);
       $field_id = Html::cleanId("dropdown__accounttype$rand");
 
       $params = ['accounttype' => '__VALUE__',
