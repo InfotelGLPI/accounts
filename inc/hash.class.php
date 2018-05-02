@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginAccountsHash extends CommonDBTM {
 
-   static $rightname = "config";
+   static $rightname = "plugin_accounts_hash";
 
    public $dohistory = true;
 

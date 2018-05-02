@@ -68,9 +68,10 @@ class PluginAccountsProfile extends Profile {
 
          self::addDefaultProfileInfos($ID,
                                       ['plugin_accounts'               => 0,
-                                            'plugin_accounts_my_groups'     => 0,
-                                            'plugin_accounts_open_ticket'   => 0,
-                                            'plugin_accounts_see_all_users' => 0]);
+                                       'plugin_accounts_hash'          => 0,
+                                       'plugin_accounts_my_groups'     => 0,
+                                       'plugin_accounts_open_ticket'   => 0,
+                                       'plugin_accounts_see_all_users' => 0]);
          $prof->showForm($ID);
       }
       return true;
@@ -83,9 +84,10 @@ class PluginAccountsProfile extends Profile {
       //85
       self::addDefaultProfileInfos($ID,
                                    ['plugin_accounts'               => 127,
-                                         'plugin_accounts_my_groups'     => 1,
-                                         'plugin_accounts_open_ticket'   => 1,
-                                         'plugin_accounts_see_all_users' => 1], true);
+                                    'plugin_accounts_hash'          => 127,
+                                    'plugin_accounts_my_groups'     => 1,
+                                    'plugin_accounts_open_ticket'   => 1,
+                                    'plugin_accounts_see_all_users' => 1], true);
    }
 
    /**
@@ -171,8 +173,8 @@ class PluginAccountsProfile extends Profile {
 
       $rights = [
          ['rights' => Profile::getRightsFor('PluginAccountsAccount', 'helpdesk'),
-               'label'  => _n('Account', 'Accounts', 2, 'accounts'),
-               'field'  => 'plugin_accounts'
+          'label'  => _n('Account', 'Accounts', 2, 'accounts'),
+          'field'  => 'plugin_accounts'
          ],
       ];
 
@@ -204,6 +206,10 @@ class PluginAccountsProfile extends Profile {
          ['rights' => Profile::getRightsFor('PluginAccountsAccount', 'central'),
                'label'  => _n('Account', 'Accounts', 2, 'accounts'),
                'field'  => 'plugin_accounts'
+         ],
+         ['rights' => Profile::getRightsFor('PluginAccountsHash', 'central'),
+          'label'  => PluginAccountsHash::getTypeName(),
+          'field'  => 'plugin_accounts_hash'
          ],
       ];
 
