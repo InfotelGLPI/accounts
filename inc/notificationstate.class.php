@@ -149,17 +149,21 @@ class PluginAccountsNotificationState extends CommonDBTM
          if ($number != 0) {
 
             echo "<div align='center'>";
-            echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand' action=\"$target\">";
+
+            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
+            $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
+            Html::showMassiveActions($massiveactionparams);
+
             echo "<table class='tab_cadre_fixe' cellpadding='5'>";
             echo "<tr>";
-            echo "<th></th><th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
+            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+            echo "<th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
             echo "</tr>";
             while ($ligne = $DB->fetch_array($result)) {
                $ID = $ligne["id"];
                echo "<tr class='tab_bg_1'>";
                echo "<td class='center' width='10'>";
-               echo Html::hidden('id', ['value' => $ID]);
-               echo "<input type='checkbox' name='item[$ID]' value='1'>";
+               Html::showMassiveActionCheckBox(__CLASS__, $ID);
                echo "</td>";
                echo "<td>";
                echo Dropdown::getDropdownName("glpi_plugin_accounts_accountstates",
@@ -168,13 +172,66 @@ class PluginAccountsNotificationState extends CommonDBTM
                echo "</tr>";
             }
 
-            Html::openArrowMassives("massiveaction_form$rand", true);
-            Html::closeArrowMassives(['delete' => __('Delete permanently')]);
+            echo "<tr>";
+            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+            echo "<th></th>";
+            echo "</tr>";
+
+            $massiveactionparams['ontop'] = false;
+            Html::showMassiveActions($massiveactionparams);
+            Html::closeForm();
 
             echo "</table>";
             Html::closeForm();
             echo "</div>";
          }
       }
+   }
+
+   /**
+    * Get the specific massive actions
+    *
+    * @since version 0.84
+    *
+    * @param $checkitem link item to check right   (default NULL)
+    *
+    * @return an array of massive actions
+    * */
+   function getSpecificMassiveActions($checkitem = null) {
+      $actions = parent::getSpecificMassiveActions($checkitem);
+
+      $actions['PluginAccountsNotificationState' . MassiveAction::CLASS_ACTION_SEPARATOR . 'Delete'] = __('Delete');
+      return $actions;
+   }
+
+   /**
+    * @since version 0.85
+    *
+    * @see CommonDBTM::processMassiveActionsForOneItemtype()
+    *
+    * @param MassiveAction $ma
+    * @param CommonDBTM    $item
+    * @param array         $ids
+    *
+    * @return nothing|void
+    */
+   static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
+                                                       array $ids) {
+
+      switch ($ma->getAction()) {
+         case 'Delete':
+            $notif = new PluginAccountsNotificationState();
+            foreach ($ids as $id) {
+               if ($notif->delete(['id' => $id])) {
+                  $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+               } else {
+                  $ma->itemDone($item->getType(), $ids, MassiveAction::ACTION_KO);
+               }
+
+            }
+
+            return;
+      }
+      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
    }
 }
