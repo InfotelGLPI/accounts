@@ -215,7 +215,7 @@ class PluginAccountsAesKey extends CommonDBTM
 
       Session::initNavigateListItems("PluginAccountsAesKey", __('Hash', 'accounts') . " = " . $this->h->fields["name"]);
 
-      $candelete = $this->h->can($ID, DELETE);
+      $candelete = Session::haveRight(self::$rightname, DELETE);
       $query     = "SELECT *
                      FROM `glpi_plugin_accounts_aeskeys`
                      WHERE `plugin_accounts_hashes_id` = '$ID' ";

@@ -152,7 +152,7 @@ class PluginAccountsReport extends CommonDBTM
             $IDc = $field["id"];
             if ($output_type == Search::HTML_OUTPUT) {
                echo Html::hidden('hash_id', ['value' => $ID]);
-               echo Html::hidden('id[$IDc]', ['value' => $IDc]);
+               echo Html::hidden("id[$IDc]", ['value' => $IDc]);
             }
 
             $name = "<a href='" . $CFG_GLPI["root_doc"] . "/plugins/accounts/front/account.form.php?id=" . $IDc . "'>" . $field["name"];
@@ -162,21 +162,21 @@ class PluginAccountsReport extends CommonDBTM
             $name .= "</a>";
             echo Search::showItem($output_type, $name, $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
-               echo Html::hidden('name[$IDc]', ['value' => $field["name"]]);
+               echo Html::hidden("name[$IDc]", ['value' => $field["name"]]);
             }
             if (Session::isMultiEntitiesMode()) {
                echo Search::showItem($output_type, $field['entities_id'], $item_num, $row_num);
                if ($output_type == Search::HTML_OUTPUT) {
-                  echo Html::hidden('entities_id[$IDc]', ['value' => $field["entities_id"]]);
+                  echo Html::hidden("entities_id[$IDc]", ['value' => $field["entities_id"]]);
                }
             }
             echo Search::showItem($output_type, $field["type"], $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
-               echo Html::hidden('type[$IDc]', ['value' => $field["type"]]);
+               echo Html::hidden("type[$IDc]", ['value' => $field["type"]]);
             }
             echo Search::showItem($output_type, $field["login"], $item_num, $row_num);
             if ($output_type == Search::HTML_OUTPUT) {
-               echo Html::hidden('login[$IDc]', ['value' => $field["login"]]);
+               echo Html::hidden("login[$IDc]", ['value' => $field["login"]]);
             }
             if ($output_type == Search::HTML_OUTPUT) {
                $encrypted = $field["password"];
@@ -221,29 +221,6 @@ class PluginAccountsReport extends CommonDBTM
     */
    public static function printPager($start, $numrows, $target, $parameters, $item_type_output = 0, $item_type_output_param = 0) {
       global $CFG_GLPI;
-
-      //$list_limit = $_SESSION['glpilist_limit'];
-      // Forward is the next step forward
-      //$forward = $start + $list_limit;
-
-      // This is the end, my friend
-      //$end = $numrows - $list_limit;
-
-      // Human readable count starts here
-      //$current_start = $start + 1;
-
-      // And the human is viewing from start to end
-      //      $current_end = $current_start + $list_limit - 1;
-      //      if ($current_end > $numrows) {
-      //         $current_end = $numrows;
-      //      }
-
-      // Backward browsing
-      //      if ($current_start - $list_limit <= 0) {
-      //         $back = 0;
-      //      } else {
-      //         $back = $start - $list_limit;
-      //      }
 
       // Print it
 
@@ -292,7 +269,8 @@ class PluginAccountsReport extends CommonDBTM
          echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
       }
 
-      echo "<input type='image' name='export' class='pointer' src='" . $CFG_GLPI["root_doc"] . "/pics/export.png'
-             title=\"" . _sx('button', 'Export') . "\" value=\"" . _sx('button', 'Export') . "\">";
+      echo "<button type='submit' name='export' class='unstyled pointer' ".
+           " title=\"" . _sx('button', 'Export') . "\">" .
+           "<i class='fa fa-floppy-o'></i><span class='sr-only'>"._sx('button', 'Export')."<span>";
    }
 }

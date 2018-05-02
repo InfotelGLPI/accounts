@@ -45,8 +45,6 @@ if (isset($_POST["display_type"])) {
    $parm["id"] = $post["hash_id"];
    $parm["aeskey"] = $post["aeskey"];
    $parm["item_type"] = $post["item_type"];
-   $parm["export_x"] = $post["export_x"];
-   $parm["export_y"] = $post["export_y"];
 
    $accounts = [];
    foreach ($post["id"] as $k => $v) {
