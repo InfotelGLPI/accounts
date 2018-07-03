@@ -230,9 +230,7 @@ class PluginAccountsReport extends CommonDBTM
       echo "<table class='tab_cadre_pager'>\n";
       echo "<tr>\n";
 
-      if (isset($_SESSION["glpiactiveprofile"])
-         && $_SESSION["glpiactiveprofile"]["interface"] == "central"
-      ) {
+      if (Session::getCurrentInterface() == "central") {
          echo "<td class='tab_bg_2' width='30%'>";
 
          echo Html::hidden('item_type', ['value' => 'PluginAccountsReport']);

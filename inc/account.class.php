@@ -75,155 +75,212 @@ class PluginAccountsAccount extends CommonDBTM {
    }
 
    /**
-    * Get the Search options for the given Type
+    * Provides search options configuration. Do not rely directly
+    * on this, @see CommonDBTM::searchOptions instead.
     *
-    * @return array of search options
-    * More information on https://forge.indepnet.net/wiki/glpi/SearchEngine
+    * @since 9.3
+    *
+    * This should be overloaded in Class
+    *
+    * @return array a *not indexed* array of search options
+    *
+    * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
     **/
-   public function getSearchOptions() {
+   public function rawSearchOptions() {
 
-      $tab = [];
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => self::getTypeName(2)
+      ];
 
-      $tab['common'] = self::getTypeName(2);
-
-      $tab[1]['table']         = $this->getTable();
-      $tab[1]['field']         = 'name';
-      $tab[1]['name']          = __('Name');
-      $tab[1]['datatype']      = 'itemlink';
-      $tab[1]['itemlink_type'] = $this->getType();
-      if ($_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'itemlink_type'      => 'PluginAccountsAccount',
+         'massiveaction'      => false
+      ];
+      if (Session::getCurrentInterface() != 'central') {
          $tab[1]['searchtype'] = 'contains';
       }
 
-      $tab[2]['table'] = 'glpi_plugin_accounts_accounttypes';
-      $tab[2]['field'] = 'name';
-      $tab[2]['name']  = __('Type');
-      if ($_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => 'glpi_plugin_accounts_accounttypes',
+         'field'              => 'name',
+         'name'               => __('Type'),
+         'datatype'           => 'dropdown'
+      ];
+      if (Session::getCurrentInterface() != 'central') {
          $tab[2]['searchtype'] = 'contains';
       }
-      $tab[2]['datatype'] = 'dropdown';
 
-      $tab[3]['table'] = 'glpi_users';
-      $tab[3]['field'] = 'name';
-      $tab[3]['name']  = __('Affected User', 'accounts');
-      if ($_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => 'glpi_users',
+         'field'              => 'name',
+         'name'               => __('Affected User'),
+      ];
+      if (Session::getCurrentInterface() != 'central') {
          $tab[3]['searchtype'] = 'contains';
       }
 
-      $tab[4]['table'] = $this->getTable();
-      $tab[4]['field'] = 'login';
-      $tab[4]['name']  = __('Login');
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'login',
+         'name'               => __('Login')
+      ];
 
-      $tab[5]['table']    = $this->getTable();
-      $tab[5]['field']    = 'date_creation';
-      $tab[5]['name']     = __('Creation date');
-      $tab[5]['datatype'] = 'date';
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'date_creation',
+         'name'               => __('Creation date'),
+         'datatype'           => 'date'
+      ];
 
-      $tab[6]['table'] = $this->getTable();
-      $tab[6]['field'] = 'date_expiration';
-      $tab[6]['name']  = __('Expiration date');
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => $this->getTable(),
+         'field'              => 'date_expiration',
+         'name'               => __('Expiration date')
+      ];
 
-      $tab[7]['table']    = $this->getTable();
-      $tab[7]['field']    = 'comment';
-      $tab[7]['name']     = __('Comments');
-      $tab[7]['datatype'] = 'text';
+      $tab[] = [
+         'id'                 => '7',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('Comments'),
+         'datatype'           => 'text'
+      ];
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-         $tab[8]['table']         = 'glpi_plugin_accounts_accounts_items';
-         $tab[8]['field']         = 'items_id';
-         $tab[8]['nosearch']      = true;
-         $tab[8]['name']          = _n('Associated item', 'Associated items', 2);
-         $tab[8]['forcegroupby']  = true;
-         $tab[8]['massiveaction'] = false;
-         $tab[8]['joinparams']    = ['jointype' => 'child'];
+      if (Session::getCurrentInterface() == 'central') {
+         $tab[] = [
+            'id'            => 8,
+            'table'         => 'glpi_plugin_accounts_accounts_items',
+            'field'         => 'items_id',
+            'nosearch'      => true,
+            'name'          => _n('Associated item', 'Associated items', 2),
+            'forcegroupby'  => true,
+            'massiveaction' => false,
+            'joinparams'    => ['jointype' => 'child']
+         ];
       }
 
-      $tab[9]['table'] = $this->getTable();
-      $tab[9]['field'] = 'others';
-      $tab[9]['name']  = __('Others');
+      $tab[] = [
+         'id'                 => '9',
+         'table'              => $this->getTable(),
+         'field'              => 'others',
+         'name'               => __('Others')
+      ];
 
-      $tab[10]['table'] = 'glpi_plugin_accounts_accountstates';
-      $tab[10]['field'] = 'name';
-      $tab[10]['name']  = __('Status');
-      if ($_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      $tab[] = [
+         'id'                 => '10',
+         'table'              => 'glpi_plugin_accounts_accountstates',
+         'field'              => 'name',
+         'name'               => __('Status'),
+      ];
+      if (Session::getCurrentInterface() != 'central') {
          $tab[10]['searchtype'] = 'contains';
       }
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-         $tab[11]['table']    = $this->getTable();
-         $tab[11]['field']    = 'is_recursive';
-         $tab[11]['name']     = __('Child entities');
-         $tab[11]['datatype'] = 'bool';
+      if (Session::getCurrentInterface() == 'central') {
+         $tab[] = [
+            'id'       => 11,
+            'table'    => $this->getTable(),
+            'field'    => 'is_recursive',
+            'name'     => __('Child entities'),
+            'datatype' => 'bool'
+         ];
       }
 
-      $tab[12]['table']     = 'glpi_groups';
-      $tab[12]['field']     = 'completename';
-      $tab[12]['name']      = __('Group');
-      $tab[12]['datatype']  = 'dropdown';
-      $tab[12]['condition'] = '`is_itemgroup`';
-      if ($_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      $tab[] = [
+         'id'                 => '12',
+         'table'              => 'glpi_groups',
+         'field'              => 'completename',
+         'name'               => __('Group'),
+         'datatype'           => 'dropdown',
+         'condition'          => '`is_itemgroup`',
+      ];
+      if (Session::getCurrentInterface() != 'central') {
          $tab[12]['searchtype'] = 'contains';
       }
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-         $tab[13]['table']    = $this->getTable();
-         $tab[13]['field']    = 'is_helpdesk_visible';
-         $tab[13]['name']     = __('Associable to a ticket');
-         $tab[13]['datatype'] = 'bool';
+      if (Session::getCurrentInterface() == 'central') {
+         $tab[] = [
+            'id'       => 13,
+            'table'    => $this->getTable(),
+            'field'    => 'is_helpdesk_visible',
+            'name'     => __('Associable to a ticket'),
+            'datatype' => 'bool',
+         ];
       }
 
-      $tab[14]['table']         = $this->getTable();
-      $tab[14]['field']         = 'date_mod';
-      $tab[14]['name']          = __('Last update');
-      $tab[14]['massiveaction'] = false;
-      $tab[14]['datatype']      = 'datetime';
+      $tab[] = [
+         'id'                 => '14',
+         'table'              => $this->getTable(),
+         'field'              => 'date_mod',
+         'name'               => __('Last update'),
+         'massiveaction'      => false,
+         'datatype'           => 'datetime'
+      ];
 
-      /*$tab[15]['table']= $this->getTable();
-       $tab[15]['field']='encrypted_password';
-      $tab[15]['name']=__('Password');
-      $tab[15]['datatype']='password';
-      $tab[15]['nosearch']=true;
-      $tab[15]['massiveaction'] = false;
-      */
-
-      $tab[16]['table']    = 'glpi_locations';
-      $tab[16]['field']    = 'completename';
-      $tab[16]['name']     = __('Location');
-      $tab[16]['datatype'] = 'dropdown';
-      if ($_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      $tab[] = [
+         'id'                 => '16',
+         'table'              => 'glpi_locations',
+         'field'              => 'completename',
+         'name'               => __('Location'),
+         'datatype'           => 'dropdown',
+      ];
+      if (Session::getCurrentInterface() != 'central') {
          $tab[16]['searchtype'] = 'contains';
       }
 
-      $tab[17]['table']     = 'glpi_users';
-      $tab[17]['field']     = 'name';
-      $tab[17]['linkfield'] = 'users_id_tech';
-      $tab[17]['name']      = __('Technician in charge of the hardware');
-      $tab[17]['datatype']  = 'dropdown';
-      $tab[17]['right']     = 'interface';
+      $tab[] = [
+         'id'                 => '17',
+         'table'              => 'glpi_users',
+         'field'              => 'name',
+         'linkfield'          => 'users_id_tech',
+         'name'               => __('Technician in charge of the hardware'),
+         'datatype'           => 'dropdown',
+         'right'              => 'interface'
+      ];
 
-      $tab[18]['table']     = 'glpi_groups';
-      $tab[18]['field']     = 'completename';
-      $tab[18]['linkfield'] = 'groups_id_tech';
-      $tab[18]['name']      = __('Group in charge of the hardware');
-      $tab[18]['condition'] = '`is_assign`';
-      $tab[18]['datatype']  = 'dropdown';
+      $tab[] = [
+         'id'                 => '18',
+         'table'              => 'glpi_groups',
+         'field'              => 'completename',
+         'linkfield'          => 'groups_id_tech',
+         'name'               => __('Group in charge of the hardware'),
+         'condition'          => '`is_assign`',
+         'datatype'           => 'dropdown'
+      ];
 
-      $tab[30]['table']    = $this->getTable();
-      $tab[30]['field']    = 'id';
-      $tab[30]['name']     = __('ID');
-      $tab[30]['datatype'] = 'number';
+      $tab[] = [
+         'id'                 => '30',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'datatype'           => 'number'
+      ];
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-         $tab[80]['table']    = 'glpi_entities';
-         $tab[80]['field']    = 'completename';
-         $tab[80]['name']     = __('Entity');
-         $tab[80]['datatype'] = 'dropdown';
+      $tab[] = [
+         'id'                 => '81',
+         'table'              => 'glpi_entities',
+         'field'              => 'entities_id',
+         'name'               => __('Entity-ID')
+      ];
 
-      }
-
-      $tab[81]['table'] = 'glpi_entities';
-      $tab[81]['field'] = 'entities_id';
-      $tab[81]['name']  = __('Entity') . "-" . __('ID');
+      $tab[] = [
+         'id'                 => '86',
+         'table'              => $this->getTable(),
+         'field'              => 'is_recursive',
+         'name'               => __('Child entities'),
+         'datatype'           => 'bool'
+      ];
 
       return $tab;
    }
@@ -249,7 +306,7 @@ class PluginAccountsAccount extends CommonDBTM {
       $this->addStandardTab('Item_Project', $ong, $options);
       $this->addStandardTab('Document_Item', $ong, $options);
       $this->addStandardTab('Notepad', $ong, $options);
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+      if (Session::getCurrentInterface() == 'central') {
          $this->addStandardTab('Log', $ong, $options);
       }
 
@@ -452,7 +509,7 @@ class PluginAccountsAccount extends CommonDBTM {
          echo $alert;
          echo "</div></td>";
       }
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+      if (Session::getCurrentInterface() == 'central') {
          echo "<td>" . __('Affected User', 'accounts') . "</td><td>";
          if ($this->canCreate()) {
             User::dropdown(['value'  => $this->fields["users_id"],
@@ -492,7 +549,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "</td>";
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+      if (Session::getCurrentInterface() == 'central') {
          echo "<td>" . __('Affected Group', 'accounts') . "</td><td>";
          if (self::canCreate()) {
             Dropdown::show('Group', ['value'     => $this->fields["groups_id"],
@@ -777,7 +834,7 @@ class PluginAccountsAccount extends CommonDBTM {
       $isadmin = static::canUpdate();
       $actions = parent::getSpecificMassiveActions($checkitem);
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+      if (Session::getCurrentInterface() == 'central') {
          if ($isadmin) {
             $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'install']   = _x('button', 'Associate');
             $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x('button', 'Dissociate');
@@ -943,8 +1000,7 @@ class PluginAccountsAccount extends CommonDBTM {
     */
    public function getForbiddenStandardMassiveAction() {
       $forbidden = parent::getForbiddenStandardMassiveAction();
-      if (isset ($_SESSION['glpiactiveprofile']['interface'])
-          && $_SESSION['glpiactiveprofile']['interface'] != 'central') {
+      if (Session::getCurrentInterface() != 'central') {
          $forbidden[] = 'update';
          $forbidden[] = 'delete';
          $forbidden[] = 'purge';

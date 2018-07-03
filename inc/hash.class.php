@@ -115,45 +115,81 @@ class PluginAccountsHash extends CommonDBTM {
    }
 
    /**
-    * @return array
-    */
-   public function getSearchOptions() {
+    * Provides search options configuration. Do not rely directly
+    * on this, @see CommonDBTM::searchOptions instead.
+    *
+    * @since 9.3
+    *
+    * This should be overloaded in Class
+    *
+    * @return array a *not indexed* array of search options
+    *
+    * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
+    **/
+   public function rawSearchOptions() {
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               =>  self::getTypeName(2)
+      ];
 
-      $tab = [];
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'itemlink_type'      => 'PluginAccountsHash',
+         'massiveaction'      => false
+      ];
 
-      $tab['common'] = self::getTypeName(2);
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'hash',
+         'name'               => __('Hash'),
+         'massiveaction'      => false
+      ];
 
-      $tab[1]['table']         = $this->getTable();
-      $tab[1]['field']         = 'name';
-      $tab[1]['name']          = __('Name');
-      $tab[1]['datatype']      = 'itemlink';
-      $tab[1]['itemlink_type'] = $this->getType();
+      $tab[] = [
+         'id'                 => '7',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('Comments'),
+         'datatype'           => 'text'
+      ];
 
-      $tab[2]['table']         = $this->getTable();
-      $tab[2]['field']         = 'hash';
-      $tab[2]['name']          = __('Hash', 'accounts');
-      $tab[2]['massiveaction'] = false;
+      $tab[] = [
+         'id'                 => '11',
+         'table'              => $this->getTable(),
+         'field'              => 'is_recursive',
+         'name'               => __('Child entities'),
+         'datatype'           => 'bool'
+      ];
 
-      $tab[7]['table']    = $this->getTable();
-      $tab[7]['field']    = 'comment';
-      $tab[7]['name']     = __('Comments');
-      $tab[7]['datatype'] = 'text';
+      $tab[] = [
+         'id'                 => '14',
+         'table'              => $this->getTable(),
+         'field'              => 'date_mod',
+         'name'               => __('Last update'),
+         'massiveaction'      => false,
+         'datatype'           => 'datetime'
+      ];
 
-      $tab[11]['table']    = $this->getTable();
-      $tab[11]['field']    = 'is_recursive';
-      $tab[11]['name']     = __('Child entities');
-      $tab[11]['datatype'] = 'bool';
+      $tab[] = [
+         'id'                 => '80',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
+      ];
 
-      $tab[14]['table']         = $this->getTable();
-      $tab[14]['field']         = 'date_mod';
-      $tab[14]['name']          = __('Last update');
-      $tab[14]['massiveaction'] = false;
-      $tab[14]['datatype']      = 'datetime';
-
-      $tab[80]['table']    = 'glpi_entities';
-      $tab[80]['field']    = 'completename';
-      $tab[80]['name']     = __('Entity');
-      $tab[80]['datatype'] = 'dropdown';
+      $tab[] = [
+         'id'                 => '86',
+         'table'              => $this->getTable(),
+         'field'              => 'is_recursive',
+         'name'               => __('Child entities'),
+         'datatype'           => 'bool'
+      ];
 
       return $tab;
    }

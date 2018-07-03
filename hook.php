@@ -44,7 +44,7 @@ function plugin_accounts_install() {
       && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $install = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.2.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.4.0.sql");
 
    } else if ($DB->tableExists("glpi_comptes")
       && !$DB->fieldExists("glpi_comptes", "notes")) {

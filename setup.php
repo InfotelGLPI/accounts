@@ -107,7 +107,7 @@ function plugin_version_accounts() {
 
    return [
       'name' => _n('Account', 'Accounts', 2, 'accounts'),
-      'version' => '2.3.2',
+      'version' => '2.4.0',
       'oldname' => 'compte',
       'license' => 'GPLv2+',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
@@ -126,7 +126,7 @@ function plugin_accounts_check_prerequisites() {
 
    $dbu = new DbUtils();
 
-   if (version_compare(GLPI_VERSION, '9.2', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
+   if (version_compare(GLPI_VERSION, '9.2', 'lt') || version_compare(GLPI_VERSION, '9.4', 'ge')) {
       echo __('This plugin requires GLPI >= 9.2', 'accounts');
       return false;
    } else {

@@ -32,7 +32,7 @@ include('../../../inc/includes.php');
 
 $plugin = new Plugin();
 
-if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+if (Session::getCurrentInterface() == 'central') {
    if ($plugin->isActivated("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
    } else {
@@ -66,7 +66,7 @@ if ($account->canView()) {
    Html::displayRightError();
 }
 
-if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+if (Session::getCurrentInterface() == 'central') {
    Html::footer();
 } else {
    Html::helpFooter();

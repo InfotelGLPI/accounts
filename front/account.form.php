@@ -105,7 +105,7 @@ if (isset($_POST["add"])) {
 
    $account->checkGlobal(READ);
 
-   if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+   if (Session::getCurrentInterface() == 'central') {
       $plugin = new Plugin();
       if ($plugin->isActivated("environment")) {
          Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
@@ -118,7 +118,7 @@ if (isset($_POST["add"])) {
 
    $account->display(['id' => $_GET['id']]);
 
-   if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+   if (Session::getCurrentInterface() == 'central') {
       Html::footer();
    } else {
       Html::helpFooter();
