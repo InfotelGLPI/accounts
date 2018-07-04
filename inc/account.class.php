@@ -239,6 +239,8 @@ class PluginAccountsAccount extends CommonDBTM {
          $tab[16]['searchtype'] = 'contains';
       }
 
+      $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
+
       $tab[] = [
          'id'                 => '17',
          'table'              => 'glpi_users',
