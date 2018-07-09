@@ -121,7 +121,7 @@ class PluginAccountsAccount extends CommonDBTM {
          'id'                 => '3',
          'table'              => 'glpi_users',
          'field'              => 'name',
-         'name'               => __('Affected User'),
+         'name'               => __('Affected User', 'accounts'),
       ];
       if (Session::getCurrentInterface() != 'central') {
          $tab[3]['searchtype'] = 'contains';
