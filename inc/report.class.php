@@ -55,6 +55,7 @@ class PluginAccountsReport extends CommonDBTM
       } else {
          $entities = $PluginAccountsHash->getEntityID();
       }
+      $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
       $list = [];
       if ($aeskey) {
          $query = "SELECT `glpi_plugin_accounts_accounts`.*,
