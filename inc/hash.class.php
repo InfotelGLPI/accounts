@@ -407,8 +407,14 @@ class PluginAccountsHash extends CommonDBTM {
    public static function updateHash($oldaeskey, $newaeskey, $hash_id) {
       global $DB;
 
-      $self = new self();
-      $self->getFromDB($hash_id);
+      $PluginAccountsHash = new self();
+      $PluginAccountsHash->getFromDB($hash_id);
+
+      if ($PluginAccountsHash->isRecursive()) {
+         $entities = getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
+      } else {
+         $entities = $PluginAccountsHash->getEntityID();
+      }
 
       $account = new PluginAccountsAccount();
       $aeskey  = new PluginAccountsAesKey();
@@ -419,8 +425,9 @@ class PluginAccountsHash extends CommonDBTM {
       // uncrypt passwords for update
       $query_ = "SELECT *
                 FROM `glpi_plugin_accounts_accounts`
-                WHERE ";
-      $query_ .= getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_accounts", '', $self->fields['entities_id'], $self->fields['is_recursive']);
+                WHERE 1 ";
+      $query_ .= getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '',
+                                            $entities, $PluginAccountsHash->maybeRecursive());
 
       $result_ = $DB->query($query_);
       if ($DB->numrows($result_) > 0) {
@@ -434,7 +441,7 @@ class PluginAccountsHash extends CommonDBTM {
                                 'id'                 => $data["id"],
                                 'encrypted_password' => $newpassword]);
          }
-         $self->update(['id' => $hash_id, 'hash' => $newhashstore]);
+         $PluginAccountsHash->update(['id' => $hash_id, 'hash' => $newhashstore]);
 
          if ($aeskey->getFromDBByHash($hash_id) && isset($aeskey->fields["name"])) {
             $values["id"]   = $aeskey->fields["id"];
