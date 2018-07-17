@@ -34,17 +34,17 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginAccountsReport
  */
-class PluginAccountsReport extends CommonDBTM
-{
+class PluginAccountsReport extends CommonDBTM {
 
    /**
     * @param $values
+    *
     * @return array
     */
    public static function queryAccountsList($values) {
       global $DB;
 
-      $ID = $values["id"];
+      $ID     = $values["id"];
       $aeskey = $values["aeskey"];
 
       $PluginAccountsHash = new PluginAccountsHash();
@@ -56,7 +56,7 @@ class PluginAccountsReport extends CommonDBTM
          $entities = $PluginAccountsHash->getEntityID();
       }
       $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
-      $list = [];
+      $list     = [];
       if ($aeskey) {
          $query = "SELECT `glpi_plugin_accounts_accounts`.*,
                   `glpi_plugin_accounts_accounttypes`.`name` AS type
@@ -75,14 +75,14 @@ class PluginAccountsReport extends CommonDBTM
 
             foreach ($accounts as $account) {
 
-               $ID = $account["id"];
-               $list[$ID]["id"] = $account["id"];
+               $ID                = $account["id"];
+               $list[$ID]["id"]   = $account["id"];
                $list[$ID]["name"] = $account["name"];
                if (Session::isMultiEntitiesMode()) {
                   $list[$ID]["entities_id"] = Dropdown::getDropdownName("glpi_entities", $account["entities_id"]);
                }
-               $list[$ID]["type"] = $account["type"];
-               $list[$ID]["login"] = $account["login"];
+               $list[$ID]["type"]     = $account["type"];
+               $list[$ID]["login"]    = $account["login"];
                $list[$ID]["password"] = $account["encrypted_password"];
             }
          }
@@ -97,15 +97,15 @@ class PluginAccountsReport extends CommonDBTM
    public static function showAccountsList($values, $list) {
       global $CFG_GLPI;
 
-      $ID = $values["id"];
+      $ID     = $values["id"];
       $aeskey = $values["aeskey"];
 
       $PluginAccountsHash = new PluginAccountsHash();
       $PluginAccountsHash->getFromDB($ID);
       $hash = $PluginAccountsHash->fields["hash"];
 
-      $default_values["start"] = $start = 0;
-      $default_values["id"] = $id = 0;
+      $default_values["start"]  = $start = 0;
+      $default_values["id"]     = $id = 0;
       $default_values["export"] = $export = false;
 
       foreach ($default_values as $key => $val) {
@@ -122,9 +122,9 @@ class PluginAccountsReport extends CommonDBTM
       }
 
       $header_num = 1;
-      $nbcols = 4;
-      $row_num = 1;
-      $numrows = 1;
+      $nbcols     = 4;
+      $row_num    = 1;
+      $numrows    = 1;
 
       $parameters = "id=" . $ID . "&amp;aeskey=" . $aeskey;
       if ($output_type == Search::HTML_OUTPUT && !empty($list)) {
@@ -213,10 +213,10 @@ class PluginAccountsReport extends CommonDBTM
    }
 
    /**
-    * @param $start
-    * @param $numrows
-    * @param $target
-    * @param $parameters
+    * @param     $start
+    * @param     $numrows
+    * @param     $target
+    * @param     $parameters
     * @param int $item_type_output
     * @param int $item_type_output_param
     */
@@ -226,7 +226,7 @@ class PluginAccountsReport extends CommonDBTM
       // Print it
 
       echo "<form method='POST' action=\"" . $CFG_GLPI["root_doc"] .
-         "/plugins/accounts/front/report.dynamic.php\" target='_blank'>\n";
+           "/plugins/accounts/front/report.dynamic.php\" target='_blank'>\n";
 
       echo "<table class='tab_cadre_pager'>\n";
       echo "<tr>\n";
@@ -237,13 +237,13 @@ class PluginAccountsReport extends CommonDBTM
          echo Html::hidden('item_type', ['value' => 'PluginAccountsReport']);
          if ($item_type_output_param != 0) {
             echo "<input type='hidden' name='item_type_param' value='" .
-               serialize($item_type_output_param) . "'>";
+                 serialize($item_type_output_param) . "'>";
          }
          $explode = explode("&amp;", $parameters);
          for ($i = 0; $i < count($explode); $i++) {
             $pos = strpos($explode[$i], '=');
             echo "<input type='hidden' name=\"" . substr($explode[$i], 0, $pos) . "\" value=\"" .
-               substr($explode[$i], $pos + 1) . "\">";
+                 substr($explode[$i], $pos + 1) . "\">";
          }
          self::showOutputFormat();
 
@@ -259,17 +259,17 @@ class PluginAccountsReport extends CommonDBTM
       global $CFG_GLPI;
 
       $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');
-      $values['-' . Search::PDF_OUTPUT_PORTRAIT] = __('All pages in portrait PDF');
-      $values['-' . Search::SYLK_OUTPUT] = __('All pages in SLK');
-      $values['-' . Search::CSV_OUTPUT] = __('All pages in CSV');
+      $values['-' . Search::PDF_OUTPUT_PORTRAIT]  = __('All pages in portrait PDF');
+      $values['-' . Search::SYLK_OUTPUT]          = __('All pages in SLK');
+      $values['-' . Search::CSV_OUTPUT]           = __('All pages in CSV');
 
       Dropdown::showFromArray('display_type', $values);
       if (GLPI_USE_CSRF_CHECK) {
          echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
       }
 
-      echo "<button type='submit' name='export' class='unstyled pointer' ".
+      echo "<button type='submit' name='export' class='unstyled pointer' " .
            " title=\"" . _sx('button', 'Export') . "\">" .
-           "<i class='fa fa-floppy-o'></i><span class='sr-only'>"._sx('button', 'Export')."<span>";
+           "<i class='fa fa-floppy-o'></i><span class='sr-only'>" . _sx('button', 'Export') . "<span>";
    }
 }

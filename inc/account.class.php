@@ -118,14 +118,16 @@ class PluginAccountsAccount extends CommonDBTM {
       }
 
       $tab[] = [
-         'id'                 => '3',
+         'id'                 => '16',
          'table'              => 'glpi_users',
          'field'              => 'name',
          'name'               => __('Affected User', 'accounts'),
       ];
       if (Session::getCurrentInterface() != 'central') {
-         $tab[3]['searchtype'] = 'contains';
+         $tab[16]['searchtype'] = 'contains';
       }
+
+      $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
 
       $tab[] = [
          'id'                 => '4',
@@ -227,19 +229,6 @@ class PluginAccountsAccount extends CommonDBTM {
          'massiveaction'      => false,
          'datatype'           => 'datetime'
       ];
-
-      $tab[] = [
-         'id'                 => '16',
-         'table'              => 'glpi_locations',
-         'field'              => 'completename',
-         'name'               => __('Location'),
-         'datatype'           => 'dropdown',
-      ];
-      if (Session::getCurrentInterface() != 'central') {
-         $tab[16]['searchtype'] = 'contains';
-      }
-
-      $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
 
       $tab[] = [
          'id'                 => '17',

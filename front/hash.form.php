@@ -69,11 +69,11 @@ if (isset($_POST["add"])) {
    $hashClass->update($_POST);
    Html::back();
 
-} else if (isset($_POST["delete"])) {
+} else if (isset($_POST["purge"])) {
 
    $hashClass->check($_POST['id'], DELETE);
    $hashClass->delete($_POST);
-   Html::back();
+   $hashClass->redirectToList();
 
 } else if (isset($_POST['updatehash'])) {
 
