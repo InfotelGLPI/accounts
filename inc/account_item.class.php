@@ -68,7 +68,8 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * Clean table when item is purged
     *
     * @param CommonDBTM|Object $item Object to use
-    * @return nothing
+    *
+    * @return void
     */
    public static function cleanForItem(CommonDBTM $item) {
 
@@ -151,7 +152,8 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       if (empty($types)) {
          return 0;
       }
-      return countElementsInTable('glpi_plugin_accounts_accounts_items',
+      $dbu = new DbUtils();
+      return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
          "`itemtype` IN ('$types')
                AND `plugin_accounts_accounts_id` = '" . $item->getID() . "'");
    }
@@ -162,8 +164,8 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @return int
     */
    private static function countForItem(CommonDBTM $item) {
-
-      return countElementsInTable('glpi_plugin_accounts_accounts_items',
+      $dbu = new DbUtils();
+      return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
          "`itemtype`='" . $item->getType() . "'
                AND `items_id` = '" . $item->getID() . "'");
    }
@@ -235,6 +237,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    public static function showForAccount(PluginAccountsAccount $account) {
       global $DB;
 
+      $dbu = new DbUtils();
       $instID = $account->fields['id'];
       if (!$account->can($instID, READ)) {
          return false;
@@ -264,7 +267,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             'itemtypes'=>PluginAccountsAccount::getTypes(true),
             'entity_restrict'
             => ($account->fields['is_recursive']
-               ?getSonsOf('glpi_entities',
+               ?$dbu->getSonsOf('glpi_entities',
                   $account->fields['entities_id'])
                :$account->fields['entities_id']),
             'checkright'
@@ -301,7 +304,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
       for ($i = 0; $i < $number; $i++) {
          $itemtype = $DB->result($result, $i, "itemtype");
-         if (!($item = getItemForItemtype($itemtype))) {
+         if (!($item = $dbu->getItemForItemtype($itemtype))) {
             continue;
          }
 
@@ -311,7 +314,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                $column = "id";
             }
 
-            $itemtable = getTableForItemType($itemtype);
+            $itemtable = $dbu->getTableForItemType($itemtype);
             $query = "SELECT `$itemtable`.*,
             `glpi_plugin_accounts_accounts_items`.`id` AS IDD, ";
 
@@ -346,7 +349,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                   }
                }
             } else {
-               $query .= getEntitiesRestrictRequest(" AND ", $itemtable, '', '',
+               $query .= $dbu->getEntitiesRestrictRequest(" AND ", $itemtable, '', '',
                   $item->maybeRecursive());
             }
 
@@ -437,6 +440,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       global $DB;
 
       $ID = $item->getField('id');
+      $dbu = new DbUtils();
 
       if ($item->isNewID($ID)) {
          return false;
@@ -486,7 +490,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                 WHERE `glpi_plugin_accounts_accounts_items`.`items_id` = '$ID'
                       AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '" . $item->getType() . "' ";
 
-      $query .= getEntitiesRestrictRequest(" AND", "glpi_plugin_accounts_accounts", '', '', true);
+      $query .= $dbu->getEntitiesRestrictRequest(" AND", "glpi_plugin_accounts_accounts", '', '', true);
 
       if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
          $query .= " AND $ASSIGN ";
@@ -519,12 +523,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             }
 
             if ($item->isRecursive()) {
-               $entities = getSonsOf('glpi_entities', $entity);
+               $entities = $dbu->getSonsOf('glpi_entities', $entity);
             } else {
                $entities = $entity;
             }
          }
-         $limit = getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, true);
+         $limit = $dbu->getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, true);
          $q = "SELECT COUNT(*)
                FROM `glpi_plugin_accounts_accounts`
                WHERE `is_deleted` = '0'
@@ -583,7 +587,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       $hashclass = new PluginAccountsHash();
       $hash_id = 0;
       $hash = 0;
-      $restrict = getEntitiesRestrictRequest(" ",
+      $restrict = $dbu->getEntitiesRestrictRequest(" ",
                                              "glpi_plugin_accounts_hashes",
                                              '',
                                              $item->getEntityID(),
@@ -705,7 +709,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             }
             echo "</td>";
             echo "<td class='center'>";
-            echo getUserName($data["users_id"]);
+            echo $dbu->getUserName($data["users_id"]);
             echo "</td>";
             echo "<td class='center'>";
             echo Dropdown::getDropdownName("glpi_plugin_accounts_accounttypes",

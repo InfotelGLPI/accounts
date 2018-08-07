@@ -50,7 +50,9 @@ if (isset($_REQUEST['node'])) {
       $entity = $_SESSION['glpiactive_entity'];
 
       $where = " WHERE `glpi_plugin_accounts_accounts`.`is_deleted` = '0' ";
-      $where .= getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts");
+
+      $dbu = new DbUtils();
+      $where .= $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts");
 
       $query = "SELECT *
       FROM `glpi_plugin_accounts_accounttypes`

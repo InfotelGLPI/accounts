@@ -38,9 +38,10 @@ $account = new PluginAccountsAccount();
 $account->checkGlobal(UPDATE);
 
 $hashClass = new PluginAccountsHash();
+$dbu       = new DbUtils();
 
 $update = 0;
-if (countElementsInTable("glpi_plugin_accounts_accounts") > 0) {
+if ($dbu->countElementsInTable("glpi_plugin_accounts_accounts") > 0) {
    $update = 1;
 }
 
@@ -49,19 +50,6 @@ if (isset($_POST["add"])) {
    $hashClass->check(-1, CREATE, $_POST);
    $newID = $hashClass->add($_POST);
    $hashClass->redirectToList();
-
-} else if (isset($_POST["upgrade"])) {
-   if ($_POST["hash"]) {
-      include_once(GLPI_ROOT . "/plugins/accounts/hook.php");
-      $_SESSION['plugin_accounts']['aescrypted_key'] = $_POST["aeskey"];
-      $hashClass->update($_POST);
-
-      plugin_accounts_configure15();
-      $_SESSION['plugin_accounts']['upgrade'] = [];
-      Html::redirect("./account.upgrade.php");
-   } else {
-      Html::back();
-   }
 
 } else if (isset($_POST["update"]) && $_POST["hash"]) {
 
@@ -115,7 +103,7 @@ if (isset($_POST["add"])) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
    }
 
-   $options = ["id" => $_GET['id'], "update" => false, "upgrade" => 0];
+   $options = ["id" => $_GET['id'], "update" => false];
    $hashClass->display($options);
    Html::footer();
 

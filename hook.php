@@ -52,7 +52,6 @@ function plugin_accounts_install() {
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.1.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
-      plugin_accounts_updatev14();
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
@@ -66,7 +65,6 @@ function plugin_accounts_install() {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
-      plugin_accounts_updatev14();
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
@@ -79,7 +77,6 @@ function plugin_accounts_install() {
       && !$DB->fieldExists("glpi_plugin_compte_profiles", "my_groups")) {
 
       $update78 = true;
-      plugin_accounts_updatev14();
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
@@ -298,13 +295,8 @@ function plugin_accounts_install() {
 
    }
 
-   if (isset($_SESSION['plugin_acounts_upgrading'])) {
-      $msg = __('After plugin installation, you must do upgrade of your passwords from here : ', 'accounts');
-      $msg .= "<a href='" . $CFG_GLPI["root_doc"] . "/plugins/accounts/front/upgrade.form.php'>" . __('Upgrading page', 'accounts') . "</a>";
-      Session::addMessageAfterRedirect($msg, ERROR);
-   }
-
    $notepad_tables = ['glpi_plugin_accounts_accounts'];
+   $dbu            = new DbUtils();
 
    foreach ($notepad_tables as $t) {
       // Migrate data
@@ -316,7 +308,7 @@ function plugin_accounts_install() {
          foreach ($DB->request($query) as $data) {
             $iq = "INSERT INTO `glpi_notepads`
                           (`itemtype`, `items_id`, `content`, `date`, `date_mod`)
-                   VALUES ('" . getItemTypeForTable($t) . "', '" . $data['id'] . "',
+                   VALUES ('" . $dbu->getItemTypeForTable($t) . "', '" . $data['id'] . "',
                            '" . addslashes($data['notepad']) . "', NOW(), NOW())";
             $DB->queryOrDie($iq, "0.85 migrate notepad data");
          }
@@ -332,77 +324,6 @@ function plugin_accounts_install() {
    $migration = new Migration("2.2.0");
    $migration->dropTable('glpi_plugin_accounts_profiles');
    return true;
-}
-
-function plugin_accounts_updatev14() {
-   global $DB;
-
-   $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.4.sql");
-
-   // crypt passwords
-   $query_ = "SELECT *
-            FROM `glpi_plugin_compte` ";
-   $result_ = $DB->query($query_);
-   if ($DB->numrows($result_) > 0) {
-
-      while ($data = $DB->fetch_array($result_)) {
-         $password = plugin_accounts_crypte($data["mdp"], 1);
-         $query = "UPDATE `glpi_plugin_compte`
-                  SET `mdp` = '" . $password . "'
-                           WHERE `ID` = '" . $data["ID"] . "';";
-         $DB->query($query);
-
-      }
-   }
-}
-
-/**
- * @param $Texte
- * @param $action
- * @return string
- */
-function plugin_accounts_crypte($Texte, $action) {
-   //$algo = "blowfish"; // ou la constante php MCRYPT_BLOWFISH
-   //$mode = "nofb"; // ou la constante php MCRYPT_MODE_NOFB
-   //$key_size = mcrypt_module_get_algo_key_size(MCRYPT_RIJNDAEL_256);
-   //$iv_size = mcrypt_get_iv_size($algo, $mode);
-   //$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-
-   $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND);
-   $key = 'Ceci est une clé secrète';
-   if ($action == 1) {
-
-      $crypttext = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $Texte, MCRYPT_MODE_ECB, $iv);
-      $crypttext = base64_encode($crypttext);
-   } else if ($action == 2) {
-      $crypttext = "<script language='javascript'>document.write(AESEncryptCtr($Texte,SHA256($key),256));</script>";
-   } else if ($action == 3) {
-      $Texte = base64_decode($Texte);
-      $crypttext = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $Texte, MCRYPT_MODE_ECB, $iv);
-   }
-   return trim($crypttext);
-}
-
-function plugin_accounts_configure15() {
-   global $DB;
-
-   // uncrypt passwords for update
-   $query_ = "SELECT *
-            FROM `glpi_plugin_accounts_accounts` ";
-   $result_ = $DB->query($query_);
-   if ($DB->numrows($result_) > 0) {
-
-      while ($data = $DB->fetch_array($result_)) {
-
-         $password = addslashes(plugin_accounts_crypte($data['encrypted_password'], 3));
-
-         $PluginAccountsAccount = new PluginAccountsAccount();
-         $PluginAccountsAccount->update([
-            'id' => $data["id"],
-            'encrypted_password' => $password]);
-
-      }
-   }
 }
 
 /**
@@ -756,6 +677,8 @@ function plugin_accounts_displayConfigItem($type, $ID, $data, $num) {
 function plugin_accounts_giveItem($type, $ID, $data, $num) {
    global $DB;
 
+   $dbu = new DbUtils();
+
    $searchopt =& Search::getOptions($type);
    $table     = $searchopt[$ID]["table"];
    $field     = $searchopt[$ID]["field"];
@@ -784,7 +707,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                      }
                      $item = new $itemtype();
                      if ($item->canView()) {
-                        $table_item = getTableForItemType($itemtype);
+                        $table_item = $dbu->getTableForItemType($itemtype);
                         if ($itemtype != 'Entity') {
                            $query = "SELECT `" . $table_item . "`.*,
                                     `glpi_plugin_accounts_accounts_items`.`id` AS items_id,
@@ -794,7 +717,8 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                                     . " WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
                                              AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
                                              AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '" . $accounts . "' ";
-                           $query .= getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
+
+                           $query .= $dbu->getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
 
                            if ($item->maybeTemplate()) {
                               $query .= " AND " . $table_item . ".is_template='0'";
@@ -808,7 +732,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                                     . "` WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
                                     AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
                                     AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '" . $accounts . "' "
-                                    . getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
+                                    . $dbu->getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
 
                            if ($item->maybeTemplate()) {
                               $query .= " AND " . $table_item . ".is_template='0'";

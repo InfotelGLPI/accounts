@@ -49,12 +49,14 @@ class PluginAccountsReport extends CommonDBTM {
 
       $PluginAccountsHash = new PluginAccountsHash();
       $PluginAccountsHash->getFromDB($ID);
+      $dbu = new DbUtils();
 
       if ($PluginAccountsHash->isRecursive()) {
-         $entities = getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
+         $entities = $dbu->getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
       } else {
-         $entities = $PluginAccountsHash->getEntityID();
+         $entities = [$PluginAccountsHash->getEntityID()];
       }
+
       $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
       $list     = [];
       if ($aeskey) {
@@ -64,7 +66,7 @@ class PluginAccountsReport extends CommonDBTM {
                   LEFT JOIN `glpi_plugin_accounts_accounttypes`
                   ON (`glpi_plugin_accounts_accounts`.`plugin_accounts_accounttypes_id` = `glpi_plugin_accounts_accounttypes`.`id`)
                   WHERE `is_deleted`= '0'";
-         $query .= getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, $PluginAccountsHash->maybeRecursive());
+         $query .= $dbu->getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, $PluginAccountsHash->maybeRecursive());
          $query .= " ORDER BY `type`,`name`";
 
          foreach ($DB->request($query) as $data) {
@@ -256,7 +258,6 @@ class PluginAccountsReport extends CommonDBTM {
    }
 
    static function showOutputFormat() {
-      global $CFG_GLPI;
 
       $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');
       $values['-' . Search::PDF_OUTPUT_PORTRAIT]  = __('All pages in portrait PDF');

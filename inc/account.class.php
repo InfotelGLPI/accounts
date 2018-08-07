@@ -309,7 +309,7 @@ class PluginAccountsAccount extends CommonDBTM {
     *
     * @param datas $input
     *
-    * @return array $input
+    * @return \datas $input
     */
    public function prepareInputForAdd($input) {
 
@@ -381,9 +381,10 @@ class PluginAccountsAccount extends CommonDBTM {
       }
 
       $hashclass = new PluginAccountsHash();
+      $dbu = new DbUtils();
 
-      $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
-      if ($ID < 1 && countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
+      $restrict = $dbu->getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
+      if ($ID < 1 && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
          echo "<div class='center'>" . __('There is no encryption key for this entity', 'accounts') . "<br><br>";
          echo "<a href='" . Toolbox::getItemTypeSearchURL('PluginAccountsAccount') . "'>";
          echo __('Back');
@@ -459,8 +460,8 @@ class PluginAccountsAccount extends CommonDBTM {
       //hash
       $hash     = 0;
       $hash_id  = 0;
-      $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', $this->getEntityID(), $hashclass->maybeRecursive());
-      $hashes   = getAllDatasFromTable("glpi_plugin_accounts_hashes", $restrict);
+      $restrict = $dbu->getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', $this->getEntityID(), $hashclass->maybeRecursive());
+      $hashes   = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
          foreach ($hashes as $hashe) {
             $hash    = $hashe["hash"];
@@ -507,12 +508,12 @@ class PluginAccountsAccount extends CommonDBTM {
                                  'entity' => $this->fields["entities_id"],
                                  'right'  => 'all']);
          } else {
-            echo getUserName($this->fields["users_id"]);
+            echo $dbu->getUserName($this->fields["users_id"]);
          }
          echo "</td>";
       } else {
          echo "<td>" . __('Affected User', 'accounts') . "</td><td>";
-         echo getUserName($this->fields["users_id"]);
+         echo $dbu->getUserName($this->fields["users_id"]);
          echo "</td>";
       }
 
@@ -684,58 +685,6 @@ class PluginAccountsAccount extends CommonDBTM {
    }
 
    /**
-    * Print the list of accounts to be upgraded
-    *
-    * @param $hash
-    */
-   public function showAccountsUpgrade($hash) {
-
-      echo "<div align='center'><b>" . __('2. Migrate accounts', 'accounts') . "</b><br><br>";
-
-      $rand = mt_rand();
-
-      $restrict = " 1=1 ORDER BY `name` ";
-      $accounts = getAllDatasFromTable($this->getTable(), $restrict);
-      $ID       = 0;
-      if (!empty($accounts)) {
-         echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand'  action=\"./account.upgrade.php\">";
-         echo "<table class='tab_cadre' cellpadding='5'>";
-         echo "<tr><th></th><th>" . __('Account names', 'accounts') . "</th><th>" . __('Uncrypted password', 'accounts') . "</th><th>" . __('Encryption key', 'accounts') . "</th></tr>";
-         echo "</tr>";
-         foreach ($accounts as $account) {
-            $ID = $account["id"];
-            if (!in_array($ID, $_SESSION['plugin_accounts']['upgrade'])) {
-               echo "<tr class='tab_bg_1'>";
-               echo "<td class='center'>";
-               echo Html::hidden('update_encrypted_password', ['value' => 1]);
-               echo "<input type='checkbox' checked name='item[$ID]' value='1'>";
-               echo "</td>";
-               echo "<td>";
-               echo $account["name"] . "</td>";
-               echo "<td><input type='hidden' name='encrypted_password$$ID' value=''><input type='text' name='hidden_password$$ID' value=\"" . $account["encrypted_password"] . "\"></td>";
-               echo "<td><input type='text' name='aescrypted_key' id= 'aescrypted_key' value='" . $_SESSION['plugin_accounts']['aescrypted_key'] . "' class='' autocomplete='off'>";
-               $js = "var good_hash=\"$hash\";
-               var hash=SHA256(SHA256(document.getElementById(\"aescrypted_key\").value));
-               document.getElementsByName(\"encrypted_password$$ID\").item(0).value=AESEncryptCtr(document.getElementsByName(\"hidden_password$$ID\").item(0).value,SHA256(document.getElementById(\"aescrypted_key\").value), 256)";
-               Html::scriptBlock($js);
-
-               echo "</td>";
-               echo "</td></tr>";
-            }
-         }
-
-         echo "<tr class='tab_bg_2'><td colspan='4' class='center'>";
-         echo "<input type='submit' name='upgrade_accounts[" . $ID . "]' value=\"" . _sx('button', 'Update') . "\" class='submit' >";
-         echo "</td></tr>";
-         echo "</table>";
-         Html::closeForm();
-      }
-      echo "<br><br><div align='center'><b>" .
-           __('3. If all accounts are migrated, the upgrade is finished', 'accounts') . "</b></div><br><br>";
-   }
-
-
-   /**
     * Make a select box for link accounts
     *
     * Parameters which could be used in options array :
@@ -761,9 +710,9 @@ class PluginAccountsAccount extends CommonDBTM {
             $p[$key] = $val;
          }
       }
-
+      $dbu = new DbUtils();
       $where = " WHERE `glpi_plugin_accounts_accounts`.`is_deleted` = '0' " .
-               getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '', $p['entity'], true);
+               $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '', $p['entity'], true);
 
       if (count($p['used'])) {
          $where .= " AND `id` NOT IN (0, " . implode(",", array_filter($p['used'])) . ")";
@@ -901,16 +850,17 @@ class PluginAccountsAccount extends CommonDBTM {
                                                        array $ids) {
 
       $account_item = new PluginAccountsAccount_Item();
+      $dbu = new DbUtils();
 
       switch ($ma->getAction()) {
          case "add_item":
             $input = $ma->getInput();
             foreach ($ma->items as $itemtype => $myitem) {
                foreach ($myitem as $key => $value) {
-                  if (!countElementsInTable('glpi_plugin_accounts_accounts_items',
-                                            "itemtype='$itemtype' 
-                                             AND items_id='$key' 
-                                             AND plugin_accounts_accounts_id='" . $input['plugin_accounts_accounts_id'] . "'")) {
+                  if (!$dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
+                                                  "itemtype='$itemtype' 
+                                                   AND items_id='$key' 
+                                                   AND plugin_accounts_accounts_id='" . $input['plugin_accounts_accounts_id'] . "'")) {
                      $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
                      $myvalue['itemtype']                    = $itemtype;
                      $myvalue['items_id']                    = $key;

@@ -164,8 +164,9 @@ class PluginAccountsAesKey extends CommonDBTM
     * @param array $options
     */
    public function showForm($ID, $options = []) {
-      $restrict = getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
-      if (countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
+      $dbu = new DbUtils();
+      $restrict = $dbu->getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
+      if ($dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
          echo "<div class='center red'>" . __('Encryption key modified', 'accounts') . "</div></br>";
       }
 

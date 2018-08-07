@@ -39,6 +39,8 @@ class PluginAccountsAccountInjection extends PluginAccountsAccount
 {
 
    /**
+    * @param null $classname
+    *
     * @return mixed
     */
    static function getTable($classname = null) {

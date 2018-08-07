@@ -143,6 +143,8 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
    public function addDataForTemplate($event, $options = []) {
       global $CFG_GLPI;
 
+      $dbu = new DbUtils();
+
       if ($event == 'new') {
 
          $this->data['##lang.account.title##'] = __('An account has been created', 'accounts');
@@ -169,14 +171,14 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $this->data['##account.login##']      = $this->obj->getField("login");
 
          $this->data['##lang.account.users##'] = __('Affected User', 'accounts');
-         $this->data['##account.users##']      = Html::clean(getUserName($this->obj->getField("users_id")));
+         $this->data['##account.users##']      = Html::clean($dbu->getUserName($this->obj->getField("users_id")));
 
          $this->data['##lang.account.groups##'] = __('Affected Group', 'accounts');
          $this->data['##account.groups##']      = Dropdown::getDropdownName('glpi_groups',
                                                                              $this->obj->getField('groups_id'));
 
          $this->data['##lang.account.userstech##'] = __('Technician in charge of the hardware');
-         $this->data['##account.userstech##']      = Html::clean(getUserName($this->obj->getField("users_id_tech")));
+         $this->data['##account.userstech##']      = Html::clean($dbu->getUserName($this->obj->getField("users_id_tech")));
 
          $this->data['##lang.account.groupstech##'] = __('Group in charge of the hardware');
          $this->data['##account.groupstech##']      = Dropdown::getDropdownName('glpi_groups',
@@ -236,10 +238,10 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
             $tmp['##account.state##']          = Dropdown::getDropdownName('glpi_plugin_accounts_accountstates',
                                                                            $account['plugin_accounts_accountstates_id']);
             $tmp['##account.login##']          = $account['login'];
-            $tmp['##account.users##']          = Html::clean(getUserName($account['users_id']));
+            $tmp['##account.users##']          = Html::clean($dbu->getUserName($account['users_id']));
             $tmp['##account.groups##']         = Dropdown::getDropdownName('glpi_groups',
                                                                            $account['groups_id']);
-            $tmp['##account.userstech##']      = Html::clean(getUserName($account['users_id_tech']));
+            $tmp['##account.userstech##']      = Html::clean($dbu->getUserName($account['users_id_tech']));
             $tmp['##account.groupstech##']     = Dropdown::getDropdownName('glpi_groups',
                                                                            $account['groups_id_tech']);
             $tmp['##account.location##']       = Dropdown::getDropdownName('glpi_locations',

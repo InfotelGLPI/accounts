@@ -221,15 +221,13 @@ class PluginAccountsHash extends CommonDBTM {
       if (!$this->canView()) {
          return false;
       }
-
-      $restrict = getEntitiesRestrictRequest(" ",
+      $dbu = new DbUtils();
+      $restrict = $dbu->getEntitiesRestrictRequest(" ",
                                              "glpi_plugin_accounts_hashes",
                                              '', '', $this->maybeRecursive());
 
-      $dbu = new DbUtils();
       if ($ID < 1
-          && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0
-      ) {
+          && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
          echo "<div class='center red'>" .
               __('WARNING : a encryption key already exist for this entity', 'accounts') . "</div></br>";
       }
@@ -244,7 +242,7 @@ class PluginAccountsHash extends CommonDBTM {
       */
       $options['colspan'] = 1;
 
-      if (!$options['upgrade'] && $options['update'] == 1) {
+      if ($options['update'] == 1) {
          echo "<div class='center red'>"
               . __('Warning : if you change used hash, the old accounts will use the old encryption key', 'accounts') .
               "</font><br><br>";
@@ -307,14 +305,6 @@ class PluginAccountsHash extends CommonDBTM {
          echo "<td class='center red' colspan='2'>";
          echo __('Please do not use special characters like / \ \' " & in encryption keys, or you cannot change it after.', 'accounts') . "</td>";
          echo "</tr>";
-      }
-
-      if ($options['upgrade']) {
-         echo "<tr class='tab_bg_1'>";
-         echo "<td class='center' colspan='2'>";
-         echo Html::hidden('id', ['value' => 1]);
-         echo "<input type='submit' name='upgrade' value=\"" . _sx('button', 'Upgrade') . "\" class='submit' >";
-         echo "</td></tr>";
       }
 
       if (!$options['update'] == 1) {
@@ -409,9 +399,10 @@ class PluginAccountsHash extends CommonDBTM {
 
       $PluginAccountsHash = new self();
       $PluginAccountsHash->getFromDB($hash_id);
+      $dbu = new DbUtils();
 
       if ($PluginAccountsHash->isRecursive()) {
-         $entities = getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
+         $entities = $dbu->getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
       } else {
          $entities = $PluginAccountsHash->getEntityID();
       }
@@ -426,7 +417,7 @@ class PluginAccountsHash extends CommonDBTM {
       $query_ = "SELECT *
                 FROM `glpi_plugin_accounts_accounts`
                 WHERE 1 ";
-      $query_ .= getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '',
+      $query_ .= $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '',
                                             $entities, $PluginAccountsHash->maybeRecursive());
 
       $result_ = $DB->query($query_);
