@@ -107,7 +107,7 @@ function plugin_version_accounts() {
 
    return [
       'name' => _n('Account', 'Accounts', 2, 'accounts'),
-      'version' => '2.4.0',
+      'version' => '2.4.1',
       'oldname' => 'compte',
       'license' => 'GPLv2+',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
@@ -122,46 +122,13 @@ function plugin_version_accounts() {
  * @return bool
  */
 function plugin_accounts_check_prerequisites() {
-   global $DB;
-
-   $dbu = new DbUtils();
 
    if (version_compare(GLPI_VERSION, '9.3', 'lt') || version_compare(GLPI_VERSION, '9.4', 'ge')) {
       echo __('This plugin requires GLPI >= 9.3', 'accounts');
       return false;
-   } else {
-      if ($DB->tableExists("glpi_comptes")) {//1.0
-         if ($dbu->countElementsInTable("glpi_comptes") > 0 && function_exists("mcrypt_encrypt")) {
-            return true;
-         } else {
-            echo __('phpX-mcrypt must be installed', 'accounts');
-         }
-      } else if ($DB->tableExists("glpi_plugin_comptes")) {//1.1
-         if ($dbu->countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
-            return true;
-         } else {
-            echo __('phpX-mcrypt must be installed', 'accounts');
-         }
-      } else if (!$DB->tableExists("glpi_plugin_compte_mailing")
-         && $DB->tableExists("glpi_plugin_comptes")
-      ) {//1.3
-         if ($dbu->countElementsInTable("glpi_plugin_comptes") > 0 && function_exists("mcrypt_encrypt")) {
-            return true;
-         } else {
-            echo __('phpX-mcrypt must be installed', 'accounts');
-         }
-      } else if ($DB->tableExists("glpi_plugin_compte")
-         && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")
-      ) {//1.4
-         if ($dbu->countElementsInTable("glpi_plugin_compte") > 0 && function_exists("mcrypt_encrypt")) {
-            return true;
-         } else {
-            echo __('phpX-mcrypt must be installed', 'accounts');
-         }
-      } else {
-         return true;
-      }
    }
+   return true;
+
 }
 
 // Uninstall process for plugin : need to return true if succeeded
