@@ -136,7 +136,7 @@ class PluginAccountsAesKey extends CommonDBTM
       if ($plugin_accounts_hashes_id) {
          $dbu = new DbUtils();
          $devices = $dbu->getAllDataFromTable("glpi_plugin_accounts_aeskeys",
-            "`plugin_accounts_hashes_id` = '$plugin_accounts_hashes_id' ");
+            ["plugin_accounts_hashes_id" => $plugin_accounts_hashes_id]);
          if (!empty($devices)) {
             foreach ($devices as $device) {
                $aeskey = $device["name"];
@@ -165,7 +165,7 @@ class PluginAccountsAesKey extends CommonDBTM
     */
    public function showForm($ID, $options = []) {
       $dbu = new DbUtils();
-      $restrict = $dbu->getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
+      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
       if ($dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
          echo "<div class='center red'>" . __('Encryption key modified', 'accounts') . "</div></br>";
       }

@@ -71,8 +71,7 @@ if (isset($_POST["add"])) {
 
       $hash = 0;
       $hash_id = 0;
-      $restrict = "`entities_id` = '" . $_SESSION['glpiactive_entity'] . "'";
-      $dbu = new DbUtils();
+      $restrict = ["entities_id" => $_SESSION['glpiactive_entity']];
       $hashes = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
          foreach ($hashes as $hashe) {

@@ -222,8 +222,7 @@ class PluginAccountsHash extends CommonDBTM {
          return false;
       }
       $dbu = new DbUtils();
-      $restrict = $dbu->getEntitiesRestrictRequest(" ",
-                                             "glpi_plugin_accounts_hashes",
+      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes",
                                              '', '', $this->maybeRecursive());
 
       if ($ID < 1

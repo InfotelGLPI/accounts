@@ -383,7 +383,7 @@ class PluginAccountsAccount extends CommonDBTM {
       $hashclass = new PluginAccountsHash();
       $dbu = new DbUtils();
 
-      $restrict = $dbu->getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
+      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
       if ($ID < 1 && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
          echo "<div class='center'>" . __('There is no encryption key for this entity', 'accounts') . "<br><br>";
          echo "<a href='" . Toolbox::getItemTypeSearchURL('PluginAccountsAccount') . "'>";
@@ -460,7 +460,8 @@ class PluginAccountsAccount extends CommonDBTM {
       //hash
       $hash     = 0;
       $hash_id  = 0;
-      $restrict = $dbu->getEntitiesRestrictRequest(" ", "glpi_plugin_accounts_hashes", '', $this->getEntityID(), $hashclass->maybeRecursive());
+      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '',
+                                                    $this->getEntityID(), $hashclass->maybeRecursive());
       $hashes   = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
          foreach ($hashes as $hashe) {
@@ -858,9 +859,9 @@ class PluginAccountsAccount extends CommonDBTM {
             foreach ($ma->items as $itemtype => $myitem) {
                foreach ($myitem as $key => $value) {
                   if (!$dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
-                                                  "itemtype='$itemtype' 
-                                                   AND items_id='$key' 
-                                                   AND plugin_accounts_accounts_id='" . $input['plugin_accounts_accounts_id'] . "'")) {
+                                                  ["itemtype" => $itemtype,
+                                                   "items_id" => $key,
+                                                   "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id']])) {
                      $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
                      $myvalue['itemtype']                    = $itemtype;
                      $myvalue['items_id']                    = $key;

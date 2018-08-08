@@ -154,8 +154,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       }
       $dbu = new DbUtils();
       return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
-         "`itemtype` IN ('$types')
-               AND `plugin_accounts_accounts_id` = '" . $item->getID() . "'");
+                                        ["plugin_accounts_accounts_id" => $item->getID()],
+                                        ["IN" => ["itemtype" => $types]
+                                        ]);
    }
 
 
@@ -163,11 +164,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param CommonDBTM $item
     * @return int
     */
-   private static function countForItem(CommonDBTM $item) {
+   static function countForItem(CommonDBTM $item) {
       $dbu = new DbUtils();
       return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
-         "`itemtype`='" . $item->getType() . "'
-               AND `items_id` = '" . $item->getID() . "'");
+                                        ["itemtype" => $item->getType(),
+                                         "items_id" => $item->getID()]);
    }
 
    /**
@@ -587,8 +588,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       $hashclass = new PluginAccountsHash();
       $hash_id = 0;
       $hash = 0;
-      $restrict = $dbu->getEntitiesRestrictRequest(" ",
-                                             "glpi_plugin_accounts_hashes",
+      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes",
                                              '',
                                              $item->getEntityID(),
                                              $hashclass->maybeRecursive());
