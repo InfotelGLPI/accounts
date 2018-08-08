@@ -163,7 +163,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param CommonDBTM $item
     * @return int
     */
-   private static function countForItem(CommonDBTM $item) {
+   public static function countForItem(CommonDBTM $item) {
       $dbu = new DbUtils();
       return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
          "`itemtype`='" . $item->getType() . "'
