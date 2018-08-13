@@ -1128,44 +1128,40 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "<a style='font-size:14px;' href='" . $target . "?reset=reset' title=\"" .
            __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a></div>";
 
-      $js = "$('#tree_projectcategory$rand').jstree({
-         'plugins' : ['themes', 'json_data', 'search'],
-         'core' : {'load_open': true,
-                 'html_titles': true,
-                 'animation' : 0},
-         'themes' : {
-            'theme' : 'classic',
-            'url'   : '" . $CFG_GLPI["root_doc"] . "/css/jstree/style.css'
-         },
-         'search' : {
-            'case_insensitive' : true,
-            'show_only_matches' : true,
-            'ajax' : {
-               'type': 'POST',
-               'url' : '" . $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/accounttreetypes.php'
-            }
-         },
-         'json_data' : {
-            'ajax' : {
-               'type': 'POST',
-               'url': function (node) {
-                  var nodeId = '';
-                  var url = '';
-                  if (node == -1) {
-                     url = '" . $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/accounttreetypes.php?node=-1';
-                  } else {
-                     nodeId = node.attr('id');
-                     url = '" . $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/accounttreetypes.php?node='+nodeId;
-                  }
-                  return url;
-               },
-               'success': function (new_data) {
-                  return new_data;
-               },
-               'progressive_render' : true
-            }
-         }
-      });";
+      $js = "   $(function() {
+                  $.getScript('{$CFG_GLPI["root_doc"]}/lib/jqueryplugins/jstree/jstree.min.js', function(data, textStatus, jqxhr) {
+                     $('#tree_projectcategory$rand').jstree({
+                        // the `plugins` array allows you to configure the active plugins on this instance
+                        'plugins' : ['search', 'qload'],
+                        'search': {
+                           'case_insensitive': true,
+                           'show_only_matches': true,
+                           'ajax': {
+                              'type': 'POST',
+                              'url': '".$CFG_GLPI["root_doc"]."/plugins/accounts/ajax/accounttreetypes.php'
+                           }
+                        },
+                        'qload': {
+                           'prevLimit': 50,
+                           'nextLimit': 30,
+                           'moreText': '".__s('Load more...')."'
+                        },
+                        'core': {
+                           'themes': {
+                              'name': 'glpi'
+                           },
+                           'animation': 0,
+                           'data': {
+                              'url': function(node) {
+                                 return node.id === '#' ?
+                                    '".$CFG_GLPI["root_doc"]."/plugins/accounts/ajax/accounttreetypes.php?node=-1' :
+                                    '".$CFG_GLPI["root_doc"]."/plugins/accounts/ajax/accounttreetypes.php?node='+node.id;
+                              }
+                           }
+                        }
+                     });
+                  });
+               });";
 
       echo Html::scriptBlock($js);
       echo "<div class='left' style='width:100%'>";
