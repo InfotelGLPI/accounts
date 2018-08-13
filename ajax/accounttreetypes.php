@@ -31,7 +31,7 @@ $AJAX_INCLUDE = 1;
 
 include('../../../inc/includes.php');
 
-header("Content-Type: text/html; charset=UTF-8");
+header("Content-Type: application/json; charset=UTF-8");
 Html::header_nocache();
 
 Session::checkLoginUser();
@@ -46,8 +46,6 @@ if (isset($_REQUEST['node'])) {
    $nodes = [];
    // Root node
    if ($_REQUEST['node'] == -1) {
-      $pos = 0;
-      $entity = $_SESSION['glpiactive_entity'];
 
       $where = " WHERE `glpi_plugin_accounts_accounts`.`is_deleted` = '0' ";
       $where .= getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts");
@@ -64,26 +62,18 @@ if (isset($_REQUEST['node'])) {
          if ($DB->numrows($result)) {
             $pos = 0;
             while ($row = $DB->fetch_array($result)) {
-
-               $ID = $row['id'];
-
-               $path['data']['title'] = Dropdown::getDropdownName("glpi_plugin_accounts_accounttypes", $ID);
-               $path['attr']['id'] = $ID;
-
-               if ($entity == 0) {
-                  $link = "&link[1]=AND&searchtype[1]=contains&contains[1]=NULL&field[1]=80";
-               } else {
-                  $link = "&link[1]=AND&searchtype[1]=contains&contains[1]=" .
-                     Dropdown::getDropdownName("glpi_entities", $entity) . "&field[1]=80";
-               }
-               $path['data']['attr']['href'] = $CFG_GLPI["root_doc"] . "/plugins/accounts/front/" . $target .
-                  "?criteria[0][field]=2&criteria[0][searchtype]=contains&criteria[0][value]=^" .
-                  rawurlencode($path['data']['title']) . "&itemtype=PluginAccountsAccount&start=0";
+               $value = Dropdown::getDropdownName("glpi_plugin_accounts_accounttypes", $row['id']);
+               $path = [
+                  'id'   => $row['id'],
+                  'text' => $value,
+                  'a_attr' => ["onclick" => 'window.location.replace("'.$CFG_GLPI["root_doc"] . '/plugins/accounts/front/' . $target .
+                                            '?criteria[0][field]=2&criteria[0][searchtype]=contains&criteria[0][value]=^' .
+                                            rawurlencode($value) . '&itemtype=PluginAccountsAccount&start=0")']
+               ];
                $nodes[] = $path;
             }
          }
       }
    }
-
-   print json_encode($nodes);
+   echo json_encode($nodes);
 }
