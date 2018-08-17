@@ -6,12 +6,14 @@
     <logo>https://raw.githubusercontent.com/InfotelGLPI/accounts/master/wiki/accounts.png</logo>
     <description>
         <short>
-            <fr><![CDATA[Gestion de comptes (login / mot de passe).<br />Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à des éléments de l’inventaire.<br />Les comptes sont cryptés en base à l'aide d'un hash et d'une clé de cryptage.<br />Un système d'alertes mail permet de vérifier les comptes expirés.]]></fr>
+            <cs><![CDATA[Správa účtů (uživatelské jméno / heslo). <br />Tento zásuvný modul umožňuje spravovat účty na vaší síti a přiřazovat je k prvkům inventáře.<br />Účty jsou šifrované v databázi pomocí tisku a šifrovacího klíče.<br />Systém posílání e-mailů umožňuje ověřovat účty, kterým skončila platnost.]]></cs>
             <en><![CDATA[Manage accounts (login / password). <br />This plugin enables you to manage the accounts of your network and associate them with elements of the inventory.<br />The accounts are crypted in database with hash and crypting key.<br />A mailing system allow to verify expired accounts.]]></en>
+            <fr><![CDATA[Gestion de comptes (login / mot de passe).<br />Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à des éléments de l’inventaire.<br />Les comptes sont cryptés en base à l'aide d'un hash et d'une clé de cryptage.<br />Un système d'alertes mail permet de vérifier les comptes expirés.]]></fr>
         </short>
         <long>
-            <fr><![CDATA[Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à des éléments de l’inventaire.<br />- Détail d'un compte : login / mot de passe, utilisateur, dates de création et d'expiration,<br />- Utilisation d'un hash et d'une clé de cryptage pour le hash,<br />- Envoi de mails à l'expiration de comptes,<br />- Utilisable depuis le helpdesk,<br />- Peut être intégré au plugin environment.]]></fr>
+            <cs><![CDATA[Tento zásuvný modul umožňuje spravovat účty na vaší síti a přiřazovat je k prvkům inventáře.<br />- Podrobnosti o účtu: uživatelské jméno / heslo, uživatel, datum vytvoření a skončení platnosti,<br />- Použití otisku a šifrovacího klíče,<br />- Systém posílání e-mailů umožňuje ověřovat účty, kterým skončila platnost,<br />- Je možné použít ve spojení se službou podpory,<br />- Je možné začlenit do zásuvného modulu Prostředí.]]></cs>
             <en><![CDATA[This plugin enables you to manage the accounts of your network and associate them with elements of the inventory.<br />- Account detail : login / password, user, creation and expiration,<br />-Using hash and crypting key,<br />- Mailing system allow to verify expired accounts,<br />- Can be used with helpdesk,<br />- Can be integrated into Environment plugin.]]></en>
+            <fr><![CDATA[Ce plugin vous permet de gérer les comptes de votre réseau et de les associer à des éléments de l’inventaire.<br />- Détail d'un compte : login / mot de passe, utilisateur, dates de création et d'expiration,<br />- Utilisation d'un hash et d'une clé de cryptage pour le hash,<br />- Envoi de mails à l'expiration de comptes,<br />- Utilisable depuis le helpdesk,<br />- Peut être intégré au plugin environment.]]></fr>
         </long>
     </description>
     <homepage>https://github.com/InfotelGLPI/accounts</homepage>
@@ -166,15 +168,20 @@
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>
-        <fr>
-            <tag>Comptes</tag>
-            <tag>Inventaire</tag>
-            <tag>Gestion</tag>
-        </fr>
+        <cs>
+            <tag>Účty</tag>
+            <tag>Inventář</tag>
+            <tag>Správa</tag>
+        </cs>
         <en>
             <tag>Accounts</tag>
             <tag>Inventory</tag>
             <tag>Management</tag>
         </en>
+        <fr>
+            <tag>Comptes</tag>
+            <tag>Inventaire</tag>
+            <tag>Gestion</tag>
+        </fr>
     </tags>
 </root>
