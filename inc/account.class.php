@@ -491,7 +491,21 @@ class PluginAccountsAccount extends CommonDBTM {
                echo "&nbsp;<input type='button' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
                         class='submit'>";
             }
-
+            echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
+                 switch(e.keyCode) { 
+                     case 13:
+                        if (!check_hash()) {
+                           var value = document.getElementById('wrong_key_locale').value;
+                           document.getElementById('wrong_key_locale_div').innerHTML = value;
+                        } else {
+                           document.getElementById('wrong_key_locale_div').innerHTML = '';
+                           decrypt_password();
+                        }                        
+                      return false;
+                      break;                         
+                 }                 
+               });");
+            echo "<div id='wrong_key_locale_div' style='color:red'></div>";
             echo "</td>";
          } else {
             echo "<td></td><td>";
