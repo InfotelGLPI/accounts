@@ -773,11 +773,14 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
  * @return array
  */
 function plugin_accounts_MassiveActions($type) {
-
-   if (in_array($type, PluginAccountsAccount::getTypes(true))) {
-      return [
-         'PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts')
-      ];
+   
+   $plugin = new Plugin();
+   if ($plugin->isActivated('accounts')) {
+      if (in_array($type, PluginAccountsAccount::getTypes(true))) {
+         return [
+            'PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts')
+         ];
+      }
    }
    return [];
 }

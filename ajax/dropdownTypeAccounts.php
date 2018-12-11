@@ -60,6 +60,6 @@ if (isset($_POST["accounttype"])) {
          'width' => '50%',
          'entity' => $_POST['entity'],
          'rand' => $_POST['rand'],
-         'condition' => "glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id='" . $_POST["accounttype"] . "'"]);
+         'condition' => ['glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id' => $_POST["accounttype"]]]);
 
 }

@@ -560,7 +560,7 @@ class PluginAccountsAccount extends CommonDBTM {
          echo "<td>" . __('Affected Group', 'accounts') . "</td><td>";
          if (self::canCreate()) {
             Dropdown::show('Group', ['value'     => $this->fields["groups_id"],
-                                          'condition' => '`is_itemgroup`']);
+                                          'condition' => ['is_itemgroup' => 1]]);
          } else {
             echo Dropdown::getDropdownName("glpi_groups", $this->fields["groups_id"]);
          }
@@ -602,7 +602,7 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "<td>" . __('Group in charge of the hardware') . "</td><td>";
       Group::dropdown(['name'      => 'groups_id_tech',
                             'value'     => $this->fields['groups_id_tech'],
-                            'condition' => '`is_assign`']);
+                            'condition' => ['is_assign' => 1]]);
       echo "</td>";
 
       echo "<tr class='tab_bg_1'>";
@@ -680,7 +680,7 @@ class PluginAccountsAccount extends CommonDBTM {
             });");
 
             if ($this->fields["is_deleted"] == '0') {
-               echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='delete' value=\"" . _sx('button', 'Put in dustbin') . "\" class='submit'></div>";
+               echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='submit'></div>";
             } else {
                echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='submit'>";
                echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='submit'></div>";

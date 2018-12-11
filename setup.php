@@ -27,6 +27,8 @@
  --------------------------------------------------------------------------
  */
 
+define('PLUGIN_ACCOUNTS_VERSION', '2.5.0');
+
 // Init the hooks of the plugins -Needed
 function plugin_init_accounts() {
    global $PLUGIN_HOOKS;
@@ -107,12 +109,17 @@ function plugin_version_accounts() {
 
    return [
       'name' => _n('Account', 'Accounts', 2, 'accounts'),
-      'version' => '2.4.3',
+      'version'        => PLUGIN_ACCOUNTS_VERSION,
       'oldname' => 'compte',
       'license' => 'GPLv2+',
       'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
       'homepage' => 'https://github.com/InfotelGLPI/accounts',
-      'minGlpiVersion' => '9.3',
+      'requirements'   => [
+         'glpi' => [
+            'min' => '9.4',
+            'dev' => false
+         ]
+      ],
    ];
 
 }
@@ -122,13 +129,15 @@ function plugin_version_accounts() {
  * @return bool
  */
 function plugin_accounts_check_prerequisites() {
-
-   if (version_compare(GLPI_VERSION, '9.3', 'lt') || version_compare(GLPI_VERSION, '9.4', 'ge')) {
-      echo __('This plugin requires GLPI >= 9.3', 'accounts');
+   if (version_compare(GLPI_VERSION, '9.4', 'lt') 
+         || version_compare(GLPI_VERSION, '9.5', 'ge')) {
+      if (method_exists('Plugin', 'messageIncompatible')) {
+         echo Plugin::messageIncompatible('core', '9.4');
+      }
       return false;
    }
-   return true;
 
+   return true;
 }
 
 // Uninstall process for plugin : need to return true if succeeded
