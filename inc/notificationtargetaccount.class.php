@@ -99,19 +99,21 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
       if (isset($this->obj->fields[$group_field])
           && $this->obj->fields[$group_field] > 0) {
 
-         $query = $this->getDistinctUserSql() .
-                  " FROM `glpi_users`
-                  LEFT JOIN `glpi_groups_users` ON (`glpi_groups_users`.`users_id` = `glpi_users`.`id`)" .
-                  $this->getProfileJoinSql() . "
-                           WHERE `glpi_groups_users`.`groups_id` = '" . $this->obj->fields[$group_field] . "'";
+         $criteria = $this->getDistinctUserCriteria() + $this->getProfileJoinCriteria();
+         $criteria['FROM'] = User::getTable();
+         $criteria['LEFT JOIN'] = ['glpi_groups_users' => ['ON' => ['glpi_groups_users' => 'users_id',
+                                                                    'glpi_users'        => 'id']]];
+         $criteria['WHERE']['glpi_groups_users.groups_id'] = $this->obj->fields[$group_field];
+         $iterator = $DB->request($criteria);
 
-         foreach ($DB->request($query) as $data) {
+         while ($data = $iterator->next()) {
+            //Add the user email and language in the notified users list
             $this->addToRecipientsList($data);
          }
       }
    }
 
-   //Get receipient
+   //Get recipient
    function getUserTechAddress() {
       return $this->addUserByField("users_id_tech");
    }
@@ -124,13 +126,15 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
       if (isset($this->obj->fields[$group_field])
           && $this->obj->fields[$group_field] > 0) {
 
-         $query = $this->getDistinctUserSql() .
-                  " FROM `glpi_users`
-                  LEFT JOIN `glpi_groups_users` ON (`glpi_groups_users`.`users_id` = `glpi_users`.`id`)" .
-                  $this->getProfileJoinSql() . "
-                           WHERE `glpi_groups_users`.`groups_id` = '" . $this->obj->fields[$group_field] . "'";
+         $criteria = $this->getDistinctUserCriteria() + $this->getProfileJoinCriteria();
+         $criteria['FROM'] = User::getTable();
+         $criteria['LEFT JOIN'] = ['glpi_groups_users' => ['ON' => ['glpi_groups_users' => 'users_id',
+                                                                    'glpi_users'        => 'id']]];
+         $criteria['WHERE']['glpi_groups_users.groups_id'] = $this->obj->fields[$group_field];
+         $iterator = $DB->request($criteria);
 
-         foreach ($DB->request($query) as $data) {
+         while ($data = $iterator->next()) {
+            //Add the user email and language in the notified users list
             $this->addToRecipientsList($data);
          }
       }
