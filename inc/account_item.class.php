@@ -148,14 +148,13 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     */
    private static function countForAccount(PluginAccountsAccount $item) {
 
-      $types = implode("','", $item->getTypes());
-      if (empty($types)) {
+      if (count($item->getTypes()) <= 0) {
          return 0;
       }
       $dbu = new DbUtils();
       return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
-                                        ["plugin_accounts_accounts_id" => $item->getID()],
-                                        ["IN" => ["itemtype" => $types]
+                                        ["plugin_accounts_accounts_id" => $item->getID(),
+                                        "itemtype" => $item->getTypes(),
                                         ]);
    }
 
