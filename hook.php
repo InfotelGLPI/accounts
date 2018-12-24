@@ -335,6 +335,12 @@ function plugin_accounts_uninstall() {
    include_once(GLPI_ROOT . "/plugins/accounts/inc/profile.class.php");
    include_once(GLPI_ROOT . "/plugins/accounts/inc/menu.class.php");
 
+   //Delete rights associated with the plugin
+   $profileRight = new ProfileRight();
+   foreach (PluginAccountsProfile::getAllRights(true) as $right) {
+      $profileRight->deleteByCriteria(['name' => $right['field']]);
+   }
+
    $tables = ["glpi_plugin_accounts_accounts",
                    "glpi_plugin_accounts_accounts_items",
                    "glpi_plugin_accounts_accounttypes",
@@ -430,11 +436,6 @@ function plugin_accounts_uninstall() {
       PluginDatainjectionModel::clean(['itemtype' => 'PluginAccountsAccount']);
    }
 
-   //Delete rights associated with the plugin
-   $profileRight = new ProfileRight();
-   foreach (PluginAccountsProfile::getAllRights() as $right) {
-      $profileRight->deleteByCriteria(['name' => $right['field']]);
-   }
    PluginAccountsProfile::removeRightsFromSession();
 
    PluginAccountsMenu::removeRightsFromSession();
