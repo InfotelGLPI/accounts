@@ -259,10 +259,18 @@ class PluginAccountsAccount extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'                 => '81',
-         'table'              => 'glpi_entities',
-         'field'              => 'entities_id',
-         'name'               => __('Entity-ID')
+          'id'                 => '81',
+          'table'              => 'glpi_entities',
+          'field'              => 'entities_id',
+          'name'               => __('Entity-ID')
+      ];
+
+      $tab[] = [
+          'id'                 => '80',
+          'table'              => 'glpi_entities',
+          'field'              => 'completename',
+          'name'               => __('Entity'),
+          'datatype'           => 'dropdown'
       ];
 
       $tab[] = [
