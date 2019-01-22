@@ -46,12 +46,8 @@ class PluginAccountsMenu extends CommonGLPI
     * @return array
     */
    static function getMenuContent() {
-      global $CFG_GLPI;
 
-      $image = "<img src='" .
-         $CFG_GLPI["root_doc"] . "/plugins/accounts/pics/cadenas.png' title='" .
-         _n('Encryption key', 'Encryption keys', 2, 'accounts') . "' alt='" .
-         _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'>";
+      $image = "<i class='fas fa-lock fa-2x' title='" .  _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'></i>";
 
       $menu = [];
       $menu['title'] = self::getMenuName();
