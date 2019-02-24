@@ -3,63 +3,62 @@
 # This file is distributed under the same license as the GLPI - Accounts plugin package.
 # 
 # Translators:
-# akira345 <g.akira345@gmail.com>, 2017
-# akira345 <g.akira345@gmail.com>, 2017
-# in dow <in_dow@hotmail.com>, 2019
+# Emperium EmperiuM <real.emperium@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-07 11:48+0200\n"
-"PO-Revision-Date: 2019-02-22 14:50+0000\n"
-"Last-Translator: in dow <in_dow@hotmail.com>\n"
-"Language-Team: Japanese (Japan) (http://www.transifex.com/tsmr/GLPI_accounts/language/ja_JP/)\n"
+"PO-Revision-Date: 2018-10-02 16:31+0000\n"
+"Last-Translator: Emperium EmperiuM <real.emperium@gmail.com>\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/tsmr/GLPI_accounts/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: pt_PT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: hook.php:779
 msgid "Associate to account"
-msgstr "アカウントに関連付ける"
+msgstr "Associar a conta"
 
 #: setup.php:109 inc/account.class.php:56 inc/menu.class.php:42
 #: inc/profile.class.php:176 inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
-msgstr[0] "アカウント"
+msgstr[0] "Conta"
+msgstr[1] "Contas"
 
 #: setup.php:130
 msgid "This plugin requires GLPI >= 9.3"
-msgstr "このプラグインは GLPI >= 9.3 を必要とします"
+msgstr "Este plugin necessita GLPI >=9.3"
 
 #: setup.php:137 setup.php:143 setup.php:151 setup.php:159
 msgid "phpX-mcrypt must be installed"
-msgstr "phpX-mcrypt のインストールが必要です"
+msgstr "phpX-mcrypt tem de estar instalado"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
-msgstr "復号化"
+msgstr "Desencriptado"
 
 #: front/account.php:53 front/account.php:58
 msgid "Type view"
-msgstr "種類を表示"
+msgstr "Tipo de vista"
 
 #: front/hash.form.php:86 inc/account.class.php:487 inc/account.class.php:536
 #: inc/account.class.php:641 inc/account.class.php:660
 #: inc/account_item.class.php:685 inc/account_item.class.php:701
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
-msgstr "暗号キーが違います"
+msgstr "Chave de encriptação errada"
 
 #: front/hash.form.php:90 inc/aeskey.class.php:170
 msgid "Encryption key modified"
-msgstr "暗号キーを変更しました"
+msgstr "Chave de encriptação modificada"
 
 #: front/hash.form.php:94
 msgid "The old or the new encryption key can not be empty"
-msgstr "新旧の暗号キーは空に出来ません"
+msgstr "A antiga ou a nova chave de encriptação não pode estar vazia"
 
 #: inc/account.class.php:124 inc/account.class.php:505
 #: inc/account.class.php:515 inc/account_item.class.php:635
@@ -68,12 +67,12 @@ msgstr "新旧の暗号キーは空に出来ません"
 #: inc/notificationtargetaccount.class.php:222
 #: inc/notificationtargetaccount.class.php:272
 msgid "Affected User"
-msgstr "参照できるユーザ"
+msgstr "Utilizador afectado "
 
 #: inc/account.class.php:388 inc/account.class.php:472
 #: inc/account_item.class.php:604
 msgid "There is no encryption key for this entity"
-msgstr "このエンティティは暗号キーがありません"
+msgstr "Não existe chave de encriptação para esta entidade"
 
 #: inc/account.class.php:480 inc/account.class.php:500
 #: inc/account_item.class.php:611 inc/account_item.class.php:619
@@ -82,11 +81,12 @@ msgstr "このエンティティは暗号キーがありません"
 #: inc/menu.class.php:53 inc/menu.class.php:54
 msgid "Encryption key"
 msgid_plural "Encryption key"
-msgstr[0] "暗号キー"
+msgstr[0] "Chave de encriptação"
+msgstr[1] "Chave de encriptação"
 
 #: inc/account.class.php:490 inc/account_item.class.php:693
 msgid "Uncrypt"
-msgstr "復号化"
+msgstr "Não encriptado "
 
 #: inc/account.class.php:545 inc/account.class.php:554
 #: inc/notificationtargetaccount.class.php:60
@@ -94,168 +94,169 @@ msgstr "復号化"
 #: inc/notificationtargetaccount.class.php:223
 #: inc/notificationtargetaccount.class.php:273
 msgid "Affected Group"
-msgstr "参照できるグループ"
+msgstr "Grupo afectado"
 
 #: inc/account.class.php:581
 msgid "Empty for infinite"
-msgstr "空欄は無期限になります"
+msgstr "Vazio para infinito"
 
 #: inc/account.class.php:637
 msgid "You have not filled the password and encryption key"
-msgstr "パスワードと暗号キーを入力してください"
+msgstr "Não foi preenchida a password e a chave de encriptação"
 
 #: inc/account.class.php:658
 msgid "Password will not be modified"
-msgstr "パスワードは変更されません"
+msgstr "A password não será modificada"
 
 #: inc/account.class.php:966 inc/account.class.php:1057
 #: inc/notificationtargetaccount.class.php:291
 msgid "Accounts expired or accounts which expires"
-msgstr "有効期限切れアカウントか既に有効期限切れです"
+msgstr "Contas expiradas ou contas a expirar"
 
 #: inc/account.class.php:1126
 msgid "Select the wanted account type"
-msgstr "アカウントの種類を選択してください"
+msgstr "Seleccione o tipo de conta desejado "
 
 #: inc/account.class.php:1238 inc/account_item.class.php:724
 msgid "Don't expire"
-msgstr "期限切れにしない"
+msgstr "Não expira"
 
 #: inc/account_item.class.php:562
 msgctxt "button"
 msgid "Associate a account"
-msgstr "アカウントに関連付ける"
+msgstr "Associar uma conta"
 
 #: inc/accounttype.class.php:51
 msgid "Type of account"
 msgid_plural "Types of account"
-msgstr[0] "アカウントの種類"
+msgstr[0] "Tipos de conta"
+msgstr[1] "Tipos de conta"
 
 #: inc/aeskey.class.php:72
 msgid "Save the encryption key"
-msgstr "暗号キーを保存する"
+msgstr "Grava a chave de encriptação "
 
 #: inc/aeskey.class.php:181
 msgid "Warning : saving the encryption key is a security hole"
-msgstr "警告 : 暗号キーを保存することはセキュリティホールになります"
+msgstr "Aviso: gravar a chave de encriptação é uma falha de segurança"
 
 #: inc/aeskey.class.php:217 inc/hash.class.php:284
 msgid "Hash"
-msgstr "ハッシュ"
+msgstr "Hash"
 
 #: inc/config.class.php:48
 msgid "Plugin Setup"
-msgstr "プラグインセットアップ"
+msgstr "Setup do plugin"
 
 #: inc/config.class.php:83
 msgid "Time of checking of of expiration of accounts"
-msgstr "アカウントの有効期限チェック"
+msgstr "Tempo de verificação de expiração de contas"
 
 #: inc/config.class.php:92
 msgid "Accounts expired for more than"
-msgstr "アカウント有効期限を過ぎている"
+msgstr "Contas expiradas em mais de"
 
 #: inc/config.class.php:95
 msgid "Accounts expiring in less than"
-msgstr "アカウント有効期限が切れていない"
+msgstr "Contas a expirar em menos de"
 
 #: inc/hash.class.php:79 inc/hash.class.php:332 inc/report.class.php:214
 msgid "Linked accounts list"
-msgstr "リンクされたアカウントリスト"
+msgstr "Lista de contas associadas"
 
 #: inc/hash.class.php:80
 msgid "Modification of the encryption key for all password"
-msgstr "全てのパスワードの暗号キーを変更します"
+msgstr "Modificação da chave de encriptação para todas as passwords"
 
 #: inc/hash.class.php:232
 msgid "WARNING : a encryption key already exist for this entity"
-msgstr "警告 : このエンティティには既に暗号化されたキーが存在します"
+msgstr "AVISO: a chave de encriptação já existe para esta entidade"
 
 #: inc/hash.class.php:247
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
-msgstr "警告: 使用しているハッシュを変更しても, 古いアカウントは古い暗号キーのままです"
+msgstr "Aviso : Se mudar o hash usado, as contas antigas irão usar a chave de encriptação antiga"
 
 #: inc/hash.class.php:269
 msgid "Generate hash with this encryption key"
-msgstr "暗号キーのハッシュを生成します"
+msgstr "Gerar hash com esta chave de encriptação"
 
 #: inc/hash.class.php:273 inc/hash.class.php:335 inc/hash.class.php:349
 msgid "Please fill the encryption key"
-msgstr "暗号キーを入力してください"
+msgstr "Por favor preencha a chave de encriptação"
 
 #: inc/hash.class.php:306
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
-msgstr "暗号キーの中に、特別な意味を持つ / \\\\ ' \\\" & のような文字を使わないでください。入れた場合、後で変更できなくなります."
+msgstr "Por favor não utilize caracteres especiais como / \\ ' \" & na chave de encriptação, ou não irá conseguir alterar depois."
 
 #: inc/hash.class.php:363
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
-msgstr "警告 : もし、新しい又は古いキーを間違えた場合, あなたは永久にパスワードを復号化することが出来ません. 作業する前にデータベースのバックアップを作成することを＊強く＊推奨します."
+msgstr "Aviso : se cometer um erro ao introduzir a antiga ou a nova chave, poderá não conseguir desencriptar as suas passwords. É FORTEMENTE recomendado que faça uma cópia de segurança da base de dados antes"
 
 #: inc/hash.class.php:366
 msgid "Old encryption key"
-msgstr "古い暗号キー"
+msgstr "Antiga chave de encriptação"
 
 #: inc/hash.class.php:376
 msgid "New encryption key"
-msgstr "新しい暗号キー"
+msgstr "Nova chave de encriptação"
 
 #: inc/hash.class.php:381
 msgid "You want to change the key : "
-msgstr "キー変更を要求する :"
+msgstr "Quer mudar a chave :"
 
 #: inc/hash.class.php:382
 msgid " by the key : "
-msgstr " そのキーで : "
+msgstr "pela chave :"
 
 #: inc/notificationstate.class.php:122
 msgid "Add a unused status for expiration mailing"
-msgstr "有効期限切れメーリングリストの未使用ステータスを追加"
+msgstr "Adiciona estado não usado para validade de mailing "
 
 #: inc/notificationstate.class.php:160
 msgid "Unused status for expiration mailing"
-msgstr "有効期限切れメーリングリストの未使用ステータス"
+msgstr "Estado não usado para validade de mailing "
 
 #: inc/notificationtargetaccount.class.php:48
 msgid "New account"
-msgstr "新規アカウント"
+msgstr "Nova conta"
 
 #: inc/notificationtargetaccount.class.php:49
 #: inc/notificationtargetaccount.class.php:214
 msgid "Accounts expired"
-msgstr "有効期限が切れたアカウント"
+msgstr "Contas expiradas"
 
 #: inc/notificationtargetaccount.class.php:50
 #: inc/notificationtargetaccount.class.php:215
 msgid "Accounts which expires"
-msgstr "有効期限切れアカウント"
+msgstr "Contas que expiram"
 
 #: inc/notificationtargetaccount.class.php:150
 #: inc/notificationtargetaccount.class.php:288
 msgid "An account has been created"
-msgstr "アカウントを作成しました"
+msgstr "Foi criada uma conta"
 
 #: inc/notificationtargetaccount.class.php:203
 #: inc/notificationtargetaccount.class.php:267
 msgid "Direct link to created account"
-msgstr "作成したアカウントへリンクを作成"
+msgstr "Atalho directa para criar conta "
 
 #: inc/profile.class.php:130 inc/profile.class.php:183
 #: inc/profile.class.php:218
 msgid "See accounts of my groups"
-msgstr "グループのアカウントを見る"
+msgstr "Ver contas dos meus grupos"
 
 #: inc/profile.class.php:137 inc/profile.class.php:187
 #: inc/profile.class.php:222
 msgid "See all accounts"
-msgstr "全てのアカウントを見る"
+msgstr "Ver todas as contas"
 
 #: inc/report.class.php:145
 msgid "Uncrypted password"
-msgstr "復号化したパスワード"
+msgstr "Password não encriptada"

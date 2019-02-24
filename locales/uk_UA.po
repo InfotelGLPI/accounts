@@ -3,63 +3,64 @@
 # This file is distributed under the same license as the GLPI - Accounts plugin package.
 # 
 # Translators:
-# akira345 <g.akira345@gmail.com>, 2017
-# akira345 <g.akira345@gmail.com>, 2017
-# in dow <in_dow@hotmail.com>, 2019
+# Andriy Smilyanets <smile.andriy@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-07 11:48+0200\n"
-"PO-Revision-Date: 2019-02-22 14:50+0000\n"
-"Last-Translator: in dow <in_dow@hotmail.com>\n"
-"Language-Team: Japanese (Japan) (http://www.transifex.com/tsmr/GLPI_accounts/language/ja_JP/)\n"
+"PO-Revision-Date: 2018-12-27 13:39+0000\n"
+"Last-Translator: Andriy Smilyanets <smile.andriy@gmail.com>\n"
+"Language-Team: Ukrainian (Ukraine) (http://www.transifex.com/tsmr/GLPI_accounts/language/uk_UA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: uk_UA\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #: hook.php:779
 msgid "Associate to account"
-msgstr "アカウントに関連付ける"
+msgstr "Пов'язати з обліковим записом"
 
 #: setup.php:109 inc/account.class.php:56 inc/menu.class.php:42
 #: inc/profile.class.php:176 inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
-msgstr[0] "アカウント"
+msgstr[0] "Обліковий запис"
+msgstr[1] "Облікові записи"
+msgstr[2] "Облікових записів"
+msgstr[3] "Облікові записи"
 
 #: setup.php:130
 msgid "This plugin requires GLPI >= 9.3"
-msgstr "このプラグインは GLPI >= 9.3 を必要とします"
+msgstr "Цей плугін вимагає GLPI >= 9.3"
 
 #: setup.php:137 setup.php:143 setup.php:151 setup.php:159
 msgid "phpX-mcrypt must be installed"
-msgstr "phpX-mcrypt のインストールが必要です"
+msgstr "має бути встановлено модуль phpX-mcrypt"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
-msgstr "復号化"
+msgstr "Нешифровано"
 
 #: front/account.php:53 front/account.php:58
 msgid "Type view"
-msgstr "種類を表示"
+msgstr "Тип вигляду"
 
 #: front/hash.form.php:86 inc/account.class.php:487 inc/account.class.php:536
 #: inc/account.class.php:641 inc/account.class.php:660
 #: inc/account_item.class.php:685 inc/account_item.class.php:701
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
-msgstr "暗号キーが違います"
+msgstr "Помилковий ключ шифрування"
 
 #: front/hash.form.php:90 inc/aeskey.class.php:170
 msgid "Encryption key modified"
-msgstr "暗号キーを変更しました"
+msgstr "Ключ шифрування змінено"
 
 #: front/hash.form.php:94
 msgid "The old or the new encryption key can not be empty"
-msgstr "新旧の暗号キーは空に出来ません"
+msgstr "Попередній або новий ключ шифрування не може бути порожнім"
 
 #: inc/account.class.php:124 inc/account.class.php:505
 #: inc/account.class.php:515 inc/account_item.class.php:635
@@ -68,12 +69,12 @@ msgstr "新旧の暗号キーは空に出来ません"
 #: inc/notificationtargetaccount.class.php:222
 #: inc/notificationtargetaccount.class.php:272
 msgid "Affected User"
-msgstr "参照できるユーザ"
+msgstr "Причетний користувач"
 
 #: inc/account.class.php:388 inc/account.class.php:472
 #: inc/account_item.class.php:604
 msgid "There is no encryption key for this entity"
-msgstr "このエンティティは暗号キーがありません"
+msgstr "Ключ шифрування для організації не встановлено"
 
 #: inc/account.class.php:480 inc/account.class.php:500
 #: inc/account_item.class.php:611 inc/account_item.class.php:619
@@ -82,11 +83,14 @@ msgstr "このエンティティは暗号キーがありません"
 #: inc/menu.class.php:53 inc/menu.class.php:54
 msgid "Encryption key"
 msgid_plural "Encryption key"
-msgstr[0] "暗号キー"
+msgstr[0] "Ключ шифрування"
+msgstr[1] "Ключі шифрування"
+msgstr[2] "Ключів шифрування"
+msgstr[3] "Ключі шифрування"
 
 #: inc/account.class.php:490 inc/account_item.class.php:693
 msgid "Uncrypt"
-msgstr "復号化"
+msgstr "Розшифрувати"
 
 #: inc/account.class.php:545 inc/account.class.php:554
 #: inc/notificationtargetaccount.class.php:60
@@ -94,168 +98,171 @@ msgstr "復号化"
 #: inc/notificationtargetaccount.class.php:223
 #: inc/notificationtargetaccount.class.php:273
 msgid "Affected Group"
-msgstr "参照できるグループ"
+msgstr "Причетна група"
 
 #: inc/account.class.php:581
 msgid "Empty for infinite"
-msgstr "空欄は無期限になります"
+msgstr "Порожнє для необмеженого"
 
 #: inc/account.class.php:637
 msgid "You have not filled the password and encryption key"
-msgstr "パスワードと暗号キーを入力してください"
+msgstr "Не вказані пароль та ключ шифрування"
 
 #: inc/account.class.php:658
 msgid "Password will not be modified"
-msgstr "パスワードは変更されません"
+msgstr "Пароль не буде змінено"
 
 #: inc/account.class.php:966 inc/account.class.php:1057
 #: inc/notificationtargetaccount.class.php:291
 msgid "Accounts expired or accounts which expires"
-msgstr "有効期限切れアカウントか既に有効期限切れです"
+msgstr "Закінчені облікові записи або записи, що закінчуються"
 
 #: inc/account.class.php:1126
 msgid "Select the wanted account type"
-msgstr "アカウントの種類を選択してください"
+msgstr "Вкажіть потрібний тип облікового запису"
 
 #: inc/account.class.php:1238 inc/account_item.class.php:724
 msgid "Don't expire"
-msgstr "期限切れにしない"
+msgstr "Без обмеження"
 
 #: inc/account_item.class.php:562
 msgctxt "button"
 msgid "Associate a account"
-msgstr "アカウントに関連付ける"
+msgstr "Пов'язати обліковий запис"
 
 #: inc/accounttype.class.php:51
 msgid "Type of account"
 msgid_plural "Types of account"
-msgstr[0] "アカウントの種類"
+msgstr[0] "Тип облікового запису"
+msgstr[1] "Типи облікових записів"
+msgstr[2] "Типів облікових записів"
+msgstr[3] "Типи облікових записів"
 
 #: inc/aeskey.class.php:72
 msgid "Save the encryption key"
-msgstr "暗号キーを保存する"
+msgstr "Зберегти ключ шифрування"
 
 #: inc/aeskey.class.php:181
 msgid "Warning : saving the encryption key is a security hole"
-msgstr "警告 : 暗号キーを保存することはセキュリティホールになります"
+msgstr "Увага: збереження ключа шифрування є прогалиною у безпеці"
 
 #: inc/aeskey.class.php:217 inc/hash.class.php:284
 msgid "Hash"
-msgstr "ハッシュ"
+msgstr "Хеш"
 
 #: inc/config.class.php:48
 msgid "Plugin Setup"
-msgstr "プラグインセットアップ"
+msgstr "Встановлення плугіну"
 
 #: inc/config.class.php:83
 msgid "Time of checking of of expiration of accounts"
-msgstr "アカウントの有効期限チェック"
+msgstr "Час перевірки закінчення дії облікових записів"
 
 #: inc/config.class.php:92
 msgid "Accounts expired for more than"
-msgstr "アカウント有効期限を過ぎている"
+msgstr "Облікові записи, закінчені більше чим"
 
 #: inc/config.class.php:95
 msgid "Accounts expiring in less than"
-msgstr "アカウント有効期限が切れていない"
+msgstr "Облікові записи, що закінчуються менше чим за"
 
 #: inc/hash.class.php:79 inc/hash.class.php:332 inc/report.class.php:214
 msgid "Linked accounts list"
-msgstr "リンクされたアカウントリスト"
+msgstr "Перелік пов'язаних облікових записів"
 
 #: inc/hash.class.php:80
 msgid "Modification of the encryption key for all password"
-msgstr "全てのパスワードの暗号キーを変更します"
+msgstr "Зміна ключа шифрування для всіх паролів"
 
 #: inc/hash.class.php:232
 msgid "WARNING : a encryption key already exist for this entity"
-msgstr "警告 : このエンティティには既に暗号化されたキーが存在します"
+msgstr "Увага: ключ шифрування вже існує для цієї організації"
 
 #: inc/hash.class.php:247
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
-msgstr "警告: 使用しているハッシュを変更しても, 古いアカウントは古い暗号キーのままです"
+msgstr "Увага: якщо змінити хеш, то старі облікові записи будуть використовувати старий ключ шифрування"
 
 #: inc/hash.class.php:269
 msgid "Generate hash with this encryption key"
-msgstr "暗号キーのハッシュを生成します"
+msgstr "Генерувати хеш з цим ключем шифрування"
 
 #: inc/hash.class.php:273 inc/hash.class.php:335 inc/hash.class.php:349
 msgid "Please fill the encryption key"
-msgstr "暗号キーを入力してください"
+msgstr "Заповніть ключ шифрування"
 
 #: inc/hash.class.php:306
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
-msgstr "暗号キーの中に、特別な意味を持つ / \\\\ ' \\\" & のような文字を使わないでください。入れた場合、後で変更できなくなります."
+msgstr "Не використовуйте спеціальні символи накшталт  / \\ ' \" & у ключах шифрування, оскільки після цього не можна буде їх змінити."
 
 #: inc/hash.class.php:363
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
-msgstr "警告 : もし、新しい又は古いキーを間違えた場合, あなたは永久にパスワードを復号化することが出来ません. 作業する前にデータベースのバックアップを作成することを＊強く＊推奨します."
+msgstr "Увага: якщо ви зробите помилку під час введення старого або нового ключа, ви більше не зможете розшифрувати ваші паролі. ДУЖЕ рекомендуємо зробити перед цим копію бази даних."
 
 #: inc/hash.class.php:366
 msgid "Old encryption key"
-msgstr "古い暗号キー"
+msgstr "Старий ключ шифрування"
 
 #: inc/hash.class.php:376
 msgid "New encryption key"
-msgstr "新しい暗号キー"
+msgstr "Новий ключ шифрування"
 
 #: inc/hash.class.php:381
 msgid "You want to change the key : "
-msgstr "キー変更を要求する :"
+msgstr "Ви хочете змінити ключ :"
 
 #: inc/hash.class.php:382
 msgid " by the key : "
-msgstr " そのキーで : "
+msgstr "наступним ключем :"
 
 #: inc/notificationstate.class.php:122
 msgid "Add a unused status for expiration mailing"
-msgstr "有効期限切れメーリングリストの未使用ステータスを追加"
+msgstr "Додати статус для листа про закінчення дії"
 
 #: inc/notificationstate.class.php:160
 msgid "Unused status for expiration mailing"
-msgstr "有効期限切れメーリングリストの未使用ステータス"
+msgstr "Статус для листа про закінчення дії"
 
 #: inc/notificationtargetaccount.class.php:48
 msgid "New account"
-msgstr "新規アカウント"
+msgstr "Новий обліковий запис"
 
 #: inc/notificationtargetaccount.class.php:49
 #: inc/notificationtargetaccount.class.php:214
 msgid "Accounts expired"
-msgstr "有効期限が切れたアカウント"
+msgstr "Закінчені облікові записи"
 
 #: inc/notificationtargetaccount.class.php:50
 #: inc/notificationtargetaccount.class.php:215
 msgid "Accounts which expires"
-msgstr "有効期限切れアカウント"
+msgstr "Облікові записи, що закінчуються"
 
 #: inc/notificationtargetaccount.class.php:150
 #: inc/notificationtargetaccount.class.php:288
 msgid "An account has been created"
-msgstr "アカウントを作成しました"
+msgstr "Обліковий запис створено"
 
 #: inc/notificationtargetaccount.class.php:203
 #: inc/notificationtargetaccount.class.php:267
 msgid "Direct link to created account"
-msgstr "作成したアカウントへリンクを作成"
+msgstr "Пряме посилання на створений обліковий запис"
 
 #: inc/profile.class.php:130 inc/profile.class.php:183
 #: inc/profile.class.php:218
 msgid "See accounts of my groups"
-msgstr "グループのアカウントを見る"
+msgstr "Облікові записи моїх груп"
 
 #: inc/profile.class.php:137 inc/profile.class.php:187
 #: inc/profile.class.php:222
 msgid "See all accounts"
-msgstr "全てのアカウントを見る"
+msgstr "Всі облікові записи"
 
 #: inc/report.class.php:145
 msgid "Uncrypted password"
-msgstr "復号化したパスワード"
+msgstr "Розшифрований пароль"
