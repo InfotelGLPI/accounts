@@ -676,9 +676,10 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                echo Html::hidden("encrypted_password$accountID", ['value' => $data["encrypted_password"],
                   'id' => "encrypted_password$accountID",
                   'autocomplete' => 'off']);
-               echo "<input type='text' id='hidden_password$accountID' value='' size='30' >";
+               echo "<input type='text' id='hidden_password$accountID' onClick='encryptCheck()' value='' size='30' >";
 
                echo Html::scriptBlock("
+               function encryptCheck(){               
                   if (!check_hash()) {
                      $('#hidden_password$accountID')
                         .after('" . __('Wrong encryption key', 'accounts') . "')
@@ -686,16 +687,19 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                   } else {
                      decrypt_password('$accountID');
                   }
+               }
                ");
             } else {
 
                echo "&nbsp;<input type='button' id='decrypt_link$accountID' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
-                        class='submit'>";
+                        class='submit'
+                        onClick='encryptCheckbtn()'>";
                echo Html::hidden("encrypted_password$accountID", ['value' => $data["encrypted_password"],
                   'id' => "encrypted_password$accountID",
                   'autocomplete' => 'off']);
 
-               echo Html::scriptBlock("$(document).on('click', '#decrypt_link$accountID', function(event) {
+               echo Html::scriptBlock("
+               function encryptCheckbtn(){     
                   if (!check_hash()) {
                      alert('" . __('Wrong encryption key', 'accounts') . "');
                   } else {
@@ -704,7 +708,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                         .after(decrypted_password)
                         .remove();
                   }
-               });");
+               }");
             }
             echo "</td>";
             echo "<td class='center'>";
