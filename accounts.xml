@@ -22,7 +22,15 @@
         <author>Xavier Caillaud</author>
         <author>Infotel</author>
     </authors>
-    <versions>
+    <versions>        
+        <version>
+            <num>2.5.0</num>
+            <compatibility>9.4</compatibility>
+        </version>
+        <version>
+            <num>2.4.3</num>
+            <compatibility>9.3</compatibility>
+        </version>
         <version>
             <num>2.4.2</num>
             <compatibility>9.3</compatibility>
@@ -153,6 +161,7 @@
         </version>
     </versions>
     <langs>
+        <lang>ca_ES</lang>
         <lang>cs_CZ</lang>
         <lang>de_DE</lang>
         <lang>en_GB</lang>
@@ -164,9 +173,11 @@
         <lang>ja_JP</lang>
         <lang>pl_PL</lang>
         <lang>pt_BR</lang>
+        <lang>pt_PT</lang>
         <lang>ro_RO</lang>
         <lang>ru_RU</lang>
         <lang>tr_TR</lang>
+        <lang>uk_UA</lang>
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>
