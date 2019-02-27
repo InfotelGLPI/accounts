@@ -161,6 +161,7 @@
         </version>
     </versions>
     <langs>
+        <lang>ca_ES</lang>
         <lang>cs_CZ</lang>
         <lang>de_DE</lang>
         <lang>en_GB</lang>
@@ -172,9 +173,11 @@
         <lang>ja_JP</lang>
         <lang>pl_PL</lang>
         <lang>pt_BR</lang>
+        <lang>pt_PT</lang>
         <lang>ro_RO</lang>
         <lang>ru_RU</lang>
         <lang>tr_TR</lang>
+        <lang>uk_UA</lang>
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>
