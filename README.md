@@ -5,10 +5,10 @@
 OldName : **compte**
 
 Ce plugin est sur Transifex - Aidez-nous à le traduire :
-https://www.transifex.com/tsmr/GLPI_accounts/
+https://www.transifex.com/infotelGLPI/GLPI_accounts/
 
 This plugin is on Transifex - Help us to translate :
-https://www.transifex.com/tsmr/GLPI_accounts/
+https://www.transifex.com/infotelGLPI/GLPI_accounts/
 
 ### Français
 
