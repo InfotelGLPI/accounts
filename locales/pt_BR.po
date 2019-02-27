@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Amandine Manceau, 2017
+# Gustavo Plottier Pilotto <gplottier@gmail.com>, 2018
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-07 11:48+0200\n"
-"PO-Revision-Date: 2018-08-07 09:49+0000\n"
-"Last-Translator: Amandine Manceau\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/tsmr/GLPI_accounts/language/pt_BR/)\n"
+"PO-Revision-Date: 2018-12-12 13:07+0000\n"
+"Last-Translator: Gustavo Plottier Pilotto <gplottier@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/infotelGLPI/GLPI_accounts/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,7 +33,7 @@ msgstr[1] "Contas"
 
 #: setup.php:130
 msgid "This plugin requires GLPI >= 9.3"
-msgstr ""
+msgstr "Este complemento requer GLPI >=9.3 "
 
 #: setup.php:137 setup.php:143 setup.php:151 setup.php:159
 msgid "phpX-mcrypt must be installed"
@@ -82,8 +83,8 @@ msgstr "Não há chave de criptografia para esta entidade"
 #: inc/menu.class.php:53 inc/menu.class.php:54
 msgid "Encryption key"
 msgid_plural "Encryption key"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Chave de encriptação"
+msgstr[1] "Chave de encriptação "
 
 #: inc/account.class.php:490 inc/account_item.class.php:693
 msgid "Uncrypt"
