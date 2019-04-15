@@ -391,38 +391,13 @@ class PluginAccountsAccount extends CommonDBTM {
          echo "</a></div>";
          return false;
       }
-      /*
-            if ($ID > 0) {
-               $this->check($ID, READ);
-               if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
-                  $access = 0;
-                  if (Session::haveRight("plugin_accounts_my_groups", 1)) {
-                     if ($this->fields["groups_id"]) {
-                        if (count($_SESSION['glpigroups'])
-                                 && in_array($this->fields["groups_id"], $_SESSION['glpigroups'])
-                        ) {
-                           $access = 1;
-                        }
-                     }
-                     if ($this->fields["users_id"]) {
-                        if ($this->fields["users_id"] == Session::getLoginUserID())
-                           $access = 1;
-                     }
-                  }
-                  if (!Session::haveRight("plugin_accounts_my_groups", 1)
-                           && $this->fields["users_id"] == Session::getLoginUserID()
-                  )
-                     $access = 1;
 
-                  if ($access != 1)
-                     return false;
-               }
-            } else {
-               // Create item
-               $this->check(-1, UPDATE);
-               $this->getEmpty();
-            }
-      */
+      if ($ID == 0) {
+         // Create item
+         $this->check(-1, UPDATE);
+         $this->getEmpty();
+      }
+
       $options["formoptions"] = "id = 'account_form'";
       $this->initForm($ID, $options);
       $this->showFormHeader($options);

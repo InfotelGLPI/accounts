@@ -116,7 +116,33 @@ if (isset($_POST["add"])) {
       Html::helpHeader(PluginAccountsAccount::getTypeName(2));
    }
 
-   $account->display(['id' => $_GET['id']]);
+   $account->check($_GET['id'], READ);
+   if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
+      $access = 0;
+      if (Session::haveRight("plugin_accounts_my_groups", 1)) {
+         if ($account->fields["groups_id"]) {
+            if (count($_SESSION['glpigroups'])
+                && in_array($account->fields["groups_id"], $_SESSION['glpigroups'])
+            ) {
+               $access = 1;
+            }
+         }
+         if ($account->fields["users_id"]) {
+            if ($account->fields["users_id"] == Session::getLoginUserID())
+               $access = 1;
+         }
+      }
+      if (!Session::haveRight("plugin_accounts_my_groups", 1)
+          && $account->fields["users_id"] == Session::getLoginUserID()){
+         $access = 1;
+      }
+
+      if ($access != 1){
+         Html::displayRightError();
+      } else{
+         $account->display(['id' => $_GET['id']]);
+      }
+   }
 
    if (Session::getCurrentInterface() == 'central') {
       Html::footer();
