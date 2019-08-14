@@ -49,43 +49,48 @@ if (isset($_POST['password'])) {
          }
          
          
-         var CHARACTER_SETS = [
-         [true, 'Numbers', '0123456789'],
-         [true, 'Lowercase', 'abcdefghijklmnopqrstuvwxyz'],
-         [false, 'Uppercase', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'],
-         [false, 'ASCII symbols', '!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'],
+         var CHARACTERS = [
+         [ 'Numbers', '0123456789'],
+         [ 'Lowercase', 'abcdefghijklmnopqrstuvwxyz'],
+         [ 'Uppercase', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'],
+         [ 'Special', '!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'],
       ];
-            var rawCharset = '';
-      CHARACTER_SETS.forEach(function(entry, i) {
-         if (document.getElementById('charset-' + i).checked)
-            rawCharset += entry[2];
+            var allChars = '';
+            var j = 0;
+      CHARACTERS.forEach(function(entry, i) {
+         if (document.getElementById('char-' + i).checked)
+            j = i + 1;
+            allChars += entry[1];
       });
+      if(j==0){
+         alert('".__("Select at least on checkbox","accounts")."');
+      }
       length = parseInt(document.getElementById('length').value, 10);
-      var charset = [];
-      for (var i = 0; i < rawCharset.length; i++) {
-         var c = rawCharset.charCodeAt(i);
-         if (c < 0xD800 || c >= 0xE000) {  // Regular UTF-16 character
-            var s = rawCharset.charAt(i);
-            if (charset.indexOf(s) == -1)
-               charset.push(s);
+      var chars = [];
+      for (var i = 0; i < allChars.length; i++) {
+         var c = allChars.charCodeAt(i);
+         if (c < 0xD800 || c >= 0xE000) { 
+            var s = allChars.charAt(i);
+            if (chars.indexOf(s) == -1)
+               chars.push(s);
             continue;
          }
-         if (0xD800 <= c && c < 0xDC00 && i + 1 < rawCharset.length) {  // High surrogate
-            var d = rawCharset.charCodeAt(i + 1);
-            if (0xDC00 <= d && d < 0xE000) {  // Low surrogate
-               var s = rawCharset.substring(i, i + 2);
+         if (0xD800 <= c && c < 0xDC00 && i + 1 < allChars.length) { 
+            var d = allChars.charCodeAt(i + 1);
+            if (0xDC00 <= d && d < 0xE000) {  
+               var s = allChars.substring(i, i + 2);
                i++;
-               if (charset.indexOf(s) == -1)
-                  charset.push(s);
+               if (chars.indexOf(s) == -1)
+                  chars.push(s);
                continue;
             }
          }
-         throw \"Invalid UTF-16\";
+
       }
         var result = '';
          
          for (var i = 0; i < length; i++)
-            result += charset[randomInt(charset.length)];
+            result += chars[randomInt(chars.length)];
          
          
       $('#hidden_password').val(result);
