@@ -58,13 +58,15 @@ if (isset($_POST['password'])) {
             var allChars = '';
             var j = 0;
       CHARACTERS.forEach(function(entry, i) {
-         if (document.getElementById('char-' + i).checked)
-            j = i + 1;
-            allChars += entry[1];
+         if (document.getElementById('char-' + i).checked){
+               j = i + 1;
+               allChars += entry[1];
+            }
       });
       if(j==0){
          alert('".__("Select at least on checkbox","accounts")."');
       }
+      
       length = parseInt(document.getElementById('length').value, 10);
       var chars = [];
       for (var i = 0; i < allChars.length; i++) {

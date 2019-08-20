@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-14 16:42+0200\n"
-"PO-Revision-Date: 2019-08-14 16:45+0200\n"
+"POT-Creation-Date: 2019-08-20 10:47+0200\n"
+"PO-Revision-Date: 2019-08-20 10:47+0200\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: French (France) (http://www.transifex.com/tsmr/GLPI_accounts/"
 "language/fr_FR/)\n"
@@ -34,7 +34,7 @@ msgid_plural "Accounts"
 msgstr[0] "Compte"
 msgstr[1] "Comptes"
 
-#: ajax/generatepassword.php:66
+#: ajax/generatepassword.php:67
 msgid "Select at least on checkbox"
 msgstr "Sélectionner au moins une case à cocher"
 
@@ -46,8 +46,8 @@ msgstr "Déchiffré"
 msgid "Type view"
 msgstr "Vue par type"
 
-#: front/hash.form.php:85 inc/account.class.php:470 inc/account.class.php:533
-#: inc/account.class.php:664 inc/account.class.php:683
+#: front/hash.form.php:85 inc/account.class.php:469 inc/account.class.php:532
+#: inc/account.class.php:637 inc/account.class.php:656
 #: inc/account_item.class.php:685 inc/account_item.class.php:704
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
@@ -61,8 +61,8 @@ msgstr "Clé de chiffrement modifiée"
 msgid "The old or the new encryption key can not be empty"
 msgstr "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
-#: inc/account.class.php:124 inc/account.class.php:502
-#: inc/account.class.php:512 inc/account_item.class.php:634
+#: inc/account.class.php:124 inc/account.class.php:501
+#: inc/account.class.php:511 inc/account_item.class.php:634
 #: inc/notificationtargetaccount.class.php:59
 #: inc/notificationtargetaccount.class.php:177
 #: inc/notificationtargetaccount.class.php:226
@@ -70,12 +70,12 @@ msgstr "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides
 msgid "Affected User"
 msgstr "Utilisateur concerné"
 
-#: inc/account.class.php:397 inc/account.class.php:455
+#: inc/account.class.php:396 inc/account.class.php:454
 #: inc/account_item.class.php:603
 msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
-#: inc/account.class.php:463 inc/account.class.php:497
+#: inc/account.class.php:462 inc/account.class.php:496
 #: inc/account_item.class.php:610 inc/account_item.class.php:618
 #: inc/aeskey.class.php:59 inc/aeskey.class.php:188 inc/aeskey.class.php:239
 #: inc/aeskey.class.php:260 inc/hash.class.php:50 inc/hash.class.php:264
@@ -85,11 +85,11 @@ msgid_plural "Encryption key"
 msgstr[0] "Clé de chiffrement"
 msgstr[1] "Clés de chiffrement"
 
-#: inc/account.class.php:473 inc/account_item.class.php:694
+#: inc/account.class.php:472 inc/account_item.class.php:694
 msgid "Uncrypt"
 msgstr "Déchiffrer"
 
-#: inc/account.class.php:568 inc/account.class.php:577
+#: inc/account.class.php:541 inc/account.class.php:550
 #: inc/notificationtargetaccount.class.php:60
 #: inc/notificationtargetaccount.class.php:180
 #: inc/notificationtargetaccount.class.php:227
@@ -97,56 +97,56 @@ msgstr "Déchiffrer"
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: inc/account.class.php:604
+#: inc/account.class.php:577
 msgid "Empty for infinite"
 msgstr "Vide pour infini"
 
-#: inc/account.class.php:660
+#: inc/account.class.php:633
 msgid "You have not filled the password and encryption key"
 msgstr "Veuillez renseigner le mot de passe et la clé de chiffrement"
 
-#: inc/account.class.php:681
+#: inc/account.class.php:654
 msgid "Password will not be modified"
 msgstr "Le mot de passe ne sera pas modifié"
 
-#: inc/account.class.php:708
+#: inc/account.class.php:682
 msgid "Numbers"
 msgstr "Nombres"
 
-#: inc/account.class.php:709
+#: inc/account.class.php:683
 msgid "Lowercase"
 msgstr "Minuscules"
 
-#: inc/account.class.php:710
+#: inc/account.class.php:684
 msgid "Uppercase"
 msgstr "Majuscules"
 
-#: inc/account.class.php:711
+#: inc/account.class.php:685
 msgid "Special characters"
 msgstr "Caractères spéciaux"
 
-#: inc/account.class.php:713
+#: inc/account.class.php:687
 msgid "Length"
 msgstr "Longueur"
 
-#: inc/account.class.php:714
+#: inc/account.class.php:688
 msgid " characters"
 msgstr " caractères"
 
-#: inc/account.class.php:717
+#: inc/account.class.php:691
 msgid "Generate password"
 msgstr "Générer le mot de passe"
 
-#: inc/account.class.php:1012 inc/account.class.php:1103
+#: inc/account.class.php:984 inc/account.class.php:1075
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr "Comptes expirés ou comptes qui vont expirer"
 
-#: inc/account.class.php:1172
+#: inc/account.class.php:1144
 msgid "Select the wanted account type"
 msgstr "Sélectionnez le type de compte souhaité"
 
-#: inc/account.class.php:1280 inc/account_item.class.php:727
+#: inc/account.class.php:1252 inc/account_item.class.php:727
 msgid "Don't expire"
 msgstr "N'expire pas"
 

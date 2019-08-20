@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin 1.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-14 16:42+0200\n"
+"POT-Creation-Date: 2019-08-20 10:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ajax/generatepassword.php:66
+#: ajax/generatepassword.php:67
 msgid "Select at least on checkbox"
 msgstr ""
 
@@ -41,8 +41,8 @@ msgstr ""
 msgid "Type view"
 msgstr ""
 
-#: front/hash.form.php:85 inc/account.class.php:470 inc/account.class.php:533
-#: inc/account.class.php:664 inc/account.class.php:683
+#: front/hash.form.php:85 inc/account.class.php:469 inc/account.class.php:532
+#: inc/account.class.php:637 inc/account.class.php:656
 #: inc/account_item.class.php:685 inc/account_item.class.php:704
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
@@ -56,8 +56,8 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
-#: inc/account.class.php:124 inc/account.class.php:502
-#: inc/account.class.php:512 inc/account_item.class.php:634
+#: inc/account.class.php:124 inc/account.class.php:501
+#: inc/account.class.php:511 inc/account_item.class.php:634
 #: inc/notificationtargetaccount.class.php:59
 #: inc/notificationtargetaccount.class.php:177
 #: inc/notificationtargetaccount.class.php:226
@@ -65,12 +65,12 @@ msgstr ""
 msgid "Affected User"
 msgstr ""
 
-#: inc/account.class.php:397 inc/account.class.php:455
+#: inc/account.class.php:396 inc/account.class.php:454
 #: inc/account_item.class.php:603
 msgid "There is no encryption key for this entity"
 msgstr ""
 
-#: inc/account.class.php:463 inc/account.class.php:497
+#: inc/account.class.php:462 inc/account.class.php:496
 #: inc/account_item.class.php:610 inc/account_item.class.php:618
 #: inc/aeskey.class.php:59 inc/aeskey.class.php:188 inc/aeskey.class.php:239
 #: inc/aeskey.class.php:260 inc/hash.class.php:50 inc/hash.class.php:264
@@ -80,11 +80,11 @@ msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/account.class.php:473 inc/account_item.class.php:694
+#: inc/account.class.php:472 inc/account_item.class.php:694
 msgid "Uncrypt"
 msgstr ""
 
-#: inc/account.class.php:568 inc/account.class.php:577
+#: inc/account.class.php:541 inc/account.class.php:550
 #: inc/notificationtargetaccount.class.php:60
 #: inc/notificationtargetaccount.class.php:180
 #: inc/notificationtargetaccount.class.php:227
@@ -92,56 +92,56 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: inc/account.class.php:604
+#: inc/account.class.php:577
 msgid "Empty for infinite"
 msgstr ""
 
-#: inc/account.class.php:660
+#: inc/account.class.php:633
 msgid "You have not filled the password and encryption key"
 msgstr ""
 
-#: inc/account.class.php:681
+#: inc/account.class.php:654
 msgid "Password will not be modified"
 msgstr ""
 
-#: inc/account.class.php:708
+#: inc/account.class.php:682
 msgid "Numbers"
 msgstr ""
 
-#: inc/account.class.php:709
+#: inc/account.class.php:683
 msgid "Lowercase"
 msgstr ""
 
-#: inc/account.class.php:710
+#: inc/account.class.php:684
 msgid "Uppercase"
 msgstr ""
 
-#: inc/account.class.php:711
+#: inc/account.class.php:685
 msgid "Special characters"
 msgstr ""
 
-#: inc/account.class.php:713
+#: inc/account.class.php:687
 msgid "Length"
 msgstr ""
 
-#: inc/account.class.php:714
+#: inc/account.class.php:688
 msgid " characters"
 msgstr ""
 
-#: inc/account.class.php:717
+#: inc/account.class.php:691
 msgid "Generate password"
 msgstr ""
 
-#: inc/account.class.php:1012 inc/account.class.php:1103
+#: inc/account.class.php:984 inc/account.class.php:1075
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: inc/account.class.php:1172
+#: inc/account.class.php:1144
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1280 inc/account_item.class.php:727
+#: inc/account.class.php:1252 inc/account_item.class.php:727
 msgid "Don't expire"
 msgstr ""
 
