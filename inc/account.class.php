@@ -383,7 +383,7 @@ class PluginAccountsAccount extends CommonDBTM {
     * @return bool
     */
    public function showForm($ID, $options = []) {
-
+      global $CFG_GLPI;
       if (!$this->canView()) {
          return false;
       }
@@ -673,7 +673,31 @@ class PluginAccountsAccount extends CommonDBTM {
          }
       }
       $options['canedit'] = false;
-      $options['candel'] = false;
+
+      $options['candel']  = false;
+
+      if (empty($ID)) {
+         echo "<tr><td colspan='4' class='center'>";
+         echo "<table style=\"width: 100%\">
+					<tbody>
+						<tr><td><input type=\"checkbox\" id=\"char-0\" /></td><td><label for=\"char-0\"> ".__("Numbers","accounts")." <small>(0123456789)</small></label></td></tr>
+						<tr><td><input type=\"checkbox\" id=\"char-1\" /></td><td><label for=\"char-1\"> ".__("Lowercase","accounts")." <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
+						<tr><td><input type=\"checkbox\" id=\"char-2\" /></td><td><label for=\"char-2\"> ".__("Uppercase","accounts")." <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
+						<tr><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> ".__("Special characters","accounts")." <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
+                  <tr>
+                        <td><label for='length'>".__("Length","accounts").":&nbsp;</label></td>
+                        <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> ".__(" characters","accounts")."</td>
+                     </tr>
+                  <tr id='fakeupdate'></tr>
+                  <tr><td colspan='2'>&nbsp;<input type='button' id='generatePass' name='generatePass' class='submit' style='background-color: #fec95c;color: #4b2f03;border: 2px solid #4b2f03;padding: 5px;' value='" . __s('Generate password', 'accounts') . "'
+                     class='submit'></td></tr>
+					</tbody>
+				</table>";
+         echo "</td></tr>";
+         Ajax::updateItemOnEvent("generatePass","fakeupdate",$CFG_GLPI["root_doc"]."/plugins/accounts/ajax/generatepassword.php",["password"=>1],["click"]);
+      }
+
+
       $this->showFormButtons($options);
       Html::closeForm();
 
