@@ -481,10 +481,10 @@ class PluginAccountsAccount extends CommonDBTM {
                         } else {
                            document.getElementById('wrong_key_locale_div').innerHTML = '';
                            decrypt_password();
-                        }                        
+                        }
                       return false;
-                      break;                         
-                 }                 
+                      break;
+                 }
                });");
             echo "<div id='wrong_key_locale_div' style='color:red'></div>";
             echo "</td>";
@@ -680,9 +680,9 @@ class PluginAccountsAccount extends CommonDBTM {
          echo "<table class='tab_cadre'>
                <tbody>
                <tr class='tab_bg_1 center'><th colspan ='2'>" . __s('Generate password', 'accounts') . "</th></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-0\" /></td><td><label for=\"char-0\"> ".__("Numbers","accounts")." <small>(0123456789)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-1\" /></td><td><label for=\"char-1\"> ".__("Lowercase","accounts")." <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-2\" /></td><td><label for=\"char-2\"> ".__("Uppercase","accounts")." <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> ".__("Numbers","accounts")." <small>(0123456789)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-1\" /></td><td><label for=\"char-1\"> ".__("Lowercase","accounts")." <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-2\" /></td><td><label for=\"char-2\"> ".__("Uppercase","accounts")." <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> ".__("Special characters","accounts")." <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
                <tr class='tab_bg_1'>
                         <td><label for='length'>".__("Length","accounts")."</label></td>
