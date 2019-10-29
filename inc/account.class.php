@@ -184,6 +184,7 @@ class PluginAccountsAccount extends CommonDBTM {
          'table'              => 'glpi_plugin_accounts_accountstates',
          'field'              => 'name',
          'name'               => __('Status'),
+         'datatype'           => 'dropdown'
       ];
       if (Session::getCurrentInterface() != 'central') {
          $tab[10]['searchtype'] = 'contains';
