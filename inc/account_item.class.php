@@ -35,31 +35,30 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginAccountsAccount_Item
  */
-class PluginAccountsAccount_Item extends CommonDBRelation
-{
+class PluginAccountsAccount_Item extends CommonDBRelation {
 
    static $rightname = "plugin_accounts";
 
    // From CommonDBRelation
-   static public $itemtype_1 = "PluginAccountsAccount";
-   static public $items_id_1 = 'plugin_accounts_accounts_id';
+   static public $itemtype_1    = "PluginAccountsAccount";
+   static public $items_id_1    = 'plugin_accounts_accounts_id';
    static public $take_entity_1 = false;
 
-   static public $itemtype_2 = 'itemtype';
-   static public $items_id_2 = 'items_id';
+   static public $itemtype_2    = 'itemtype';
+   static public $items_id_2    = 'items_id';
    static public $take_entity_2 = true;
 
 
    /**
     * Get the standard massive actions which are forbidden
     *
-    * @since version 0.84
-    *
     * @return array of massive actions
-    **/
+    **@since version 0.84
+    *
+    */
    public function getForbiddenStandardMassiveAction() {
 
-      $forbidden = parent::getForbiddenStandardMassiveAction();
+      $forbidden   = parent::getForbiddenStandardMassiveAction();
       $forbidden[] = 'update';
       return $forbidden;
    }
@@ -76,7 +75,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       $temp = new self();
       $temp->deleteByCriteria(
          ['itemtype' => $item->getType(),
-            'items_id' => $item->getField('id')]
+          'items_id' => $item->getField('id')]
       );
    }
 
@@ -86,30 +85,31 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * NB : Only called for existing object
     *      Must check right on what will be displayed + template
     *
+    * @param CommonDBTM|CommonGLPI $item CommonDBTM object for which the tab need to be displayed
+    * @param bool|int              $withtemplate boolean  is a template object ? (default 0)
+    *
+    * @return string tab name
     * @since version 0.83
     *
-    * @param CommonDBTM|CommonGLPI $item CommonDBTM object for which the tab need to be displayed
-    * @param bool|int $withtemplate boolean  is a template object ? (default 0)
-    * @return string tab name
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (!$withtemplate) {
          if ($item->getType() == 'PluginAccountsAccount'
-            && count(PluginAccountsAccount::getTypes(false))
+             && count(PluginAccountsAccount::getTypes(false))
          ) {
             if ($_SESSION['glpishow_count_on_tabs']) {
                return self::createTabEntry(_n('Associated item', 'Associated items', 2),
-                  self::countForAccount($item));
+                                           self::countForAccount($item));
             }
             return _n('Associated item', 'Associated items', 2);
 
          } else if (in_array($item->getType(), PluginAccountsAccount::getTypes(true))
-            && Session::haveRight("plugin_accounts", READ)
+                    && Session::haveRight("plugin_accounts", READ)
          ) {
             if ($_SESSION['glpishow_count_on_tabs']) {
                return self::createTabEntry(PluginAccountsAccount::getTypeName(2),
-                  self::countForItem($item));
+                                           self::countForItem($item));
             }
             return PluginAccountsAccount::getTypeName(2);
          }
@@ -120,12 +120,13 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    /**
     * show Tab content
     *
+    * @param          $item                  CommonGLPI object for which the tab need to be displayed
+    * @param          $tabnum       integer  tab number (default 1)
+    * @param bool|int $withtemplate boolean  is a template object ? (default 0)
+    *
+    * @return true
     * @since version 0.83
     *
-    * @param $item                  CommonGLPI object for which the tab need to be displayed
-    * @param $tabnum       integer  tab number (default 1)
-    * @param bool|int $withtemplate boolean  is a template object ? (default 0)
-    * @return true
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
@@ -144,6 +145,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
    /**
     * @param PluginAccountsAccount $item
+    *
     * @return int
     */
    private static function countForAccount(PluginAccountsAccount $item) {
@@ -154,13 +156,14 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       $dbu = new DbUtils();
       return $dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
                                         ["plugin_accounts_accounts_id" => $item->getID(),
-                                        "itemtype" => $item->getTypes(),
+                                         "itemtype"                    => $item->getTypes(),
                                         ]);
    }
 
 
    /**
     * @param CommonDBTM $item
+    *
     * @return int
     */
    static function countForItem(CommonDBTM $item) {
@@ -174,13 +177,14 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param $plugin_accounts_accounts_id
     * @param $items_id
     * @param $itemtype
+    *
     * @return bool
     */
    public function getFromDBbyAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype) {
       global $DB;
 
       $query = "SELECT * FROM `" . $this->getTable() . "` " .
-         "WHERE `plugin_accounts_accounts_id` = '" . $plugin_accounts_accounts_id . "'
+               "WHERE `plugin_accounts_accounts_id` = '" . $plugin_accounts_accounts_id . "'
                         AND `itemtype` = '" . $itemtype . "'
                                  AND `items_id` = '" . $items_id . "'";
       if ($result = $DB->query($query)) {
@@ -203,8 +207,8 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    public function addItem($values) {
 
       $this->add(['plugin_accounts_accounts_id' => $values['plugin_accounts_accounts_id'],
-         'items_id' => $values['items_id'],
-         'itemtype' => $values['itemtype']]);
+                  'items_id'                    => $values['items_id'],
+                  'itemtype'                    => $values['itemtype']]);
 
    }
 
@@ -212,6 +216,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
     * @param $plugin_accounts_accounts_id
     * @param $items_id
     * @param $itemtype
+    *
     * @return bool
     */
    public function deleteItemByAccountsAndItem($plugin_accounts_accounts_id, $items_id, $itemtype) {
@@ -227,17 +232,18 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    /**
     * Show items links to a account
     *
-    * @since version 0.84
-    *
     * @param PluginAccountsAccount $account
-    * @internal param PluginAccountsAccount $PluginAccountsAccount object
     *
     * @return bool
+    * @internal param PluginAccountsAccount $PluginAccountsAccount object
+    *
+    * @since version 0.84
+    *
     */
    public static function showForAccount(PluginAccountsAccount $account) {
       global $DB;
 
-      $dbu = new DbUtils();
+      $dbu    = new DbUtils();
       $instID = $account->fields['id'];
       if (!$account->can($instID, READ)) {
          return false;
@@ -252,7 +258,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
       $result = $DB->query($query);
       $number = $DB->numrows($result);
-      $rand = mt_rand();
+      $rand   = mt_rand();
 
       if ($canedit) {
          echo "<div class='firstbloc'>";
@@ -264,15 +270,15 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
          echo "<tr class='tab_bg_1'><td class='right'>";
          Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'items_id',
-            'itemtypes'=>PluginAccountsAccount::getTypes(true),
-            'entity_restrict'
-            => ($account->fields['is_recursive']
-               ?$dbu->getSonsOf('glpi_entities',
-                  $account->fields['entities_id'])
-               :$account->fields['entities_id']),
-            'checkright'
-            => true,
-         ]);
+                                                'itemtypes'     => PluginAccountsAccount::getTypes(true),
+                                                'entity_restrict'
+                                                                => ($account->fields['is_recursive']
+                                                   ? $dbu->getSonsOf('glpi_entities',
+                                                                     $account->fields['entities_id'])
+                                                   : $account->fields['entities_id']),
+                                                'checkright'
+                                                                => true,
+                                               ]);
          echo "</td><td class='center'>";
          echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='submit'>";
          echo Html::hidden('plugin_accounts_accounts_id', ['value' => $instID]);
@@ -315,7 +321,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             }
 
             $itemtable = $dbu->getTableForItemType($itemtype);
-            $query = "SELECT `$itemtable`.*,
+            $query     = "SELECT `$itemtable`.*,
             `glpi_plugin_accounts_accounts_items`.`id` AS IDD, ";
 
             if ($itemtype == 'KnowbaseItem') {
@@ -350,7 +356,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                }
             } else {
                $query .= $dbu->getEntitiesRestrictRequest(" AND ", $itemtable, '', '',
-                  $item->maybeRecursive());
+                                                          $item->maybeRecursive());
             }
 
             if ($item->maybeTemplate()) {
@@ -379,11 +385,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                      if ($itemtype == 'SoftwareLicense') {
                         $soft->getFromDB($data['softwares_id']);
                         $data["name"] = sprintf(__('%1$s - %2$s'), $data["name"],
-                           $soft->fields['name']);
+                                                $soft->fields['name']);
                      }
                      $linkname = $data["name"];
                      if ($_SESSION["glpiis_ids_visible"]
-                        || empty($data["name"])
+                         || empty($data["name"])
                      ) {
                         $linkname = sprintf(__('%1$s (%2$s)'), $linkname, $data["id"]);
                      }
@@ -400,15 +406,15 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                      }
                      echo "<td class='center'>" . $item->getTypeName(1) . "</td>";
                      echo "<td " .
-                        (isset($data['is_deleted']) && $data['is_deleted'] ? "class='tab_bg_2_2'" : "") .
-                        ">" . $name . "</td>";
+                          (isset($data['is_deleted']) && $data['is_deleted'] ? "class='tab_bg_2_2'" : "") .
+                          ">" . $name . "</td>";
                      echo "<td class='center'>" . Dropdown::getDropdownName("glpi_entities",
-                           $data['entity']);
+                                                                            $data['entity']);
                      echo "</td>";
                      echo "<td class='center'>" .
-                        (isset($data["serial"]) ? "" . $data["serial"] . "" : "-") . "</td>";
+                          (isset($data["serial"]) ? "" . $data["serial"] . "" : "-") . "</td>";
                      echo "<td class='center'>" .
-                        (isset($data["otherserial"]) ? "" . $data["otherserial"] . "" : "-") . "</td>";
+                          (isset($data["otherserial"]) ? "" . $data["otherserial"] . "" : "-") . "</td>";
                      echo "</tr>";
                   }
                }
@@ -418,7 +424,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
       echo "</table>";
       if ($canedit && $number) {
          $paramsma['ontop'] = false;
-         $paramsma['item'] = $account;
+         $paramsma['item']  = $account;
          Html::showMassiveActions($paramsma);
          Html::closeForm();
       }
@@ -429,17 +435,17 @@ class PluginAccountsAccount_Item extends CommonDBRelation
    /**
     * Show accounts associated to an item
     *
-    * @since version 0.84
-    *
     * @param $item            CommonDBTM object for which associated accounts must be displayed
     * @param $withtemplate (default '')
     *
     * @return bool
+    * @since version 0.84
+    *
     */
    static function showForItem(CommonDBTM $item, $withtemplate = '') {
       global $DB;
 
-      $ID = $item->getField('id');
+      $ID  = $item->getField('id');
       $dbu = new DbUtils();
 
       if ($item->isNewID($ID)) {
@@ -457,15 +463,15 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          $withtemplate = 0;
       }
 
-      $canedit = $item->canadditem('PluginAccountsAccount');
-      $rand = mt_rand();
+      $canedit      = $item->canadditem('PluginAccountsAccount');
+      $rand         = mt_rand();
       $is_recursive = $item->isRecursive();
-      $who = Session::getLoginUserID();
+      $who          = Session::getLoginUserID();
       if (count($_SESSION["glpigroups"])
-         && Session::haveRight("plugin_accounts_my_groups", 1)
+          && Session::haveRight("plugin_accounts_my_groups", 1)
       ) {
          $first_groups = true;
-         $groups = "";
+         $groups       = "";
          foreach ($_SESSION['glpigroups'] as $val) {
             if (!$first_groups) {
                $groups .= ",";
@@ -499,22 +505,22 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
       $result = $DB->query($query);
       $number = $DB->numrows($result);
-      $i = 0;
+      $i      = 0;
 
       $accounts = [];
-      $account = new PluginAccountsAccount();
-      $used = [];
+      $account  = new PluginAccountsAccount();
+      $used     = [];
       if ($numrows = $DB->numrows($result)) {
          while ($data = $DB->fetch_assoc($result)) {
             $accounts[$data['assocID']] = $data;
-            $used[$data['id']] = $data['id'];
+            $used[$data['id']]          = $data['id'];
          }
       }
 
       if ($canedit && $withtemplate < 2) {
          // Restrict entity for knowbase
          $entities = "";
-         $entity = $_SESSION["glpiactive_entity"];
+         $entity   = $_SESSION["glpiactive_entity"];
 
          if ($item->isEntityAssign()) {
             /// Case of personal items : entity = -1 : create on active entity (Reminder case))
@@ -529,18 +535,18 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             }
          }
          $limit = $dbu->getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, true);
-         $q = "SELECT COUNT(*)
+         $q     = "SELECT COUNT(*)
                FROM `glpi_plugin_accounts_accounts`
                WHERE `is_deleted` = '0'
                $limit";
 
          $result = $DB->query($q);
-         $nb = $DB->result($result, 0, 0);
+         $nb     = $DB->result($result, 0, 0);
 
          echo "<div class='firstbloc'>";
 
          if (Session::haveRight('plugin_accounts', READ)
-            && ($nb > count($used))
+             && ($nb > count($used))
          ) {
             echo "<form name='account_form$rand' id='account_form$rand' method='post'
                    action='" . Toolbox::getItemTypeFormURL('PluginAccountsAccount') . "'>";
@@ -556,10 +562,10 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             }
 
             PluginAccountsAccount::dropdownAccount(['entity' => $entities,
-               'used' => $used]);
+                                                    'used'   => $used]);
             echo "</td><td class='center' width='20%'>";
             echo "<input type='submit' name='additem' value=\"" .
-               _sx('button', 'Associate a account', 'accounts') . "\" class='submit'>";
+                 _sx('button', 'Associate a account', 'accounts') . "\" class='submit'>";
             echo "</td>";
             echo "</tr>";
             echo "</table>";
@@ -585,17 +591,17 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
       //hash
       $hashclass = new PluginAccountsHash();
-      $hash_id = 0;
-      $hash = 0;
-      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes",
-                                             '',
-                                             $item->getEntityID(),
-                                             $hashclass->maybeRecursive());
-      $dbu = new DbUtils();
-      $hashes = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
+      $hash_id   = 0;
+      $hash      = 0;
+      $restrict  = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes",
+                                                     '',
+                                                     $item->getEntityID(),
+                                                     $hashclass->maybeRecursive());
+      $dbu       = new DbUtils();
+      $hashes    = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
          foreach ($hashes as $hashe) {
-            $hash = $hashe["hash"];
+            $hash    = $hashe["hash"];
             $hash_id = $hashe["id"];
          }
          $alert = '';
@@ -610,9 +616,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             echo __('Encryption key', 'accounts');
             echo "&nbsp;<input type='password' name='aeskey' id='aeskey' autocomplete='off'>";
          } else {
-            echo Html::hidden('aeskey', ['value' => $aeskey->fields["name"],
-               'id' => 'aeskey',
-               'autocomplete' => 'off']);
+            echo Html::hidden('aeskey', ['value'        => $aeskey->fields["name"],
+                                         'id'           => 'aeskey',
+                                         'autocomplete' => 'off']);
          }
       } else {
          echo __('Encryption key', 'accounts');
@@ -643,12 +649,12 @@ class PluginAccountsAccount_Item extends CommonDBRelation
          Session::initNavigateListItems('PluginAccountsAccount',
             //TRANS : %1$s is the itemtype name,
             //        %2$s is the name of the item (used for headings of a list)
-            sprintf(__('%1$s = %2$s'),
-               $item->getTypeName(1), $item->getName()));
+                                        sprintf(__('%1$s = %2$s'),
+                                                $item->getTypeName(1), $item->getName()));
 
          foreach ($accounts as $data) {
             $accountID = $data["id"];
-            $link = NOT_AVAILABLE;
+            $link      = NOT_AVAILABLE;
 
             if ($account->getFromDB($accountID)) {
                $link = $account->getLink();
@@ -667,19 +673,20 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             echo "<td class='center'>$link</td>";
             if (Session::isMultiEntitiesMode()) {
                echo "<td class='center'>" . Dropdown::getDropdownName("glpi_entities", $data['entities_id']) .
-                  "</td>";
+                    "</td>";
             }
             echo "<td class='center'>" . $data["login"] . "</td>";
             echo "<td class='center'>";
             //hash
             if (isset($hash_id) && $aeskey->getFromDBByHash($hash_id) && $aeskey->fields["name"]) {
-               echo Html::hidden("encrypted_password$accountID", ['value' => $data["encrypted_password"],
-                  'id' => "encrypted_password$accountID",
-                  'autocomplete' => 'off']);
-               echo "<input type='text' id='hidden_password$accountID' onClick='encryptCheck()' value='' size='30' >";
+               echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
+                                                                  'id'           => "encrypted_password$accountID",
+                                                                  'autocomplete' => 'off']);
+
+               echo "<input type='text' id='hidden_password$accountID' onClick='decryptCheck()' value='' size='30' >";
 
                echo Html::scriptBlock("
-               function encryptCheck(){               
+               function decryptCheck(){               
                   if (!check_hash()) {
                      $('#hidden_password$accountID')
                         .after('" . __('Wrong encryption key', 'accounts') . "')
@@ -690,21 +697,21 @@ class PluginAccountsAccount_Item extends CommonDBRelation
                }
                ");
             } else {
-
-               echo "&nbsp;<input type='button' id='decrypt_link$accountID' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
+               $rand = mt_rand();
+               echo "&nbsp;<input type='button' id='decrypt_link$accountID$rand' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
                         class='submit'
-                        onClick='encryptCheckbtn()'>";
-               echo Html::hidden("encrypted_password$accountID", ['value' => $data["encrypted_password"],
-                  'id' => "encrypted_password$accountID",
-                  'autocomplete' => 'off']);
+                        onClick='decryptCheckbtn$rand()'>";
+               echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
+                                                                  'id'           => "encrypted_password$accountID",
+                                                                  'autocomplete' => 'off']);
 
                echo Html::scriptBlock("
-               function encryptCheckbtn(){     
+               function decryptCheckbtn$rand(){
                   if (!check_hash()) {
                      alert('" . __('Wrong encryption key', 'accounts') . "');
                   } else {
                      var decrypted_password = decrypt_password('$accountID');
-                     $('#decrypt_link$accountID')
+                     $('#decrypt_link$accountID$rand')
                         .after(decrypted_password)
                         .remove();
                   }
@@ -716,7 +723,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
             echo "</td>";
             echo "<td class='center'>";
             echo Dropdown::getDropdownName("glpi_plugin_accounts_accounttypes",
-               $data["plugin_accounts_accounttypes_id"]);
+                                           $data["plugin_accounts_accounttypes_id"]);
             echo "</td>";
             echo "<td class='center'>" . Html::convDate($data["date_creation"]) . "</td>";
             if ($data["date_expiration"] <= date('Y-m-d') && !empty($data["date_expiration"])) {
@@ -735,7 +742,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation
 
       echo "</table>";
       echo Html::hidden('good_hash', ['value' => $hash,
-         'id' => 'good_hash']);
+                                      'id'    => 'good_hash']);
 
       if ($canedit && $number && ($withtemplate < 2)) {
          $massiveactionparams['ontop'] = false;
