@@ -91,6 +91,7 @@ function plugin_init_accounts() {
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/crypt.js";
       if (strpos($_SERVER['REQUEST_URI'], "front/account.form.php") !== false) {
          $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/account.form.js";
+         $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/clipboard.js";
       }
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "lib/lightcrypt.js";
 

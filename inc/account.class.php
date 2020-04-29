@@ -387,7 +387,7 @@ class PluginAccountsAccount extends CommonDBTM {
       if (!$this->canView()) {
          return false;
       }
-      Html::requireJs('clipboard');
+
       $hashclass = new PluginAccountsHash();
       $dbu       = new DbUtils();
 
@@ -469,7 +469,7 @@ class PluginAccountsAccount extends CommonDBTM {
             echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
                                                    'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
-               echo "&nbsp;<input type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
+               echo "&nbsp;<input type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
                         class='submit'>";
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
@@ -535,7 +535,7 @@ class PluginAccountsAccount extends CommonDBTM {
                                                 'id'    => 'wrong_key_locale']);
          echo Html::scriptBlock("auto_decrypt();");
       }
-      echo "<span class='copy_to_clipboard_wrapper'>";
+      echo "<span class='account_to_clipboard_wrapper'>";
       echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
       echo "</span>";
       echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password'></span>";
@@ -838,17 +838,8 @@ class PluginAccountsAccount extends CommonDBTM {
             self::dropdownAccount([]);
             echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
+         case "uninstall":
          case "install" :
-            Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'item_item',
-                                                   'itemtype_name' => 'typeitem',
-                                                   'itemtypes'     => self::getTypes(true),
-                                                   'checkright'
-                                                                   => true,
-                                                  ]);
-            echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
-            return true;
-            break;
-         case "uninstall" :
             Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'item_item',
                                                    'itemtype_name' => 'typeitem',
                                                    'itemtypes'     => self::getTypes(true),
