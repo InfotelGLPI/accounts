@@ -33,42 +33,42 @@ define('PLUGIN_ACCOUNTS_VERSION', '2.5.0');
 function plugin_init_accounts() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['csrf_compliant']['accounts'] = true;
+   $PLUGIN_HOOKS['csrf_compliant']['accounts']   = true;
    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
-   $PLUGIN_HOOKS['change_profile']['accounts'] = ['PluginAccountsProfile', 'initProfile'];
+   $PLUGIN_HOOKS['change_profile']['accounts']   = ['PluginAccountsProfile', 'initProfile'];
 
    if (Session::getLoginUserID()) {
 
       // Params : plugin name - string type - number - attributes
       Plugin::registerClass('PluginAccountsAccount',
-         ['linkgroup_types' => true,
-            'linkuser_types' => true,
-            'linkgroup_tech_types' => true,
-            'linkuser_tech_types' => true,
-            'document_types' => true,
-            'ticket_types' => true,
-            'helpdesk_visible_types' => true,
-            'notificationtemplates_types' => true,
-            'header_types' => true
-         ]
+                            ['linkgroup_types'             => true,
+                             'linkuser_types'              => true,
+                             'linkgroup_tech_types'        => true,
+                             'linkuser_tech_types'         => true,
+                             'document_types'              => true,
+                             'ticket_types'                => true,
+                             'helpdesk_visible_types'      => true,
+                             'notificationtemplates_types' => true,
+                             'header_types'                => true
+                            ]
       );
 
       Plugin::registerClass('PluginAccountsConfig',
-         ['addtabon' => 'CronTask']);
+                            ['addtabon' => 'CronTask']);
 
       Plugin::registerClass('PluginAccountsProfile',
-         ['addtabon' => 'Profile']);
+                            ['addtabon' => 'Profile']);
 
       $plugin = new Plugin();
       if (!$plugin->isActivated('environment')
-         && Session::haveRight("plugin_accounts", READ)
+          && Session::haveRight("plugin_accounts", READ)
       ) {
 
-         $PLUGIN_HOOKS["menu_toadd"]['accounts'] = ['admin' => 'PluginAccountsMenu'];
+         $PLUGIN_HOOKS["menu_toadd"]['accounts']          = ['admin' => 'PluginAccountsMenu'];
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
       }
       if ($plugin->isActivated('environment')
-         && Session::haveRight("plugin_accounts", READ)
+          && Session::haveRight("plugin_accounts", READ)
       ) {
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
       }
@@ -86,6 +86,7 @@ function plugin_init_accounts() {
       }
 
       // Add specific files to add to the header : javascript or css
+      $PLUGIN_HOOKS['add_css']['accounts']          = ['accounts.css'];
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/getparameter.js";
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/crypt.js";
       if (strpos($_SERVER['REQUEST_URI'], "front/account.form.php") !== false) {
@@ -108,13 +109,13 @@ function plugin_init_accounts() {
 function plugin_version_accounts() {
 
    return [
-      'name' => _n('Account', 'Accounts', 2, 'accounts'),
-      'version'        => PLUGIN_ACCOUNTS_VERSION,
-      'oldname' => 'compte',
-      'license' => 'GPLv2+',
-      'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
-      'homepage' => 'https://github.com/InfotelGLPI/accounts',
-      'requirements'   => [
+      'name'         => _n('Account', 'Accounts', 2, 'accounts'),
+      'version'      => PLUGIN_ACCOUNTS_VERSION,
+      'oldname'      => 'compte',
+      'license'      => 'GPLv2+',
+      'author'       => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
+      'homepage'     => 'https://github.com/InfotelGLPI/accounts',
+      'requirements' => [
          'glpi' => [
             'min' => '9.4',
             'dev' => false
@@ -129,8 +130,8 @@ function plugin_version_accounts() {
  * @return bool
  */
 function plugin_accounts_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.4', 'lt') 
-         || version_compare(GLPI_VERSION, '9.5', 'ge')) {
+   if (version_compare(GLPI_VERSION, '9.4', 'lt')
+       || version_compare(GLPI_VERSION, '9.5', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
          echo Plugin::messageIncompatible('core', '9.4');
       }
@@ -151,6 +152,7 @@ function plugin_accounts_check_config() {
 
 /**
  * @param $types
+ *
  * @return mixed
  */
 function plugin_datainjection_migratetypes_accounts($types) {

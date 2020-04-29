@@ -40,9 +40,9 @@ class PluginAccountsAccount extends CommonDBTM {
    static $rightname = "plugin_accounts";
 
    static $types = ['Computer', 'Monitor', 'NetworkEquipment', 'Peripheral',
-      'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity', 'Contract'];
+                    'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity', 'Contract'];
 
-   public $dohistory = true;
+   public    $dohistory  = true;
    protected $usenotepad = true;
 
    /**
@@ -89,16 +89,16 @@ class PluginAccountsAccount extends CommonDBTM {
    public function rawSearchOptions() {
 
       $tab[] = [
-         'id' => 'common',
+         'id'   => 'common',
          'name' => self::getTypeName(2)
       ];
 
       $tab[] = [
-         'id' => '1',
-         'table' => $this->getTable(),
-         'field' => 'name',
-         'name' => __('Name'),
-         'datatype' => 'itemlink',
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'name',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
          'itemlink_type' => 'PluginAccountsAccount',
          'massiveaction' => false
       ];
@@ -107,10 +107,10 @@ class PluginAccountsAccount extends CommonDBTM {
       }
 
       $tab[] = [
-         'id' => '2',
-         'table' => 'glpi_plugin_accounts_accounttypes',
-         'field' => 'name',
-         'name' => __('Type'),
+         'id'       => '2',
+         'table'    => 'glpi_plugin_accounts_accounttypes',
+         'field'    => 'name',
+         'name'     => __('Type'),
          'datatype' => 'dropdown'
       ];
       if (Session::getCurrentInterface() != 'central') {
@@ -118,10 +118,10 @@ class PluginAccountsAccount extends CommonDBTM {
       }
 
       $tab[] = [
-         'id' => '16',
+         'id'    => '16',
          'table' => 'glpi_users',
          'field' => 'name',
-         'name' => __('Affected User', 'accounts'),
+         'name'  => __('Affected User', 'accounts'),
       ];
       if (Session::getCurrentInterface() != 'central') {
          $tab[16]['searchtype'] = 'contains';
@@ -130,60 +130,60 @@ class PluginAccountsAccount extends CommonDBTM {
       $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
 
       $tab[] = [
-         'id' => '4',
+         'id'    => '4',
          'table' => $this->getTable(),
          'field' => 'login',
-         'name' => __('Login')
+         'name'  => __('Login')
       ];
 
       $tab[] = [
-         'id' => '5',
-         'table' => $this->getTable(),
-         'field' => 'date_creation',
-         'name' => __('Creation date'),
+         'id'       => '5',
+         'table'    => $this->getTable(),
+         'field'    => 'date_creation',
+         'name'     => __('Creation date'),
          'datatype' => 'date'
       ];
 
       $tab[] = [
-         'id' => '6',
+         'id'    => '6',
          'table' => $this->getTable(),
          'field' => 'date_expiration',
-         'name' => __('Expiration date')
+         'name'  => __('Expiration date')
       ];
 
       $tab[] = [
-         'id' => '7',
-         'table' => $this->getTable(),
-         'field' => 'comment',
-         'name' => __('Comments'),
+         'id'       => '7',
+         'table'    => $this->getTable(),
+         'field'    => 'comment',
+         'name'     => __('Comments'),
          'datatype' => 'text'
       ];
 
       if (Session::getCurrentInterface() == 'central') {
          $tab[] = [
-            'id' => 8,
-            'table' => 'glpi_plugin_accounts_accounts_items',
-            'field' => 'items_id',
-            'nosearch' => true,
-            'name' => _n('Associated item', 'Associated items', 2),
-            'forcegroupby' => true,
+            'id'            => 8,
+            'table'         => 'glpi_plugin_accounts_accounts_items',
+            'field'         => 'items_id',
+            'nosearch'      => true,
+            'name'          => _n('Associated item', 'Associated items', 2),
+            'forcegroupby'  => true,
             'massiveaction' => false,
-            'joinparams' => ['jointype' => 'child']
+            'joinparams'    => ['jointype' => 'child']
          ];
       }
 
       $tab[] = [
-         'id' => '9',
+         'id'    => '9',
          'table' => $this->getTable(),
          'field' => 'others',
-         'name' => __('Others')
+         'name'  => __('Others')
       ];
 
       $tab[] = [
-         'id' => '10',
+         'id'    => '10',
          'table' => 'glpi_plugin_accounts_accountstates',
          'field' => 'name',
-         'name' => __('Status'),
+         'name'  => __('Status'),
       ];
       if (Session::getCurrentInterface() != 'central') {
          $tab[10]['searchtype'] = 'contains';
@@ -191,20 +191,20 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() == 'central') {
          $tab[] = [
-            'id' => 11,
-            'table' => $this->getTable(),
-            'field' => 'is_recursive',
-            'name' => __('Child entities'),
+            'id'       => 11,
+            'table'    => $this->getTable(),
+            'field'    => 'is_recursive',
+            'name'     => __('Child entities'),
             'datatype' => 'bool'
          ];
       }
 
       $tab[] = [
-         'id' => '12',
-         'table' => 'glpi_groups',
-         'field' => 'completename',
-         'name' => __('Group'),
-         'datatype' => 'dropdown',
+         'id'        => '12',
+         'table'     => 'glpi_groups',
+         'field'     => 'completename',
+         'name'      => __('Group'),
+         'datatype'  => 'dropdown',
          'condition' => ['`is_itemgroup`' => 1],
       ];
       if (Session::getCurrentInterface() != 'central') {
@@ -213,71 +213,71 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() == 'central') {
          $tab[] = [
-            'id' => 13,
-            'table' => $this->getTable(),
-            'field' => 'is_helpdesk_visible',
-            'name' => __('Associable to a ticket'),
+            'id'       => 13,
+            'table'    => $this->getTable(),
+            'field'    => 'is_helpdesk_visible',
+            'name'     => __('Associable to a ticket'),
             'datatype' => 'bool',
          ];
       }
 
       $tab[] = [
-         'id' => '14',
-         'table' => $this->getTable(),
-         'field' => 'date_mod',
-         'name' => __('Last update'),
+         'id'            => '14',
+         'table'         => $this->getTable(),
+         'field'         => 'date_mod',
+         'name'          => __('Last update'),
          'massiveaction' => false,
-         'datatype' => 'datetime'
+         'datatype'      => 'datetime'
       ];
 
       $tab[] = [
-         'id' => '17',
-         'table' => 'glpi_users',
-         'field' => 'name',
+         'id'        => '17',
+         'table'     => 'glpi_users',
+         'field'     => 'name',
          'linkfield' => 'users_id_tech',
-         'name' => __('Technician in charge of the hardware'),
-         'datatype' => 'dropdown',
-         'right' => 'interface'
+         'name'      => __('Technician in charge of the hardware'),
+         'datatype'  => 'dropdown',
+         'right'     => 'interface'
       ];
 
       $tab[] = [
-         'id' => '18',
-         'table' => 'glpi_groups',
-         'field' => 'completename',
+         'id'        => '18',
+         'table'     => 'glpi_groups',
+         'field'     => 'completename',
          'linkfield' => 'groups_id_tech',
-         'name' => __('Group in charge of the hardware'),
+         'name'      => __('Group in charge of the hardware'),
          'condition' => ['`is_assign`' => 1],
-         'datatype' => 'dropdown'
+         'datatype'  => 'dropdown'
       ];
 
       $tab[] = [
-         'id' => '30',
-         'table' => $this->getTable(),
-         'field' => 'id',
-         'name' => __('ID'),
+         'id'       => '30',
+         'table'    => $this->getTable(),
+         'field'    => 'id',
+         'name'     => __('ID'),
          'datatype' => 'number'
       ];
 
       $tab[] = [
-         'id' => '81',
+         'id'    => '81',
          'table' => 'glpi_entities',
          'field' => 'entities_id',
-         'name' => __('Entity-ID')
+         'name'  => __('Entity-ID')
       ];
 
       $tab[] = [
-         'id' => '80',
-         'table' => 'glpi_entities',
-         'field' => 'completename',
-         'name' => __('Entity'),
+         'id'       => '80',
+         'table'    => 'glpi_entities',
+         'field'    => 'completename',
+         'name'     => __('Entity'),
          'datatype' => 'dropdown'
       ];
 
       $tab[] = [
-         'id' => '86',
-         'table' => $this->getTable(),
-         'field' => 'is_recursive',
-         'name' => __('Child entities'),
+         'id'       => '86',
+         'table'    => $this->getTable(),
+         'field'    => 'is_recursive',
+         'name'     => __('Child entities'),
          'datatype' => 'bool'
       ];
 
@@ -387,9 +387,9 @@ class PluginAccountsAccount extends CommonDBTM {
       if (!$this->canView()) {
          return false;
       }
-
+      Html::requireJs('clipboard');
       $hashclass = new PluginAccountsHash();
-      $dbu = new DbUtils();
+      $dbu       = new DbUtils();
 
       $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
       if ($ID < 1 && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
@@ -417,7 +417,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>" . __('Status') . "</td><td>";
       Dropdown::show('PluginAccountsAccountState',
-         ['value' => $this->fields["plugin_accounts_accountstates_id"]]);
+                     ['value' => $this->fields["plugin_accounts_accountstates_id"]]);
       echo "</td>";
 
       echo "</tr>";
@@ -431,7 +431,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>" . __('Type') . "</td><td>";
       Dropdown::show('PluginAccountsAccountType',
-         ['value' => $this->fields["plugin_accounts_accounttypes_id"]]);
+                     ['value' => $this->fields["plugin_accounts_accounttypes_id"]]);
       echo "</td>";
 
       echo "</tr>";
@@ -439,14 +439,14 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
 
       //hash
-      $hash = 0;
-      $hash_id = 0;
+      $hash     = 0;
+      $hash_id  = 0;
       $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '',
-         $this->getEntityID(), $hashclass->maybeRecursive());
-      $hashes = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
+                                                    $this->getEntityID(), $hashclass->maybeRecursive());
+      $hashes   = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
          foreach ($hashes as $hashe) {
-            $hash = $hashe["hash"];
+            $hash    = $hashe["hash"];
             $hash_id = $hashe["id"];
          }
          $alert = '';
@@ -463,13 +463,13 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "<input type='password' autocomplete='off' name='aeskey' id='aeskey'>";
 
             echo Html::hidden('encrypted_password', ['value' => $this->fields["encrypted_password"],
-               'id' => 'encrypted_password']);
+                                                     'id'    => 'encrypted_password']);
             echo Html::hidden('good_hash', ['value' => $hash,
-               'id' => 'good_hash']);
+                                            'id'    => 'good_hash']);
             echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
-               'id' => 'wrong_key_locale']);
+                                                   'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
-               echo "&nbsp;<input type='button' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
+               echo "&nbsp;<input type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
                         class='submit'>";
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
@@ -500,9 +500,9 @@ class PluginAccountsAccount extends CommonDBTM {
       if (Session::getCurrentInterface() == 'central') {
          echo "<td>" . __('Affected User', 'accounts') . "</td><td>";
          if ($this->canCreate()) {
-            User::dropdown(['value' => $this->fields["users_id"],
-               'entity' => $this->fields["entities_id"],
-               'right' => 'all']);
+            User::dropdown(['value'  => $this->fields["users_id"],
+                            'entity' => $this->fields["entities_id"],
+                            'right'  => 'all']);
          } else {
             echo $dbu->getUserName($this->fields["users_id"]);
          }
@@ -521,27 +521,40 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>";
       //aeskey enregistre
-      if (isset($hash_id) && $aeskey->getFromDBByHash($hash_id) && $aeskey->fields["name"]) {
+      if (isset($hash_id)
+          && $aeskey->getFromDBByHash($hash_id)
+          && $aeskey->fields["name"]) {
          echo Html::hidden('good_hash', ['value' => $hash,
-            'id' => 'good_hash']);
-         echo Html::hidden('aeskey', ['value' => $aeskey->fields["name"],
-            'id' => 'aeskey',
-            'autocomplete' => 'off']);
+                                         'id'    => 'good_hash']);
+         echo Html::hidden('aeskey', ['value'        => $aeskey->fields["name"],
+                                      'id'           => 'aeskey',
+                                      'autocomplete' => 'off']);
          echo Html::hidden('encrypted_password', ['value' => $this->fields["encrypted_password"],
-            'id' => 'encrypted_password']);
+                                                  'id'    => 'encrypted_password']);
          echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
-            'id' => 'wrong_key_locale']);
+                                                'id'    => 'wrong_key_locale']);
          echo Html::scriptBlock("auto_decrypt();");
       }
-      echo "<input type='text' name='hidden_password' id='hidden_password' size='30' >";
-
+      echo "<span class='copy_to_clipboard_wrapper'>";
+      echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
+      echo "</span>";
+      echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password'></span>";
       echo "</td>";
 
+      echo Html::scriptBlock('$(".toggle-password").click(function() {
+                                 $(".toggle-password").toggleClass("fa-eye fa-eye-slash");
+                                 var input = $($(this).attr("toggle"));
+                                 if (input.attr("type") == "password") {
+                                     input.attr("type", "text");
+                                 } else {
+                                     input.attr("type", "password");
+                                 }
+                             });');
       if (Session::getCurrentInterface() == 'central') {
          echo "<td>" . __('Affected Group', 'accounts') . "</td><td>";
          if (self::canCreate()) {
-            Dropdown::show('Group', ['value' => $this->fields["groups_id"],
-               'condition' => ['is_itemgroup' => 1]]);
+            Dropdown::show('Group', ['value'     => $this->fields["groups_id"],
+                                     'condition' => ['is_itemgroup' => 1]]);
          } else {
             echo Dropdown::getDropdownName("glpi_groups", $this->fields["groups_id"]);
          }
@@ -563,10 +576,10 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>" . __('Technician in charge of the hardware') . "</td>";
       echo "<td>";
-      User::dropdown(['name' => "users_id_tech",
-         'value' => $this->fields["users_id_tech"],
-         'entity' => $this->fields["entities_id"],
-         'right' => 'interface']);
+      User::dropdown(['name'   => "users_id_tech",
+                      'value'  => $this->fields["users_id_tech"],
+                      'entity' => $this->fields["entities_id"],
+                      'right'  => 'interface']);
       echo "</td>";
 
       echo "</tr>";
@@ -581,9 +594,9 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "</td>";
 
       echo "<td>" . __('Group in charge of the hardware') . "</td><td>";
-      Group::dropdown(['name' => 'groups_id_tech',
-         'value' => $this->fields['groups_id_tech'],
-         'condition' => ['is_assign' => 1]]);
+      Group::dropdown(['name'      => 'groups_id_tech',
+                       'value'     => $this->fields['groups_id_tech'],
+                       'condition' => ['is_assign' => 1]]);
       echo "</td>";
 
       echo "<tr class='tab_bg_1'>";
@@ -594,8 +607,8 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "</td>";
 
       echo "<td>" . __('Location') . "</td><td>";
-      Location::dropdown(['value' => $this->fields["locations_id"],
-         'entity' => $this->fields["entities_id"]]);
+      Location::dropdown(['value'  => $this->fields["locations_id"],
+                          'entity' => $this->fields["entities_id"]]);
       echo "</td>";
 
       echo "</tr>";
@@ -674,26 +687,26 @@ class PluginAccountsAccount extends CommonDBTM {
       }
       $options['canedit'] = false;
 
-      $options['candel']  = false;
+      $options['candel'] = false;
 
       if (empty($ID)) {
          echo "<table class='tab_cadre'>
                <tbody>
                <tr class='tab_bg_1 center'><th colspan ='2'>" . __s('Generate password', 'accounts') . "</th></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> ".__("Numbers","accounts")." <small>(0123456789)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-1\" /></td><td><label for=\"char-1\"> ".__("Lowercase","accounts")." <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-2\" /></td><td><label for=\"char-2\"> ".__("Uppercase","accounts")." <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> ".__("Special characters","accounts")." <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> " . __("Numbers", "accounts") . " <small>(0123456789)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-1\" /></td><td><label for=\"char-1\"> " . __("Lowercase", "accounts") . " <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-2\" /></td><td><label for=\"char-2\"> " . __("Uppercase", "accounts") . " <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
+               <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> " . __("Special characters", "accounts") . " <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
                <tr class='tab_bg_1'>
-                        <td><label for='length'>".__("Length","accounts")."</label></td>
-                        <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> ".__(" characters","accounts")."</td>
+                        <td><label for='length'>" . __("Length", "accounts") . "</label></td>
+                        <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> " . __(" characters", "accounts") . "</td>
                      </tr>
                <tr id='fakeupdate'></tr>
                <tr class='tab_bg_2 center'><td colspan='2'>&nbsp;<input type='button' id='generatePass' name='generatePass' class='submit' style='background-color: #fec95c;color: #4b2f03;border: 2px solid #4b2f03;padding: 5px;' value='" . __s('Generate', 'accounts') . "'
                      class='submit'></td></tr>
                </tbody>
                </table>";
-         Ajax::updateItemOnEvent("generatePass","fakeupdate",$CFG_GLPI["root_doc"]."/plugins/accounts/ajax/generatepassword.php",["password"=>1],["click"]);
+         Ajax::updateItemOnEvent("generatePass", "fakeupdate", $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/generatepassword.php", ["password" => 1], ["click"]);
       }
 
 
@@ -719,9 +732,9 @@ class PluginAccountsAccount extends CommonDBTM {
    static function dropdownAccount($options = []) {
       global $DB, $CFG_GLPI;
 
-      $p['name'] = 'plugin_accounts_accounts_id';
-      $p['entity'] = '';
-      $p['used'] = [];
+      $p['name']    = 'plugin_accounts_accounts_id';
+      $p['entity']  = '';
+      $p['used']    = [];
       $p['display'] = true;
 
       if (is_array($options) && count($options)) {
@@ -729,15 +742,15 @@ class PluginAccountsAccount extends CommonDBTM {
             $p[$key] = $val;
          }
       }
-      $dbu = new DbUtils();
+      $dbu   = new DbUtils();
       $where = " WHERE `glpi_plugin_accounts_accounts`.`is_deleted` = '0' " .
-         $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '', $p['entity'], true);
+               $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '', $p['entity'], true);
 
       if (count($p['used'])) {
          $where .= " AND `id` NOT IN (0, " . implode(",", array_filter($p['used'])) . ")";
       }
 
-      $query = "SELECT *
+      $query  = "SELECT *
                 FROM `glpi_plugin_accounts_accounttypes`
                 WHERE `id` IN (SELECT DISTINCT `plugin_accounts_accounttypes_id`
                                FROM `glpi_plugin_accounts_accounts`
@@ -750,28 +763,28 @@ class PluginAccountsAccount extends CommonDBTM {
       while ($data = $DB->fetch_assoc($result)) {
          $values[$data['id']] = $data['name'];
       }
-      $rand = mt_rand();
-      $out = Dropdown::showFromArray('_accounttype', $values, ['width' => '30%',
-         'rand' => $rand,
-         'display' => false]);
+      $rand     = mt_rand();
+      $out      = Dropdown::showFromArray('_accounttype', $values, ['width'   => '30%',
+                                                                    'rand'    => $rand,
+                                                                    'display' => false]);
       $field_id = Html::cleanId("dropdown__accounttype$rand");
 
       $params = ['accounttype' => '__VALUE__',
-         'entity' => $p['entity'],
-         'rand' => $rand,
-         'myname' => $p['name'],
-         'used' => $p['used']];
+                 'entity'      => $p['entity'],
+                 'rand'        => $rand,
+                 'myname'      => $p['name'],
+                 'used'        => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id, "show_" . $p['name'] . $rand,
-         $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/dropdownTypeAccounts.php",
-         $params, false);
+                                            $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/dropdownTypeAccounts.php",
+                                            $params, false);
       $out .= "<span id='show_" . $p['name'] . "$rand'>";
       $out .= "</span>\n";
 
       $params['accounttype'] = 0;
-      $out .= Ajax::updateItem("show_" . $p['name'] . $rand,
-         $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/dropdownTypeAccounts.php",
-         $params, false);
+      $out                   .= Ajax::updateItem("show_" . $p['name'] . $rand,
+                                                 $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/dropdownTypeAccounts.php",
+                                                 $params, false);
       if ($p['display']) {
          echo $out;
          return $rand;
@@ -795,11 +808,11 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() == 'central') {
          if ($isadmin) {
-            $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'install'] = _x('button', 'Associate');
+            $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'install']   = _x('button', 'Associate');
             $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x('button', 'Dissociate');
 
             if (Session::haveRight('transfer', READ)
-               && Session::isMultiEntitiesMode()
+                && Session::isMultiEntitiesMode()
             ) {
                $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __('Transfer');
             }
@@ -827,21 +840,21 @@ class PluginAccountsAccount extends CommonDBTM {
             return true;
          case "install" :
             Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'item_item',
-               'itemtype_name' => 'typeitem',
-               'itemtypes' => self::getTypes(true),
-               'checkright'
-               => true,
-            ]);
+                                                   'itemtype_name' => 'typeitem',
+                                                   'itemtypes'     => self::getTypes(true),
+                                                   'checkright'
+                                                                   => true,
+                                                  ]);
             echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
             break;
          case "uninstall" :
             Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'item_item',
-               'itemtype_name' => 'typeitem',
-               'itemtypes' => self::getTypes(true),
-               'checkright'
-               => true,
-            ]);
+                                                   'itemtype_name' => 'typeitem',
+                                                   'itemtypes'     => self::getTypes(true),
+                                                   'checkright'
+                                                                   => true,
+                                                  ]);
             echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']);
             return true;
             break;
@@ -856,8 +869,8 @@ class PluginAccountsAccount extends CommonDBTM {
 
    /**
     * @param MassiveAction $ma
-    * @param CommonDBTM $item
-    * @param array $ids
+    * @param CommonDBTM    $item
+    * @param array         $ids
     *
     * @return nothing|void
     * @since version 0.85
@@ -869,7 +882,7 @@ class PluginAccountsAccount extends CommonDBTM {
                                                        array $ids) {
 
       $account_item = new PluginAccountsAccount_Item();
-      $dbu = new DbUtils();
+      $dbu          = new DbUtils();
 
       switch ($ma->getAction()) {
          case "add_item":
@@ -877,12 +890,12 @@ class PluginAccountsAccount extends CommonDBTM {
             foreach ($ma->items as $itemtype => $myitem) {
                foreach ($myitem as $key => $value) {
                   if (!$dbu->countElementsInTable('glpi_plugin_accounts_accounts_items',
-                     ["itemtype" => $itemtype,
-                        "items_id" => $key,
-                        "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id']])) {
+                                                  ["itemtype"                    => $itemtype,
+                                                   "items_id"                    => $key,
+                                                   "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id']])) {
                      $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
-                     $myvalue['itemtype'] = $itemtype;
-                     $myvalue['items_id'] = $key;
+                     $myvalue['itemtype']                    = $itemtype;
+                     $myvalue['items_id']                    = $key;
                      if ($account_item->add($myvalue)) {
                         $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                      } else {
@@ -902,13 +915,13 @@ class PluginAccountsAccount extends CommonDBTM {
                   $item->getFromDB($key);
                   $type = PluginAccountsAccountType::transfer($item->fields["plugin_accounts_accounttypes_id"], $input['entities_id']);
                   if ($type > 0) {
-                     $values["id"] = $key;
+                     $values["id"]                              = $key;
                      $values["plugin_accounts_accounttypes_id"] = $type;
                      $item->update($values);
                   }
 
                   unset($values);
-                  $values["id"] = $key;
+                  $values["id"]          = $key;
                   $values["entities_id"] = $input['entities_id'];
 
                   if ($item->update($values)) {
@@ -926,8 +939,8 @@ class PluginAccountsAccount extends CommonDBTM {
             foreach ($ids as $key) {
                if ($item->can($key, UPDATE)) {
                   $values = ['plugin_accounts_accounts_id' => $key,
-                     'items_id' => $input["item_item"],
-                     'itemtype' => $input['typeitem']];
+                             'items_id'                    => $input["item_item"],
+                             'itemtype'                    => $input['typeitem']];
                   if ($account_item->add($values)) {
                      $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                   } else {
@@ -996,7 +1009,7 @@ class PluginAccountsAccount extends CommonDBTM {
    private static function queryExpiredAccounts() {
 
       $config = new PluginAccountsConfig();
-      $notif = new PluginAccountsNotificationState();
+      $notif  = new PluginAccountsNotificationState();
 
       $config->getFromDB('1');
       $delay = $config->fields["delay_expired"];
@@ -1022,7 +1035,7 @@ class PluginAccountsAccount extends CommonDBTM {
    private static function queryAccountsWhichExpire() {
 
       $config = new PluginAccountsConfig();
-      $notif = new PluginAccountsNotificationState();
+      $notif  = new PluginAccountsNotificationState();
 
       $config->getFromDB('1');
       $delay = $config->fields["delay_whichexpire"];
@@ -1056,20 +1069,20 @@ class PluginAccountsAccount extends CommonDBTM {
 
       $cron_status = 0;
 
-      $query_expired = self::queryExpiredAccounts();
+      $query_expired     = self::queryExpiredAccounts();
       $query_whichexpire = self::queryAccountsWhichExpire();
 
       $querys = [Alert::NOTICE => $query_whichexpire, Alert::END => $query_expired];
 
-      $account_infos = [];
+      $account_infos    = [];
       $account_messages = [];
 
       foreach ($querys as $type => $query) {
          $account_infos[$type] = [];
          foreach ($DB->request($query) as $data) {
-            $entity = $data['entities_id'];
-            $message = $data["name"] . ": " .
-               Html::convDate($data["date_expiration"]) . "<br>\n";
+            $entity                          = $data['entities_id'];
+            $message                         = $data["name"] . ": " .
+                                               Html::convDate($data["date_expiration"]) . "<br>\n";
             $account_infos[$type][$entity][] = $data;
 
             if (!isset($account_messages[$type][$entity])) {
@@ -1087,25 +1100,25 @@ class PluginAccountsAccount extends CommonDBTM {
             if (NotificationEvent::raiseEvent(($type == Alert::NOTICE ? "AccountsWhichExpire" : "ExpiredAccounts"),
                new PluginAccountsAccount(),
                ['entities_id' => $entity,
-                  'accounts' => $accounts])) {
-               $message = $account_messages[$type][$entity];
+                'accounts'    => $accounts])) {
+               $message     = $account_messages[$type][$entity];
                $cron_status = 1;
                if ($task) {
                   $task->log(Dropdown::getDropdownName("glpi_entities",
-                        $entity) . ":  $message\n");
+                                                       $entity) . ":  $message\n");
                   $task->addVolume(1);
                } else {
                   Session::addMessageAfterRedirect(Dropdown::getDropdownName("glpi_entities",
-                        $entity) . ":  $message");
+                                                                             $entity) . ":  $message");
                }
 
             } else {
                if ($task) {
                   $task->log(Dropdown::getDropdownName("glpi_entities", $entity) .
-                     ":  Send accounts alert failed\n");
+                             ":  Send accounts alert failed\n");
                } else {
                   Session::addMessageAfterRedirect(Dropdown::getDropdownName("glpi_entities", $entity) .
-                     ":  Send accounts alert failed", false, ERROR);
+                                                   ":  Send accounts alert failed", false, ERROR);
                }
             }
          }
@@ -1123,7 +1136,7 @@ class PluginAccountsAccount extends CommonDBTM {
     **/
    public static function configCron($target) {
 
-      $notif = new PluginAccountsNotificationState();
+      $notif  = new PluginAccountsNotificationState();
       $config = new PluginAccountsConfig();
 
       $config->showForm($target, 1);
@@ -1144,7 +1157,7 @@ class PluginAccountsAccount extends CommonDBTM {
       Plugin::loadLang('accounts');
       echo "<div class='center' ><span class='b'>" . __('Select the wanted account type', 'accounts') . "</span><br>";
       echo "<a style='font-size:14px;' href='" . $target . "?reset=reset' title=\"" .
-         __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a></div>";
+           __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a></div>";
 
       $js = "   $(function() {
                   $.getScript('{$CFG_GLPI["root_doc"]}/lib/jqueryplugins/jstree/jstree.min.js', function(data, textStatus, jqxhr) {
