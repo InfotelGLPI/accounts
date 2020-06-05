@@ -535,9 +535,13 @@ class PluginAccountsAccount extends CommonDBTM {
                                                 'id'    => 'wrong_key_locale']);
          echo Html::scriptBlock("auto_decrypt();");
       }
-      echo "<span class='account_to_clipboard_wrapper'>";
+      if (!empty($ID) || $ID > 0) {
+        echo "<span class='account_to_clipboard_wrapper'>";
+      }
       echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
-      echo "</span>";
+      if (!empty($ID) || $ID > 0) {
+        echo "</span>";
+      }
       echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password'></span>";
       echo "</td>";
 
