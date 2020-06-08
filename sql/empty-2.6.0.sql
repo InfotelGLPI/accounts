@@ -17,7 +17,7 @@ CREATE TABLE `glpi_plugin_accounts_accounts` (
    `groups_id_tech` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_groups (id)',
    `locations_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_locations (id)',
    `is_helpdesk_visible` int(11) NOT NULL default '1',
-   `date_mod` datetime default NULL,
+   `date_mod` timestamp NULL DEFAULT NULL,
    `comment` text collate utf8_unicode_ci,
    `is_deleted` tinyint(1) NOT NULL default '0',
    PRIMARY KEY  (`id`),
@@ -62,7 +62,7 @@ CREATE TABLE `glpi_plugin_accounts_hashes` (
       `is_recursive` tinyint(1) NOT NULL default '0',
       `hash` varchar(255) collate utf8_unicode_ci default NULL,
       `comment` text collate utf8_unicode_ci,
-      `date_mod` datetime default NULL,
+      `date_mod` timestamp NULL DEFAULT NULL,
       PRIMARY KEY  (`id`),
       KEY `entities_id` (`entities_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
