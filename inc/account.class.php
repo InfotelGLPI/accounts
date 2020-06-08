@@ -298,6 +298,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       $ong = [];
       $this->addDefaultFormTab($ong);
+      $this->addImpactTab($ong, $options);
       $this->addStandardTab('PluginAccountsAccount_Item', $ong, $options);
       $this->addStandardTab('Ticket', $ong, $options);
       $this->addStandardTab('Item_Problem', $ong, $options);
@@ -764,7 +765,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       $values = [0 => Dropdown::EMPTY_VALUE];
 
-      while ($data = $DB->fetch_assoc($result)) {
+      while ($data = $DB->fetchAssoc($result)) {
          $values[$data['id']] = $data['name'];
       }
       $rand     = mt_rand();

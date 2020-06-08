@@ -116,7 +116,7 @@ class PluginAccountsAesKey extends CommonDBTM
          if ($DB->numrows($result) != 1) {
             return false;
          }
-         $this->fields = $DB->fetch_assoc($result);
+         $this->fields = $DB->fetchAssoc($result);
          if (is_array($this->fields) && count($this->fields)) {
             return true;
          } else {
@@ -246,7 +246,7 @@ class PluginAccountsAesKey extends CommonDBTM
 
       if ($DB->numrows($result) > 0) {
 
-         while ($data = $DB->fetch_array($result)) {
+         while ($data = $DB->fetchArray($result)) {
             Session::addToNavigateListItems("PluginAccountsAesKey", $data['id']);
             echo "<input type='hidden' name='item[" . $data["id"] . "]' value='" . $ID . "'>";
             echo "<tr class='tab_bg_1 center'>";

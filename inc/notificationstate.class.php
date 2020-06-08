@@ -50,7 +50,7 @@ class PluginAccountsNotificationState extends CommonDBTM
          if ($DB->numrows($result) != 1) {
             return false;
          }
-         $this->fields = $DB->fetch_assoc($result);
+         $this->fields = $DB->fetchAssoc($result);
          if (is_array($this->fields) && count($this->fields)) {
             return true;
          } else {
@@ -72,7 +72,7 @@ class PluginAccountsNotificationState extends CommonDBTM
       $queryChilds = "SELECT `plugin_accounts_accountstates_id`
                FROM `" . $this->getTable() . "`";
       if ($resultChilds = $DB->query($queryChilds)) {
-         while ($dataChilds = $DB->fetch_array($resultChilds)) {
+         while ($dataChilds = $DB->fetchArray($resultChilds)) {
             $child = $dataChilds["plugin_accounts_accountstates_id"];
             $queryBranch .= ",$child";
          }
@@ -111,7 +111,7 @@ class PluginAccountsNotificationState extends CommonDBTM
       if ($result = $DB->query($query)) {
          $number = $DB->numrows($result);
          if ($number != 0) {
-            while ($ligne = $DB->fetch_array($result)) {
+            while ($ligne = $DB->fetchArray($result)) {
                $used[] = $ligne["plugin_accounts_accountstates_id"];
             }
          }
@@ -159,7 +159,7 @@ class PluginAccountsNotificationState extends CommonDBTM
             echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
             echo "<th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
             echo "</tr>";
-            while ($ligne = $DB->fetch_array($result)) {
+            while ($ligne = $DB->fetchArray($result)) {
                $ID = $ligne["id"];
                echo "<tr class='tab_bg_1'>";
                echo "<td class='center' width='10'>";

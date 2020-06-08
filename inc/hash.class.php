@@ -422,7 +422,7 @@ class PluginAccountsHash extends CommonDBTM {
       $result_ = $DB->query($query_);
       if ($DB->numrows($result_) > 0) {
 
-         while ($data = $DB->fetch_array($result_)) {
+         while ($data = $DB->fetchArray($result_)) {
 
             $oldpassword = addslashes(plugin_accounts_AESDecryptCtr($data['encrypted_password'], $oldhash, 256));
             $newpassword = addslashes(plugin_accounts_AESEncryptCtr($oldpassword, $newhash, 256));

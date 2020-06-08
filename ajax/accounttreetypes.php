@@ -61,7 +61,7 @@ if (isset($_REQUEST['node'])) {
       if ($result = $DB->query($query)) {
          if ($DB->numrows($result)) {
             $pos = 0;
-            while ($row = $DB->fetch_array($result)) {
+            while ($row = $DB->fetchArray($result)) {
                $value = Dropdown::getDropdownName("glpi_plugin_accounts_accounttypes", $row['id']);
                $path = [
                   'id'   => $row['id'],

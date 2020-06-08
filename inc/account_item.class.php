@@ -191,7 +191,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
          if ($DB->numrows($result) != 1) {
             return false;
          }
-         $this->fields = $DB->fetch_assoc($result);
+         $this->fields = $DB->fetchAssoc($result);
          if (is_array($this->fields) && count($this->fields)) {
             return true;
          } else {
@@ -376,7 +376,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
             if ($result_linked = $DB->query($query)) {
                if ($DB->numrows($result_linked)) {
 
-                  while ($data = $DB->fetch_assoc($result_linked)) {
+                  while ($data = $DB->fetchAssoc($result_linked)) {
 
                      if ($itemtype == 'Ticket') {
                         $data["name"] = sprintf(__('%1$s: %2$s'), __('Ticket'), $data["id"]);
@@ -511,7 +511,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       $account  = new PluginAccountsAccount();
       $used     = [];
       if ($numrows = $DB->numrows($result)) {
-         while ($data = $DB->fetch_assoc($result)) {
+         while ($data = $DB->fetchAssoc($result)) {
             $accounts[$data['assocID']] = $data;
             $used[$data['id']]          = $data['id'];
          }

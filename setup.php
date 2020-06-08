@@ -27,11 +27,11 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_ACCOUNTS_VERSION', '2.5.0');
+define('PLUGIN_ACCOUNTS_VERSION', '2.6.0');
 
 // Init the hooks of the plugins -Needed
 function plugin_init_accounts() {
-   global $PLUGIN_HOOKS;
+   global $PLUGIN_HOOKS, $CFG_GLPI;
 
    $PLUGIN_HOOKS['csrf_compliant']['accounts']   = true;
    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
@@ -49,15 +49,19 @@ function plugin_init_accounts() {
                              'ticket_types'                => true,
                              'helpdesk_visible_types'      => true,
                              'notificationtemplates_types' => true,
-                             'header_types'                => true
+                             'header_types'                => true,
                             ]
       );
+
+      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = "plugins/accounts/accounts.png";
 
       Plugin::registerClass('PluginAccountsConfig',
                             ['addtabon' => 'CronTask']);
 
       Plugin::registerClass('PluginAccountsProfile',
                             ['addtabon' => 'Profile']);
+
+      PluginAccountsAccount::registerType('Appliance');
 
       $plugin = new Plugin();
       if (!$plugin->isActivated('environment')
@@ -118,7 +122,7 @@ function plugin_version_accounts() {
       'homepage'     => 'https://github.com/InfotelGLPI/accounts',
       'requirements' => [
          'glpi' => [
-            'min' => '9.4',
+            'min' => '9.5',
             'dev' => false
          ]
       ],
@@ -131,10 +135,10 @@ function plugin_version_accounts() {
  * @return bool
  */
 function plugin_accounts_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.4', 'lt')
-       || version_compare(GLPI_VERSION, '9.5', 'ge')) {
+   if (version_compare(GLPI_VERSION, '9.5', 'lt')
+       || version_compare(GLPI_VERSION, '9.6', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', '9.4');
+         echo Plugin::messageIncompatible('core', '9.5');
       }
       return false;
    }

@@ -76,7 +76,13 @@ class PluginAccountsMenu extends CommonGLPI
          $menu['options']['hash']['links']['add'] = PluginAccountsHash::getFormURL(false);
       }
 
+      $menu['icon'] = self::getIcon();
+
       return $menu;
+   }
+
+   static function getIcon() {
+      return "fas fa-lock";
    }
 
    static function removeRightsFromSession() {

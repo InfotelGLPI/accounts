@@ -35,19 +35,19 @@ function plugin_accounts_install() {
 
    include_once(GLPI_ROOT . "/plugins/accounts/inc/profile.class.php");
 
-   $install = false;
-   $update78 = false;
+   $install   = false;
+   $update78  = false;
    $update171 = false;
    if (!$DB->tableExists("glpi_plugin_compte")
-      && !$DB->tableExists("glpi_plugin_comptes")
-      && !$DB->tableExists("glpi_comptes")
-      && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
+       && !$DB->tableExists("glpi_plugin_comptes")
+       && !$DB->tableExists("glpi_comptes")
+       && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $install = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.4.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.6.0.sql");
 
    } else if ($DB->tableExists("glpi_comptes")
-      && !$DB->fieldExists("glpi_comptes", "notes")) {
+              && !$DB->fieldExists("glpi_comptes", "notes")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.1.sql");
@@ -61,7 +61,7 @@ function plugin_accounts_install() {
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_comptes")
-      && !$DB->fieldExists("glpi_plugin_comptes", "all_users")) {
+              && !$DB->fieldExists("glpi_plugin_comptes", "all_users")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
@@ -74,7 +74,7 @@ function plugin_accounts_install() {
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte_profiles")
-      && !$DB->fieldExists("glpi_plugin_compte_profiles", "my_groups")) {
+              && !$DB->fieldExists("glpi_plugin_compte_profiles", "my_groups")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
@@ -86,7 +86,7 @@ function plugin_accounts_install() {
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte_profiles")
-      && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")) {
+              && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
@@ -98,7 +98,7 @@ function plugin_accounts_install() {
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte")
-      && !$DB->fieldExists("glpi_plugin_compte", "date_mod")) {
+              && !$DB->fieldExists("glpi_plugin_compte", "date_mod")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
@@ -108,7 +108,7 @@ function plugin_accounts_install() {
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_compte")
-      && !$DB->tableExists("glpi_plugin_compte_aeskey")) {
+              && !$DB->tableExists("glpi_plugin_compte_aeskey")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
@@ -117,7 +117,7 @@ function plugin_accounts_install() {
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_compte")
-      && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
+              && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $update78 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
@@ -125,13 +125,13 @@ function plugin_accounts_install() {
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_accounts_accounts")
-      && !$DB->fieldExists("glpi_plugin_accounts_accounts", "locations_id")) {
+              && !$DB->fieldExists("glpi_plugin_accounts_accounts", "locations_id")) {
 
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_accounts_hashes")
-      && !$DB->fieldExists("glpi_plugin_accounts_hashes", "entities_id")) {
+              && !$DB->fieldExists("glpi_plugin_accounts_hashes", "entities_id")) {
 
       $update171 = true;
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
@@ -140,13 +140,13 @@ function plugin_accounts_install() {
 
    //from 1.6 version
    if ($DB->tableExists("glpi_plugin_accounts_accounts")
-      && !$DB->fieldExists("glpi_plugin_accounts_accounts", "users_id_tech")) {
+       && !$DB->fieldExists("glpi_plugin_accounts_accounts", "users_id_tech")) {
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.8.0.sql");
    }
 
    //from 1.9 version
    if ($DB->tableExists("glpi_plugin_accounts_accounttypes")
-      && !$DB->fieldExists("glpi_plugin_accounts_accounttypes", "is_recursive")) {
+       && !$DB->fieldExists("glpi_plugin_accounts_accounttypes", "is_recursive")) {
       $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.9.0.sql");
    }
 
@@ -245,12 +245,12 @@ function plugin_accounts_install() {
    }
    if ($update78) {
       //Do One time on 0.78
-      $query_ = "SELECT *
+      $query_  = "SELECT *
                FROM `glpi_plugin_accounts_profiles` ";
       $result_ = $DB->query($query_);
       if ($DB->numrows($result_) > 0) {
 
-         while ($data = $DB->fetch_array($result_)) {
+         while ($data = $DB->fetchArray($result_)) {
             $query = "UPDATE `glpi_plugin_accounts_profiles`
                      SET `profiles_id` = '" . $data["id"] . "'
                               WHERE `id` = '" . $data["id"] . "';";
@@ -265,18 +265,18 @@ function plugin_accounts_install() {
 
       Plugin::migrateItemType(
          [1900 => 'PluginAccountsAccount',
-               1901 => 'PluginAccountsHelpdesk',
-               1902 => 'PluginAccountsGroup'],
+          1901 => 'PluginAccountsHelpdesk',
+          1902 => 'PluginAccountsGroup'],
          ["glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
-               "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
+          "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
          ["glpi_plugin_accounts_accounts_items"]);
 
       Plugin::migrateItemType(
          [1200 => "PluginAppliancesAppliance",
-               1300 => "PluginWebapplicationsWebapplication",
-               1700 => "PluginCertificatesCertificate",
-               4400 => "PluginDomainsDomain",
-               2400 => "PluginDatabasesDatabase"],
+          1300 => "PluginWebapplicationsWebapplication",
+          1700 => "PluginCertificatesCertificate",
+          4400 => "PluginDomainsDomain",
+          2400 => "PluginDatabasesDatabase"],
          ["glpi_plugin_accounts_accounts_items"]);
 
    }
@@ -342,14 +342,14 @@ function plugin_accounts_uninstall() {
    }
 
    $tables = ["glpi_plugin_accounts_accounts",
-                   "glpi_plugin_accounts_accounts_items",
-                   "glpi_plugin_accounts_accounttypes",
-                   "glpi_plugin_accounts_accountstates",
-                   "glpi_plugin_accounts_configs",
-                   "glpi_plugin_accounts_hashs",
-                   "glpi_plugin_accounts_hashes",
-                   "glpi_plugin_accounts_aeskeys",
-                   "glpi_plugin_accounts_notificationstates"];
+              "glpi_plugin_accounts_accounts_items",
+              "glpi_plugin_accounts_accounttypes",
+              "glpi_plugin_accounts_accountstates",
+              "glpi_plugin_accounts_configs",
+              "glpi_plugin_accounts_hashs",
+              "glpi_plugin_accounts_hashes",
+              "glpi_plugin_accounts_aeskeys",
+              "glpi_plugin_accounts_notificationstates"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
@@ -357,40 +357,40 @@ function plugin_accounts_uninstall() {
 
    //old versions
    $tables = ["glpi_plugin_comptes",
-                   "glpi_plugin_compte_device",
-                   "glpi_dropdown_plugin_compte_type",
-                   "glpi_dropdown_plugin_compte_status",
-                   "glpi_plugin_compte_profiles",
-                   "glpi_plugin_compte_config",
-                   "glpi_plugin_compte_default",
-                   "glpi_plugin_compte_mailing",
-                   "glpi_plugin_compte",
-                   "glpi_plugin_compte_hash",
-                   "glpi_plugin_compte_aeskey",
-                   "glpi_plugin_accounts_profiles"];
+              "glpi_plugin_compte_device",
+              "glpi_dropdown_plugin_compte_type",
+              "glpi_dropdown_plugin_compte_status",
+              "glpi_plugin_compte_profiles",
+              "glpi_plugin_compte_config",
+              "glpi_plugin_compte_default",
+              "glpi_plugin_compte_mailing",
+              "glpi_plugin_compte",
+              "glpi_plugin_compte_hash",
+              "glpi_plugin_compte_aeskey",
+              "glpi_plugin_accounts_profiles"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
    }
 
-   $notif = new Notification();
+   $notif          = new Notification();
    $notif_template = new Notification_NotificationTemplate();
 
    $options = ['itemtype' => 'PluginAccountsAccount',
-                    'event'    => 'new',
-                    'FIELDS'   => 'id'];
+               'event'    => 'new',
+               'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
    $options = ['itemtype' => 'PluginAccountsAccount',
-                    'event'    => 'ExpiredAccounts',
-                    'FIELDS'   => 'id'];
+               'event'    => 'ExpiredAccounts',
+               'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
    $options = ['itemtype' => 'PluginAccountsAccount',
-                    'event'    => 'AccountsWhichExpire',
-                    'FIELDS'   => 'id'];
+               'event'    => 'AccountsWhichExpire',
+               'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
 
@@ -400,10 +400,10 @@ function plugin_accounts_uninstall() {
    $template    = new NotificationTemplate();
    $translation = new NotificationTemplateTranslation();
    $options     = ['itemtype' => 'PluginAccountsAccount',
-                        'FIELDS'   => 'id'];
+                   'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
       $options_template = ['notificationtemplates_id' => $data['id'],
-                                'FIELDS'                   => 'id'];
+                           'FIELDS'                   => 'id'];
 
       foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template)
                as $data_template) {
@@ -417,11 +417,12 @@ function plugin_accounts_uninstall() {
    }
 
    $tables_glpi = ["glpi_displaypreferences",
-                        "glpi_documents_items",
-                        "glpi_savedsearches",
-                        "glpi_logs",
-                        "glpi_items_tickets",
-                        "glpi_dropdowntranslations"];
+                   "glpi_documents_items",
+                   "glpi_savedsearches",
+                   "glpi_logs",
+                   "glpi_items_tickets",
+                   "glpi_dropdowntranslations",
+                   "glpi_impactitems"];
 
    foreach ($tables_glpi as $table_glpi) {
       $DB->query("DELETE FROM `$table_glpi`
@@ -431,6 +432,11 @@ function plugin_accounts_uninstall() {
                OR `itemtype` = 'PluginAccountsAccountState'
                OR `itemtype` = 'PluginAccountsAccountType' ;");
    }
+
+   $DB->query("DELETE
+                  FROM `glpi_impactrelations`
+                  WHERE `itemtype_source` IN ('PluginAccountsAccount')
+                    OR `itemtype_impacted` IN ('PluginAccountsAccount')");
 
    if (class_exists('PluginDatainjectionModel')) {
       PluginDatainjectionModel::clean(['itemtype' => 'PluginAccountsAccount']);
@@ -549,14 +555,14 @@ function plugin_accounts_getAddSearchOptions($itemtype) {
          $sopt[1900]['itemlink_type'] = 'PluginAccountsAccount';
          if ($itemtype != 'User') {
             $sopt[1900]['joinparams'] = ['beforejoin' => ['table'      => 'glpi_plugin_accounts_accounts_items',
-                                                                    'joinparams' => ['jointype' => 'itemtype_item']]];
+                                                          'joinparams' => ['jointype' => 'itemtype_item']]];
          }
          $sopt[1901]['table']         = 'glpi_plugin_accounts_accounttypes';
          $sopt[1901]['field']         = 'name';
          $sopt[1901]['name']          = PluginAccountsAccount::getTypeName(2) . " - " . __('Type');
          $sopt[1901]['forcegroupby']  = true;
          $sopt[1901]['joinparams']    = ['beforejoin' => [['table'      => 'glpi_plugin_accounts_accounts',
-                                                                          'joinparams' => $sopt[1900]['joinparams']]]];
+                                                           'joinparams' => $sopt[1900]['joinparams']]]];
          $sopt[1901]['datatype']      = 'dropdown';
          $sopt[1901]['massiveaction'] = false;
       }
@@ -573,55 +579,55 @@ function plugin_accounts_getAddSearchOptions($itemtype) {
  *
  * @return string
  */
-function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, &$already_link_tables) {
-
-   switch ($ref_table) {
-
-      case "glpi_users" : // From items
-         $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
-                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
-         return $out;
-         break;
-   }
-
-   return "";
-}
+//function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, &$already_link_tables) {
+//
+//   switch ($ref_table) {
+//
+//      case "glpi_users" : // From items
+//         $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
+//                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
+//         return $out;
+//         break;
+//   }
+//
+//   return "";
+//}
 
 /**
  * @param $type
  *
  * @return string
  */
-function plugin_accounts_addDefaultWhere($type) {
-
-   switch ($type) {
-      case "PluginAccountsAccount" :
-         $who = Session::getLoginUserID();
-         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
-            if (count($_SESSION["glpigroups"]) && Session::haveRight("plugin_accounts_my_groups", 1)) {
-               $first_groups = true;
-               $groups       = "";
-               foreach ($_SESSION['glpigroups'] as $val) {
-                  if (!$first_groups) {
-                     $groups .= ",";
-                  } else {
-                     $first_groups = false;
-                  }
-                  $groups .= "'" . $val . "'";
-               }
-               return " (`glpi_plugin_accounts_accounts`.`groups_id` IN (
-               SELECT DISTINCT `groups_id`
-               FROM `glpi_groups_users`
-               WHERE `groups_id` IN ($groups)
-               )
-               OR `glpi_plugin_accounts_accounts`.`users_id` = '$who') ";
-            } else { // Only personal ones
-               return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
-            }
-         }
-   }
-   return "";
-}
+//function plugin_accounts_addDefaultWhere($type) {
+//
+//   switch ($type) {
+//      case "PluginAccountsAccount" :
+//         $who = Session::getLoginUserID();
+//         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
+//            if (count($_SESSION["glpigroups"]) && Session::haveRight("plugin_accounts_my_groups", 1)) {
+//               $first_groups = true;
+//               $groups       = "";
+//               foreach ($_SESSION['glpigroups'] as $val) {
+//                  if (!$first_groups) {
+//                     $groups .= ",";
+//                  } else {
+//                     $first_groups = false;
+//                  }
+//                  $groups .= "'" . $val . "'";
+//               }
+//               return " (`glpi_plugin_accounts_accounts`.`groups_id` IN (
+//               SELECT DISTINCT `groups_id`
+//               FROM `glpi_groups_users`
+//               WHERE `groups_id` IN ($groups)
+//               )
+//               OR `glpi_plugin_accounts_accounts`.`users_id` = '$who') ";
+//            } else { // Only personal ones
+//               return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
+//            }
+//         }
+//   }
+//   return "";
+//}
 
 /**
  * @param $type
@@ -744,7 +750,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                         if ($result_linked = $DB->query($query)) {
                            if ($DB->numrows($result_linked)) {
                               $item = new $itemtype();
-                              while ($data = $DB->fetch_assoc($result_linked)) {
+                              while ($data = $DB->fetchAssoc($result_linked)) {
                                  if ($item->getFromDB($data['id'])) {
                                     $out .= $item::getTypeName() . " - " . $item->getLink() . "<br>";
                                  }
@@ -774,7 +780,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
  * @return array
  */
 function plugin_accounts_MassiveActions($type) {
-   
+
    $plugin = new Plugin();
    if ($plugin->isActivated('accounts')) {
       if (in_array($type, PluginAccountsAccount::getTypes(true))) {
