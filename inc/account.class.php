@@ -148,7 +148,8 @@ class PluginAccountsAccount extends CommonDBTM {
          'id'    => '6',
          'table' => $this->getTable(),
          'field' => 'date_expiration',
-         'name'  => __('Expiration date')
+         'name'  => __('Expiration date'),
+         'datatype' => 'date'
       ];
 
       $tab[] = [
@@ -1156,7 +1157,7 @@ class PluginAccountsAccount extends CommonDBTM {
            __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a></div>";
 
       $js = "   $(function() {
-                  $.getScript('{$CFG_GLPI["root_doc"]}/lib/jqueryplugins/jstree/jstree.min.js', function(data, textStatus, jqxhr) {
+                  $.getScript('{$CFG_GLPI["root_doc"]}/public/lib/jstree.js', function(data, textStatus, jqxhr) {
                      $('#tree_projectcategory$rand').jstree({
                         // the `plugins` array allows you to configure the active plugins on this instance
                         'plugins' : ['search', 'qload'],
