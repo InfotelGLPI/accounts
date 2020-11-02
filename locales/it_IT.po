@@ -1,17 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Accounts Development Team
 # This file is distributed under the same license as the GLPI - Accounts plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Amandine Manceau, 2017
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI Project - accounts plugin\n"
+"Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-19 19:45+0200\n"
-"PO-Revision-Date: 2020-07-19 17:55+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
-"Language-Team: Italian (Italy) (http://www.transifex.com/infotelGLPI/GLPI_accounts/language/it_IT/)\n"
+"POT-Creation-Date: 2020-11-02 14:45+0100\n"
+"PO-Revision-Date: 2020-11-02 12:48+0000\n"
+"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Language-Team: Italian (Italy) (https://www.transifex.com/infotelGLPI/teams/12352/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -170,7 +173,9 @@ msgstr ""
 
 #: inc/aeskey.class.php:181
 msgid "Warning : saving the encryption key is a security hole"
-msgstr "Attenzione: memorizzare la chiave di criptaggio è un pericolo per la sicurezza"
+msgstr ""
+"Attenzione: memorizzare la chiave di criptaggio è un pericolo per la "
+"sicurezza"
 
 #: inc/aeskey.class.php:217 inc/hash.class.php:283
 msgid "Hash"
@@ -208,7 +213,9 @@ msgstr ""
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
-msgstr "Attenzione: se cambi l'hash in uso, i vecchi account continueranno ad utilizzare la vecchia chiave di criptaggio"
+msgstr ""
+"Attenzione: se cambi l'hash in uso, i vecchi account continueranno ad "
+"utilizzare la vecchia chiave di criptaggio"
 
 #: inc/hash.class.php:268
 msgid "Generate hash with this encryption key"
