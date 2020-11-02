@@ -1,19 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Accounts Development Team
 # This file is distributed under the same license as the GLPI - Accounts plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Amandine Manceau, 2017
-# Gustavo Plottier Pilotto <gplottier@gmail.com>, 2018
-# Rafael Fontenelle <rffontenelle@gmail.com>, 2012-2013
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI Project - accounts plugin\n"
+"Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-19 19:45+0200\n"
-"PO-Revision-Date: 2020-07-19 17:55+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/infotelGLPI/GLPI_accounts/language/pt_BR/)\n"
+"POT-Creation-Date: 2020-11-02 14:45+0100\n"
+"PO-Revision-Date: 2020-11-02 12:48+0000\n"
+"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/infotelGLPI/teams/12352/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -210,7 +211,9 @@ msgstr "AVISO : a chave de criptografia já existe para esta entidade"
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
-msgstr "Aviso : se você alterar hash usada, as contas antigas vão usar a chave de criptografia antiga"
+msgstr ""
+"Aviso : se você alterar hash usada, as contas antigas vão usar a chave de "
+"criptografia antiga"
 
 #: inc/hash.class.php:268
 msgid "Generate hash with this encryption key"
@@ -224,14 +227,19 @@ msgstr "Por favor preencha a chave de criptografia"
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
-msgstr "Por favor, não use caracteres especiais, como / \\ ' \" &, nas chaves de criptografia ou você não poderá altera-la posteriormente."
+msgstr ""
+"Por favor, não use caracteres especiais, como / \\ ' \" &, nas chaves de "
+"criptografia ou você não poderá altera-la posteriormente."
 
 #: inc/hash.class.php:362
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
-msgstr "Aviso : se você cometer um erro ao inserir a chave antiga ou chave nova, você não poderá descriptografar suas senhas. É fortemente recomendável que você faça um backup do banco de dados antes."
+msgstr ""
+"Aviso : se você cometer um erro ao inserir a chave antiga ou chave nova, "
+"você não poderá descriptografar suas senhas. É fortemente recomendável que "
+"você faça um backup do banco de dados antes."
 
 #: inc/hash.class.php:365
 msgid "Old encryption key"
