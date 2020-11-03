@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# David Stepan <stepand@tiscali.cz>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-02 14:45+0100\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Last-Translator: David Stepan <stepand@tiscali.cz>, 2020\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/infotelGLPI/teams/12352/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,11 +37,11 @@ msgstr[3] "Účty"
 
 #: ajax/generatepassword.php:67
 msgid "Select at least on checkbox"
-msgstr ""
+msgstr "Vyber alespoň jednu volbu"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
-msgstr "Rozšifrované"
+msgstr "Dešifrované"
 
 #: front/account.php:53 front/account.php:58
 msgid "Type view"
@@ -68,7 +69,7 @@ msgstr "Je třeba vyplnit jak původní, tak nový šifrovací klíč"
 #: inc/notificationtargetaccount.class.php:226
 #: inc/notificationtargetaccount.class.php:276
 msgid "Affected User"
-msgstr "Uživatel kterého se týká"
+msgstr "Dotčený uživatel"
 
 #: inc/account.class.php:398 inc/account.class.php:456
 #: inc/account_item.class.php:609
@@ -85,11 +86,11 @@ msgid_plural "Encryption key"
 msgstr[0] "Šifrovací klíč"
 msgstr[1] "Šifrovací klíče"
 msgstr[2] "Šifrovacích klíčů"
-msgstr[3] "Šifrovací klíče"
+msgstr[3] "Šifrovací klíč"
 
 #: inc/account.class.php:474
 msgid "Uncrypt & copy"
-msgstr ""
+msgstr "Dešifrovat & kopírovat"
 
 #: inc/account.class.php:560 inc/account.class.php:569
 #: inc/notificationtargetaccount.class.php:60
@@ -97,7 +98,7 @@ msgstr ""
 #: inc/notificationtargetaccount.class.php:227
 #: inc/notificationtargetaccount.class.php:277
 msgid "Affected Group"
-msgstr "Skupina které se týká"
+msgstr "Dotčená skupina"
 
 #: inc/account.class.php:596
 msgid "Empty for infinite"
@@ -113,35 +114,35 @@ msgstr "Heslo nebude změněno"
 
 #: inc/account.class.php:701
 msgid "Generate password"
-msgstr ""
+msgstr "Generovat heslo"
 
 #: inc/account.class.php:702
 msgid "Numbers"
-msgstr ""
+msgstr "Čísla"
 
 #: inc/account.class.php:703
 msgid "Lowercase"
-msgstr ""
+msgstr "Malé znaky"
 
 #: inc/account.class.php:704
 msgid "Uppercase"
-msgstr ""
+msgstr "Velké znaky"
 
 #: inc/account.class.php:705
 msgid "Special characters"
-msgstr ""
+msgstr "Speciální znaky"
 
 #: inc/account.class.php:707
 msgid "Length"
-msgstr ""
+msgstr "Délka"
 
 #: inc/account.class.php:708
 msgid " characters"
-msgstr ""
+msgstr "znaky"
 
 #: inc/account.class.php:711
 msgid "Generate"
-msgstr ""
+msgstr "Generovat"
 
 #: inc/account.class.php:995 inc/account.class.php:1086
 #: inc/notificationtargetaccount.class.php:295
