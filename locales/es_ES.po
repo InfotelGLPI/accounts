@@ -5,15 +5,16 @@
 # 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# FranciscoFJ <dev-ooo@satel-sa.com>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-02 14:45+0100\n"
+"POT-Creation-Date: 2020-11-03 11:28+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>, 2020\n"
 "Language-Team: Spanish (Spain) (https://www.transifex.com/infotelGLPI/teams/12352/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgstr[1] "Cuentas"
 
 #: ajax/generatepassword.php:67
 msgid "Select at least on checkbox"
-msgstr ""
+msgstr "Seleccionar al menos una casilla"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
@@ -85,7 +86,7 @@ msgstr[1] "Claves de cifrado"
 
 #: inc/account.class.php:474
 msgid "Uncrypt & copy"
-msgstr ""
+msgstr "Descifrar y copiar"
 
 #: inc/account.class.php:560 inc/account.class.php:569
 #: inc/notificationtargetaccount.class.php:60
@@ -109,35 +110,35 @@ msgstr "La contraseña no será modificada"
 
 #: inc/account.class.php:701
 msgid "Generate password"
-msgstr ""
+msgstr "Crear contraseña"
 
 #: inc/account.class.php:702
 msgid "Numbers"
-msgstr ""
+msgstr "Números"
 
 #: inc/account.class.php:703
 msgid "Lowercase"
-msgstr ""
+msgstr "Minúscula"
 
 #: inc/account.class.php:704
 msgid "Uppercase"
-msgstr ""
+msgstr "Mayúscula"
 
 #: inc/account.class.php:705
 msgid "Special characters"
-msgstr ""
+msgstr "Caracteres especiales"
 
 #: inc/account.class.php:707
 msgid "Length"
-msgstr ""
+msgstr "Longitud"
 
 #: inc/account.class.php:708
 msgid " characters"
-msgstr ""
+msgstr "caracteres"
 
 #: inc/account.class.php:711
 msgid "Generate"
-msgstr ""
+msgstr "Generar"
 
 #: inc/account.class.php:995 inc/account.class.php:1086
 #: inc/notificationtargetaccount.class.php:295
@@ -160,6 +161,12 @@ msgstr "Asociar una cuenta"
 #: inc/account_item.class.php:701
 msgid "Uncrypt"
 msgstr "Descifrar"
+
+#: inc/accountstate.class.php:51
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] "Estado"
+msgstr[1] "Estados"
 
 #: inc/accounttype.class.php:51
 msgid "Type of account"
