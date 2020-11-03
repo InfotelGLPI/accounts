@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# Kaya Zeren <kayazeren@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-02 14:45+0100\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2020\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,12 +30,12 @@ msgstr "Hesapla ilişkilendirin"
 #: inc/profile.class.php:176 inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
-msgstr[0] "Hesaplar"
+msgstr[0] "Hesap"
 msgstr[1] "Hesaplar"
 
 #: ajax/generatepassword.php:67
 msgid "Select at least on checkbox"
-msgstr ""
+msgstr "En azından işaret kutusundan seçin"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
@@ -81,11 +82,11 @@ msgstr "Bu birim için bir şifreleme anahtarı yok"
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Şifreleme anahtarı"
-msgstr[1] "Şifreleme anahtarı"
+msgstr[1] "Şifreleme anahtarları"
 
 #: inc/account.class.php:474
 msgid "Uncrypt & copy"
-msgstr ""
+msgstr "Şifreyi çöz ve kopyala"
 
 #: inc/account.class.php:560 inc/account.class.php:569
 #: inc/notificationtargetaccount.class.php:60
@@ -109,35 +110,35 @@ msgstr "Parola değiştirilmeyecek"
 
 #: inc/account.class.php:701
 msgid "Generate password"
-msgstr ""
+msgstr "Parola üret"
 
 #: inc/account.class.php:702
 msgid "Numbers"
-msgstr ""
+msgstr "Sayılar"
 
 #: inc/account.class.php:703
 msgid "Lowercase"
-msgstr ""
+msgstr "Küçük harfler"
 
 #: inc/account.class.php:704
 msgid "Uppercase"
-msgstr ""
+msgstr "Büyük harfler"
 
 #: inc/account.class.php:705
 msgid "Special characters"
-msgstr ""
+msgstr "Özel karakterler"
 
 #: inc/account.class.php:707
 msgid "Length"
-msgstr ""
+msgstr "Uzunluk"
 
 #: inc/account.class.php:708
 msgid " characters"
-msgstr ""
+msgstr "karakter sayısı"
 
 #: inc/account.class.php:711
 msgid "Generate"
-msgstr ""
+msgstr "Üret"
 
 #: inc/account.class.php:995 inc/account.class.php:1086
 #: inc/notificationtargetaccount.class.php:295
@@ -165,7 +166,7 @@ msgstr "Şifreyi çözün"
 msgid "Type of account"
 msgid_plural "Types of account"
 msgstr[0] "Hesap türü"
-msgstr[1] "Hesap türü"
+msgstr[1] "Hesap türleri"
 
 #: inc/aeskey.class.php:72
 msgid "Save the encryption key"

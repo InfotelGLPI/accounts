@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# Eduardo de Oliveira <eduardomozart182@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-02 14:45+0100\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Last-Translator: Eduardo de Oliveira <eduardomozart182@gmail.com>, 2020\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/infotelGLPI/teams/12352/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgstr[1] "Contas"
 
 #: ajax/generatepassword.php:67
 msgid "Select at least on checkbox"
-msgstr ""
+msgstr "Selecione pelo menos uma caixa de seleção"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
@@ -66,7 +67,7 @@ msgstr "A chave de criptografia antiga ou nova não pode estar fazia"
 #: inc/notificationtargetaccount.class.php:226
 #: inc/notificationtargetaccount.class.php:276
 msgid "Affected User"
-msgstr "Usuário envovlido"
+msgstr "Usuário envolvido"
 
 #: inc/account.class.php:398 inc/account.class.php:456
 #: inc/account_item.class.php:609
@@ -85,7 +86,7 @@ msgstr[1] "Chave de encriptação "
 
 #: inc/account.class.php:474
 msgid "Uncrypt & copy"
-msgstr ""
+msgstr "Descript. & copiar"
 
 #: inc/account.class.php:560 inc/account.class.php:569
 #: inc/notificationtargetaccount.class.php:60
@@ -109,35 +110,35 @@ msgstr "Senha no será modificada"
 
 #: inc/account.class.php:701
 msgid "Generate password"
-msgstr ""
+msgstr "Gerar senha"
 
 #: inc/account.class.php:702
 msgid "Numbers"
-msgstr ""
+msgstr "Números"
 
 #: inc/account.class.php:703
 msgid "Lowercase"
-msgstr ""
+msgstr "Minúscula"
 
 #: inc/account.class.php:704
 msgid "Uppercase"
-msgstr ""
+msgstr "Maiúscula"
 
 #: inc/account.class.php:705
 msgid "Special characters"
-msgstr ""
+msgstr "Caracteres especiais"
 
 #: inc/account.class.php:707
 msgid "Length"
-msgstr ""
+msgstr "Comprimento"
 
 #: inc/account.class.php:708
 msgid " characters"
-msgstr ""
+msgstr "caracteres"
 
 #: inc/account.class.php:711
 msgid "Generate"
-msgstr ""
+msgstr "Gerar"
 
 #: inc/account.class.php:995 inc/account.class.php:1086
 #: inc/notificationtargetaccount.class.php:295
