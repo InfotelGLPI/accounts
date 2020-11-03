@@ -48,7 +48,7 @@ class PluginAccountsAccountState extends CommonDropdown
     */
    public static function getTypeName($nb = 0) {
 
-      return _n('Status', 'Statuses', $nb);
+      return _n('Status', 'Statuses', $nb, 'accounts');
    }
 
 }
