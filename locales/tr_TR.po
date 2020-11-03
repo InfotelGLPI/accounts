@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-02 14:45+0100\n"
+"POT-Creation-Date: 2020-11-03 13:55+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2020\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
@@ -161,6 +161,12 @@ msgstr "Hesabı ilişkilendirin"
 #: inc/account_item.class.php:701
 msgid "Uncrypt"
 msgstr "Şifreyi çözün"
+
+#: inc/accountstate.class.php:51
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] "Durum"
+msgstr[1] "Durumlar"
 
 #: inc/accounttype.class.php:51
 msgid "Type of account"
