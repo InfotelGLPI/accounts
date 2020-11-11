@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-02 14:45+0100\n"
+"POT-Creation-Date: 2020-11-06 18:41+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Rui Melo <viper5000pt@gmail.com>, 2020\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/infotelGLPI/teams/12352/pt_PT/)\n"
@@ -161,6 +161,12 @@ msgstr "Associar uma conta"
 #: inc/account_item.class.php:701
 msgid "Uncrypt"
 msgstr "Não encriptado "
+
+#: inc/accountstate.class.php:51
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] "Estado"
+msgstr[1] "Estados"
 
 #: inc/accounttype.class.php:51
 msgid "Type of account"
