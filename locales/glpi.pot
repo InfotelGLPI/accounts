@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 09:40+0000\n"
+"POT-Creation-Date: 2020-11-24 15:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Accounts expiring in less than"
 msgstr ""
 
-#: inc/hash.class.php:79 inc/hash.class.php:331 inc/report.class.php:214
+#: inc/hash.class.php:79 inc/hash.class.php:339 inc/report.class.php:214
 msgid "Linked accounts list"
 msgstr ""
 
@@ -220,7 +220,7 @@ msgstr ""
 msgid "Generate hash with this encryption key"
 msgstr ""
 
-#: inc/hash.class.php:272 inc/hash.class.php:334 inc/hash.class.php:348
+#: inc/hash.class.php:272 inc/hash.class.php:342 inc/hash.class.php:356
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -230,26 +230,26 @@ msgid ""
 "you cannot change it after."
 msgstr ""
 
-#: inc/hash.class.php:362
+#: inc/hash.class.php:370
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr ""
 
-#: inc/hash.class.php:365
+#: inc/hash.class.php:373
 msgid "Old encryption key"
 msgstr ""
 
-#: inc/hash.class.php:375
+#: inc/hash.class.php:383
 msgid "New encryption key"
 msgstr ""
 
-#: inc/hash.class.php:380
+#: inc/hash.class.php:388
 msgid "You want to change the key : "
 msgstr ""
 
-#: inc/hash.class.php:381
+#: inc/hash.class.php:389
 msgid " by the key : "
 msgstr ""
 
