@@ -439,24 +439,79 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
+      echo "<td>" . __('Key name', 'accounts') . "</td>";
+      echo "<td>";
+
+      if (empty($ID) || $ID < 0) {
+         $encryption_key_params = ['comments' =>false, 'name' => 'plugin_accounts_hash_id', 'value' => $this->fields["plugin_accounts_hash_id"],
+            'on_change' => 'checkInputIfNewEncryptionKey(this.value, '
+               . $this->fields["plugin_accounts_hash_id"] .')'];
+
+
+         $rand_hash = Dropdown::show('PluginAccountsHash', $encryption_key_params);
+
+         echo Html::scriptBlock("function checkInputIfNewEncryptionKey(newValue, currentValue) {
+               if (newValue != currentValue) {
+                  $('#check-password').show();
+                   $('#encryption-key').hide();
+               } else {
+                  $('#check-password').hide();
+                   $('#encryption-key').show();
+               }
+            };");
+
+      } else {
+         $hash_name = new PluginAccountsHash();
+         $hash_name->getFromDB($this->fields["plugin_accounts_hash_id"]);
+         echo "<span class='default_encryption_key' name='" . $hash_name->getField('name') . "' value='" . $hash_name->getField('name') . "' autocomplete='off'>
+                    " . $hash_name->getField('name') . " </span>";
+      }
+      echo "</td>";
+      echo "<td colspan='2'>";
+      echo "</td>";
+      echo "</tr>";
+      echo "<tr id='check-password' class='tab_bg_1' style='display: none'>";
+      echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td>";
+      echo "<input type='password' autocomplete='off' name='checkaeskey' id='checkaeskey'>";
+      echo "</td>";
+      echo "</tr>";
+
+      if (empty($ID) || $ID < 0) {
+         $params = ['id'=> '__VALUE__'];
+         Ajax::updateItemOnSelectEvent("dropdown_plugin_accounts_hash_id$rand_hash", "change_good_hash","../ajax/getHashOnSelectEncryptionKey.php", $params);
+         echo Html::hidden('change_good_hash', ['id'    => 'change_good_hash']);
+         echo "<tr id='encryption-key' class='tab_bg_1'>";
+      }
+
 
       //hash
-      $hash     = 0;
-      $hash_id  = 0;
-      $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '',
+      $hash_account = new PluginAccountsHash();
+      $hash         = 0;
+      $hash_id      = 0;
+      $restrict     = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '',
                                                     $this->getEntityID(), $hashclass->maybeRecursive());
       $hashes   = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
       if (!empty($hashes)) {
-         foreach ($hashes as $hashe) {
-            $hash    = $hashe["hash"];
-            $hash_id = $hashe["id"];
+         $hash_account->getFromDBByCrit(['id' => $this->fields["plugin_accounts_hash_id"]]);
+         if (count($hash_account->fields) > 0) {
+            $hash    = $hash_account->getField("hash");
+            $hash_id = $hash_account->getField("id");
+            $alert   = '';
+         } else {
+            $alert = __('There is no encryption key associated to this account, please select one above', 'accounts');
          }
-         $alert = '';
       } else {
          $alert = __('There is no encryption key for this entity', 'accounts');
       }
 
       $aeskey = new PluginAccountsAesKey();
+
+      echo Html::hidden('encrypted_password', ['value' => $this->fields["encrypted_password"],
+         'id'    => 'encrypted_password']);
+      echo Html::hidden('good_hash', ['value' => $hash,
+         'id'    => 'good_hash']);
+      echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
+         'id'    => 'wrong_key_locale']);
 
       //aeskey non enregistre
       if ($hash) {
@@ -464,12 +519,6 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td>";
             echo "<input type='password' autocomplete='off' name='aeskey' id='aeskey'>";
 
-            echo Html::hidden('encrypted_password', ['value' => $this->fields["encrypted_password"],
-                                                     'id'    => 'encrypted_password']);
-            echo Html::hidden('good_hash', ['value' => $hash,
-                                            'id'    => 'good_hash']);
-            echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
-                                                   'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
                echo "&nbsp;<input type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
                         class='submit'>";
@@ -648,7 +697,7 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "<input type='submit' name='add' id='account_add' value='" . _sx('button', 'Add') . "' class='submit'>";
             echo "</div>";
             echo Html::scriptBlock("$('#account_form').submit(function(event){
-               if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
+               if ($('#hidden_password').val() == '' || $('#checkaeskey').val() == '') {
                   alert('" . __('You have not filled the password and encryption key', 'accounts') . "');
                   return false;
                };
@@ -669,7 +718,11 @@ class PluginAccountsAccount extends CommonDBTM {
             echo Html::hidden('id', ['value' => $ID]);
             echo "<input type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='submit' >";
             echo Html::scriptBlock("$('#account_form').submit(function(event){
-               if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
+                     let checkAESKey       = $('#checkaeskey').val();
+                     let hiddenPassword    = $('#hidden_password').val();
+                     let aeskey            = $('#aeskey').val(); 
+
+               if ((hiddenPassword == '' || aeskey == '') && checkAESKey == '') {
                   alert('" . __('Password will not be modified', 'accounts') . "');
                } else if (!check_hash()) {
                   alert('" . __('Wrong encryption key', 'accounts') . "');

@@ -39,116 +39,126 @@ function plugin_accounts_install() {
    $update78  = false;
    $update171 = false;
    if (!$DB->tableExists("glpi_plugin_compte")
-       && !$DB->tableExists("glpi_plugin_comptes")
-       && !$DB->tableExists("glpi_comptes")
-       && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
+      && !$DB->tableExists("glpi_plugin_comptes")
+      && !$DB->tableExists("glpi_comptes")
+      && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $install = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/empty-2.6.0.sql");
 
    } else if ($DB->tableExists("glpi_comptes")
-              && !$DB->fieldExists("glpi_comptes", "notes")) {
+      && !$DB->fieldExists("glpi_comptes", "notes")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_comptes")
-              && !$DB->fieldExists("glpi_plugin_comptes", "all_users")) {
+      && !$DB->fieldExists("glpi_plugin_comptes", "all_users")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte_profiles")
-              && !$DB->fieldExists("glpi_plugin_compte_profiles", "my_groups")) {
+      && !$DB->fieldExists("glpi_plugin_compte_profiles", "my_groups")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte_profiles")
-              && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")) {
+      && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte")
-              && !$DB->fieldExists("glpi_plugin_compte", "date_mod")) {
+      && !$DB->fieldExists("glpi_plugin_compte", "date_mod")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_compte")
-              && !$DB->tableExists("glpi_plugin_compte_aeskey")) {
+      && !$DB->tableExists("glpi_plugin_compte_aeskey")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.5.3.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_compte")
-              && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
+      && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.6.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_accounts_accounts")
-              && !$DB->fieldExists("glpi_plugin_accounts_accounts", "locations_id")) {
+      && !$DB->fieldExists("glpi_plugin_accounts_accounts", "locations_id")) {
 
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_accounts_hashes")
-              && !$DB->fieldExists("glpi_plugin_accounts_hashes", "entities_id")) {
+      && !$DB->fieldExists("glpi_plugin_accounts_hashes", "entities_id")) {
 
       $update171 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.7.1.sql");
 
    }
 
    //from 1.6 version
    if ($DB->tableExists("glpi_plugin_accounts_accounts")
-       && !$DB->fieldExists("glpi_plugin_accounts_accounts", "users_id_tech")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.8.0.sql");
+      && !$DB->fieldExists("glpi_plugin_accounts_accounts", "users_id_tech")) {
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.8.0.sql");
    }
 
    //from 1.9 version
    if ($DB->tableExists("glpi_plugin_accounts_accounttypes")
-       && !$DB->fieldExists("glpi_plugin_accounts_accounttypes", "is_recursive")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.9.0.sql");
+      && !$DB->fieldExists("glpi_plugin_accounts_accounttypes", "is_recursive")) {
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-1.9.0.sql");
    }
+
+   //from 2.7 version
+   if ($DB->tableExists("glpi_plugin_accounts_accounts")
+      && !$DB->fieldExists("glpi_plugin_accounts_accounts", "plugin_accounts_hash_id")) {
+      $DB->runFile(GLPI_ROOT . "/plugins/accounts/install/sql/update-2.7.0.sql");
+      include_once(GLPI_ROOT . "/plugins/accounts/install/update_270_migrateMultiHashEntities.php");
+      update_270_migrateMultiHashEntities();
+   }
+
+
 
    if ($install || $update78) {
       /***** Begin Notif New account *****/
@@ -265,18 +275,18 @@ function plugin_accounts_install() {
 
       Plugin::migrateItemType(
          [1900 => 'PluginAccountsAccount',
-          1901 => 'PluginAccountsHelpdesk',
-          1902 => 'PluginAccountsGroup'],
+            1901 => 'PluginAccountsHelpdesk',
+            1902 => 'PluginAccountsGroup'],
          ["glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
-          "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
+            "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
          ["glpi_plugin_accounts_accounts_items"]);
 
       Plugin::migrateItemType(
          [1200 => "PluginAppliancesAppliance",
-          1300 => "PluginWebapplicationsWebapplication",
-          1700 => "PluginCertificatesCertificate",
-          4400 => "PluginDomainsDomain",
-          2400 => "PluginDatabasesDatabase"],
+            1300 => "PluginWebapplicationsWebapplication",
+            1700 => "PluginCertificatesCertificate",
+            4400 => "PluginDomainsDomain",
+            2400 => "PluginDatabasesDatabase"],
          ["glpi_plugin_accounts_accounts_items"]);
 
    }
@@ -342,14 +352,14 @@ function plugin_accounts_uninstall() {
    }
 
    $tables = ["glpi_plugin_accounts_accounts",
-              "glpi_plugin_accounts_accounts_items",
-              "glpi_plugin_accounts_accounttypes",
-              "glpi_plugin_accounts_accountstates",
-              "glpi_plugin_accounts_configs",
-              "glpi_plugin_accounts_hashs",
-              "glpi_plugin_accounts_hashes",
-              "glpi_plugin_accounts_aeskeys",
-              "glpi_plugin_accounts_notificationstates"];
+      "glpi_plugin_accounts_accounts_items",
+      "glpi_plugin_accounts_accounttypes",
+      "glpi_plugin_accounts_accountstates",
+      "glpi_plugin_accounts_configs",
+      "glpi_plugin_accounts_hashs",
+      "glpi_plugin_accounts_hashes",
+      "glpi_plugin_accounts_aeskeys",
+      "glpi_plugin_accounts_notificationstates"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
@@ -357,17 +367,17 @@ function plugin_accounts_uninstall() {
 
    //old versions
    $tables = ["glpi_plugin_comptes",
-              "glpi_plugin_compte_device",
-              "glpi_dropdown_plugin_compte_type",
-              "glpi_dropdown_plugin_compte_status",
-              "glpi_plugin_compte_profiles",
-              "glpi_plugin_compte_config",
-              "glpi_plugin_compte_default",
-              "glpi_plugin_compte_mailing",
-              "glpi_plugin_compte",
-              "glpi_plugin_compte_hash",
-              "glpi_plugin_compte_aeskey",
-              "glpi_plugin_accounts_profiles"];
+      "glpi_plugin_compte_device",
+      "glpi_dropdown_plugin_compte_type",
+      "glpi_dropdown_plugin_compte_status",
+      "glpi_plugin_compte_profiles",
+      "glpi_plugin_compte_config",
+      "glpi_plugin_compte_default",
+      "glpi_plugin_compte_mailing",
+      "glpi_plugin_compte",
+      "glpi_plugin_compte_hash",
+      "glpi_plugin_compte_aeskey",
+      "glpi_plugin_accounts_profiles"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
@@ -377,20 +387,20 @@ function plugin_accounts_uninstall() {
    $notif_template = new Notification_NotificationTemplate();
 
    $options = ['itemtype' => 'PluginAccountsAccount',
-               'event'    => 'new',
-               'FIELDS'   => 'id'];
+      'event'    => 'new',
+      'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
    $options = ['itemtype' => 'PluginAccountsAccount',
-               'event'    => 'ExpiredAccounts',
-               'FIELDS'   => 'id'];
+      'event'    => 'ExpiredAccounts',
+      'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
    }
    $options = ['itemtype' => 'PluginAccountsAccount',
-               'event'    => 'AccountsWhichExpire',
-               'FIELDS'   => 'id'];
+      'event'    => 'AccountsWhichExpire',
+      'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notifications', $options) as $data) {
       $notif->delete($data);
 
@@ -400,10 +410,10 @@ function plugin_accounts_uninstall() {
    $template    = new NotificationTemplate();
    $translation = new NotificationTemplateTranslation();
    $options     = ['itemtype' => 'PluginAccountsAccount',
-                   'FIELDS'   => 'id'];
+      'FIELDS'   => 'id'];
    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
       $options_template = ['notificationtemplates_id' => $data['id'],
-                           'FIELDS'                   => 'id'];
+         'FIELDS'                   => 'id'];
 
       foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template)
                as $data_template) {
@@ -417,12 +427,12 @@ function plugin_accounts_uninstall() {
    }
 
    $tables_glpi = ["glpi_displaypreferences",
-                   "glpi_documents_items",
-                   "glpi_savedsearches",
-                   "glpi_logs",
-                   "glpi_items_tickets",
-                   "glpi_dropdowntranslations",
-                   "glpi_impactitems"];
+      "glpi_documents_items",
+      "glpi_savedsearches",
+      "glpi_logs",
+      "glpi_items_tickets",
+      "glpi_dropdowntranslations",
+      "glpi_impactitems"];
 
    foreach ($tables_glpi as $table_glpi) {
       $DB->query("DELETE FROM `$table_glpi`
@@ -555,14 +565,14 @@ function plugin_accounts_getAddSearchOptions($itemtype) {
          $sopt[1900]['itemlink_type'] = 'PluginAccountsAccount';
          if ($itemtype != 'User') {
             $sopt[1900]['joinparams'] = ['beforejoin' => ['table'      => 'glpi_plugin_accounts_accounts_items',
-                                                          'joinparams' => ['jointype' => 'itemtype_item']]];
+               'joinparams' => ['jointype' => 'itemtype_item']]];
          }
          $sopt[1901]['table']         = 'glpi_plugin_accounts_accounttypes';
          $sopt[1901]['field']         = 'name';
          $sopt[1901]['name']          = PluginAccountsAccount::getTypeName(2) . " - " . __('Type');
          $sopt[1901]['forcegroupby']  = true;
          $sopt[1901]['joinparams']    = ['beforejoin' => [['table'      => 'glpi_plugin_accounts_accounts',
-                                                           'joinparams' => $sopt[1900]['joinparams']]]];
+            'joinparams' => $sopt[1900]['joinparams']]]];
          $sopt[1901]['datatype']      = 'dropdown';
          $sopt[1901]['massiveaction'] = false;
       }
@@ -719,9 +729,9 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                            $query = "SELECT `" . $table_item . "`.*,
                                     `glpi_plugin_accounts_accounts_items`.`id` AS items_id,
                                     `glpi_entities`.`id` AS entity "
-                                    . " FROM `glpi_plugin_accounts_accounts_items`, `" . $table_item
-                                    . "` LEFT JOIN `glpi_entities` ON (`glpi_entities`.`id` = `" . $table_item . "`.`entities_id`) "
-                                    . " WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
+                              . " FROM `glpi_plugin_accounts_accounts_items`, `" . $table_item
+                              . "` LEFT JOIN `glpi_entities` ON (`glpi_entities`.`id` = `" . $table_item . "`.`entities_id`) "
+                              . " WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
                                              AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
                                              AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '" . $accounts . "' ";
 
@@ -735,11 +745,11 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
                            $query = "SELECT `" . $table_item . "`.*,
                                     `glpi_plugin_accounts_accounts_items`.`id` AS items_id,
                                     `glpi_entities`.`id` AS entity "
-                                    . " FROM `glpi_plugin_accounts_accounts_items`, `" . $table_item
-                                    . "` WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
+                              . " FROM `glpi_plugin_accounts_accounts_items`, `" . $table_item
+                              . "` WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
                                     AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
                                     AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '" . $accounts . "' "
-                                    . $dbu->getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
+                              . $dbu->getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
 
                            if ($item->maybeTemplate()) {
                               $query .= " AND " . $table_item . ".is_template='0'";

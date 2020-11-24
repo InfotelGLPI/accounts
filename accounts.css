@@ -33,3 +33,8 @@
    color: red;
    font-weight: 900;
 }
+
+.default_encryption_key {
+   font-weight: bold;
+   color: red;
+}

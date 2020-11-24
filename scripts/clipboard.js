@@ -31,7 +31,7 @@
 $(function() {
    // set a function to track drag hover event
    $(document).on("click", ".account_to_clipboard_wrapper", function(event) {
-
+      event.preventDefault();
       var input = $('#hidden_password');
       if (input.attr("type") == "password") {
          input.attr("type", "text");
@@ -40,10 +40,8 @@ $(function() {
       }
 
       // find the good element
-      var target = $(event.target);
-      console.log(event);
-      console.log(target);
-      if (target.attr('class') == 'account_to_clipboard_wrapper') {
+      var target = $('.account_to_clipboard_wrapper');
+      if (target.attr('class') === 'account_to_clipboard_wrapper') {
          target = target.find('*');
       }
 
