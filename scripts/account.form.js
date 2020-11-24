@@ -17,8 +17,8 @@ $(document).ready(function () {
               }
 
               // find the good element
-              var target = $($('.account_to_clipboard_wrapper'));
-              if (target.attr('class') == 'account_to_clipboard_wrapper') {
+              var target = $('.account_to_clipboard_wrapper');
+              if (target.attr('class') === 'account_to_clipboard_wrapper') {
                   target = target.find('*');
               }
 
