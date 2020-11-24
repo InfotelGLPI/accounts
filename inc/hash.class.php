@@ -307,7 +307,15 @@ class PluginAccountsHash extends CommonDBTM {
       }
 
       if (!$options['update'] == 1) {
-         $this->showFormButtons($options);
+         if ($ID < 1
+             && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
+            echo "</table>";
+            Html::closeForm();
+       
+         }else{
+            $this->showFormButtons($options);
+         }
+
       } else {
          echo "</table>";
          Html::closeForm();
