@@ -401,11 +401,11 @@ class PluginAccountsAccount extends CommonDBTM {
          echo "</a></div>";
          return false;
       }
-      if ($ID != 0) {
-         // Create item
-         $this->check(-1, UPDATE);
-         $this->getEmpty();
-      }
+//      if ($ID != 0) {
+//         // Create item
+//         $this->check($ID, UPDATE);
+//         $this->getEmpty();
+//      }
       $options["formoptions"] = "id = 'account_form'";
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
@@ -639,8 +639,8 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "</tr>";
 
-      if (self::canCreate()) {
-         if (empty($ID) || $ID < 0) {
+      if (self::canCreate() || self::canUpdate()) {
+         if ((empty($ID) || $ID < 0) && self::canCreate()) {
 
             echo "<tr>";
             echo "<td class='tab_bg_2 top' colspan='4'>";
@@ -662,7 +662,7 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "</td>";
             echo "</tr>";
 
-         } else {
+         } else if($ID >0) {
 
             echo "<tr>";
             echo "<td class='tab_bg_2'  colspan='4 top'><div align='center'>";

@@ -579,55 +579,55 @@ function plugin_accounts_getAddSearchOptions($itemtype) {
  *
  * @return string
  */
-//function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, &$already_link_tables) {
-//
-//   switch ($ref_table) {
-//
-//      case "glpi_users" : // From items
-//         $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
-//                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
-//         return $out;
-//         break;
-//   }
-//
-//   return "";
-//}
+function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, &$already_link_tables) {
+
+   switch ($ref_table) {
+
+      case "glpi_users" : // From items
+         $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
+                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
+         return $out;
+         break;
+   }
+
+   return "";
+}
 
 /**
  * @param $type
  *
  * @return string
  */
-//function plugin_accounts_addDefaultWhere($type) {
-//
-//   switch ($type) {
-//      case "PluginAccountsAccount" :
-//         $who = Session::getLoginUserID();
-//         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
-//            if (count($_SESSION["glpigroups"]) && Session::haveRight("plugin_accounts_my_groups", 1)) {
-//               $first_groups = true;
-//               $groups       = "";
-//               foreach ($_SESSION['glpigroups'] as $val) {
-//                  if (!$first_groups) {
-//                     $groups .= ",";
-//                  } else {
-//                     $first_groups = false;
-//                  }
-//                  $groups .= "'" . $val . "'";
-//               }
-//               return " (`glpi_plugin_accounts_accounts`.`groups_id` IN (
-//               SELECT DISTINCT `groups_id`
-//               FROM `glpi_groups_users`
-//               WHERE `groups_id` IN ($groups)
-//               )
-//               OR `glpi_plugin_accounts_accounts`.`users_id` = '$who') ";
-//            } else { // Only personal ones
-//               return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
-//            }
-//         }
-//   }
-//   return "";
-//}
+function plugin_accounts_addDefaultWhere($type) {
+
+   switch ($type) {
+      case "PluginAccountsAccount" :
+         $who = Session::getLoginUserID();
+         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
+            if (count($_SESSION["glpigroups"]) && Session::haveRight("plugin_accounts_my_groups", 1)) {
+               $first_groups = true;
+               $groups       = "";
+               foreach ($_SESSION['glpigroups'] as $val) {
+                  if (!$first_groups) {
+                     $groups .= ",";
+                  } else {
+                     $first_groups = false;
+                  }
+                  $groups .= "'" . $val . "'";
+               }
+               return " (`glpi_plugin_accounts_accounts`.`groups_id` IN (
+               SELECT DISTINCT `groups_id`
+               FROM `glpi_groups_users`
+               WHERE `groups_id` IN ($groups)
+               )
+               OR `glpi_plugin_accounts_accounts`.`users_id` = '$who') ";
+            } else { // Only personal ones
+               return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
+            }
+         }
+   }
+   return "";
+}
 
 /**
  * @param $type
