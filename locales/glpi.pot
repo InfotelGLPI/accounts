@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-07 15:41+0000\n"
+"POT-Creation-Date: 2021-01-13 15:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,8 +41,8 @@ msgstr ""
 msgid "Type view"
 msgstr ""
 
-#: front/hash.form.php:85 inc/account.class.php:471 inc/account.class.php:536
-#: inc/account.class.php:656 inc/account.class.php:675
+#: front/hash.form.php:85 inc/account.class.php:486 inc/account.class.php:551
+#: inc/account.class.php:671 inc/account.class.php:690
 #: inc/account_item.class.php:692 inc/account_item.class.php:711
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
@@ -56,8 +56,8 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
-#: inc/account.class.php:124 inc/account.class.php:503
-#: inc/account.class.php:513 inc/account_item.class.php:640
+#: inc/account.class.php:124 inc/account.class.php:518
+#: inc/account.class.php:528 inc/account_item.class.php:640
 #: inc/notificationtargetaccount.class.php:59
 #: inc/notificationtargetaccount.class.php:177
 #: inc/notificationtargetaccount.class.php:226
@@ -65,12 +65,18 @@ msgstr ""
 msgid "Affected User"
 msgstr ""
 
-#: inc/account.class.php:398 inc/account.class.php:456
+#: inc/account.class.php:398 inc/account.class.php:471
 #: inc/account_item.class.php:609
 msgid "There is no encryption key for this entity"
 msgstr ""
 
-#: inc/account.class.php:464 inc/account.class.php:498
+#: inc/account.class.php:453
+msgid ""
+"Warning : there are multiple encryption keys for this entity. The encryption "
+"key of this entity will be used"
+msgstr ""
+
+#: inc/account.class.php:479 inc/account.class.php:513
 #: inc/account_item.class.php:616 inc/account_item.class.php:624
 #: inc/aeskey.class.php:59 inc/aeskey.class.php:188 inc/aeskey.class.php:239
 #: inc/aeskey.class.php:260 inc/hash.class.php:50 inc/hash.class.php:264
@@ -80,11 +86,11 @@ msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/account.class.php:474
+#: inc/account.class.php:489
 msgid "Uncrypt & copy"
 msgstr ""
 
-#: inc/account.class.php:560 inc/account.class.php:569
+#: inc/account.class.php:575 inc/account.class.php:584
 #: inc/notificationtargetaccount.class.php:60
 #: inc/notificationtargetaccount.class.php:180
 #: inc/notificationtargetaccount.class.php:227
@@ -92,60 +98,60 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: inc/account.class.php:596
+#: inc/account.class.php:611
 msgid "Empty for infinite"
 msgstr ""
 
-#: inc/account.class.php:652
+#: inc/account.class.php:667
 msgid "You have not filled the password and encryption key"
 msgstr ""
 
-#: inc/account.class.php:673
+#: inc/account.class.php:688
 msgid "Password will not be modified"
 msgstr ""
 
-#: inc/account.class.php:701
+#: inc/account.class.php:716
 msgid "Generate password"
 msgstr ""
 
-#: inc/account.class.php:702
+#: inc/account.class.php:717
 msgid "Numbers"
 msgstr ""
 
-#: inc/account.class.php:703
+#: inc/account.class.php:718
 msgid "Lowercase"
 msgstr ""
 
-#: inc/account.class.php:704
+#: inc/account.class.php:719
 msgid "Uppercase"
 msgstr ""
 
-#: inc/account.class.php:705
+#: inc/account.class.php:720
 msgid "Special characters"
 msgstr ""
 
-#: inc/account.class.php:707
+#: inc/account.class.php:722
 msgid "Length"
 msgstr ""
 
-#: inc/account.class.php:708
+#: inc/account.class.php:723
 msgid " characters"
 msgstr ""
 
-#: inc/account.class.php:711
+#: inc/account.class.php:726
 msgid "Generate"
 msgstr ""
 
-#: inc/account.class.php:995 inc/account.class.php:1086
+#: inc/account.class.php:1010 inc/account.class.php:1101
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: inc/account.class.php:1155
+#: inc/account.class.php:1170
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1263 inc/account_item.class.php:734
+#: inc/account.class.php:1278 inc/account_item.class.php:734
 msgid "Don't expire"
 msgstr ""
 
