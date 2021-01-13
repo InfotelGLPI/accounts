@@ -446,11 +446,26 @@ class PluginAccountsAccount extends CommonDBTM {
       $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '',
                                                     $this->getEntityID(), $hashclass->maybeRecursive());
       $hashes   = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
+
       if (!empty($hashes)) {
-         foreach ($hashes as $hashe) {
-            $hash    = $hashe["hash"];
-            $hash_id = $hashe["id"];
+         if (count($hashes) > 1) {
+            echo "<div class='red'>";
+            echo __('Warning : there are multiple encryption keys for this entity. The encryption key of this entity will be used', 'accounts');
+            echo "</div>";
+
+            foreach ($hashes as $hashe) {
+               if ($hashe["entities_id"] == $this->getEntityID()) {
+                  $hash    = $hashe["hash"];
+                  $hash_id = $hashe["id"];
+               }
+            }
+         } else {
+            foreach ($hashes as $hashe) {
+               $hash    = $hashe["hash"];
+               $hash_id = $hashe["id"];
+            }
          }
+
          $alert = '';
       } else {
          $alert = __('There is no encryption key for this entity', 'accounts');
