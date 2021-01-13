@@ -550,7 +550,11 @@ class PluginAccountsAccount extends CommonDBTM {
                                                   'id'    => 'encrypted_password']);
          echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
                                                 'id'    => 'wrong_key_locale']);
-         echo Html::scriptBlock("auto_decrypt();");
+//         echo Html::scriptBlock("");
+         echo '<script type="text/javascript">
+$(document).ready(function () {
+   auto_decrypt();
+});</script>';
       }
       if (!empty($ID) || $ID > 0) {
         echo "<span class='account_to_clipboard_wrapper'>";

@@ -50,13 +50,13 @@ $(document).ready(function () {
         });
     });
 
-    // auto decrypt (aes key saved in db)
-    var auto_decrypt = function (sufix) {
-        sufix = sufix || "";
-       if (!check_hash()) {
-           $("#hidden_password" + sufix).val($("#wrong_key_locale").val());
-       } else {
-           decrypt_password(sufix);
-       }
+// auto decrypt (aes key saved in db)
+var auto_decrypt = function (sufix) {
+    sufix = sufix || "";
+   if (!check_hash()) {
+       $("#hidden_password" + sufix).val($("#wrong_key_locale").val());
+   } else {
+       decrypt_password(sufix);
+   }
 };
 
