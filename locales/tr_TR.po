@@ -5,16 +5,16 @@
 # 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
-# Kaya Zeren <kayazeren@gmail.com>, 2020
+# Kaya Zeren <kayazeren@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-03 13:55+0000\n"
+"POT-Creation-Date: 2021-01-13 16:38+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2020\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2021\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,8 +45,8 @@ msgstr "Şifrelenmemiş"
 msgid "Type view"
 msgstr "Tür görünümü"
 
-#: front/hash.form.php:85 inc/account.class.php:471 inc/account.class.php:536
-#: inc/account.class.php:656 inc/account.class.php:675
+#: front/hash.form.php:85 inc/account.class.php:486 inc/account.class.php:551
+#: inc/account.class.php:675 inc/account.class.php:694
 #: inc/account_item.class.php:692 inc/account_item.class.php:711
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
@@ -60,8 +60,8 @@ msgstr "Şifreleme anahtarı değiştirildi"
 msgid "The old or the new encryption key can not be empty"
 msgstr "Eski ya da yeni şifreleme anahtarı boş olamaz"
 
-#: inc/account.class.php:124 inc/account.class.php:503
-#: inc/account.class.php:513 inc/account_item.class.php:640
+#: inc/account.class.php:124 inc/account.class.php:518
+#: inc/account.class.php:528 inc/account_item.class.php:640
 #: inc/notificationtargetaccount.class.php:59
 #: inc/notificationtargetaccount.class.php:177
 #: inc/notificationtargetaccount.class.php:226
@@ -69,12 +69,20 @@ msgstr "Eski ya da yeni şifreleme anahtarı boş olamaz"
 msgid "Affected User"
 msgstr "Etkilenen Kullanıcı"
 
-#: inc/account.class.php:398 inc/account.class.php:456
+#: inc/account.class.php:398 inc/account.class.php:471
 #: inc/account_item.class.php:609
 msgid "There is no encryption key for this entity"
 msgstr "Bu birim için bir şifreleme anahtarı yok"
 
-#: inc/account.class.php:464 inc/account.class.php:498
+#: inc/account.class.php:453
+msgid ""
+"Warning : there are multiple encryption keys for this entity. The encryption"
+" key of this entity will be used"
+msgstr ""
+"Uyarı : Bu birim için birden çok şifreleme anahtarı var. Bu birimin "
+"şifreleme anahtarı kullanılacak"
+
+#: inc/account.class.php:479 inc/account.class.php:513
 #: inc/account_item.class.php:616 inc/account_item.class.php:624
 #: inc/aeskey.class.php:59 inc/aeskey.class.php:188 inc/aeskey.class.php:239
 #: inc/aeskey.class.php:260 inc/hash.class.php:50 inc/hash.class.php:264
@@ -84,11 +92,11 @@ msgid_plural "Encryption key"
 msgstr[0] "Şifreleme anahtarı"
 msgstr[1] "Şifreleme anahtarları"
 
-#: inc/account.class.php:474
+#: inc/account.class.php:489
 msgid "Uncrypt & copy"
 msgstr "Şifreyi çöz ve kopyala"
 
-#: inc/account.class.php:560 inc/account.class.php:569
+#: inc/account.class.php:579 inc/account.class.php:588
 #: inc/notificationtargetaccount.class.php:60
 #: inc/notificationtargetaccount.class.php:180
 #: inc/notificationtargetaccount.class.php:227
@@ -96,60 +104,60 @@ msgstr "Şifreyi çöz ve kopyala"
 msgid "Affected Group"
 msgstr "Etkilenen Grup"
 
-#: inc/account.class.php:596
+#: inc/account.class.php:615
 msgid "Empty for infinite"
 msgstr "Sonsuz olması için boş bırakın"
 
-#: inc/account.class.php:652
+#: inc/account.class.php:671
 msgid "You have not filled the password and encryption key"
 msgstr "Parola ve şifreleme anahtarını yazmadınız"
 
-#: inc/account.class.php:673
+#: inc/account.class.php:692
 msgid "Password will not be modified"
 msgstr "Parola değiştirilmeyecek"
 
-#: inc/account.class.php:701
+#: inc/account.class.php:720
 msgid "Generate password"
 msgstr "Parola üret"
 
-#: inc/account.class.php:702
+#: inc/account.class.php:721
 msgid "Numbers"
 msgstr "Sayılar"
 
-#: inc/account.class.php:703
+#: inc/account.class.php:722
 msgid "Lowercase"
 msgstr "Küçük harfler"
 
-#: inc/account.class.php:704
+#: inc/account.class.php:723
 msgid "Uppercase"
 msgstr "Büyük harfler"
 
-#: inc/account.class.php:705
+#: inc/account.class.php:724
 msgid "Special characters"
 msgstr "Özel karakterler"
 
-#: inc/account.class.php:707
+#: inc/account.class.php:726
 msgid "Length"
 msgstr "Uzunluk"
 
-#: inc/account.class.php:708
+#: inc/account.class.php:727
 msgid " characters"
 msgstr "karakter sayısı"
 
-#: inc/account.class.php:711
+#: inc/account.class.php:730
 msgid "Generate"
 msgstr "Üret"
 
-#: inc/account.class.php:995 inc/account.class.php:1086
+#: inc/account.class.php:1014 inc/account.class.php:1105
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr "Süresi dolmuş ya da dolan hesaplar"
 
-#: inc/account.class.php:1155
+#: inc/account.class.php:1174
 msgid "Select the wanted account type"
 msgstr "İstenilen hesap türünü seçin"
 
-#: inc/account.class.php:1263 inc/account_item.class.php:734
+#: inc/account.class.php:1282 inc/account_item.class.php:734
 msgid "Don't expire"
 msgstr "Süresi dolmaz"
 
@@ -203,7 +211,7 @@ msgstr "Şu zamandan önce süresi dolmuş hesaplar"
 msgid "Accounts expiring in less than"
 msgstr "Şu zaman içinde süresi dolacak hesaplar"
 
-#: inc/hash.class.php:79 inc/hash.class.php:331 inc/report.class.php:214
+#: inc/hash.class.php:79 inc/hash.class.php:339 inc/report.class.php:214
 msgid "Linked accounts list"
 msgstr "Bağlantılı hesap listesi"
 
@@ -227,7 +235,7 @@ msgstr ""
 msgid "Generate hash with this encryption key"
 msgstr "Şifreleme anahtarı ile karmayı oluşturun"
 
-#: inc/hash.class.php:272 inc/hash.class.php:334 inc/hash.class.php:348
+#: inc/hash.class.php:272 inc/hash.class.php:342 inc/hash.class.php:356
 msgid "Please fill the encryption key"
 msgstr "Lütfen şifreleme anahtarını yazın"
 
@@ -239,7 +247,7 @@ msgstr ""
 "Lütfen şifreleme anahtarlarında, / \\ ' \" & gibi özel karakterler "
 "kullanmayın. Daha sonra değiştiremezsiniz."
 
-#: inc/hash.class.php:362
+#: inc/hash.class.php:370
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
@@ -249,19 +257,19 @@ msgstr ""
 "parolalarınızın şifresini bir daha açamazsınız. Bu nedenle işlemi yapmadan "
 "önce veritabanınızın yedeğini almanız ÖNEMLE önerilir."
 
-#: inc/hash.class.php:365
+#: inc/hash.class.php:373
 msgid "Old encryption key"
 msgstr "Eski şifreleme anahtarı"
 
-#: inc/hash.class.php:375
+#: inc/hash.class.php:383
 msgid "New encryption key"
 msgstr "Yeni şifreleme anahtarı"
 
-#: inc/hash.class.php:380
+#: inc/hash.class.php:388
 msgid "You want to change the key : "
 msgstr "Şu anahtarı :"
 
-#: inc/hash.class.php:381
+#: inc/hash.class.php:389
 msgid " by the key : "
 msgstr "bu anahtarla değiştirmek istediniz :"
 
