@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-25 12:05+0000\n"
+"POT-Creation-Date: 2021-04-19 15:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 
 #: front/hash.form.php:85 inc/account.class.php:486 inc/account.class.php:551
 #: inc/account.class.php:675 inc/account.class.php:694
-#: inc/account_item.class.php:692 inc/account_item.class.php:711
+#: inc/account_item.class.php:695 inc/account_item.class.php:714
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
 msgstr ""
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1282 inc/account_item.class.php:734
+#: inc/account.class.php:1282 inc/account_item.class.php:737
 msgid "Don't expire"
 msgstr ""
 
@@ -160,7 +160,7 @@ msgctxt "button"
 msgid "Associate a account"
 msgstr ""
 
-#: inc/account_item.class.php:701
+#: inc/account_item.class.php:704
 msgid "Uncrypt"
 msgstr ""
 
