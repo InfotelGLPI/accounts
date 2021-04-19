@@ -271,6 +271,6 @@ class PluginAccountsReport extends CommonDBTM {
 
       echo "<button type='submit' name='export' class='unstyled pointer' " .
            " title=\"" . _sx('button', 'Export') . "\">" .
-           "<i class='fas fa-floppy-o'></i><span class='sr-only'>" . _sx('button', 'Export') . "<span>";
+           "<i class='fas fa-save'></i><span class='sr-only'>" . _sx('button', 'Export') . "<span>";
    }
 }
