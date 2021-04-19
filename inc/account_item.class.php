@@ -678,15 +678,18 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
             echo "<td class='center'>" . $data["login"] . "</td>";
             echo "<td class='center'>";
             //hash
-            if (isset($hash_id) && $aeskey->getFromDBByHash($hash_id) && $aeskey->fields["name"]) {
+            if (isset($hash_id)
+                && $aeskey->getFromDBByHash($hash_id)
+                && $aeskey->fields["name"]) {
+               $rand = mt_rand();
                echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
                                                                   'id'           => "encrypted_password$accountID",
                                                                   'autocomplete' => 'off']);
 
-               echo "<input type='text' id='hidden_password$accountID' onClick='decryptCheck()' value='' size='30' >";
+               echo "<input type='text' id='hidden_password$accountID' onClick='decryptCheck$rand()' value='' size='30' >";
 
                echo Html::scriptBlock("
-               function decryptCheck(){               
+               function decryptCheck$rand(){               
                   if (!check_hash()) {
                      $('#hidden_password$accountID')
                         .after('" . __('Wrong encryption key', 'accounts') . "')

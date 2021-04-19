@@ -70,7 +70,7 @@ class PluginAccountsMenu extends CommonGLPI
       $menu['options']['hash']['title'] = PluginAccountsHash::getTypeName(2);
       $menu['options']['hash']['page'] = PluginAccountsHash::getSearchURL(false);
       $menu['options']['hash']['links']['search'] = PluginAccountsHash::getSearchURL(false);
-      $menu['options']['hash']['links'][$image] = PluginAccountsHash::getSearchURL(false);;
+      $menu['options']['hash']['links'][$image] = PluginAccountsHash::getSearchURL(false);
 
       if (PluginAccountsHash::canCreate()) {
          $menu['options']['hash']['links']['add'] = PluginAccountsHash::getFormURL(false);
