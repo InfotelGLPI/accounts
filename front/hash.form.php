@@ -67,7 +67,7 @@ if (isset($_POST["add"])) {
 
    if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
 
-      require_once(GLPI_ROOT . '/plugins/accounts/inc/aes.function.php');
+      require_once(PLUGIN_ACCOUNTS_DIR . '/inc/aes.function.php');
 
       $hash = 0;
       $hash_id = 0;

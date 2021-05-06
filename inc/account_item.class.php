@@ -443,7 +443,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
     *
     */
    static function showForItem(CommonDBTM $item, $withtemplate = '') {
-      global $DB;
+      global $DB, $CFG_GLPI;
 
       $ID  = $item->getField('id');
       $dbu = new DbUtils();
@@ -689,13 +689,14 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                echo "<input type='text' id='hidden_password$accountID' onClick='decryptCheck$rand()' value='' size='30' >";
 
                echo Html::scriptBlock("
-               function decryptCheck$rand(){               
+               function decryptCheck$rand(){
+               var rootdoc = '".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."';
                   if (!check_hash()) {
                      $('#hidden_password$accountID')
                         .after('" . __('Wrong encryption key', 'accounts') . "')
                         .remove();
                   } else {
-                     decrypt_password('$accountID');
+                     decrypt_password(rootdoc, '$accountID');
                   }
                }
                ");
@@ -710,10 +711,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
                echo Html::scriptBlock("
                function decryptCheckbtn$rand(){
+                  var rootdoc = '".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."';
                   if (!check_hash()) {
                      alert('" . __('Wrong encryption key', 'accounts') . "');
                   } else {
-                     var decrypted_password = decrypt_password('$accountID');
+                     var decrypted_password = decrypt_password(rootdoc, '$accountID');
                      $('#decrypt_link$accountID$rand')
                         .after(decrypted_password)
                         .remove();

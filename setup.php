@@ -29,6 +29,11 @@
 
 define('PLUGIN_ACCOUNTS_VERSION', '2.6.0');
 
+if (!defined("PLUGIN_ACCOUNTS_DIR")) {
+   define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
+   define("PLUGIN_ACCOUNTS_DIR_NOFULL", Plugin::getPhpDir("accounts",false));
+}
+
 // Init the hooks of the plugins -Needed
 function plugin_init_accounts() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
@@ -53,7 +58,7 @@ function plugin_init_accounts() {
                             ]
       );
 
-      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = "plugins/accounts/accounts.png";
+      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."/accounts.png";
 
       Plugin::registerClass('PluginAccountsConfig',
                             ['addtabon' => 'CronTask']);

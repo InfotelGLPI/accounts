@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    var rootdoc          = CFG_GLPI['root_doc'].PLUGIN_ACCOUNTS_DIR_NOFULL;
     // decrypt button (user manually input key)
     $(document).on("click", "#decrypte_link", function (event) {
         event.preventDefault();
@@ -7,7 +7,7 @@ $(document).ready(function () {
           if (!check_hash()) {
               alert($("#wrong_key_locale").val());
           } else {
-              decrypt_password();
+              decrypt_password(rootdoc);
 
               var input = $('#hidden_password');
               if (input.attr("type") == "password") {
@@ -52,11 +52,12 @@ $(document).ready(function () {
 
 // auto decrypt (aes key saved in db)
 var auto_decrypt = function (sufix) {
+    var rootdoc          = CFG_GLPI['root_doc'].PLUGIN_ACCOUNTS_DIR_NOFULL;
     sufix = sufix || "";
    if (!check_hash()) {
        $("#hidden_password" + sufix).val($("#wrong_key_locale").val());
    } else {
-       decrypt_password(sufix);
+       decrypt_password(rootdoc, sufix);
    }
 };
 

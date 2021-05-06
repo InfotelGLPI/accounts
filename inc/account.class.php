@@ -40,7 +40,8 @@ class PluginAccountsAccount extends CommonDBTM {
    static $rightname = "plugin_accounts";
 
    static $types = ['Computer', 'Monitor', 'NetworkEquipment', 'Peripheral',
-                    'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity', 'Contract', 'Supplier', 'Certificate'];
+                    'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity',
+                    'Contract', 'Supplier', 'Certificate'];
 
    public    $dohistory  = true;
    protected $usenotepad = true;
@@ -93,38 +94,63 @@ class PluginAccountsAccount extends CommonDBTM {
          'name' => self::getTypeName(2)
       ];
 
-      $tab[] = [
-         'id'            => '1',
-         'table'         => $this->getTable(),
-         'field'         => 'name',
-         'name'          => __('Name'),
-         'datatype'      => 'itemlink',
-         'itemlink_type' => 'PluginAccountsAccount',
-         'massiveaction' => false
-      ];
       if (Session::getCurrentInterface() != 'central') {
-         $tab[1]['searchtype'] = 'contains';
+         $tab[] = [
+            'id'            => '1',
+            'table'         => $this->getTable(),
+            'field'         => 'name',
+            'name'          => __('Name'),
+            'datatype'      => 'itemlink',
+            'itemlink_type' => 'PluginAccountsAccount',
+            'massiveaction' => false,
+            'searchtype' => 'contains'
+         ];
+      } else {
+         $tab[] = [
+            'id'            => '1',
+            'table'         => $this->getTable(),
+            'field'         => 'name',
+            'name'          => __('Name'),
+            'datatype'      => 'itemlink',
+            'itemlink_type' => 'PluginAccountsAccount',
+            'massiveaction' => false
+         ];
       }
 
-      $tab[] = [
-         'id'       => '2',
-         'table'    => 'glpi_plugin_accounts_accounttypes',
-         'field'    => 'name',
-         'name'     => __('Type'),
-         'datatype' => 'dropdown'
-      ];
       if (Session::getCurrentInterface() != 'central') {
-         $tab[2]['searchtype'] = 'contains';
+         $tab[] = [
+            'id'       => '2',
+            'table'    => 'glpi_plugin_accounts_accounttypes',
+            'field'    => 'name',
+            'name'     => __('Type'),
+            'datatype' => 'dropdown',
+            'searchtype' => 'contains'
+         ];
+      } else {
+         $tab[] = [
+            'id'       => '2',
+            'table'    => 'glpi_plugin_accounts_accounttypes',
+            'field'    => 'name',
+            'name'     => __('Type'),
+            'datatype' => 'dropdown'
+         ];
       }
 
-      $tab[] = [
-         'id'    => '16',
-         'table' => 'glpi_users',
-         'field' => 'name',
-         'name'  => __('Affected User', 'accounts'),
-      ];
       if (Session::getCurrentInterface() != 'central') {
-         $tab[16]['searchtype'] = 'contains';
+         $tab[] = [
+            'id'    => '16',
+            'table' => 'glpi_users',
+            'field' => 'name',
+            'name'  => __('Affected User', 'accounts'),
+            'searchtype' => 'contains'
+         ];
+      } else {
+         $tab[] = [
+            'id'    => '16',
+            'table' => 'glpi_users',
+            'field' => 'name',
+            'name'  => __('Affected User', 'accounts'),
+         ];
       }
 
       $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
@@ -180,15 +206,23 @@ class PluginAccountsAccount extends CommonDBTM {
          'name'  => __('Others')
       ];
 
-      $tab[] = [
-         'id'    => '10',
-         'table' => 'glpi_plugin_accounts_accountstates',
-         'field' => 'name',
-         'name'  => __('Status'),
-      ];
-      if (Session::getCurrentInterface() != 'central') {
-         $tab[10]['searchtype'] = 'contains';
+      if (Session::getCurrentInterface() == 'central') {
+         $tab[] = [
+            'id'    => '10',
+            'table' => 'glpi_plugin_accounts_accountstates',
+            'field' => 'name',
+            'name'  => __('Status'),
+            'searchtype' => 'contains'
+         ];
+      } else {
+         $tab[] = [
+            'id'    => '10',
+            'table' => 'glpi_plugin_accounts_accountstates',
+            'field' => 'name',
+            'name'  => __('Status'),
+         ];
       }
+
 
       if (Session::getCurrentInterface() == 'central') {
          $tab[] = [
@@ -200,17 +234,27 @@ class PluginAccountsAccount extends CommonDBTM {
          ];
       }
 
-      $tab[] = [
-         'id'        => '12',
-         'table'     => 'glpi_groups',
-         'field'     => 'completename',
-         'name'      => __('Group'),
-         'datatype'  => 'dropdown',
-         'condition' => ['`is_itemgroup`' => 1],
-      ];
       if (Session::getCurrentInterface() != 'central') {
-         $tab[12]['searchtype'] = 'contains';
+         $tab[] = [
+            'id'        => '12',
+            'table'     => 'glpi_groups',
+            'field'     => 'completename',
+            'name'      => __('Group'),
+            'datatype'  => 'dropdown',
+            'condition' => ['`is_itemgroup`' => 1],
+            'searchtype' => 'contains'
+         ];
+      } else {
+         $tab[] = [
+            'id'        => '12',
+            'table'     => 'glpi_groups',
+            'field'     => 'completename',
+            'name'      => __('Group'),
+            'datatype'  => 'dropdown',
+            'condition' => ['`is_itemgroup`' => 1]
+         ];
       }
+
 
       if (Session::getCurrentInterface() == 'central') {
          $tab[] = [
@@ -490,6 +534,7 @@ class PluginAccountsAccount extends CommonDBTM {
                         class='submit'>";
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
+                 var rootdoc = '".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."';
                  switch(e.keyCode) { 
                      case 13:
                         if (!check_hash()) {
@@ -552,9 +597,10 @@ class PluginAccountsAccount extends CommonDBTM {
                                                 'id'    => 'wrong_key_locale']);
 //         echo Html::scriptBlock("");
          echo '<script type="text/javascript">
-$(document).ready(function () {
-   auto_decrypt();
-});</script>';
+               $(document).ready(function () {
+                  var rootdoc = ".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL.";
+                  auto_decrypt(rootdoc);
+               });</script>';
       }
       if (!empty($ID) || $ID > 0) {
         echo "<span class='account_to_clipboard_wrapper'>";
@@ -731,7 +777,7 @@ $(document).ready(function () {
                      class='submit'></td></tr>
                </tbody>
                </table>";
-         Ajax::updateItemOnEvent("generatePass", "fakeupdate", $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/generatepassword.php", ["password" => 1], ["click"]);
+         Ajax::updateItemOnEvent("generatePass", "fakeupdate", $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/generatepassword.php", ["password" => 1], ["click"]);
       }
 
 
@@ -801,14 +847,14 @@ $(document).ready(function () {
                  'used'        => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id, "show_" . $p['name'] . $rand,
-                                            $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/dropdownTypeAccounts.php",
+                                            $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/dropdownTypeAccounts.php",
                                             $params, false);
       $out .= "<span id='show_" . $p['name'] . "$rand'>";
       $out .= "</span>\n";
 
       $params['accounttype'] = 0;
       $out                   .= Ajax::updateItem("show_" . $p['name'] . $rand,
-                                                 $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/dropdownTypeAccounts.php",
+                                                 $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/dropdownTypeAccounts.php",
                                                  $params, false);
       if ($p['display']) {
          echo $out;
@@ -1185,7 +1231,7 @@ $(document).ready(function () {
                            'show_only_matches': true,
                            'ajax': {
                               'type': 'POST',
-                              'url': '" . $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/accounttreetypes.php'
+                              'url': '" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php'
                            }
                         },
                         'qload': {
@@ -1201,8 +1247,8 @@ $(document).ready(function () {
                            'data': {
                               'url': function(node) {
                                  return node.id === '#' ?
-                                    '" . $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/accounttreetypes.php?node=-1' :
-                                    '" . $CFG_GLPI["root_doc"] . "/plugins/accounts/ajax/accounttreetypes.php?node='+node.id;
+                                    '" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php?node=-1' :
+                                    '" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php?node='+node.id;
                               }
                            }
                         }

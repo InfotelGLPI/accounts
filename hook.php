@@ -33,7 +33,7 @@
 function plugin_accounts_install() {
    global $DB, $CFG_GLPI;
 
-   include_once(GLPI_ROOT . "/plugins/accounts/inc/profile.class.php");
+   include_once(PLUGIN_ACCOUNTS_DIR . "/inc/profile.class.php");
 
    $install   = false;
    $update78  = false;
@@ -44,110 +44,110 @@ function plugin_accounts_install() {
        && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $install = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/empty-2.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/empty-2.6.0.sql");
 
    } else if ($DB->tableExists("glpi_comptes")
               && !$DB->fieldExists("glpi_comptes", "notes")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_comptes")
               && !$DB->fieldExists("glpi_plugin_comptes", "all_users")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte_profiles")
               && !$DB->fieldExists("glpi_plugin_compte_profiles", "my_groups")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte_profiles")
               && $DB->fieldExists("glpi_plugin_compte_profiles", "interface")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
       $_SESSION['plugin_acounts_upgrading'] = 1;
 
    } else if ($DB->tableExists("glpi_plugin_compte")
               && !$DB->fieldExists("glpi_plugin_compte", "date_mod")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.1.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_compte")
               && !$DB->tableExists("glpi_plugin_compte_aeskey")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.5.3.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.5.3.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_compte")
               && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
 
       $update78 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.6.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.6.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_accounts_accounts")
               && !$DB->fieldExists("glpi_plugin_accounts_accounts", "locations_id")) {
 
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.0.sql");
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
 
    } else if ($DB->tableExists("glpi_plugin_accounts_hashes")
               && !$DB->fieldExists("glpi_plugin_accounts_hashes", "entities_id")) {
 
       $update171 = true;
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.7.1.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.7.1.sql");
 
    }
 
    //from 1.6 version
    if ($DB->tableExists("glpi_plugin_accounts_accounts")
        && !$DB->fieldExists("glpi_plugin_accounts_accounts", "users_id_tech")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.8.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.8.0.sql");
    }
 
    //from 1.9 version
    if ($DB->tableExists("glpi_plugin_accounts_accounttypes")
        && !$DB->fieldExists("glpi_plugin_accounts_accounttypes", "is_recursive")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/accounts/sql/update-1.9.0.sql");
+      $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-1.9.0.sql");
    }
 
    if ($install || $update78) {
@@ -332,8 +332,8 @@ function plugin_accounts_install() {
 function plugin_accounts_uninstall() {
    global $DB;
 
-   include_once(GLPI_ROOT . "/plugins/accounts/inc/profile.class.php");
-   include_once(GLPI_ROOT . "/plugins/accounts/inc/menu.class.php");
+   include_once(PLUGIN_ACCOUNTS_DIR . "/inc/profile.class.php");
+   include_once(PLUGIN_ACCOUNTS_DIR . "/inc/menu.class.php");
 
    //Delete rights associated with the plugin
    $profileRight = new ProfileRight();

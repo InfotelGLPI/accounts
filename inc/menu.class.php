@@ -31,8 +31,7 @@
 /**
  * Class PluginAccountsMenu
  */
-class PluginAccountsMenu extends CommonGLPI
-{
+class PluginAccountsMenu extends CommonGLPI {
    static $rightname = 'plugin_accounts';
 
    /**
@@ -47,30 +46,29 @@ class PluginAccountsMenu extends CommonGLPI
     */
    static function getMenuContent() {
 
-      $image = "<i class='fas fa-lock fa-2x' title='" .  _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'></i>";
+      $image = "<i class='fas fa-lock fa-2x' title='" . _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'></i>";
 
-      $menu = [];
-      $menu['title'] = self::getMenuName();
-      $menu['page'] = "/plugins/accounts/front/account.php";
-      $menu['page'] = "/plugins/accounts/front/account.php";
+      $menu                    = [];
+      $menu['title']           = self::getMenuName();
+      $menu['page']            = PluginAccountsAccount::getSearchURL(false);
       $menu['links']['search'] = PluginAccountsAccount::getSearchURL(false);
-      $menu['links'][$image] = PluginAccountsHash::getSearchURL(false);
+      $menu['links'][$image]   = PluginAccountsHash::getSearchURL(false);
       if (PluginAccountsAccount::canCreate()) {
          $menu['links']['add'] = PluginAccountsAccount::getFormURL(false);
       }
 
-      $menu['options']['account']['title'] = PluginAccountsAccount::getTypeName(2);
-      $menu['options']['account']['page'] = PluginAccountsAccount::getSearchURL(false);
+      $menu['options']['account']['title']           = PluginAccountsAccount::getTypeName(2);
+      $menu['options']['account']['page']            = PluginAccountsAccount::getSearchURL(false);
       $menu['options']['account']['links']['search'] = PluginAccountsAccount::getSearchURL(false);
-      $menu['options']['account']['links'][$image] = PluginAccountsHash::getSearchURL(false);
+      $menu['options']['account']['links'][$image]   = PluginAccountsHash::getSearchURL(false);
       if (PluginAccountsAccount::canCreate()) {
          $menu['options']['account']['links']['add'] = PluginAccountsAccount::getFormURL(false);
       }
 
-      $menu['options']['hash']['title'] = PluginAccountsHash::getTypeName(2);
-      $menu['options']['hash']['page'] = PluginAccountsHash::getSearchURL(false);
+      $menu['options']['hash']['title']           = PluginAccountsHash::getTypeName(2);
+      $menu['options']['hash']['page']            = PluginAccountsHash::getSearchURL(false);
       $menu['options']['hash']['links']['search'] = PluginAccountsHash::getSearchURL(false);
-      $menu['options']['hash']['links'][$image] = PluginAccountsHash::getSearchURL(false);
+      $menu['options']['hash']['links'][$image]   = PluginAccountsHash::getSearchURL(false);
 
       if (PluginAccountsHash::canCreate()) {
          $menu['options']['hash']['links']['add'] = PluginAccountsHash::getFormURL(false);

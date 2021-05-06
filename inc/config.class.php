@@ -62,7 +62,7 @@ class PluginAccountsConfig extends CommonDBTM
 
       if ($item->getType() == 'CronTask') {
 
-         $target = $CFG_GLPI["root_doc"] . "/plugins/accounts/front/notification.state.php";
+         $target = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/front/notification.state.php";
          PluginAccountsAccount::configCron($target);
       }
       return true;

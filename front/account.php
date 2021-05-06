@@ -54,7 +54,7 @@ if ($account->canView()) {
       echo "</div>";
 
       Ajax::createModalWindow('add_file_modal',
-         $CFG_GLPI['root_doc'] . "/plugins/accounts/ajax/accounttree.php",
+                              $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttree.php",
          ['title' => __('Type view', 'accounts'),
             'width' => 800,
             'height' => 400]);
