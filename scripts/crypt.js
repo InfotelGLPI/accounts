@@ -14,7 +14,8 @@ var check_hash = function () {
     return true;
 };
 
-var decrypt_password = function (rootdoc, sufix) {
+function decrypt_password(rootdoc, sufix) {
+
     sufix = sufix || "";
     var aeskey = $("#aeskey").val();
     var decrypted_password = AESDecryptCtr($("#encrypted_password" + sufix).val(),
@@ -25,9 +26,11 @@ var decrypt_password = function (rootdoc, sufix) {
    }
 
    if (document.location.pathname.indexOf('accounts') > 0) {
+      //from accounts form
        var idcrypt = $('form#account_form input[name=id]').val();
-       var url = rootdoc + '/ajax/log_decrypt.php'
+       var url = '../ajax/log_decrypt.php'
    } else {
+      //from items
        var idcrypt = sufix;
        var url = rootdoc + '/ajax/log_decrypt.php';
    }

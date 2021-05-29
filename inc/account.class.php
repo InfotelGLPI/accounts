@@ -103,7 +103,7 @@ class PluginAccountsAccount extends CommonDBTM {
             'datatype'      => 'itemlink',
             'itemlink_type' => 'PluginAccountsAccount',
             'massiveaction' => false,
-            'searchtype' => 'contains'
+            'searchtype'    => 'contains'
          ];
       } else {
          $tab[] = [
@@ -119,11 +119,11 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() != 'central') {
          $tab[] = [
-            'id'       => '2',
-            'table'    => 'glpi_plugin_accounts_accounttypes',
-            'field'    => 'name',
-            'name'     => __('Type'),
-            'datatype' => 'dropdown',
+            'id'         => '2',
+            'table'      => 'glpi_plugin_accounts_accounttypes',
+            'field'      => 'name',
+            'name'       => __('Type'),
+            'datatype'   => 'dropdown',
             'searchtype' => 'contains'
          ];
       } else {
@@ -138,10 +138,10 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() != 'central') {
          $tab[] = [
-            'id'    => '16',
-            'table' => 'glpi_users',
-            'field' => 'name',
-            'name'  => __('Affected User', 'accounts'),
+            'id'         => '16',
+            'table'      => 'glpi_users',
+            'field'      => 'name',
+            'name'       => __('Affected User', 'accounts'),
             'searchtype' => 'contains'
          ];
       } else {
@@ -171,10 +171,10 @@ class PluginAccountsAccount extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'    => '6',
-         'table' => $this->getTable(),
-         'field' => 'date_expiration',
-         'name'  => __('Expiration date'),
+         'id'       => '6',
+         'table'    => $this->getTable(),
+         'field'    => 'date_expiration',
+         'name'     => __('Expiration date'),
          'datatype' => 'date'
       ];
 
@@ -208,10 +208,10 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() == 'central') {
          $tab[] = [
-            'id'    => '10',
-            'table' => 'glpi_plugin_accounts_accountstates',
-            'field' => 'name',
-            'name'  => __('Status'),
+            'id'         => '10',
+            'table'      => 'glpi_plugin_accounts_accountstates',
+            'field'      => 'name',
+            'name'       => __('Status'),
             'searchtype' => 'contains'
          ];
       } else {
@@ -236,12 +236,12 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (Session::getCurrentInterface() != 'central') {
          $tab[] = [
-            'id'        => '12',
-            'table'     => 'glpi_groups',
-            'field'     => 'completename',
-            'name'      => __('Group'),
-            'datatype'  => 'dropdown',
-            'condition' => ['`is_itemgroup`' => 1],
+            'id'         => '12',
+            'table'      => 'glpi_groups',
+            'field'      => 'completename',
+            'name'       => __('Group'),
+            'datatype'   => 'dropdown',
+            'condition'  => ['`is_itemgroup`' => 1],
             'searchtype' => 'contains'
          ];
       } else {
@@ -445,11 +445,11 @@ class PluginAccountsAccount extends CommonDBTM {
          echo "</a></div>";
          return false;
       }
-//      if ($ID != 0) {
-//         // Create item
-//         $this->check($ID, UPDATE);
-//         $this->getEmpty();
-//      }
+      //      if ($ID != 0) {
+      //         // Create item
+      //         $this->check($ID, UPDATE);
+      //         $this->getEmpty();
+      //      }
       $options["formoptions"] = "id = 'account_form'";
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
@@ -530,11 +530,12 @@ class PluginAccountsAccount extends CommonDBTM {
             echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
                                                    'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
-               echo "&nbsp;<input type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
-                        class='submit'>";
+               echo "&nbsp;<button type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
+                        class='vsubmit'>";
+               echo "<i class='fas fa-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts');
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
-                 var rootdoc = '".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."';
+                 var rootdoc = '" . $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "';
                  switch(e.keyCode) { 
                      case 13:
                         if (!check_hash()) {
@@ -542,12 +543,13 @@ class PluginAccountsAccount extends CommonDBTM {
                            document.getElementById('wrong_key_locale_div').innerHTML = value;
                         } else {
                            document.getElementById('wrong_key_locale_div').innerHTML = '';
-                           decrypt_password();
+                           decrypt_password(rootdoc);
                         }
                       return false;
                       break;
                  }
                });");
+            echo "</button>";
             echo "<div id='wrong_key_locale_div' style='color:red'></div>";
             echo "</td>";
          } else {
@@ -595,7 +597,7 @@ class PluginAccountsAccount extends CommonDBTM {
                                                   'id'    => 'encrypted_password']);
          echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
                                                 'id'    => 'wrong_key_locale']);
-//         echo Html::scriptBlock("");
+         //         echo Html::scriptBlock("");
          echo '<script type="text/javascript">
                $(document).ready(function () {
                   var rootdoc = ".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL.";
@@ -603,11 +605,11 @@ class PluginAccountsAccount extends CommonDBTM {
                });</script>';
       }
       if (!empty($ID) || $ID > 0) {
-        echo "<span class='account_to_clipboard_wrapper'>";
+         echo "<span class='account_to_clipboard_wrapper'>";
       }
       echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
       if (!empty($ID) || $ID > 0) {
-        echo "</span>";
+         echo "</span>";
       }
       echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password'></span>";
       echo "</td>";
@@ -703,15 +705,16 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "</td>";
 
       echo "</tr>";
+      $options['colspan'] = 2;
+      $this->showDates($options);
 
       if (self::canCreate() || self::canUpdate()) {
          if ((empty($ID) || $ID < 0) && self::canCreate()) {
 
-            echo "<tr>";
-            echo "<td class='tab_bg_2 top' colspan='4'>";
-            echo "<div align='center'>";
-            echo "<input type='submit' name='add' id='account_add' value='" . _sx('button', 'Add') . "' class='submit'>";
-            echo "</div>";
+            echo "<tr class='tab_bg_2'>";
+            echo "<td class='center' colspan='4'>";
+            echo "<button type='submit' name='add' id='account_add' value='" . _sx('button', 'Add') . "' class='vsubmit'>";
+            echo "<i class='fas fa-plus'></i>&nbsp;"._sx('button', 'Add');
             echo Html::scriptBlock("$('#account_form').submit(function(event){
                if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
                   alert('" . __('You have not filled the password and encryption key', 'accounts') . "');
@@ -724,15 +727,19 @@ class PluginAccountsAccount extends CommonDBTM {
                   encrypt_password();
                }
             });");
+            echo "</button>";
             echo "</td>";
             echo "</tr>";
 
-         } else if($ID >0) {
+         } else if ($ID > 0) {
 
-            echo "<tr>";
-            echo "<td class='tab_bg_2'  colspan='4 top'><div align='center'>";
+            echo "<tr class='tab_bg_2'>";
+            echo "<td class='center' colspan='4'>";
             echo Html::hidden('id', ['value' => $ID]);
-            echo "<input type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='submit' >";
+
+            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='vsubmit' >";
+            echo "<i class='fas fa-save'></i>&nbsp;"._sx('button', 'Save');
+
             echo Html::scriptBlock("$('#account_form').submit(function(event){
                if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
                   alert('" . __('Password will not be modified', 'accounts') . "');
@@ -743,12 +750,22 @@ class PluginAccountsAccount extends CommonDBTM {
                   encrypt_password();
                }
             });");
-
+            echo "</button>";
+            echo "</td>";
+            echo "</tr>";
+            echo "<tr class='tab_bg_2'>";
+            echo "<td class='right' colspan='4'>";
             if ($this->fields["is_deleted"] == '0') {
-               echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='submit'></div>";
+               echo "<button type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='vsubmit'>";
+               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Put in trashbin');
+               echo "</button>";
             } else {
-               echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='submit'>";
-               echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='submit'></div>";
+               echo "<button type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='vsubmit'>";
+               echo "<i class='fas fa-trash-restore'></i>&nbsp;"._sx('button', 'Restore');
+               echo "</button>";
+               echo "&nbsp;&nbsp;<button type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='vsubmit'>";
+               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Delete permanently');
+               echo "</button>";
             }
 
             echo "</td>";
@@ -756,12 +773,9 @@ class PluginAccountsAccount extends CommonDBTM {
 
          }
       }
-      $options['canedit'] = false;
-
-      $options['candel'] = false;
 
       if (empty($ID)) {
-         echo "<table class='tab_cadre'>
+         echo "<br><table class='tab_cadre'>
                <tbody>
                <tr class='tab_bg_1 center'><th colspan ='2'>" . __s('Generate password', 'accounts') . "</th></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> " . __("Numbers", "accounts") . " <small>(0123456789)</small></label></td></tr>
@@ -773,15 +787,14 @@ class PluginAccountsAccount extends CommonDBTM {
                         <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> " . __(" characters", "accounts") . "</td>
                      </tr>
                <tr id='fakeupdate'></tr>
-               <tr class='tab_bg_2 center'><td colspan='2'>&nbsp;<input type='button' id='generatePass' name='generatePass' class='submit' style='background-color: #fec95c;color: #4b2f03;border: 2px solid #4b2f03;padding: 5px;' value='" . __s('Generate', 'accounts') . "'
-                     class='submit'></td></tr>
+               <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
+               <button type='button' id='generatePass' name='generatePass' class='vsubmit' value='" . __s('Generate', 'accounts') . "'
+                     class='submit'>" . __s('Generate', 'accounts') . "</button></td></tr>
                </tbody>
                </table>";
-         Ajax::updateItemOnEvent("generatePass", "fakeupdate", $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/generatepassword.php", ["password" => 1], ["click"]);
+         Ajax::updateItemOnEvent("generatePass", "fakeupdate", $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/generatepassword.php", ["password" => 1], ["click"]);
       }
 
-
-      $this->showFormButtons($options);
       Html::closeForm();
 
       return true;
@@ -847,14 +860,14 @@ class PluginAccountsAccount extends CommonDBTM {
                  'used'        => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id, "show_" . $p['name'] . $rand,
-                                            $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/dropdownTypeAccounts.php",
+                                            $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/dropdownTypeAccounts.php",
                                             $params, false);
       $out .= "<span id='show_" . $p['name'] . "$rand'>";
       $out .= "</span>\n";
 
       $params['accounttype'] = 0;
       $out                   .= Ajax::updateItem("show_" . $p['name'] . $rand,
-                                                 $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/dropdownTypeAccounts.php",
+                                                 $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/dropdownTypeAccounts.php",
                                                  $params, false);
       if ($p['display']) {
          echo $out;
@@ -1231,7 +1244,7 @@ class PluginAccountsAccount extends CommonDBTM {
                            'show_only_matches': true,
                            'ajax': {
                               'type': 'POST',
-                              'url': '" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php'
+                              'url': '" . $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php'
                            }
                         },
                         'qload': {
@@ -1247,8 +1260,8 @@ class PluginAccountsAccount extends CommonDBTM {
                            'data': {
                               'url': function(node) {
                                  return node.id === '#' ?
-                                    '" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php?node=-1' :
-                                    '" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php?node='+node.id;
+                                    '" . $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php?node=-1' :
+                                    '" . $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttreetypes.php?node='+node.id;
                               }
                            }
                         }
