@@ -41,7 +41,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
    static $types = ['Computer', 'Monitor', 'NetworkEquipment', 'Peripheral',
                     'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity',
-                    'Contract', 'Supplier', 'Certificate'];
+                    'Contract', 'Supplier', 'Certificate', 'Cluster'];
 
    public    $dohistory  = true;
    protected $usenotepad = true;
