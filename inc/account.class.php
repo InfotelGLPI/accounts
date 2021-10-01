@@ -206,7 +206,7 @@ class PluginAccountsAccount extends CommonDBTM {
          'name'  => __('Others')
       ];
 
-      if (Session::getCurrentInterface() == 'central') {
+      if (Session::getCurrentInterface() != 'central') {
          $tab[] = [
             'id'         => '10',
             'table'      => 'glpi_plugin_accounts_accountstates',
@@ -220,6 +220,7 @@ class PluginAccountsAccount extends CommonDBTM {
             'table' => 'glpi_plugin_accounts_accountstates',
             'field' => 'name',
             'name'  => __('Status'),
+            'datatype' => 'dropdown'
          ];
       }
 
