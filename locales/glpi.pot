@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-01 15:16+0000\n"
+"POT-Creation-Date: 2021-10-01 15:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Associate to account"
 msgstr ""
 
-#: setup.php:122 inc/account.class.php:57 inc/menu.class.php:41
+#: setup.php:128 inc/account.class.php:57 inc/menu.class.php:41
 #: inc/profile.class.php:176 inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
@@ -42,7 +42,7 @@ msgid "Type view"
 msgstr ""
 
 #: front/hash.form.php:85 inc/account.class.php:531 inc/account.class.php:599
-#: inc/account.class.php:725 inc/account.class.php:748
+#: inc/account.class.php:728 inc/account.class.php:751
 #: inc/account_item.class.php:696 inc/account_item.class.php:716
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
@@ -102,56 +102,56 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: inc/account.class.php:721
+#: inc/account.class.php:724
 msgid "You have not filled the password and encryption key"
 msgstr ""
 
-#: inc/account.class.php:746
+#: inc/account.class.php:749
 msgid "Password will not be modified"
 msgstr ""
 
-#: inc/account.class.php:781
+#: inc/account.class.php:784
 msgid "Generate password"
 msgstr ""
 
-#: inc/account.class.php:782
+#: inc/account.class.php:785
 msgid "Numbers"
 msgstr ""
 
-#: inc/account.class.php:783
+#: inc/account.class.php:786
 msgid "Lowercase"
 msgstr ""
 
-#: inc/account.class.php:784
+#: inc/account.class.php:787
 msgid "Uppercase"
 msgstr ""
 
-#: inc/account.class.php:785
+#: inc/account.class.php:788
 msgid "Special characters"
 msgstr ""
 
-#: inc/account.class.php:787
+#: inc/account.class.php:790
 msgid "Length"
 msgstr ""
 
-#: inc/account.class.php:788
+#: inc/account.class.php:791
 msgid " characters"
 msgstr ""
 
-#: inc/account.class.php:792 inc/account.class.php:793
+#: inc/account.class.php:795 inc/account.class.php:796
 msgid "Generate"
 msgstr ""
 
-#: inc/account.class.php:1074 inc/account.class.php:1165
+#: inc/account.class.php:1077 inc/account.class.php:1168
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: inc/account.class.php:1234
+#: inc/account.class.php:1237
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1342 inc/account_item.class.php:739
+#: inc/account.class.php:1345 inc/account_item.class.php:739
 msgid "Don't expire"
 msgstr ""
 
