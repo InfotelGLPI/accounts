@@ -706,6 +706,9 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "</td>";
 
       echo "</tr>";
+
+      Plugin::doHook("post_item_form", ['item' => $this, 'options' => &$params]);
+
       $options['colspan'] = 2;
       $this->showDates($options);
 
