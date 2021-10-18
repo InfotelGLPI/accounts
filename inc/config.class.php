@@ -58,12 +58,10 @@ class PluginAccountsConfig extends CommonDBTM
     * @return bool
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-      global $CFG_GLPI;
 
       if ($item->getType() == 'CronTask') {
 
-         $target = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/front/notification.state.php";
-         PluginAccountsAccount::configCron($target);
+         PluginAccountsAccount::configCron(1);
       }
       return true;
    }
@@ -72,12 +70,14 @@ class PluginAccountsConfig extends CommonDBTM
     * @param $target
     * @param $ID
     */
-   public function showForm($target, $ID) {
-
+   function showForm($ID, $options = []) {
+      global $CFG_GLPI;
+      
       $this->getFromDB($ID);
       $delay_expired = $this->fields["delay_expired"];
       $delay_whichexpire = $this->fields["delay_whichexpire"];
       echo "<div align='center'>";
+      $target = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/front/notification.state.php";
       echo "<form method='post' action=\"$target\">";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr><th>";
       echo __('Time of checking of of expiration of accounts', 'accounts') . "</th></tr>";
