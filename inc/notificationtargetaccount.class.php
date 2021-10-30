@@ -106,7 +106,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $criteria['WHERE']['glpi_groups_users.groups_id'] = $this->obj->fields[$group_field];
          $iterator = $DB->request($criteria);
 
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             //Add the user email and language in the notified users list
             $this->addToRecipientsList($data);
          }
@@ -133,7 +133,7 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $criteria['WHERE']['glpi_groups_users.groups_id'] = $this->obj->fields[$group_field];
          $iterator = $DB->request($criteria);
 
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             //Add the user email and language in the notified users list
             $this->addToRecipientsList($data);
          }

@@ -227,7 +227,7 @@ class PluginAccountsHash extends CommonDBTM {
 
       if ($ID < 1
           && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
-         echo "<div class='center red'>" .
+         echo "<div class='alert alert-important alert-warning d-flex'>" .
               __('WARNING : a encryption key already exist for this entity', 'accounts') . "</div></br>";
       }
       /*
@@ -242,7 +242,7 @@ class PluginAccountsHash extends CommonDBTM {
       $options['colspan'] = 1;
 
       if ($options['update'] == 1) {
-         echo "<div class='center red'>"
+         echo "<div class='alert alert-important alert-warning d-flex'>"
               . __('Warning : if you change used hash, the old accounts will use the old encryption key', 'accounts') .
               "</font><br><br>";
       }
@@ -254,7 +254,7 @@ class PluginAccountsHash extends CommonDBTM {
 
       echo "<td>" . __('Name') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "name");
+      echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
       echo "</td>";
       echo "</tr>";
 
@@ -266,7 +266,7 @@ class PluginAccountsHash extends CommonDBTM {
          echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
          echo "&nbsp;<input type='button' id='generate_hash'" .
               "value='" . __s('Generate hash with this encryption key', 'accounts') .
-              "' class='submit'>";
+              "' class='btn btn-primary'>";
          echo Html::scriptBlock("$(document).on('click', '#generate_hash', function(event) {
             if ($('#aeskey').val() == '') {
                alert('" . __('Please fill the encryption key', 'accounts') . "');
@@ -301,7 +301,7 @@ class PluginAccountsHash extends CommonDBTM {
 
       if ($ID < 1) {
          echo "<tr class='tab_bg_1 '>";
-         echo "<td class='center red' colspan='2'>";
+         echo "<td class='alert alert-important alert-warning d-flex' colspan='2'>";
          echo __('Please do not use special characters like / \ \' " & in encryption keys, or you cannot change it after.', 'accounts') . "</td>";
          echo "</tr>";
       }
@@ -341,9 +341,9 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<td>";
       echo __('Please fill the encryption key', 'accounts') . "</td>";
       echo "<td class='center'>";
-      echo "<input type='password' autocomplete='off' name='key' id='key'>&nbsp;";
+      echo "<input type='password' class='form-control' autocomplete='off' name='key' id='key'>&nbsp;";
       echo "<input type='submit' name='select' value=\"" . __s('Display report') . "\"
-               class='submit' id='showAccountsList$rand'>";
+               class='btn btn-primary' id='showAccountsList$rand'>";
       echo "</td>";
       echo "</tr>";
       echo "</table></div>";
@@ -366,7 +366,7 @@ class PluginAccountsHash extends CommonDBTM {
     */
    public static function showHashChangeForm($hash_id) {
 
-      echo "<div class='center red'>";
+      echo "<div class='alert alert-important alert-warning d-flex'>";
       echo "<b>" . __('Warning : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') . "</b></div><br>";
       echo "<form method='post' action='./hash.form.php'>";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr><th colspan='2'>";
@@ -377,18 +377,18 @@ class PluginAccountsHash extends CommonDBTM {
       if ($aesKey->getFromDBByHash($hash_id) && isset($aesKey->fields["name"])) {
          $key = "value='" . $aesKey->fields["name"] . "' ";
       }
-      echo "<input type='password' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
+      echo "<input type='password' class='form-control' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
       echo "</td></tr>";
       echo "<tr><th>";
       echo __('New encryption key', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
-      echo "<input type='password' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
+      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
       echo "</td></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
       $message  = __('You want to change the key : ', 'accounts');
       $message2 = __(' by the key : ', 'accounts');
       echo Html::hidden('ID', ['value' => $hash_id]);
-      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='submit'
+      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
       onclick='return (confirm(\"$message\" +  document.getElementById(\"aeskey\").value + \"$message2\" + document.getElementById(\"aeskeynew\").value)) '>";
       echo "</td></tr>";
       echo "</table>";

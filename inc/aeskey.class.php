@@ -98,7 +98,7 @@ class PluginAccountsAesKey extends CommonDBTM
             }
             break;
          case __CLASS__ :
-            $item->showForm($item->getID(), $item->fields);
+            $item->showForm($item->getID());
       }
       return true;
    }
@@ -178,7 +178,7 @@ class PluginAccountsAesKey extends CommonDBTM
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
-      echo "<div class='center red b'>" . __('Warning : saving the encryption key is a security hole', 'accounts') . "</div></br>";
+      echo "<div class='alert alert-important alert-warning d-flex'>" . __('Warning : saving the encryption key is a security hole', 'accounts') . "</div></br>";
 
       $options['colspan'] = 2;
       $this->h->getFromDB($plugin_accounts_hashes_id);
@@ -187,7 +187,7 @@ class PluginAccountsAesKey extends CommonDBTM
       echo "<tr class='tab_bg_2'><td colspan='2'>";
       echo __('Encryption key', 'accounts');
       echo "</td><td colspan='2'>";
-      echo "<input type='password' autocomplete='off' name='name' value='" . $this->fields["name"] . "'>";
+      echo "<input type='password' class='form-control' autocomplete='off' name='name' value='" . $this->fields["name"] . "'>";
       echo "</td>";
       echo "</tr>";
       $options['candel'] = false;

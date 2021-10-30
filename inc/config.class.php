@@ -72,7 +72,7 @@ class PluginAccountsConfig extends CommonDBTM
     * @param $target
     * @param $ID
     */
-   public function showForm($target, $ID) {
+   public function showConfigForm($target, $ID) {
 
       $this->getFromDB($ID);
       $delay_expired = $this->fields["delay_expired"];

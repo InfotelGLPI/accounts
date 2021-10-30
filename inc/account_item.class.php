@@ -280,7 +280,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                                                                 => true,
                                                ]);
          echo "</td><td class='center'>";
-         echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='submit'>";
+         echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='btn btn-primary'>";
          echo Html::hidden('plugin_accounts_accounts_id', ['value' => $instID]);
          echo "</td></tr>";
          echo "</table>";
@@ -565,7 +565,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                                                     'used'   => $used]);
             echo "</td><td class='center' width='20%'>";
             echo "<input type='submit' name='additem' value=\"" .
-                 _sx('button', 'Associate a account', 'accounts') . "\" class='submit'>";
+                 _sx('button', 'Associate a account', 'accounts') . "\" class='btn btn-primary'>";
             echo "</td>";
             echo "</tr>";
             echo "</table>";
@@ -614,7 +614,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       if ($hash) {
          if (!$aeskey->getFromDBByHash($hash_id) || !$aeskey->fields["name"]) {
             echo __('Encryption key', 'accounts');
-            echo "&nbsp;<input type='password' name='aeskey' id='aeskey' autocomplete='off'>";
+            echo "&nbsp;<input type='password' class='form-control' name='aeskey' id='aeskey' autocomplete='off'>";
          } else {
             echo Html::hidden('aeskey', ['value'        => $aeskey->fields["name"],
                                          'id'           => 'aeskey',
@@ -686,7 +686,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                                                                   'id'           => "encrypted_password$accountID",
                                                                   'autocomplete' => 'off']);
 
-               echo "<input type='text' id='hidden_password$accountID' onClick='decryptCheck$rand()' value='' size='30' >";
+               echo "<input type='text' class='form-control' size ='40' id='hidden_password$accountID' onClick='decryptCheck$rand()' value='' size='30' >";
 
                echo Html::scriptBlock("
                function decryptCheck$rand(){
@@ -703,7 +703,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
             } else {
                $rand = mt_rand();
                echo "&nbsp;<input type='button' id='decrypt_link$accountID$rand' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
-                        class='submit'
+                        class='btn btn-primary'
                         onClick='decryptCheckbtn$rand()'>";
                echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
                                                                   'id'           => "encrypted_password$accountID",

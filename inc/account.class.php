@@ -458,7 +458,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>" . __('Name') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "name");
+      echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
       echo "</td>";
 
       echo "<td>" . __('Status') . "</td><td>";
@@ -472,7 +472,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>" . __('Login') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "login");
+      echo Html::input('login', ['value' => $this->fields['login'], 'size' => 40]);
       echo "</td>";
 
       echo "<td>" . __('Type') . "</td><td>";
@@ -493,7 +493,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       if (!empty($hashes)) {
          if (count($hashes) > 1) {
-            echo "<div class='red'>";
+            echo "<div class='alert alert-important alert-warning d-flex'>";
             echo __('Warning : there are multiple encryption keys for this entity. The encryption key of this entity will be used', 'accounts');
             echo "</div>";
 
@@ -521,7 +521,8 @@ class PluginAccountsAccount extends CommonDBTM {
       if ($hash) {
          if (!$aeskey->getFromDBByHash($hash_id) || !$aeskey->fields["name"]) {
             echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td>";
-            echo "<input type='password' autocomplete='off' name='aeskey' id='aeskey'>";
+            echo "<input type='password' class='form-control' autocomplete='off' size='20' name='aeskey' id='aeskey'
+            style='width: 50%;display: inline;'>";
 
             echo Html::hidden('encrypted_password', ['value' => $this->fields["encrypted_password"],
                                                      'id'    => 'encrypted_password']);
@@ -531,7 +532,7 @@ class PluginAccountsAccount extends CommonDBTM {
                                                    'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
                echo "&nbsp;<button type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
-                        class='vsubmit'>";
+                        class='btn btn-primary'>";
                echo "<i class='fas fa-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts');
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
@@ -605,13 +606,13 @@ class PluginAccountsAccount extends CommonDBTM {
                });</script>';
       }
       if (!empty($ID) || $ID > 0) {
-         echo "<span class='account_to_clipboard_wrapper'>";
+         echo "<span class='account_to_clipboard_wrapper pointer'>";
       }
-      echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
+      echo "<input type='password' style='height: 35px;' name='hidden_password' id='hidden_password' size='30' >";
       if (!empty($ID) || $ID > 0) {
          echo "</span>";
       }
-      echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password'></span>";
+      echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password pointer'></span>";
       echo "</td>";
 
       echo Html::scriptBlock('$(".toggle-password").click(function() {
@@ -676,7 +677,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo "<td>" . __('Others') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "others");
+      echo Html::input('others', ['value' => $this->fields['others'], 'size' => 40]);
       echo "</td>";
 
       echo "<td>" . __('Location') . "</td><td>";
@@ -713,7 +714,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
             echo "<tr class='tab_bg_2'>";
             echo "<td class='center' colspan='4'>";
-            echo "<button type='submit' name='add' id='account_add' value='" . _sx('button', 'Add') . "' class='vsubmit'>";
+            echo "<button type='submit' name='add' id='account_add' value='" . _sx('button', 'Add') . "' class='btn btn-primary'>";
             echo "<i class='fas fa-plus'></i>&nbsp;"._sx('button', 'Add');
             echo Html::scriptBlock("$('#account_form').submit(function(event){
                if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
@@ -737,7 +738,7 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "<td class='center' colspan='4'>";
             echo Html::hidden('id', ['value' => $ID]);
 
-            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='vsubmit' >";
+            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='btn btn-primary' >";
             echo "<i class='fas fa-save'></i>&nbsp;"._sx('button', 'Save');
 
             echo Html::scriptBlock("$('#account_form').submit(function(event){
@@ -756,14 +757,14 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "<tr class='tab_bg_2'>";
             echo "<td class='right' colspan='4'>";
             if ($this->fields["is_deleted"] == '0') {
-               echo "<button type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='vsubmit'>";
+               echo "<button type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='btn btn-primary'>";
                echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Put in trashbin');
                echo "</button>";
             } else {
-               echo "<button type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='vsubmit'>";
+               echo "<button type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='btn btn-primary'>";
                echo "<i class='fas fa-trash-restore'></i>&nbsp;"._sx('button', 'Restore');
                echo "</button>";
-               echo "&nbsp;&nbsp;<button type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='vsubmit'>";
+               echo "&nbsp;&nbsp;<button type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='btn btn-primary'>";
                echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Delete permanently');
                echo "</button>";
             }
@@ -788,7 +789,7 @@ class PluginAccountsAccount extends CommonDBTM {
                      </tr>
                <tr id='fakeupdate'></tr>
                <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
-               <button type='button' id='generatePass' name='generatePass' class='vsubmit' value='" . __s('Generate', 'accounts') . "'
+               <button type='button' id='generatePass' name='generatePass' class='btn btn-primary' value='" . __s('Generate', 'accounts') . "'
                      class='submit'>" . __s('Generate', 'accounts') . "</button></td></tr>
                </tbody>
                </table>";
@@ -1214,8 +1215,8 @@ class PluginAccountsAccount extends CommonDBTM {
       $notif  = new PluginAccountsNotificationState();
       $config = new PluginAccountsConfig();
 
-      $config->showForm($target, 1);
-      $notif->showForm($target);
+      $config->showConfigForm($target, 1);
+      $notif->showNotificationForm($target);
       $notif->showAddForm($target);
 
    }
@@ -1365,5 +1366,70 @@ class PluginAccountsAccount extends CommonDBTM {
          unset($values[CREATE], $values[DELETE], $values[PURGE]);
       }
       return $values;
+   }
+   
+   /**
+    * @since 9.1
+    *
+    * @param array $options Options
+    *
+    * @return boolean
+   **/
+   function showDates($options = []) {
+
+      $isNewID = ((isset($options['withtemplate']) && ($options['withtemplate'] == 2))
+         || $this->isNewID($this->getID()));
+
+      if ($isNewID) {
+         return true;
+      }
+
+      $date_creation_exists = ($this->getField('date_creation') != NOT_AVAILABLE);
+      $date_mod_exists = ($this->getField('date_mod') != NOT_AVAILABLE);
+
+      $colspan = $options['colspan'];
+      if ((!isset($options['withtemplate']) || ($options['withtemplate'] == 0))
+          && !empty($this->fields['template_name'])) {
+         $colspan = 1;
+      }
+
+      echo "<tr class='tab_bg_1 footerRow'>";
+      //Display when it's not a new asset being created
+      if ($date_creation_exists
+         && $this->getID() > 0
+            && (!isset($options['withtemplate']) || $options['withtemplate'] == 0 || $options['withtemplate'] == NULL)) {
+         echo "<th colspan='$colspan'>";
+         printf(__('Created on %s'), Html::convDateTime($this->fields["date_creation"]));
+         echo "</th>";
+      } else if (!isset($options['withtemplate']) || $options['withtemplate'] == 0 || !$date_creation_exists) {
+         echo "<th colspan='$colspan'>";
+         echo "</th>";
+      }
+
+      if (isset($options['withtemplate']) && $options['withtemplate']) {
+         echo "<th colspan='$colspan'>";
+         //TRANS: %s is the datetime of insertion
+         printf(__('Created on %s'), Html::convDateTime($_SESSION["glpi_currenttime"]));
+         echo "</th>";
+      }
+
+      if ($date_mod_exists) {
+         echo "<th colspan='$colspan'>";
+         //TRANS: %s is the datetime of update
+         printf(__('Last update on %s'), Html::convDateTime($this->fields["date_mod"]));
+         echo "</th>";
+      } else {
+         echo "<th colspan='$colspan'>";
+         echo "</th>";
+      }
+
+      if ((!isset($options['withtemplate']) || ($options['withtemplate'] == 0))
+          && !empty($this->fields['template_name'])) {
+         echo "<th colspan='".($colspan * 2)."'>";
+         printf(__('Created from the template %s'), $this->fields['template_name']);
+         echo "</th>";
+      }
+
+      echo "</tr>";
    }
 }
