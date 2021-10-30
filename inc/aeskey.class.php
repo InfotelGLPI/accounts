@@ -98,7 +98,7 @@ class PluginAccountsAesKey extends CommonDBTM
             }
             break;
          case __CLASS__ :
-            $item->showForm($item->getID(), $item->fields);
+            $item->showForm($item->getID());
       }
       return true;
    }
