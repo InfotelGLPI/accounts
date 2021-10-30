@@ -126,7 +126,7 @@ class PluginAccountsNotificationState extends CommonDBTM
       echo "</td>";
       echo "<td>";
       echo "<div align='center'>";
-      echo "<input type='submit' name='add' value=\"" . _sx('button', 'Add') . "\" class='submit' >";
+      echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'update' => 'btn btn-primary']);
       echo "</div></td></tr>";
       echo "</table>";
       Html::closeForm();

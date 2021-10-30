@@ -280,7 +280,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                                                                 => true,
                                                ]);
          echo "</td><td class='center'>";
-         echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='btn btn-primary'>";
+         echo Html::submit(_sx('button', 'Add'), ['name' => 'additem', 'class' => 'btn btn-primary']);
          echo Html::hidden('plugin_accounts_accounts_id', ['value' => $instID]);
          echo "</td></tr>";
          echo "</table>";
@@ -564,8 +564,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
             PluginAccountsAccount::dropdownAccount(['entity' => $entities,
                                                     'used'   => $used]);
             echo "</td><td class='center' width='20%'>";
-            echo "<input type='submit' name='additem' value=\"" .
-                 _sx('button', 'Associate a account', 'accounts') . "\" class='btn btn-primary'>";
+            echo Html::submit(_sx('button', 'Associate a account', 'accounts'), ['name' => 'additem', 'class' => 'btn btn-primary']);
             echo "</td>";
             echo "</tr>";
             echo "</table>";

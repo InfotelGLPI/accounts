@@ -101,7 +101,7 @@ class PluginAccountsConfig extends CommonDBTM
       echo "<tr><th>";
       echo Html::hidden('id', ['value' => $ID]);
       echo "<div align='center'>";
-      echo "<input type='submit' name='update' value=\"" . _sx('button', 'Save') . "\" class='submit' >";
+      echo Html::submit(_sx('button', 'Save'), ['name' => 'xxx', 'update' => 'btn btn-primary']);
       echo "</div></th></tr>";
       echo "</table>";
       Html::closeForm();
