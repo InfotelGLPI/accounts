@@ -41,7 +41,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
    static $types = ['Computer', 'Monitor', 'NetworkEquipment', 'Peripheral',
                     'Phone', 'Printer', 'Software', 'SoftwareLicense', 'Entity',
-                    'Contract', 'Supplier', 'Certificate'];
+                    'Contract', 'Supplier', 'Certificate', 'Cluster'];
 
    public    $dohistory  = true;
    protected $usenotepad = true;
@@ -206,7 +206,7 @@ class PluginAccountsAccount extends CommonDBTM {
          'name'  => __('Others')
       ];
 
-      if (Session::getCurrentInterface() == 'central') {
+      if (Session::getCurrentInterface() != 'central') {
          $tab[] = [
             'id'         => '10',
             'table'      => 'glpi_plugin_accounts_accountstates',
@@ -220,6 +220,7 @@ class PluginAccountsAccount extends CommonDBTM {
             'table' => 'glpi_plugin_accounts_accountstates',
             'field' => 'name',
             'name'  => __('Status'),
+            'datatype' => 'dropdown'
          ];
       }
 
@@ -706,6 +707,9 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "</td>";
 
       echo "</tr>";
+
+      Plugin::doHook("post_item_form", ['item' => $this, 'options' => &$params]);
+
       $options['colspan'] = 2;
       $this->showDates($options);
 
