@@ -89,10 +89,14 @@ class PluginAccountsConfig extends CommonDBTM
 
       echo "<tr class='tab_bg_1'><td><div align='left'>";
       echo __('Accounts expired for more than', 'accounts');
-      echo "&nbsp;<input type='text' size='5' name='delay_expired' value=\"$delay_expired\">&nbsp;";
+      echo "&nbsp;";
+      echo Html::input('delay_expired', ['value' => $delay_expired, 'size' => 5]);
+      echo "&nbsp;";
       echo _n('Day', 'Days', 2) . " ( >" . Html::convDate($date_first) . ")<br>";
       echo __('Accounts expiring in less than', 'accounts');
-      echo "&nbsp;<input type='text' size='5' name='delay_whichexpire' value=\"$delay_whichexpire\">&nbsp;";
+      echo "&nbsp;";
+      echo Html::input('delay_whichexpire', ['value' => $delay_whichexpire, 'size' => 5]);
+      echo "&nbsp;";
       echo _n('Day', 'Days', 2) . " ( <" . Html::convDate($date_next) . ")";
 
       echo "</td>";
