@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-30 12:54+0000\n"
+"POT-Creation-Date: 2021-10-30 16:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 
 #: front/hash.form.php:85 inc/account.class.php:532 inc/account.class.php:600
 #: inc/account.class.php:729 inc/account.class.php:752
-#: inc/account_item.class.php:696 inc/account_item.class.php:716
+#: inc/account_item.class.php:695 inc/account_item.class.php:715
 #: inc/report.class.php:192
 msgid "Wrong encryption key"
 msgstr ""
@@ -58,7 +58,7 @@ msgstr ""
 
 #: inc/account.class.php:144 inc/account.class.php:152
 #: inc/account.class.php:567 inc/account.class.php:577
-#: inc/account_item.class.php:640 inc/notificationtargetaccount.class.php:59
+#: inc/account_item.class.php:639 inc/notificationtargetaccount.class.php:59
 #: inc/notificationtargetaccount.class.php:177
 #: inc/notificationtargetaccount.class.php:226
 #: inc/notificationtargetaccount.class.php:276
@@ -66,7 +66,7 @@ msgid "Affected User"
 msgstr ""
 
 #: inc/account.class.php:443 inc/account.class.php:516
-#: inc/account_item.class.php:609
+#: inc/account_item.class.php:608
 msgid "There is no encryption key for this entity"
 msgstr ""
 
@@ -77,7 +77,7 @@ msgid ""
 msgstr ""
 
 #: inc/account.class.php:524 inc/account.class.php:562
-#: inc/account_item.class.php:616 inc/account_item.class.php:624
+#: inc/account_item.class.php:615 inc/account_item.class.php:623
 #: inc/aeskey.class.php:59 inc/aeskey.class.php:188 inc/aeskey.class.php:239
 #: inc/aeskey.class.php:260 inc/hash.class.php:50 inc/hash.class.php:264
 #: inc/menu.class.php:49
@@ -151,16 +151,16 @@ msgstr ""
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1346 inc/account_item.class.php:739
+#: inc/account.class.php:1346 inc/account_item.class.php:738
 msgid "Don't expire"
 msgstr ""
 
-#: inc/account_item.class.php:568
+#: inc/account_item.class.php:567
 msgctxt "button"
 msgid "Associate a account"
 msgstr ""
 
-#: inc/account_item.class.php:705
+#: inc/account_item.class.php:704
 msgid "Uncrypt"
 msgstr ""
 
