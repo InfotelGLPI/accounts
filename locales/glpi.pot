@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-08 07:27+0000\n"
+"POT-Creation-Date: 2021-11-08 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Uncrypted"
 msgstr ""
 
-#: front/account.php:53 front/account.php:58
+#: front/account.php:52 front/account.php:53 front/account.php:58
 msgid "Type view"
 msgstr ""
 
@@ -147,11 +147,11 @@ msgstr ""
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: inc/account.class.php:1238
+#: inc/account.class.php:1242
 msgid "Select the wanted account type"
 msgstr ""
 
-#: inc/account.class.php:1346 inc/account_item.class.php:738
+#: inc/account.class.php:1350 inc/account_item.class.php:738
 msgid "Don't expire"
 msgstr ""
 
