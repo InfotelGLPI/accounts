@@ -49,15 +49,16 @@ if ($account->canView()) {
 
    if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
       echo "<div align='center'>";
-      echo "<a onclick='add_file_modal.dialog(\"open\");' href='#modal_account_content' title='" .
-         __s('Type view') . "'>" . __('Type view', 'accounts') . "</a>";
-      echo "</div>";
-
-      Ajax::createModalWindow('add_file_modal',
-                              $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttree.php",
-         ['title' => __('Type view', 'accounts'),
-            'width' => 800,
-            'height' => 400]);
+      echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='btn btn-primary' title='" . __('Type view', 'accounts') . "' >";
+      echo __('Type view', 'accounts');
+      echo "</a>";
+      echo "</div><br>";
+      echo Ajax::createIframeModalWindow('seetypemodal',
+                                         $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttree.php",
+                                         ['title'   => __('Type view', 'accounts'),
+                                          'display'       => false,
+                                           'width'         => 600,
+                                           'height'        => 500]);
    }
 
    Search::show("PluginAccountsAccount");

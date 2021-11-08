@@ -1235,13 +1235,17 @@ class PluginAccountsAccount extends CommonDBTM {
 
       $rand = mt_rand();
       Plugin::loadLang('accounts');
-      echo "<div class='center' ><span class='b'>" . __('Select the wanted account type', 'accounts') . "</span><br>";
-      echo "<a style='font-size:14px;' href='" . $target . "?reset=reset' title=\"" .
-           __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a></div>";
+      echo Html::css("/public/lib/base.css");
+      echo Html::script("public/lib/base.js");
+      echo Html::css("plugins/accounts/lib/jstree/themes/default/style.min.css");
+
+      echo "<div class='alert alert-important alert-info d-flex'>" . __('Select the wanted account type', 'accounts') . "</div><br>";
+      echo "<a href='" . $target . "?reset=reset' target='_blank' title=\"" .
+           __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a>";
 
       $js = "   $(function() {
-                  $.getScript('{$CFG_GLPI["root_doc"]}/public/lib/jstree.js', function(data, textStatus, jqxhr) {
-                     $('#tree_projectcategory$rand').jstree({
+                  $.getScript('{$CFG_GLPI["root_doc"]}/plugins/accounts/lib/jstree/jstree.min.js', function(data, textStatus, jqxhr) {
+                     $('#tree_accounttypes$rand').jstree({
                         // the `plugins` array allows you to configure the active plugins on this instance
                         'plugins' : ['search', 'qload'],
                         'search': {
@@ -1258,9 +1262,9 @@ class PluginAccountsAccount extends CommonDBTM {
                            'moreText': '" . __s('Load more...') . "'
                         },
                         'core': {
-                           'themes': {
-                              'name': 'glpi'
-                           },
+//                           'themes': {
+//                              'name': 'default'
+//                           },
                            'animation': 0,
                            'data': {
                               'url': function(node) {
@@ -1276,7 +1280,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       echo Html::scriptBlock($js);
       echo "<div class='left' style='width:100%'>";
-      echo "<div id='tree_projectcategory$rand'></div>";
+      echo "<div id='tree_accounttypes$rand'></div>";
       echo "</div>";
    }
 
