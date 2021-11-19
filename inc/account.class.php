@@ -694,7 +694,11 @@ class PluginAccountsAccount extends CommonDBTM {
       echo "<table cellpadding='2' cellspacing='2' border='0'><tr><td>";
       echo __('Comments') . "</td></tr>";
       echo "<tr><td class='center'>";
-      echo "<textarea cols='125' rows='3' name='comment'>" . $this->fields["comment"] . "</textarea>";
+      Html::textarea(['name'            => 'comment',
+                      'value'           => $this->fields["comment"],
+                      'cols'       => 125,
+                      'rows'       => 3,
+                      'enable_richtext' => false]);
       echo "</td></tr></table>";
       echo "</td>";
       echo "</tr>";

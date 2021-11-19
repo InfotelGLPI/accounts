@@ -289,7 +289,11 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td valign='top'>" . __('Comments') . "</td>";
       echo "<td>";
-      echo "<textarea cols='75' rows='3' name='comment'>" . $this->fields["comment"] . "</textarea>";
+      Html::textarea(['name'            => 'comment',
+                      'value'           => $this->fields["comment"],
+                      'cols'       => 75,
+                      'rows'       => 3,
+                      'enable_richtext' => false]);
       echo "</td>";
       echo "</tr>";
 
