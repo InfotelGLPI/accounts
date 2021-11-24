@@ -798,7 +798,7 @@ class PluginAccountsAccount extends CommonDBTM {
                <tr id='fakeupdate'></tr>
                <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
                <button type='button' id='generatePass' name='generatePass' class='btn btn-primary' value='" . __s('Generate', 'accounts') . "'
-                     class='submit'>" . __s('Generate', 'accounts') . "</button></td></tr>
+                     class='btn btn-primary'>" . __s('Generate', 'accounts') . "</button></td></tr>
                </tbody>
                </table>";
          Ajax::updateItemOnEvent("generatePass", "fakeupdate", $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/generatepassword.php", ["password" => 1], ["click"]);
