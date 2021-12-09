@@ -51,6 +51,10 @@ class PluginAccountsAesKey extends CommonDBTM
       $this->h = new PluginAccountsHash();
    }
 
+   static function getIcon() {
+      return "ti ti-lock-open";
+   }
+
    /**
     * @param int $nb
     * @return translated
@@ -187,7 +191,7 @@ class PluginAccountsAesKey extends CommonDBTM
       echo "<tr class='tab_bg_2'><td colspan='2'>";
       echo __('Encryption key', 'accounts');
       echo "</td><td colspan='2'>";
-      echo "<input type='password' class='form-control' autocomplete='off' name='name' value='" . $this->fields["name"] . "'>";
+      echo Html::input('name', ['value' => $this->fields["name"], 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
       echo "</td>";
       echo "</tr>";
       $options['candel'] = false;
@@ -248,7 +252,8 @@ class PluginAccountsAesKey extends CommonDBTM
 
          while ($data = $DB->fetchArray($result)) {
             Session::addToNavigateListItems("PluginAccountsAesKey", $data['id']);
-            echo "<input type='hidden' name='item[" . $data["id"] . "]' value='" . $ID . "'>";
+            $name = "item[" . $data["id"] . "]";
+            echo Html::hidden($name, ['value' => $ID]);
             echo "<tr class='tab_bg_1 center'>";
             if ($candelete) {
                echo "<td width='10'>";

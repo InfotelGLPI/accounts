@@ -613,7 +613,9 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       if ($hash) {
          if (!$aeskey->getFromDBByHash($hash_id) || !$aeskey->fields["name"]) {
             echo __('Encryption key', 'accounts');
-            echo "&nbsp;<input type='password' class='form-control' name='aeskey' id='aeskey' autocomplete='off'>";
+            echo "&nbsp;";
+//            echo "<input type='password' class='form-control' name='aeskey' id='aeskey' autocomplete='off'>";
+            echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 100, 'autocomplete' => 'off']);
          } else {
             echo Html::hidden('aeskey', ['value'        => $aeskey->fields["name"],
                                          'id'           => 'aeskey',
@@ -621,7 +623,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
          }
       } else {
          echo __('Encryption key', 'accounts');
-         echo "<div class='red'>";
+         echo "<div class='alert alert-important alert-warning d-flex'>";
          echo $alert;
          echo "</div>";
       }

@@ -50,6 +50,10 @@ class PluginAccountsHash extends CommonDBTM {
       return _n('Encryption key', 'Encryption keys', $nb, 'accounts');
    }
 
+   static function getIcon() {
+      return "ti ti-lock-open";
+   }
+
    /**
     * @return bool
     */
@@ -263,7 +267,8 @@ class PluginAccountsHash extends CommonDBTM {
 
          echo "<td>" . __('Encryption key', 'accounts') . "</td>";
          echo "<td>";
-         echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
+         echo Html::input('aeskey', ['id' => 'aeskey', 'size' => 40, 'autocomplete' => 'off']);
+//         echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
          echo "&nbsp;<input type='button' id='generate_hash'" .
               "value='" . __s('Generate hash with this encryption key', 'accounts') .
               "' class='btn btn-primary'>";
@@ -282,7 +287,8 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>" . __('Hash', 'accounts') . "</td>";
       echo "<td>";
-      echo "<input type='text' readonly='readonly' size='100' id='hash' name='hash' value='" . $this->fields["hash"] . "' autocomplete='off'>";
+      echo Html::input('hash', ['id' => 'hash', 'value' => $this->fields["hash"], 'readonly' => 'readonly', 'size' => 100, 'autocomplete' => 'off']);
+//      echo "<input type='text' readonly='readonly' size='100' id='hash' name='hash' value='" . $this->fields["hash"] . "' autocomplete='off'>";
       echo "</td>";
       echo "</tr>";
 
@@ -345,9 +351,13 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<td>";
       echo __('Please fill the encryption key', 'accounts') . "</td>";
       echo "<td class='center'>";
-      echo "<input type='password' class='form-control' autocomplete='off' name='key' id='key'>&nbsp;";
-      echo "<input type='submit' name='select' value=\"" . __s('Display report') . "\"
-               class='btn btn-primary' id='showAccountsList$rand'>";
+      echo Html::input('key', ['id' => 'key', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
+//      echo "<input type='password' class='form-control' autocomplete='off' name='key' id='key'>";
+      echo "&nbsp;";
+      //      echo "<input type='submit' name='select' value=\"" . __s('Display report') . "\"
+      //               class='btn btn-primary' id='showAccountsList$rand'>";
+      $id = "showAccountsList$rand";
+      echo Html::submit(__s('Display report'), ['name' => 'select', 'form' => '', 'id' => $id, 'class' => 'btn btn-primary']);
       echo "</td>";
       echo "</tr>";
       echo "</table></div>";
@@ -379,21 +389,26 @@ class PluginAccountsHash extends CommonDBTM {
       $aesKey = new PluginAccountsAesKey();
       $key    = "";
       if ($aesKey->getFromDBByHash($hash_id) && isset($aesKey->fields["name"])) {
-         $key = "value='" . $aesKey->fields["name"] . "' ";
+         $key = $aesKey->fields["name"];
       }
-      echo "<input type='password' class='form-control' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
+      echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off', 'value' => $key]);
+//      echo "<input type='password' class='form-control' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
       echo "</td></tr>";
       echo "<tr><th>";
       echo __('New encryption key', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
-      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
+      echo Html::input('aeskeynew', ['id' => 'aeskeynew', 'type' => 'password', 'size' => 100, 'autocomplete' => 'off']);
+//      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
       echo "</td></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
       $message  = __('You want to change the key : ', 'accounts');
       $message2 = __(' by the key : ', 'accounts');
       echo Html::hidden('ID', ['value' => $hash_id]);
-      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
-      onclick='return (confirm(\"$message\" +  document.getElementById(\"aeskey\").value + \"$message2\" + document.getElementById(\"aeskeynew\").value)) '>";
+      $onclick = "return (confirm(\"$message\" +  document.getElementById(\"aeskey\").value + \"$message2\" + document.getElementById(\"aeskeynew\").value))";
+      echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash', 'form' => '', 'onclick' => $onclick, 'class' => 'btn btn-primary']);
+//
+//      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
+//      onclick=' '>";
       echo "</td></tr>";
       echo "</table>";
       Html::closeForm();

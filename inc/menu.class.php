@@ -46,7 +46,7 @@ class PluginAccountsMenu extends CommonGLPI {
     */
    static function getMenuContent() {
 
-      $image = "<i class='fas fa-lock fa-2x' title='" . _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'></i>";
+      $image = "<i class='ti ti-lock-open' title='" . _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'></i>"._n('Encryption key', 'Encryption keys', 2, 'accounts');
 
       $menu                    = [];
       $menu['title']           = self::getMenuName();
@@ -74,13 +74,9 @@ class PluginAccountsMenu extends CommonGLPI {
          $menu['options']['hash']['links']['add'] = PluginAccountsHash::getFormURL(false);
       }
 
-      $menu['icon'] = self::getIcon();
+      $menu['icon'] = PluginAccountsAccount::getIcon();
 
       return $menu;
-   }
-
-   static function getIcon() {
-      return "fas fa-lock";
    }
 
    static function removeRightsFromSession() {

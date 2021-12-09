@@ -183,7 +183,9 @@ class PluginAccountsReport extends CommonDBTM {
             }
             if ($output_type == Search::HTML_OUTPUT) {
                $encrypted = $field["password"];
-               echo "<input type='hidden' name='password[$IDc]'>";
+               $name = "password[$IDc]";
+               echo Html::hidden($name, ['value' => '']);
+               echo "<input type='hidden' name=''>";
                $pass = "<p name='show_password' id='show_password$$IDc'></p>";
                $pass .= "<script type='javascript'>
                var good_hash=\"$hash\";
@@ -238,14 +240,13 @@ class PluginAccountsReport extends CommonDBTM {
 
          echo Html::hidden('item_type', ['value' => 'PluginAccountsReport']);
          if ($item_type_output_param != 0) {
-            echo "<input type='hidden' name='item_type_param' value='" .
-                 serialize($item_type_output_param) . "'>";
+            echo Html::hidden('item_type_param', ['value' => serialize($item_type_output_param)]);
          }
          $explode = explode("&amp;", $parameters);
          for ($i = 0; $i < count($explode); $i++) {
             $pos = strpos($explode[$i], '=');
-            echo "<input type='hidden' name=\"" . substr($explode[$i], 0, $pos) . "\" value=\"" .
-                 substr($explode[$i], $pos + 1) . "\">";
+            $name = substr($explode[$i], 0, $pos);
+            echo Html::hidden($name, ['value' => substr($explode[$i], $pos + 1)]);
          }
          self::showOutputFormat();
 
@@ -269,8 +270,7 @@ class PluginAccountsReport extends CommonDBTM {
          echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
       }
 
-      echo "<button type='submit' name='export' class='unstyled pointer' " .
-           " title=\"" . _sx('button', 'Export') . "\">" .
-           "<i class='fas fa-save'></i><span class='sr-only'>" . _sx('button', 'Export') . "<span>";
+      echo Html::submit(_sx('button', 'Export'), ['name' => 'export', 'class' => 'btn btn-primary']);
+
    }
 }

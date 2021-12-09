@@ -57,6 +57,10 @@ class PluginAccountsAccount extends CommonDBTM {
       return _n('Account', 'Accounts', $nb, 'accounts');
    }
 
+   static function getIcon() {
+      return "ti ti-lock";
+   }
+
    /**
     * Actions done when item is deleted from the database
     */
@@ -440,7 +444,7 @@ class PluginAccountsAccount extends CommonDBTM {
 
       $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
       if ($ID < 1 && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
-         echo "<div class='center'>" . __('There is no encryption key for this entity', 'accounts') . "<br><br>";
+         echo "<div class='alert alert-important alert-warning d-flex'>" . __('There is no encryption key for this entity', 'accounts') . "<br><br>";
          echo "<a href='" . Toolbox::getItemTypeSearchURL('PluginAccountsAccount') . "'>";
          echo __('Back');
          echo "</a></div>";
@@ -522,8 +526,9 @@ class PluginAccountsAccount extends CommonDBTM {
       if ($hash) {
          if (!$aeskey->getFromDBByHash($hash_id) || !$aeskey->fields["name"]) {
             echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td>";
-            echo "<input type='password' class='form-control' autocomplete='off' size='20' name='aeskey' id='aeskey'
-            style='width: 50%;display: inline;'>";
+            echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
+//            echo "<input type='password' class='form-control' autocomplete='off' size='20' name='aeskey' id='aeskey'
+//            style='width: 50%;display: inline;'>";
 
             echo Html::hidden('encrypted_password', ['value' => $this->fields["encrypted_password"],
                                                      'id'    => 'encrypted_password']);
@@ -532,9 +537,11 @@ class PluginAccountsAccount extends CommonDBTM {
             echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
                                                    'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
-               echo "&nbsp;<button type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
-                        class='btn btn-primary'>";
-               echo "<i class='fas fa-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts');
+               echo Html::submit("<i class='ti ti-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts'), ['name' => 'decrypte', 'id' => 'decrypte_link', 'form' => '', 'class' => 'btn btn-primary']);
+
+//               echo "&nbsp;<button type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
+//                        class='btn btn-primary'>";
+//               echo "<i class='ti ti-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts');
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
                  var rootdoc = '" . $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "';
@@ -559,7 +566,7 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "</td>";
          }
       } else {
-         echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td><div class='red'>";
+         echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td><div class='alert alert-important alert-warning d-flex'>";
          echo $alert;
          echo "</div></td>";
       }
@@ -609,15 +616,16 @@ class PluginAccountsAccount extends CommonDBTM {
       if (!empty($ID) || $ID > 0) {
          echo "<span class='account_to_clipboard_wrapper pointer'>";
       }
+//      echo Html::input('hidden_password', ['id' => 'hidden_password', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
       echo "<input type='password' style='height: 35px;' name='hidden_password' id='hidden_password' size='30' >";
       if (!empty($ID) || $ID > 0) {
          echo "</span>";
       }
-      echo "<span toggle='#hidden_password' class='fas fa-fw fa-eye field-icon toggle-password pointer'></span>";
+      echo "<span toggle='#hidden_password' class='fa-fw ti ti-eye field-icon toggle-password pointer'></span>";
       echo "</td>";
 
       echo Html::scriptBlock('$(".toggle-password").click(function() {
-                                 $(".toggle-password").toggleClass("fa-eye fa-eye-slash");
+                                 $(".toggle-password").toggleClass("ti-eye ti-eye-off");
                                  var input = $($(this).attr("toggle"));
                                  if (input.attr("type") == "password") {
                                      input.attr("type", "text");
@@ -722,8 +730,8 @@ class PluginAccountsAccount extends CommonDBTM {
 
             echo "<tr class='tab_bg_2'>";
             echo "<td class='center' colspan='4'>";
-            echo "<button type='submit' name='add' id='account_add' value='" . _sx('button', 'Add') . "' class='btn btn-primary'>";
-            echo "<i class='fas fa-plus'></i>&nbsp;"._sx('button', 'Add');
+            echo Html::submit("<i class='fas fa-plus'></i>&nbsp;"._sx('button', 'Add'), ['name' => 'add', 'id' => 'account_add','class' => 'btn btn-primary']);
+
             echo Html::scriptBlock("$('#account_form').submit(function(event){
                if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
                   alert('" . __('You have not filled the password and encryption key', 'accounts') . "');
@@ -736,7 +744,7 @@ class PluginAccountsAccount extends CommonDBTM {
                   encrypt_password();
                }
             });");
-            echo "</button>";
+//            echo "</button>";
             echo "</td>";
             echo "</tr>";
 
@@ -746,8 +754,10 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "<td class='center' colspan='4'>";
             echo Html::hidden('id', ['value' => $ID]);
 
-            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='btn btn-primary' >";
-            echo "<i class='fas fa-save'></i>&nbsp;"._sx('button', 'Save');
+            echo Html::submit("<i class='far fa-save'></i>&nbsp;"._sx('button', 'Save'), ['name' => 'update', 'id' => 'account_update','class' => 'btn btn-primary']);
+//
+//            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='btn btn-primary' >";
+//            echo "<i class='fas fa-save'></i>&nbsp;"._sx('button', 'Save');
 
             echo Html::scriptBlock("$('#account_form').submit(function(event){
                if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
@@ -759,22 +769,25 @@ class PluginAccountsAccount extends CommonDBTM {
                   encrypt_password();
                }
             });");
-            echo "</button>";
+//            echo "</button>";
             echo "</td>";
             echo "</tr>";
             echo "<tr class='tab_bg_2'>";
             echo "<td class='right' colspan='4'>";
             if ($this->fields["is_deleted"] == '0') {
-               echo "<button type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='btn btn-primary'>";
-               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Put in trashbin');
-               echo "</button>";
+               echo Html::submit("<i class='ti ti-trash'></i>&nbsp;"._sx('button', 'Put in trashbin'), ['name' => 'delete','class' => 'btn btn-outline-warning me-2']);
+//               echo "<button type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='btn btn-primary'>";
+//               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Put in trashbin');
+//               echo "</button>";
             } else {
-               echo "<button type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='btn btn-primary'>";
-               echo "<i class='fas fa-trash-restore'></i>&nbsp;"._sx('button', 'Restore');
-               echo "</button>";
-               echo "&nbsp;&nbsp;<button type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='btn btn-primary'>";
-               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Delete permanently');
-               echo "</button>";
+               echo Html::submit("<i class='ti ti-trash-off'></i>&nbsp;"._sx('button', 'Restore'), ['name' => 'restore','class' => 'btn btn-outline-secondary me-2']);
+//               echo "<button type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='btn btn-primary'>";
+//               echo "<i class='fas fa-trash-restore'></i>&nbsp;"._sx('button', 'Restore');
+//               echo "</button>";
+               echo Html::submit("<i class='ti ti-trash'></i>&nbsp;"._sx('button', 'Delete permanently'), ['name' => 'purge','class' => 'btn btn-outline-danger me-2']);
+//               echo "&nbsp;&nbsp;<button type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='btn btn-primary'>";
+//               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Delete permanently');
+//               echo "</button>";
             }
 
             echo "</td>";
