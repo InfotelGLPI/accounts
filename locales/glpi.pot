@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 15:13+0000\n"
+"POT-Creation-Date: 2021-12-11 17:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,7 @@ msgstr ""
 #: front/hash.form.php:85 inc/account.class.php:537 inc/account.class.php:607
 #: inc/account.class.php:741 inc/account.class.php:766
 #: inc/account_item.class.php:697 inc/account_item.class.php:717
-#: inc/report.class.php:194
+#: inc/report.class.php:193
 msgid "Wrong encryption key"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Accounts expiring in less than"
 msgstr ""
 
-#: inc/hash.class.php:83 inc/hash.class.php:349 inc/report.class.php:216
+#: inc/hash.class.php:83 inc/hash.class.php:349 inc/report.class.php:215
 msgid "Linked accounts list"
 msgstr ""
 
