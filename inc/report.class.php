@@ -185,7 +185,6 @@ class PluginAccountsReport extends CommonDBTM {
                $encrypted = $field["password"];
                $name = "password[$IDc]";
                echo Html::hidden($name, ['value' => '']);
-               echo "<input type='hidden' name=''>";
                $pass = "<p name='show_password' id='show_password$$IDc'></p>";
                $pass .= "<script type='javascript'>
                var good_hash=\"$hash\";
