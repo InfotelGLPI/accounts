@@ -66,7 +66,7 @@ if (isset($_REQUEST['node'])) {
                $path = [
                   'id'   => $row['id'],
                   'text' => $value,
-                  'a_attr' => ["onclick" => 'window.open("'.$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/' . $target .
+                  'a_attr' => ["onclick" => 'window.open("'.PLUGIN_ACCOUNTS_WEBDIR . '/front/' . $target .
                                             '?criteria[0][field]=2&criteria[0][searchtype]=contains&criteria[0][value]=^' .
                                             rawurlencode($value) . '&itemtype=PluginAccountsAccount&start=0")']
                ];

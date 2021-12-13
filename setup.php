@@ -32,6 +32,7 @@ define('PLUGIN_ACCOUNTS_VERSION', '3.0.0');
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
    define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
    define("PLUGIN_ACCOUNTS_DIR_NOFULL", Plugin::getPhpDir("accounts",false));
+   define("PLUGIN_ACCOUNTS_WEBDIR", Plugin::getWebDir("accounts"));
 }
 
 // Init the hooks of the plugins -Needed
@@ -42,7 +43,9 @@ function plugin_init_accounts() {
    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
    $PLUGIN_HOOKS['change_profile']['accounts']   = ['PluginAccountsProfile', 'initProfile'];
 
-   if (Session::getLoginUserID()) {
+   $plugin = new Plugin();
+
+   if (Session::getLoginUserID() && $plugin->isActivated('accounts')) {
 
       // Params : plugin name - string type - number - attributes
       Plugin::registerClass('PluginAccountsAccount',
@@ -58,7 +61,7 @@ function plugin_init_accounts() {
                             ]
       );
 
-      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."/accounts.png";
+      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = PLUGIN_ACCOUNTS_DIR_NOFULL."/accounts.png";
 
       Plugin::registerClass('PluginAccountsConfig',
                             ['addtabon' => 'CronTask']);

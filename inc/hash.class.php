@@ -362,7 +362,7 @@ class PluginAccountsHash extends CommonDBTM {
       echo "</tr>";
       echo "</table></div>";
 
-      $url = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/viewaccountslist.php";
+      $url = PLUGIN_ACCOUNTS_WEBDIR . "/ajax/viewaccountslist.php";
       echo "<div id='viewaccountslist$rand'></div>";
       echo Html::scriptBlock("$(document).on('click', '#showAccountsList$rand', function(){
          var key = $('#key').val();

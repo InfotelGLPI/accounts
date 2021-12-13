@@ -691,7 +691,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
                echo Html::scriptBlock("
                function decryptCheck$rand(){
-               var rootdoc = '".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."';
+               var rootdoc = '".PLUGIN_ACCOUNTS_WEBDIR."';
                   if (!check_hash()) {
                      $('#hidden_password$accountID')
                         .after('" . __('Wrong encryption key', 'accounts') . "')
@@ -712,7 +712,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
                echo Html::scriptBlock("
                function decryptCheckbtn$rand(){
-                  var rootdoc = '".$CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL."';
+                  var rootdoc = '".PLUGIN_ACCOUNTS_WEBDIR."';
                   if (!check_hash()) {
                      alert('" . __('Wrong encryption key', 'accounts') . "');
                   } else {

@@ -208,7 +208,7 @@ class PluginAccountsProfile extends Profile {
                'field'  => 'plugin_accounts'
          ],
          ['rights' => Profile::getRightsFor('PluginAccountsHash', 'central'),
-          'label'  => PluginAccountsHash::getTypeName(),
+          'label'  => _n('Encryption key', 'Encryption keys', 2, 'accounts'),
           'field'  => 'plugin_accounts_hash'
          ],
       ];

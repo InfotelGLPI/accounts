@@ -76,7 +76,7 @@ class PluginAccountsConfig extends CommonDBTM
       $delay_expired = $this->fields["delay_expired"];
       $delay_whichexpire = $this->fields["delay_whichexpire"];
       echo "<div align='center'>";
-      $target = $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/front/notification.state.php";
+      $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
       echo "<form method='post' action=\"$target\">";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr><th>";
       echo __('Time of checking of of expiration of accounts', 'accounts') . "</th></tr>";

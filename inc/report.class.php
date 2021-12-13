@@ -158,7 +158,7 @@ class PluginAccountsReport extends CommonDBTM {
                echo Html::hidden("id[$IDc]", ['value' => $IDc]);
             }
 
-            $name = "<a href='" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL . "/front/account.form.php?id=" . $IDc . "'>" . $field["name"];
+            $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . $IDc . "'>" . $field["name"];
             if ($_SESSION["glpiis_ids_visible"]) {
                $name .= " (" . $IDc . ")";
             }
@@ -228,7 +228,7 @@ class PluginAccountsReport extends CommonDBTM {
 
       // Print it
 
-      echo "<form method='POST' action=\"" . $CFG_GLPI["root_doc"] .PLUGIN_ACCOUNTS_DIR_NOFULL .
+      echo "<form method='POST' action=\"" . PLUGIN_ACCOUNTS_WEBDIR .
            "/front/report.dynamic.php\" target='_blank'>\n";
 
       echo "<table class='tab_cadre_pager'>\n";

@@ -54,7 +54,7 @@ if ($account->canView()) {
       echo "</a>";
       echo "</div><br>";
       echo Ajax::createIframeModalWindow('seetypemodal',
-                                         $CFG_GLPI["root_doc"] . PLUGIN_ACCOUNTS_DIR_NOFULL . "/ajax/accounttree.php",
+                                         PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttree.php",
                                          ['title'   => __('Type view', 'accounts'),
                                           'display'       => false,
                                            'width'         => 600,

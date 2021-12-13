@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var rootdoc          = CFG_GLPI['root_doc'].PLUGIN_ACCOUNTS_DIR_NOFULL;
+    var rootdoc          = PLUGIN_ACCOUNTS_WEBDIR;
     // decrypt button (user manually input key)
     $(document).on("click", "#decrypte_link", function (event) {
         event.preventDefault();
@@ -52,7 +52,7 @@ $(document).ready(function () {
 
 // auto decrypt (aes key saved in db)
 var auto_decrypt = function (sufix) {
-    var rootdoc          = CFG_GLPI['root_doc'].PLUGIN_ACCOUNTS_DIR_NOFULL;
+    var rootdoc          = PLUGIN_ACCOUNTS_WEBDIR;
     sufix = sufix || "";
    if (!check_hash()) {
        $("#hidden_password" + sufix).val($("#wrong_key_locale").val());
