@@ -14,7 +14,7 @@ var check_hash = function () {
     return true;
 };
 
-function decrypt_password(rootdoc, sufix) {
+function decrypt_password(root_accounts_doc, sufix) {
 
     sufix = sufix || "";
     var aeskey = $("#aeskey").val();
@@ -32,7 +32,7 @@ function decrypt_password(rootdoc, sufix) {
    } else {
       //from items
        var idcrypt = sufix;
-       var url = rootdoc + '/ajax/log_decrypt.php';
+       var url = root_accounts_doc + '/ajax/log_decrypt.php';
    }
 
     $.ajax({

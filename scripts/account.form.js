@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var rootdoc          = PLUGIN_ACCOUNTS_WEBDIR;
+    var root_accounts_doc          = PLUGIN_ACCOUNTS_WEBDIR;
     // decrypt button (user manually input key)
     $(document).on("click", "#decrypte_link", function (event) {
         event.preventDefault();
@@ -7,7 +7,7 @@ $(document).ready(function () {
           if (!check_hash()) {
               alert($("#wrong_key_locale").val());
           } else {
-              decrypt_password(rootdoc);
+              decrypt_password(root_accounts_doc);
 
               var input = $('#hidden_password');
               if (input.attr("type") == "password") {
@@ -52,12 +52,12 @@ $(document).ready(function () {
 
 // auto decrypt (aes key saved in db)
 var auto_decrypt = function (sufix) {
-    var rootdoc          = PLUGIN_ACCOUNTS_WEBDIR;
+    var root_accounts_doc          = PLUGIN_ACCOUNTS_WEBDIR;
     sufix = sufix || "";
    if (!check_hash()) {
        $("#hidden_password" + sufix).val($("#wrong_key_locale").val());
    } else {
-       decrypt_password(rootdoc, sufix);
+       decrypt_password(root_accounts_doc, sufix);
    }
 };
 

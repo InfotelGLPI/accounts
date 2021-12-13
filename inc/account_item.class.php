@@ -691,13 +691,13 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
                echo Html::scriptBlock("
                function decryptCheck$rand(){
-               var rootdoc = '".PLUGIN_ACCOUNTS_WEBDIR."';
+               var root_accounts_doc = '".PLUGIN_ACCOUNTS_WEBDIR."';
                   if (!check_hash()) {
                      $('#hidden_password$accountID')
                         .after('" . __('Wrong encryption key', 'accounts') . "')
                         .remove();
                   } else {
-                     decrypt_password(rootdoc, '$accountID');
+                     decrypt_password(root_accounts_doc, '$accountID');
                   }
                }
                ");
@@ -712,11 +712,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
                echo Html::scriptBlock("
                function decryptCheckbtn$rand(){
-                  var rootdoc = '".PLUGIN_ACCOUNTS_WEBDIR."';
+                  var root_accounts_doc = '".PLUGIN_ACCOUNTS_WEBDIR."';
                   if (!check_hash()) {
                      alert('" . __('Wrong encryption key', 'accounts') . "');
                   } else {
-                     var decrypted_password = decrypt_password(rootdoc, '$accountID');
+                     var decrypted_password = decrypt_password(root_accounts_doc, '$accountID');
                      $('#decrypt_link$accountID$rand')
                         .after(decrypted_password)
                         .remove();

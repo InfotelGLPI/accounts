@@ -544,7 +544,7 @@ class PluginAccountsAccount extends CommonDBTM {
                //               echo "<i class='ti ti-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts');
             }
             echo Html::scriptBlock("$('#aeskey').keypress(function(e) {
-                 var rootdoc = '" . PLUGIN_ACCOUNTS_WEBDIR . "';
+                 var root_accounts_doc = '" . PLUGIN_ACCOUNTS_WEBDIR . "';
                  switch(e.keyCode) { 
                      case 13:
                         if (!check_hash()) {
@@ -552,7 +552,7 @@ class PluginAccountsAccount extends CommonDBTM {
                            document.getElementById('wrong_key_locale_div').innerHTML = value;
                         } else {
                            document.getElementById('wrong_key_locale_div').innerHTML = '';
-                           decrypt_password(rootdoc);
+                           decrypt_password(root_accounts_doc);
                         }
                       return false;
                       break;
@@ -609,8 +609,8 @@ class PluginAccountsAccount extends CommonDBTM {
          //         echo Html::scriptBlock("");
          echo '<script type="text/javascript">
                $(document).ready(function () {
-                  var rootdoc = ".PLUGIN_ACCOUNTS_WEBDIR.";
-                  auto_decrypt(rootdoc);
+                  var root_accounts_doc = ".PLUGIN_ACCOUNTS_WEBDIR.";
+                  auto_decrypt(root_accounts_doc);
                });</script>';
       }
       if (!empty($ID) || $ID > 0) {
