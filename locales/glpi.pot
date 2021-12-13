@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-11 17:15+0000\n"
+"POT-Creation-Date: 2021-12-13 07:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Associate to account"
 msgstr ""
 
-#: setup.php:128 inc/account.class.php:57 inc/menu.class.php:41
+#: setup.php:131 inc/account.class.php:57 inc/menu.class.php:41
 #: inc/profile.class.php:176 inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
@@ -80,7 +80,7 @@ msgstr ""
 #: inc/account_item.class.php:615 inc/account_item.class.php:625
 #: inc/aeskey.class.php:63 inc/aeskey.class.php:192 inc/aeskey.class.php:243
 #: inc/aeskey.class.php:265 inc/hash.class.php:50 inc/hash.class.php:268
-#: inc/menu.class.php:49
+#: inc/menu.class.php:49 inc/profile.class.php:211
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] ""
