@@ -617,7 +617,7 @@ class PluginAccountsAccount extends CommonDBTM {
          echo "<span class='account_to_clipboard_wrapper pointer'>";
       }
       //      echo Html::input('hidden_password', ['id' => 'hidden_password', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-      echo "<input type='password' style='height: 35px;' name='hidden_password' id='hidden_password' size='30' >";
+      echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
       if (!empty($ID) || $ID > 0) {
          echo "</span>";
       }

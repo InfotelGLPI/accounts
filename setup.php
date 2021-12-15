@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_ACCOUNTS_VERSION', '3.0.0');
+define('PLUGIN_ACCOUNTS_VERSION', '3.0.0-rc1');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
    define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
@@ -57,7 +57,6 @@ function plugin_init_accounts() {
                              'ticket_types'                => true,
                              'helpdesk_visible_types'      => true,
                              'notificationtemplates_types' => true,
-//                             'header_types'                => true,
                             ]
       );
 
