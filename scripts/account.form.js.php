@@ -1,5 +1,14 @@
+<?php
+use Glpi\Event;
+include('../../../inc/includes.php');
+header('Content-Type: text/javascript');
+
+?>
+
+var root_accounts_doc = "<?php echo PLUGIN_ACCOUNTS_WEBDIR; ?>";
+
 $(document).ready(function () {
-    var root_accounts_doc          = PLUGIN_ACCOUNTS_WEBDIR;
+
     // decrypt button (user manually input key)
     $(document).on("click", "#decrypte_link", function (event) {
         event.preventDefault();
@@ -18,9 +27,9 @@ $(document).ready(function () {
 
               // find the good element
               var target = $('.account_to_clipboard_wrapper');
-              if (target.attr('class') === 'account_to_clipboard_wrapper') {
+              //if (target.attr('class') === 'account_to_clipboard_wrapper') {
                   target = target.find('*');
-              }
+              //}
 
               // copy text
               target.select();

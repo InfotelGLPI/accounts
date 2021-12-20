@@ -76,12 +76,12 @@ function plugin_init_accounts() {
       ) {
 
          $PLUGIN_HOOKS["menu_toadd"]['accounts']          = ['admin' => 'PluginAccountsMenu'];
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
+         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.php';
       }
       if ($plugin->isActivated('environment')
           && Session::haveRight("plugin_accounts", READ)
       ) {
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = '/front/account.php';
+         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.php';
       }
 
        if ($plugin->isActivated('fields')
@@ -107,7 +107,7 @@ function plugin_init_accounts() {
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/getparameter.js";
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/crypt.js";
       if (strpos($_SERVER['REQUEST_URI'], "front/account.form.php") !== false) {
-         $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/account.form.js";
+         $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/account.form.js.php";
          $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/clipboard.js";
       }
       $PLUGIN_HOOKS['add_javascript']['accounts'][] = "lib/lightcrypt.js";
