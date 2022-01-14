@@ -1,25 +1,25 @@
 DROP TABLE IF EXISTS `glpi_plugin_accounts_accounts`;
 CREATE TABLE `glpi_plugin_accounts_accounts` (
-   `id` int(11) NOT NULL auto_increment,
-   `entities_id` int(11) NOT NULL default '0',
-   `is_recursive` tinyint(1) NOT NULL default '0',
+   `id` int unsigned NOT NULL AUTO_INCREMENT,
+   `entities_id` int unsigned NOT NULL default '0',
+   `is_recursive` tinyint NOT NULL default '0',
    `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `login` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `encrypted_password` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `others` varchar(255) collate utf8mb4_unicode_ci default NULL,
-   `plugin_accounts_accounttypes_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accounttypes (id)',
-   `plugin_accounts_accountstates_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accountstates (id)',
+   `plugin_accounts_accounttypes_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accounttypes (id)',
+   `plugin_accounts_accountstates_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accountstates (id)',
    `date_creation` timestamp NULL DEFAULT NULL,
    `date_expiration` timestamp NULL DEFAULT NULL,
-   `users_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
-   `groups_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_groups (id)',
-   `users_id_tech` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
-   `groups_id_tech` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_groups (id)',
-   `locations_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_locations (id)',
-   `is_helpdesk_visible` int(11) NOT NULL default '1',
+   `users_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
+   `groups_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_groups (id)',
+   `users_id_tech` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
+   `groups_id_tech` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_groups (id)',
+   `locations_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_locations (id)',
+   `is_helpdesk_visible` int unsigned NOT NULL default '1',
    `date_mod` timestamp NULL DEFAULT NULL,
    `comment` text collate utf8mb4_unicode_ci,
-   `is_deleted` tinyint(1) NOT NULL default '0',
+   `is_deleted` tinyint NOT NULL default '0',
    PRIMARY KEY  (`id`),
    KEY `name` (`name`),
       KEY `entities_id` (`entities_id`),
@@ -36,9 +36,9 @@ CREATE TABLE `glpi_plugin_accounts_accounts` (
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_accounttypes`;
 CREATE TABLE `glpi_plugin_accounts_accounttypes` (
-   `id` int(11) NOT NULL auto_increment,
-   `entities_id` int(11) NOT NULL default '0',
-   `is_recursive` tinyint(1) NOT NULL default '0',
+   `id` int unsigned NOT NULL AUTO_INCREMENT,
+   `entities_id` int unsigned NOT NULL default '0',
+   `is_recursive` tinyint NOT NULL default '0',
    `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `comment` text collate utf8mb4_unicode_ci,
    PRIMARY KEY  (`id`),
@@ -47,7 +47,7 @@ CREATE TABLE `glpi_plugin_accounts_accounttypes` (
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_accountstates`;
 CREATE TABLE `glpi_plugin_accounts_accountstates` (
-      `id` int(11) NOT NULL auto_increment,
+      `id` int unsigned NOT NULL AUTO_INCREMENT,
       `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `comment` text collate utf8mb4_unicode_ci,
    PRIMARY KEY  (`id`),
@@ -56,10 +56,10 @@ CREATE TABLE `glpi_plugin_accounts_accountstates` (
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_hashes`;
 CREATE TABLE `glpi_plugin_accounts_hashes` (
-      `id` int(11) NOT NULL auto_increment,
+      `id` int unsigned NOT NULL AUTO_INCREMENT,
       `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
-      `entities_id` int(11) NOT NULL default '0',
-      `is_recursive` tinyint(1) NOT NULL default '0',
+      `entities_id` int unsigned NOT NULL default '0',
+      `is_recursive` tinyint NOT NULL default '0',
       `hash` varchar(255) collate utf8mb4_unicode_ci default NULL,
       `comment` text collate utf8mb4_unicode_ci,
       `date_mod` timestamp NULL DEFAULT NULL,
@@ -69,18 +69,18 @@ CREATE TABLE `glpi_plugin_accounts_hashes` (
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_aeskeys`;
 CREATE TABLE `glpi_plugin_accounts_aeskeys` (
-      `id` int(11) NOT NULL auto_increment,
+      `id` int unsigned NOT NULL AUTO_INCREMENT,
       `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
-      `plugin_accounts_hashes_id` int(11) NOT NULL default '0',
+      `plugin_accounts_hashes_id` int unsigned NOT NULL default '0',
       PRIMARY KEY  (`id`),
       KEY `plugin_accounts_hashes_id` (`plugin_accounts_hashes_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_accounts_items`;
 CREATE TABLE `glpi_plugin_accounts_accounts_items` (
-   `id` int(11) NOT NULL auto_increment,
-   `plugin_accounts_accounts_id` int(11) NOT NULL default '0',
-   `items_id` int(11) NOT NULL default '0' COMMENT 'RELATION to various tables, according to itemtype (id)',
+   `id` int unsigned NOT NULL AUTO_INCREMENT,
+   `plugin_accounts_accounts_id` int unsigned NOT NULL default '0',
+   `items_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to various tables, according to itemtype (id)',
    `itemtype` varchar(100) collate utf8mb4_unicode_ci NOT NULL COMMENT 'see .class.php file',
    PRIMARY KEY  (`id`),
    UNIQUE KEY `unicity` (`plugin_accounts_accounts_id`,`itemtype`,`items_id`),
@@ -90,7 +90,7 @@ CREATE TABLE `glpi_plugin_accounts_accounts_items` (
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_configs`;
 CREATE TABLE `glpi_plugin_accounts_configs` (
-      `id` int(11) NOT NULL auto_increment,
+      `id` int unsigned NOT NULL AUTO_INCREMENT,
    `delay_expired` varchar(50) collate utf8mb4_unicode_ci NOT NULL default '30',
    `delay_whichexpire` varchar(50) collate utf8mb4_unicode_ci NOT NULL default '30',
    PRIMARY KEY  (`id`)
@@ -100,8 +100,8 @@ INSERT INTO `glpi_plugin_accounts_configs` ( `id` , `delay_expired` , `delay_whi
 
 DROP TABLE IF EXISTS `glpi_plugin_accounts_notificationstates`;
 CREATE TABLE `glpi_plugin_accounts_notificationstates` (
-   `id` int(11) NOT NULL auto_increment,
-   `plugin_accounts_accountstates_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accountstates (id)',
+   `id` int unsigned NOT NULL AUTO_INCREMENT,
+   `plugin_accounts_accountstates_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accountstates (id)',
    PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
