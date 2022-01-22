@@ -94,7 +94,7 @@ function plugin_init_accounts() {
          $PLUGIN_HOOKS['use_massive_action']['accounts'] = 1;
       }
 
-      $PLUGIN_HOOKS['redirect_page']['accounts'] = "front/account.form.php";
+      $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.form.php';
 
       //Clean Plugin on Profile delete
       if (class_exists('PluginAccountsAccount_Item')) { // only if plugin activated
