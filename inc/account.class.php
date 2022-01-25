@@ -537,7 +537,10 @@ class PluginAccountsAccount extends CommonDBTM {
             echo Html::hidden('wrong_key_locale', ['value' => __('Wrong encryption key', 'accounts'),
                                                    'id'    => 'wrong_key_locale']);
             if (!empty($ID) || $ID > 0) {
-               echo Html::submit("<i class='ti ti-eye'></i>&nbsp;" . __s('Uncrypt & copy', 'accounts'), ['name' => 'decrypte', 'id' => 'decrypte_link', 'form' => '', 'class' => 'btn btn-primary']);
+               echo Html::submit("<i class='ti ti-eye'></i>&nbsp;" . __s('Uncrypt & copy', 'accounts'), ['name'  => 'decrypte',
+                                                                                                         'id'    => 'decrypte_link',
+                                                                                                         'form'  => '',
+                                                                                                         'class' => 'btn btn-primary']);
 
                //               echo "&nbsp;<button type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
                //                        class='btn btn-primary'>";
@@ -810,8 +813,7 @@ class PluginAccountsAccount extends CommonDBTM {
                      </tr>
                <tr id='fakeupdate'></tr>
                <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
-               <button type='button' id='generatePass' name='generatePass' class='btn btn-primary' value='" . __s('Generate', 'accounts') . "'
-                     class='btn btn-primary'>" . __s('Generate', 'accounts') . "</button></td></tr>
+               <button type='button' id='generatePass' name='generatePass' class='submit btn btn-primary' value='" . __s('Generate', 'accounts') . "'>" . __s('Generate', 'accounts') . "</button></td></tr>
                </tbody>
                </table>";
          Ajax::updateItemOnEvent("generatePass", "fakeupdate", PLUGIN_ACCOUNTS_WEBDIR . "/ajax/generatepassword.php", ["password" => 1], ["click"]);
@@ -1456,5 +1458,53 @@ class PluginAccountsAccount extends CommonDBTM {
       }
 
       echo "</tr>";
+   }
+
+   /**
+    * @return array
+    */
+   static function getMenuContent() {
+
+      $image = "<i class='ti ti-lock-open' title='" . _n('Encryption key', 'Encryption keys', 2, 'accounts') . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
+
+      $menu                    = [];
+      $menu['title']           = self::getMenuName();
+      $menu['page']            = self::getSearchURL(false);
+      $menu['links']['search'] = self::getSearchURL(false);
+      $menu['links']['lists']  = "";
+      $menu['links'][$image]   = PluginAccountsHash::getSearchURL(false);
+      if (self::canCreate()) {
+         $menu['links']['add'] = self::getFormURL(false);
+      }
+
+      $menu['options']['account']['title']           = self::getTypeName(2);
+      $menu['options']['account']['page']            = self::getSearchURL(false);
+      $menu['options']['account']['links']['search'] = PluginAccountsAccount::getSearchURL(false);
+      $menu['options']['account']['links'][$image]   = PluginAccountsHash::getSearchURL(false);
+      if (PluginAccountsAccount::canCreate()) {
+         $menu['options']['account']['links']['add'] = self::getFormURL(false);
+      }
+
+      $menu['options']['hash']['title']           = PluginAccountsHash::getTypeName(2);
+      $menu['options']['hash']['page']            = PluginAccountsHash::getSearchURL(false);
+      $menu['options']['hash']['links']['search'] = PluginAccountsHash::getSearchURL(false);
+      $menu['options']['hash']['links'][$image]   = PluginAccountsHash::getSearchURL(false);
+
+      if (PluginAccountsHash::canCreate()) {
+         $menu['options']['hash']['links']['add'] = PluginAccountsHash::getFormURL(false);
+      }
+
+      $menu['icon'] = self::getIcon();
+
+      return $menu;
+   }
+
+   static function removeRightsFromSession() {
+      if (isset($_SESSION['glpimenu']['admin']['types']['PluginAccountsAccount'])) {
+         unset($_SESSION['glpimenu']['admin']['types']['PluginAccountsAccount']);
+      }
+      if (isset($_SESSION['glpimenu']['admin']['content']['pluginaccountsaccounts'])) {
+         unset($_SESSION['glpimenu']['admin']['content']['pluginaccountsaccounts']);
+      }
    }
 }

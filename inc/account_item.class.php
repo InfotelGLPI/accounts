@@ -704,7 +704,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
             } else {
                $rand = mt_rand();
                echo "&nbsp;<input type='button' id='decrypt_link$accountID$rand' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
-                        class='btn btn-primary'
+                        class='submit btn btn-primary'
                         onClick='decryptCheckbtn$rand()'>";
                echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
                                                                   'id'           => "encrypted_password$accountID",

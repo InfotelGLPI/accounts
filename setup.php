@@ -75,7 +75,7 @@ function plugin_init_accounts() {
           && Session::haveRight("plugin_accounts", READ)
       ) {
 
-         $PLUGIN_HOOKS["menu_toadd"]['accounts']          = ['admin' => 'PluginAccountsMenu'];
+         $PLUGIN_HOOKS["menu_toadd"]['accounts']          = ['admin' => 'PluginAccountsAccount'];
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.php';
       }
       if ($plugin->isActivated('environment')

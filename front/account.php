@@ -36,7 +36,7 @@ if (Session::getCurrentInterface() == 'central') {
    if ($plugin->isActivated("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
    } else {
-      Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu");
+      Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount");
    }
 } else {
    Html::helpHeader(PluginAccountsAccount::getTypeName(2));
@@ -49,7 +49,7 @@ if ($account->canView()) {
 
    if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
       echo "<div align='center'>";
-      echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='btn btn-primary' title='" . __('Type view', 'accounts') . "' >";
+      echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='submit btn btn-primary' title='" . __('Type view', 'accounts') . "' >";
       echo __('Type view', 'accounts');
       echo "</a>";
       echo "</div><br>";

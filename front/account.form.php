@@ -110,7 +110,7 @@ if (isset($_POST["add"])) {
       if ($plugin->isActivated("environment")) {
          Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
       } else {
-         Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu");
+         Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccounts");
       }
    } else {
       Html::helpHeader(PluginAccountsAccount::getTypeName(2));

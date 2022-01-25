@@ -271,7 +271,7 @@ class PluginAccountsHash extends CommonDBTM {
 //         echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
          echo "&nbsp;<input type='button' id='generate_hash'" .
               "value='" . __s('Generate hash with this encryption key', 'accounts') .
-              "' class='btn btn-primary'>";
+              "' class='submit btn btn-primary'>";
          echo Html::scriptBlock("$(document).on('click', '#generate_hash', function(event) {
             if ($('#aeskey').val() == '') {
                alert('" . __('Please fill the encryption key', 'accounts') . "');

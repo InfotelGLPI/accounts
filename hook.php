@@ -333,7 +333,6 @@ function plugin_accounts_uninstall() {
    global $DB;
 
    include_once(PLUGIN_ACCOUNTS_DIR . "/inc/profile.class.php");
-   include_once(PLUGIN_ACCOUNTS_DIR . "/inc/menu.class.php");
 
    //Delete rights associated with the plugin
    $profileRight = new ProfileRight();
@@ -444,7 +443,7 @@ function plugin_accounts_uninstall() {
 
    PluginAccountsProfile::removeRightsFromSession();
 
-   PluginAccountsMenu::removeRightsFromSession();
+   PluginAccountsAccount::removeRightsFromSession();
 
    return true;
 }

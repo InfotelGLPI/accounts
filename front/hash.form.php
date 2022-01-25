@@ -99,7 +99,7 @@ if (isset($_POST["add"])) {
    if ($plugin->isActivated("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "hash");
    } else {
-      Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
+      Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");
    }
 
    $options = ["id" => $_GET['id'], "update" => false];

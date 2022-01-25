@@ -46,7 +46,7 @@ $plugin = new Plugin();
 if ($plugin->isActivated("environment")) {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
 } else {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsmenu", "hash");
+   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");
 }
 
 if (isset($_POST["add"])) {
