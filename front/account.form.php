@@ -37,7 +37,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$account = new PluginAccountsAccount();
+$account      = new PluginAccountsAccount();
 $account_item = new PluginAccountsAccount_Item();
 
 if (isset($_POST["add"])) {
@@ -117,12 +117,12 @@ if (isset($_POST["add"])) {
    }
 
    $account->check($_GET['id'], READ);
-   if(isset($_GET['id'])
+   if (isset($_GET['id'])
        && $_GET['id'] != 0
-       && !Session::haveRight("plugin_accounts_see_all_users", 1)){
+       && !Session::haveRight("plugin_accounts_see_all_users", 1)) {
       $access = 0;
-      if($account->fields["groups_id"] == 0 &&
-          $account->fields["users_id"] == 0){
+      if ($account->fields["groups_id"] == 0 &&
+          $account->fields["users_id"] == 0) {
          $access = 1;
       }
       if (Session::haveRight("plugin_accounts_my_groups", 1)) {
@@ -138,16 +138,16 @@ if (isset($_POST["add"])) {
          }
       }
       if (!Session::haveRight("plugin_accounts_my_groups", 1)
-          && $account->fields["users_id"] == Session::getLoginUserID()){
+          && $account->fields["users_id"] == Session::getLoginUserID()) {
          $access = 1;
       }
 
-      if ($access != 1){
+      if ($access != 1) {
          Html::displayRightError();
-      } else{
+      } else {
          $account->display(['id' => $_GET['id']]);
       }
-   } else{
+   } else {
       $account->display(['id' => $_GET['id']]);
    }
 

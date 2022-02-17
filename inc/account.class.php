@@ -373,7 +373,7 @@ class PluginAccountsAccount extends CommonDBTM {
    public function prepareInputForAdd($input) {
 
       if (isset($input['date_creation']) && empty($input['date_creation'])) {
-         $input['date_creation'] = 'NULL';
+         $input['date_creation'] = $_SESSION["glpi_currenttime"];
       }
       if (isset($input['date_expiration']) && empty($input['date_expiration'])) {
          $input['date_expiration'] = 'NULL';
@@ -444,10 +444,9 @@ class PluginAccountsAccount extends CommonDBTM {
 
       $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $hashclass->maybeRecursive());
       if ($ID < 1 && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
-         echo "<div class='alert alert-important alert-warning d-flex'>" . __('There is no encryption key for this entity', 'accounts') . "<br><br>";
-         echo "<a href='" . Toolbox::getItemTypeSearchURL('PluginAccountsAccount') . "'>";
-         echo __('Back');
-         echo "</a></div>";
+         echo "<div class='alert alert-important alert-warning d-flex'>";
+         echo __('There is no encryption key for this entity', 'accounts');
+         echo "</div>";
          return false;
       }
       //      if ($ID != 0) {
@@ -516,6 +515,9 @@ class PluginAccountsAccount extends CommonDBTM {
          }
 
          $alert = '';
+         if (empty($hash)) {
+            $alert = __('Your encryption key is malformed, please generate the hash', 'accounts');
+         }
       } else {
          $alert = __('There is no encryption key for this entity', 'accounts');
       }
@@ -569,7 +571,8 @@ class PluginAccountsAccount extends CommonDBTM {
             echo "</td>";
          }
       } else {
-         echo "<td>" . __('Encryption key', 'accounts') . "</div></td><td><div class='alert alert-important alert-warning d-flex'>";
+         echo "<td>" . __('Encryption key', 'accounts') . "</td>";
+         echo "<td><div class='alert alert-important alert-warning d-flex'>";
          echo $alert;
          echo "</div></td>";
       }
