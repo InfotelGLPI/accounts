@@ -120,79 +120,79 @@ class PluginAccountsHash extends CommonDBTM {
 
    /**
     * Provides search options configuration. Do not rely directly
-    * on this, @see CommonDBTM::searchOptions instead.
+    * on this, @return array a *not indexed* array of search options
     *
     * @since 9.3
     *
     * This should be overloaded in Class
     *
-    * @return array a *not indexed* array of search options
+    * @see CommonDBTM::searchOptions instead.
     *
     * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
     **/
    public function rawSearchOptions() {
       $tab[] = [
-         'id'                 => 'common',
-         'name'               =>  self::getTypeName(2)
+         'id'   => 'common',
+         'name' => self::getTypeName(2)
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'itemlink_type'      => 'PluginAccountsHash',
-         'massiveaction'      => false
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'name',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
+         'itemlink_type' => 'PluginAccountsHash',
+         'massiveaction' => false
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'hash',
-         'name'               => __('Hash'),
-         'massiveaction'      => false
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'hash',
+         'name'          => __('Hash'),
+         'massiveaction' => false
       ];
 
       $tab[] = [
-         'id'                 => '7',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('Comments'),
-         'datatype'           => 'text'
+         'id'       => '7',
+         'table'    => $this->getTable(),
+         'field'    => 'comment',
+         'name'     => __('Comments'),
+         'datatype' => 'text'
       ];
 
       $tab[] = [
-         'id'                 => '11',
-         'table'              => $this->getTable(),
-         'field'              => 'is_recursive',
-         'name'               => __('Child entities'),
-         'datatype'           => 'bool'
+         'id'       => '11',
+         'table'    => $this->getTable(),
+         'field'    => 'is_recursive',
+         'name'     => __('Child entities'),
+         'datatype' => 'bool'
       ];
 
       $tab[] = [
-         'id'                 => '14',
-         'table'              => $this->getTable(),
-         'field'              => 'date_mod',
-         'name'               => __('Last update'),
-         'massiveaction'      => false,
-         'datatype'           => 'datetime'
+         'id'            => '14',
+         'table'         => $this->getTable(),
+         'field'         => 'date_mod',
+         'name'          => __('Last update'),
+         'massiveaction' => false,
+         'datatype'      => 'datetime'
       ];
 
       $tab[] = [
-         'id'                 => '80',
-         'table'              => 'glpi_entities',
-         'field'              => 'completename',
-         'name'               => __('Entity'),
-         'datatype'           => 'dropdown'
+         'id'       => '80',
+         'table'    => 'glpi_entities',
+         'field'    => 'completename',
+         'name'     => __('Entity'),
+         'datatype' => 'dropdown'
       ];
 
       $tab[] = [
-         'id'                 => '86',
-         'table'              => $this->getTable(),
-         'field'              => 'is_recursive',
-         'name'               => __('Child entities'),
-         'datatype'           => 'bool'
+         'id'       => '86',
+         'table'    => $this->getTable(),
+         'field'    => 'is_recursive',
+         'name'     => __('Child entities'),
+         'datatype' => 'bool'
       ];
 
       return $tab;
@@ -225,9 +225,9 @@ class PluginAccountsHash extends CommonDBTM {
       if (!$this->canView()) {
          return false;
       }
-      $dbu = new DbUtils();
+      $dbu      = new DbUtils();
       $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes",
-                                             '', '', $this->maybeRecursive());
+                                                    '', '', $this->maybeRecursive());
 
       if ($ID < 1
           && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
@@ -268,7 +268,7 @@ class PluginAccountsHash extends CommonDBTM {
          echo "<td>" . __('Encryption key', 'accounts') . "</td>";
          echo "<td>";
          echo Html::input('aeskey', ['id' => 'aeskey', 'size' => 40, 'autocomplete' => 'off']);
-//         echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
+         //         echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
          echo "&nbsp;<input type='button' id='generate_hash'" .
               "value='" . __s('Generate hash with this encryption key', 'accounts') .
               "' class='submit btn btn-primary'>";
@@ -288,7 +288,7 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<td>" . __('Hash', 'accounts') . "</td>";
       echo "<td>";
       echo Html::input('hash', ['id' => 'hash', 'value' => $this->fields["hash"], 'readonly' => 'readonly', 'size' => 100, 'autocomplete' => 'off']);
-//      echo "<input type='text' readonly='readonly' size='100' id='hash' name='hash' value='" . $this->fields["hash"] . "' autocomplete='off'>";
+      //      echo "<input type='text' readonly='readonly' size='100' id='hash' name='hash' value='" . $this->fields["hash"] . "' autocomplete='off'>";
       echo "</td>";
       echo "</tr>";
 
@@ -297,8 +297,8 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<td>";
       Html::textarea(['name'            => 'comment',
                       'value'           => $this->fields["comment"],
-                      'cols'       => 75,
-                      'rows'       => 3,
+                      'cols'            => 75,
+                      'rows'            => 3,
                       'enable_richtext' => false]);
       echo "</td>";
       echo "</tr>";
@@ -321,8 +321,8 @@ class PluginAccountsHash extends CommonDBTM {
              && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
             echo "</table>";
             Html::closeForm();
-       
-         }else{
+
+         } else {
             $this->showFormButtons($options);
          }
 
@@ -333,6 +333,24 @@ class PluginAccountsHash extends CommonDBTM {
       }
       return true;
 
+   }
+
+   /**
+    * Prepare input datas for adding the item
+    *
+    * @param datas $input
+    *
+    * @return \datas $input
+    */
+   public function prepareInputForAdd($input) {
+
+      if (isset($input['hash']) && empty($input['hash'])) {
+         $message = __('You must generate the hash for your encryption key', 'accounts');
+         Session::addMessageAfterRedirect($message, false, ERROR);
+         return false;
+      }
+
+      return $input;
    }
 
    /**
@@ -352,7 +370,7 @@ class PluginAccountsHash extends CommonDBTM {
       echo __('Please fill the encryption key', 'accounts') . "</td>";
       echo "<td class='center'>";
       echo Html::input('key', ['id' => 'key', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-//      echo "<input type='password' class='form-control' autocomplete='off' name='key' id='key'>";
+      //      echo "<input type='password' class='form-control' autocomplete='off' name='key' id='key'>";
       echo "&nbsp;";
       //      echo "<input type='submit' name='select' value=\"" . __s('Display report') . "\"
       //               class='btn btn-primary' id='showAccountsList$rand'>";
@@ -392,13 +410,13 @@ class PluginAccountsHash extends CommonDBTM {
          $key = $aesKey->fields["name"];
       }
       echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off', 'value' => $key]);
-//      echo "<input type='password' class='form-control' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
+      //      echo "<input type='password' class='form-control' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
       echo "</td></tr>";
       echo "<tr><th>";
       echo __('New encryption key', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
       echo Html::input('aeskeynew', ['id' => 'aeskeynew', 'type' => 'password', 'size' => 100, 'autocomplete' => 'off']);
-//      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
+      //      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
       echo "</td></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
       $message  = __('You want to change the key : ', 'accounts');
@@ -406,9 +424,9 @@ class PluginAccountsHash extends CommonDBTM {
       echo Html::hidden('ID', ['value' => $hash_id]);
       $onclick = "return (confirm(\"$message\" +  document.getElementById(\"aeskey\").value + \"$message2\" + document.getElementById(\"aeskeynew\").value))";
       echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash', 'form' => '', 'onclick' => $onclick, 'class' => 'btn btn-primary']);
-//
-//      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
-//      onclick=' '>";
+      //
+      //      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
+      //      onclick=' '>";
       echo "</td></tr>";
       echo "</table>";
       Html::closeForm();
@@ -444,7 +462,7 @@ class PluginAccountsHash extends CommonDBTM {
                 FROM `glpi_plugin_accounts_accounts`
                 WHERE 1 ";
       $query_ .= $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '',
-                                            $entities, $PluginAccountsHash->maybeRecursive());
+                                                  $entities, $PluginAccountsHash->maybeRecursive());
 
       $result_ = $DB->query($query_);
       if ($DB->numrows($result_) > 0) {
