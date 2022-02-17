@@ -228,7 +228,7 @@ class PluginAccountsAesKey extends CommonDBTM
       $numrows   = $DB->numrows($result);
 
       $rand = mt_rand();
-      echo "<div class='center'>";
+      echo "<div class='left'>";
 
       echo Html::hidden('plugin_accounts_hashes_id', ['value' => $ID]);
 

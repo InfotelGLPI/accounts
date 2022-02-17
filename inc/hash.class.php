@@ -105,7 +105,8 @@ class PluginAccountsHash extends CommonDBTM {
                if (!$key) {
                   self::showSelectAccountsList($item->getID());
                } else {
-                  $parm     = ["id" => $item->getID(), "aeskey" => $key];
+                  $parm     = ["id" => $item->getID(),
+                               "aeskey" => $key];
                   $accounts = PluginAccountsReport::queryAccountsList($parm);
                   PluginAccountsReport::showAccountsList($parm, $accounts);
                }

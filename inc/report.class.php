@@ -89,6 +89,7 @@ class PluginAccountsReport extends CommonDBTM {
             }
          }
       }
+
       return $list;
    }
 
@@ -183,22 +184,21 @@ class PluginAccountsReport extends CommonDBTM {
             }
             if ($output_type == Search::HTML_OUTPUT) {
                $encrypted = $field["password"];
-               $name = "password[$IDc]";
-               echo Html::hidden($name, ['value' => '']);
+               echo "<input type='hidden' name='password[$IDc]'>";
                $pass = "<p name='show_password' id='show_password$$IDc'></p>";
                $pass .= "<script type='javascript'>
-               var good_hash=\"$hash\";
-               var hash=SHA256(SHA256(\"$aeskey\"));
-               if (hash != good_hash) {
-               pass = \"" . __('Wrong encryption key', 'accounts') . "\";
-            } else {
-            pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
-            }
-
-            document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
-
-            document.getElementById(\"show_password$$IDc\").innerHTML = pass;
-            </script>";
+                              var good_hash=\"$hash\";
+                              var hash=SHA256(SHA256(\"$aeskey\"));
+                              if (hash != good_hash) {
+                              pass = \"" . __('Wrong encryption key', 'accounts') . "\";
+                           } else {
+                           pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
+                           }
+               
+                           document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
+               
+                           document.getElementById(\"show_password$$IDc\").innerHTML = pass;
+                           </script>";
 
                echo Search::showItem($output_type, $pass, $item_num, $row_num);
             } else {
