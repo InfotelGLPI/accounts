@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-17 07:35+0000\n"
+"POT-Creation-Date: 2022-02-17 12:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Associate to account"
 msgstr ""
 
-#: setup.php:130 inc/account.class.php:57 inc/profile.class.php:176
+#: setup.php:132 inc/account.class.php:57 inc/profile.class.php:176
 #: inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
