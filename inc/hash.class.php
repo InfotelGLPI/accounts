@@ -288,7 +288,7 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>" . __('Hash', 'accounts') . "</td>";
       echo "<td>";
-      echo Html::input('hash', ['id' => 'hash', 'value' => $this->fields["hash"], 'readonly' => 'readonly', 'size' => 100, 'autocomplete' => 'off']);
+      echo Html::input('hash', ['id' => 'hash', 'value' => $this->fields["hash"], 'readonly' => 'readonly', 'size' => 40, 'autocomplete' => 'off']);
       //      echo "<input type='text' readonly='readonly' size='100' id='hash' name='hash' value='" . $this->fields["hash"] . "' autocomplete='off'>";
       echo "</td>";
       echo "</tr>";
@@ -416,7 +416,7 @@ class PluginAccountsHash extends CommonDBTM {
       echo "<tr><th>";
       echo __('New encryption key', 'accounts') . "</th></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
-      echo Html::input('aeskeynew', ['id' => 'aeskeynew', 'type' => 'password', 'size' => 100, 'autocomplete' => 'off']);
+      echo Html::input('aeskeynew', ['id' => 'aeskeynew', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
       //      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
       echo "</td></tr>";
       echo "<tr class='tab_bg_1 center'><td>";
