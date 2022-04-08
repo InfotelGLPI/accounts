@@ -31,7 +31,7 @@ define('PLUGIN_ACCOUNTS_VERSION', '3.0.0-rc2');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
    define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
-   define("PLUGIN_ACCOUNTS_DIR_NOFULL", Plugin::getPhpDir("accounts",false));
+   define("PLUGIN_ACCOUNTS_DIR_NOFULL", Plugin::getPhpDir("accounts", false));
    define("PLUGIN_ACCOUNTS_WEBDIR", Plugin::getWebDir("accounts"));
 }
 
@@ -60,7 +60,7 @@ function plugin_init_accounts() {
                             ]
       );
 
-      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = PLUGIN_ACCOUNTS_DIR_NOFULL."/accounts.png";
+      $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = PLUGIN_ACCOUNTS_DIR_NOFULL . "/accounts.png";
 
       Plugin::registerClass('PluginAccountsConfig',
                             ['addtabon' => 'CronTask']);
@@ -73,30 +73,36 @@ function plugin_init_accounts() {
       $plugin = new Plugin();
       if (!$plugin->isActivated('environment')
           && Session::haveRight("plugin_accounts", READ)
+          && !$plugin->isActivated('servicecatalog')
       ) {
 
-         $PLUGIN_HOOKS["menu_toadd"]['accounts']          = ['admin' => 'PluginAccountsAccount'];
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.php';
+         $PLUGIN_HOOKS["menu_toadd"]['accounts']               = ['admin' => 'PluginAccountsAccount'];
+         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.php';
          $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['accounts'] = PluginAccountsAccount::getIcon();
       }
       if ($plugin->isActivated('environment')
           && Session::haveRight("plugin_accounts", READ)
+          && !$plugin->isActivated('servicecatalog')
       ) {
-         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.php';
+         $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.php';
          $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['accounts'] = PluginAccountsAccount::getIcon();
       }
 
-       if ($plugin->isActivated('fields')
-           && Session::haveRight("plugin_accounts", READ)
-       ) {
-           $PLUGIN_HOOKS['plugin_fields']['accounts'] = 'PluginAccountsAccount';
-       }
+      if ($plugin->isActivated('servicecatalog')) {
+         $PLUGIN_HOOKS['servicecatalog']['accounts'] = ['PluginAccountsServicecatalog'];
+      }
+
+      if ($plugin->isActivated('fields')
+          && Session::haveRight("plugin_accounts", READ)
+      ) {
+         $PLUGIN_HOOKS['plugin_fields']['accounts'] = 'PluginAccountsAccount';
+      }
 
       if (Session::haveRight("plugin_accounts", UPDATE)) {
          $PLUGIN_HOOKS['use_massive_action']['accounts'] = 1;
       }
 
-      $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL.'/front/account.form.php';
+      $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.form.php';
 
       //Clean Plugin on Profile delete
       if (class_exists('PluginAccountsAccount_Item')) { // only if plugin activated
