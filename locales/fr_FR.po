@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Xavier CAILLAUD <thetsmr@gmail.com>, 2021
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-24 10:28+0000\n"
+"POT-Creation-Date: 2022-04-08 08:56+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2021\n"
+"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2022\n"
 "Language-Team: French (France) (https://www.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,12 +21,12 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:788
+#: hook.php:787
 msgid "Associate to account"
 msgstr "Associer au compte"
 
-#: setup.php:128 inc/account.class.php:57 inc/menu.class.php:41
-#: inc/profile.class.php:176 inc/profile.class.php:207
+#: setup.php:138 inc/account.class.php:57 inc/profile.class.php:176
+#: inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Compte"
@@ -44,14 +44,14 @@ msgstr "Déchiffré"
 msgid "Type view"
 msgstr "Vue par type"
 
-#: front/hash.form.php:85 inc/account.class.php:532 inc/account.class.php:600
-#: inc/account.class.php:733 inc/account.class.php:756
-#: inc/account_item.class.php:695 inc/account_item.class.php:715
-#: inc/report.class.php:192
+#: front/hash.form.php:85 inc/account.class.php:539 inc/account.class.php:613
+#: inc/account.class.php:747 inc/account.class.php:772
+#: inc/account_item.class.php:697 inc/account_item.class.php:717
+#: inc/report.class.php:193
 msgid "Wrong encryption key"
 msgstr "Mauvaise clé de chiffrement"
 
-#: front/hash.form.php:89 inc/aeskey.class.php:170
+#: front/hash.form.php:89 inc/aeskey.class.php:174
 msgid "Encryption key modified"
 msgstr "Clé de chiffrement modifiée"
 
@@ -60,21 +60,21 @@ msgid "The old or the new encryption key can not be empty"
 msgstr ""
 "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
-#: inc/account.class.php:144 inc/account.class.php:152
-#: inc/account.class.php:567 inc/account.class.php:577
-#: inc/account_item.class.php:639 inc/notificationtargetaccount.class.php:59
+#: inc/account.class.php:148 inc/account.class.php:156
+#: inc/account.class.php:580 inc/account.class.php:590
+#: inc/account_item.class.php:641 inc/notificationtargetaccount.class.php:59
 #: inc/notificationtargetaccount.class.php:177
 #: inc/notificationtargetaccount.class.php:226
 #: inc/notificationtargetaccount.class.php:276
 msgid "Affected User"
 msgstr "Utilisateur concerné"
 
-#: inc/account.class.php:443 inc/account.class.php:516
+#: inc/account.class.php:448 inc/account.class.php:522
 #: inc/account_item.class.php:608
 msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
-#: inc/account.class.php:498
+#: inc/account.class.php:501
 msgid ""
 "Warning : there are multiple encryption keys for this entity. The encryption"
 " key of this entity will be used"
@@ -82,21 +82,25 @@ msgstr ""
 "Attention : il existe plusieurs clés de chiffrement pour cette entité. La "
 "clé de cryptage de cette entité sera utilisée"
 
-#: inc/account.class.php:524 inc/account.class.php:562
-#: inc/account_item.class.php:615 inc/account_item.class.php:623
-#: inc/aeskey.class.php:59 inc/aeskey.class.php:188 inc/aeskey.class.php:239
-#: inc/aeskey.class.php:260 inc/hash.class.php:50 inc/hash.class.php:264
-#: inc/menu.class.php:49
+#: inc/account.class.php:519
+msgid "Your encryption key is malformed, please generate the hash"
+msgstr "Votre clé de chiffrement est malformée, veuillez générer le hash"
+
+#: inc/account.class.php:530 inc/account.class.php:574
+#: inc/account.class.php:1471 inc/account_item.class.php:615
+#: inc/account_item.class.php:625 inc/aeskey.class.php:63
+#: inc/aeskey.class.php:192 inc/aeskey.class.php:243 inc/aeskey.class.php:265
+#: inc/hash.class.php:50 inc/hash.class.php:269 inc/profile.class.php:211
 msgid "Encryption key"
-msgid_plural "Encryption key"
+msgid_plural "Encryption keys"
 msgstr[0] "Clé de chiffrement"
 msgstr[1] "Clés de chiffrement"
 
-#: inc/account.class.php:535 inc/account.class.php:537
+#: inc/account.class.php:542
 msgid "Uncrypt & copy"
 msgstr "Déchiffrer & copier"
 
-#: inc/account.class.php:629 inc/account.class.php:638
+#: inc/account.class.php:643 inc/account.class.php:652
 #: inc/notificationtargetaccount.class.php:60
 #: inc/notificationtargetaccount.class.php:180
 #: inc/notificationtargetaccount.class.php:227
@@ -104,60 +108,60 @@ msgstr "Déchiffrer & copier"
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: inc/account.class.php:665
+#: inc/account.class.php:679
 msgid "Empty for infinite"
 msgstr "Vide pour infini"
 
-#: inc/account.class.php:729
+#: inc/account.class.php:743
 msgid "You have not filled the password and encryption key"
 msgstr "Veuillez renseigner le mot de passe et la clé de chiffrement"
 
-#: inc/account.class.php:754
+#: inc/account.class.php:770
 msgid "Password will not be modified"
 msgstr "Le mot de passe ne sera pas modifié"
 
-#: inc/account.class.php:789
+#: inc/account.class.php:808
 msgid "Generate password"
 msgstr "Générer un mot de passe"
 
-#: inc/account.class.php:790
+#: inc/account.class.php:809
 msgid "Numbers"
 msgstr "Nombres"
 
-#: inc/account.class.php:791
+#: inc/account.class.php:810
 msgid "Lowercase"
 msgstr "Minuscule"
 
-#: inc/account.class.php:792
+#: inc/account.class.php:811
 msgid "Uppercase"
 msgstr "Majuscule"
 
-#: inc/account.class.php:793
+#: inc/account.class.php:812
 msgid "Special characters"
 msgstr "Caractères spéciaux"
 
-#: inc/account.class.php:795
+#: inc/account.class.php:814
 msgid "Length"
 msgstr "Longueur"
 
-#: inc/account.class.php:796
+#: inc/account.class.php:815
 msgid " characters"
 msgstr "caractères"
 
-#: inc/account.class.php:800 inc/account.class.php:801
+#: inc/account.class.php:819
 msgid "Generate"
 msgstr "Générer"
 
-#: inc/account.class.php:1082 inc/account.class.php:1173
+#: inc/account.class.php:1100 inc/account.class.php:1191
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr "Comptes expirés ou comptes qui vont expirer"
 
-#: inc/account.class.php:1246
+#: inc/account.class.php:1264
 msgid "Select the wanted account type"
 msgstr "Sélectionnez le type de compte souhaité"
 
-#: inc/account.class.php:1354 inc/account_item.class.php:738
+#: inc/account.class.php:1372 inc/account_item.class.php:740
 msgid "Don't expire"
 msgstr "N'expire pas"
 
@@ -166,7 +170,7 @@ msgctxt "button"
 msgid "Associate a account"
 msgstr "Associer un compte"
 
-#: inc/account_item.class.php:704
+#: inc/account_item.class.php:706
 msgid "Uncrypt"
 msgstr "Déchiffrer"
 
@@ -182,16 +186,16 @@ msgid_plural "Types of account"
 msgstr[0] "Type de compte"
 msgstr[1] "Types de compte"
 
-#: inc/aeskey.class.php:72
+#: inc/aeskey.class.php:76
 msgid "Save the encryption key"
 msgstr "Enregistrer la clé de chiffrement"
 
-#: inc/aeskey.class.php:181
+#: inc/aeskey.class.php:185
 msgid "Warning : saving the encryption key is a security hole"
 msgstr ""
 "Attention : enregistrer la clé de chiffrement est une faille de sécurité"
 
-#: inc/aeskey.class.php:217 inc/hash.class.php:283
+#: inc/aeskey.class.php:221 inc/hash.class.php:289
 msgid "Hash"
 msgstr "Hash"
 
@@ -211,19 +215,19 @@ msgstr "Comptes expirés depuis plus de"
 msgid "Accounts expiring in less than"
 msgstr "Comptes qui vont expirer dans moins de"
 
-#: inc/hash.class.php:79 inc/hash.class.php:343 inc/report.class.php:214
+#: inc/hash.class.php:83 inc/hash.class.php:368 inc/report.class.php:215
 msgid "Linked accounts list"
 msgstr "Liste des comptes liés"
 
-#: inc/hash.class.php:80
+#: inc/hash.class.php:84
 msgid "Modification of the encryption key for all password"
 msgstr "Modification de la clé de chiffrement"
 
-#: inc/hash.class.php:231
+#: inc/hash.class.php:236
 msgid "WARNING : a encryption key already exist for this entity"
 msgstr "ATTENTION : Une clé de chiffrement existe déjà pour cette entité."
 
-#: inc/hash.class.php:246
+#: inc/hash.class.php:251
 msgid ""
 "Warning : if you change used hash, the old accounts will use the old "
 "encryption key"
@@ -231,15 +235,15 @@ msgstr ""
 "ATTENTION : si vous modifiez la hash utilisé, les anciens comptes "
 "utiliseront encore l'ancienne clé de chiffrement"
 
-#: inc/hash.class.php:268
+#: inc/hash.class.php:274
 msgid "Generate hash with this encryption key"
 msgstr "Générer le hash à partir de cette clé de chiffrement"
 
-#: inc/hash.class.php:272 inc/hash.class.php:346 inc/hash.class.php:360
+#: inc/hash.class.php:278 inc/hash.class.php:371 inc/hash.class.php:389
 msgid "Please fill the encryption key"
 msgstr "Veuillez renseigner la clé de chiffrement"
 
-#: inc/hash.class.php:309
+#: inc/hash.class.php:316
 msgid ""
 "Please do not use special characters like / \\ ' \" & in encryption keys, or"
 " you cannot change it after."
@@ -248,7 +252,11 @@ msgstr ""
 "clés de chiffrement, sinon vous risquez de ne pas pouvoir les modifier "
 "ultérieurement"
 
-#: inc/hash.class.php:374
+#: inc/hash.class.php:349
+msgid "You must generate the hash for your encryption key"
+msgstr "Vous devez générer le hachage de votre clé de chiffrement"
+
+#: inc/hash.class.php:403
 msgid ""
 "Warning : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
@@ -258,19 +266,19 @@ msgstr ""
 " clé, vous ne pourrez plus déchiffrer vos mots de passe. Il est donc "
 "FORTEMENT conseillé de faire une sauvegarde de la base avant."
 
-#: inc/hash.class.php:377
+#: inc/hash.class.php:406
 msgid "Old encryption key"
 msgstr "Ancienne clé de chiffrement"
 
-#: inc/hash.class.php:387
+#: inc/hash.class.php:417
 msgid "New encryption key"
 msgstr "Nouvelle clé de chiffrement"
 
-#: inc/hash.class.php:392
+#: inc/hash.class.php:423
 msgid "You want to change the key : "
 msgstr "Voulez vous modifier la clé : "
 
-#: inc/hash.class.php:393
+#: inc/hash.class.php:424
 msgid " by the key : "
 msgstr " par la clé : "
 
@@ -316,6 +324,10 @@ msgstr "Voir les comptes de mes groupes"
 msgid "See all accounts"
 msgstr "Voir les comptes de tous"
 
-#: inc/report.class.php:145
+#: inc/report.class.php:146
 msgid "Uncrypted password"
 msgstr "Mot de passe déchiffré"
+
+#: inc/servicecatalog.class.php:84 inc/servicecatalog.class.php:91
+msgid "See your accounts"
+msgstr "Vois vos acomptes"
