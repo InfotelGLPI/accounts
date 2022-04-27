@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_ACCOUNTS_VERSION', '3.0.0');
+define('PLUGIN_ACCOUNTS_VERSION', '3.0.1');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
    define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
@@ -70,13 +70,13 @@ function plugin_init_accounts() {
 
       PluginAccountsAccount::registerType('Appliance');
 
+      $PLUGIN_HOOKS["menu_toadd"]['accounts'] = ['admin' => 'PluginAccountsAccount'];
+
       $plugin = new Plugin();
       if (!$plugin->isActivated('environment')
           && Session::haveRight("plugin_accounts", READ)
           && !$plugin->isActivated('servicecatalog')
       ) {
-
-         $PLUGIN_HOOKS["menu_toadd"]['accounts']               = ['admin' => 'PluginAccountsAccount'];
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.php';
          $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['accounts'] = PluginAccountsAccount::getIcon();
       }

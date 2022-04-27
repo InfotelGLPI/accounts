@@ -615,8 +615,7 @@ class PluginAccountsAccount extends CommonDBTM {
          //         echo Html::scriptBlock("");
          echo '<script type="text/javascript">
                $(document).ready(function () {
-                  var root_accounts_doc = ".PLUGIN_ACCOUNTS_WEBDIR.";
-                  auto_decrypt(root_accounts_doc);
+                  auto_decrypt();
                });</script>';
       }
       if (!empty($ID) || $ID > 0) {

@@ -3,9 +3,10 @@ use Glpi\Event;
 include('../../../inc/includes.php');
 header('Content-Type: text/javascript');
 
+$root_url = PLUGIN_ACCOUNTS_WEBDIR;
 ?>
 
-var root_accounts_doc = "<?php echo PLUGIN_ACCOUNTS_WEBDIR; ?>";
+var root_accounts_doc = "<?php echo $root_url; ?>";
 
 $(document).ready(function () {
 
@@ -61,7 +62,7 @@ $(document).ready(function () {
 
 // auto decrypt (aes key saved in db)
 var auto_decrypt = function (sufix) {
-    var root_accounts_doc          = PLUGIN_ACCOUNTS_WEBDIR;
+
     sufix = sufix || "";
    if (!check_hash()) {
        $("#hidden_password" + sufix).val($("#wrong_key_locale").val());
