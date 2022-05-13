@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-08 13:38+0000\n"
+"POT-Creation-Date: 2022-04-27 12:01+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2022\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
@@ -46,7 +46,7 @@ msgid "Type view"
 msgstr "Tür görünümü"
 
 #: front/hash.form.php:85 inc/account.class.php:539 inc/account.class.php:613
-#: inc/account.class.php:747 inc/account.class.php:772
+#: inc/account.class.php:746 inc/account.class.php:771
 #: inc/account_item.class.php:697 inc/account_item.class.php:717
 #: inc/report.class.php:193
 msgid "Wrong encryption key"
@@ -87,7 +87,7 @@ msgid "Your encryption key is malformed, please generate the hash"
 msgstr "Şifreleme anahtarınız bozulmuş. Lütfen karma üretin"
 
 #: inc/account.class.php:530 inc/account.class.php:574
-#: inc/account.class.php:1471 inc/account_item.class.php:615
+#: inc/account.class.php:1470 inc/account_item.class.php:615
 #: inc/account_item.class.php:625 inc/aeskey.class.php:63
 #: inc/aeskey.class.php:192 inc/aeskey.class.php:243 inc/aeskey.class.php:265
 #: inc/hash.class.php:50 inc/hash.class.php:269 inc/profile.class.php:211
@@ -100,7 +100,7 @@ msgstr[1] "Şifreleme anahtarları"
 msgid "Uncrypt & copy"
 msgstr "Şifreyi çöz ve kopyala"
 
-#: inc/account.class.php:643 inc/account.class.php:652
+#: inc/account.class.php:642 inc/account.class.php:651
 #: inc/notificationtargetaccount.class.php:60
 #: inc/notificationtargetaccount.class.php:180
 #: inc/notificationtargetaccount.class.php:227
@@ -108,60 +108,60 @@ msgstr "Şifreyi çöz ve kopyala"
 msgid "Affected Group"
 msgstr "Etkilenen grup"
 
-#: inc/account.class.php:679
+#: inc/account.class.php:678
 msgid "Empty for infinite"
 msgstr "Sonsuz olması için boş bırakın"
 
-#: inc/account.class.php:743
+#: inc/account.class.php:742
 msgid "You have not filled the password and encryption key"
 msgstr "Parola ve şifreleme anahtarını yazmadınız"
 
-#: inc/account.class.php:770
+#: inc/account.class.php:769
 msgid "Password will not be modified"
 msgstr "Parola değiştirilmeyecek"
 
-#: inc/account.class.php:808
+#: inc/account.class.php:807
 msgid "Generate password"
 msgstr "Parola üret"
 
-#: inc/account.class.php:809
+#: inc/account.class.php:808
 msgid "Numbers"
 msgstr "Sayılar"
 
-#: inc/account.class.php:810
+#: inc/account.class.php:809
 msgid "Lowercase"
 msgstr "Küçük harfler"
 
-#: inc/account.class.php:811
+#: inc/account.class.php:810
 msgid "Uppercase"
 msgstr "Büyük harfler"
 
-#: inc/account.class.php:812
+#: inc/account.class.php:811
 msgid "Special characters"
 msgstr "Özel karakterler"
 
-#: inc/account.class.php:814
+#: inc/account.class.php:813
 msgid "Length"
 msgstr "Uzunluk"
 
-#: inc/account.class.php:815
+#: inc/account.class.php:814
 msgid " characters"
 msgstr "karakter sayısı"
 
-#: inc/account.class.php:819
+#: inc/account.class.php:818
 msgid "Generate"
 msgstr "Üret"
 
-#: inc/account.class.php:1100 inc/account.class.php:1191
+#: inc/account.class.php:1099 inc/account.class.php:1190
 #: inc/notificationtargetaccount.class.php:295
 msgid "Accounts expired or accounts which expires"
 msgstr "Süresi dolmuş ya da dolan hesaplar"
 
-#: inc/account.class.php:1264
+#: inc/account.class.php:1263
 msgid "Select the wanted account type"
 msgstr "İstenilen hesap türünü seçin"
 
-#: inc/account.class.php:1372 inc/account_item.class.php:740
+#: inc/account.class.php:1371 inc/account_item.class.php:740
 msgid "Don't expire"
 msgstr "Süresi dolmaz"
 
