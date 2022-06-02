@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_ACCOUNTS_VERSION', '3.0.1');
+define('PLUGIN_ACCOUNTS_VERSION', '3.0.2');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
    define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
