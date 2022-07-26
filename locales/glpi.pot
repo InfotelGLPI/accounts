@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-24 07:29+0000\n"
+"POT-Creation-Date: 2022-07-26 13:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:787
+#: hook.php:782
 msgid "Associate to account"
 msgstr ""
 
-#: setup.php:132 inc/account.class.php:57 inc/profile.class.php:176
+#: setup.php:129 inc/account.class.php:57 inc/profile.class.php:176
 #: inc/profile.class.php:207
 msgid "Account"
 msgid_plural "Accounts"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Uncrypted"
 msgstr ""
 
-#: front/account.php:52 front/account.php:53 front/account.php:58
+#: front/account.php:49 front/account.php:50 front/account.php:55
 msgid "Type view"
 msgstr ""
 
