@@ -31,9 +31,7 @@ include('../../../inc/includes.php');
 
 Session::checkRight("config", UPDATE);
 
-$plugin = new Plugin();
-
-if ($plugin->isActivated("environment")) {
+if (Plugin::isPluginActive("environment")) {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
 } else {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");

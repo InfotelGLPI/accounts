@@ -27,13 +27,10 @@
  --------------------------------------------------------------------------
  */
 
-
 include('../../../inc/includes.php');
 
-$plugin = new Plugin();
-
 if (Session::getCurrentInterface() == 'central') {
-   if ($plugin->isActivated("environment")) {
+   if (Plugin::isPluginActive("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
    } else {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount");

@@ -481,10 +481,7 @@ function plugin_accounts_AssignToTicket($types) {
  * @return array
  */
 function plugin_accounts_getDatabaseRelations() {
-
-   $plugin = new Plugin();
-
-   if ($plugin->isActivated("accounts")) {
+   if (Plugin::isPluginActive("accounts")) {
       return [
          "glpi_plugin_accounts_accounttypes"  => [
             "glpi_plugin_accounts_accounts" => "plugin_accounts_accounttypes_id"
@@ -523,8 +520,7 @@ function plugin_accounts_getDatabaseRelations() {
  */
 function plugin_accounts_getDropdown() {
 
-   $plugin = new Plugin();
-   if ($plugin->isActivated("accounts")) {
+   if (Plugin::isPluginActive("accounts")) {
       return [
          "PluginAccountsAccountType"  => PluginAccountsAccountType::getTypeName(2),
          "PluginAccountsAccountState" => PluginAccountsAccountState::getTypeName(2)
@@ -780,8 +776,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num) {
  */
 function plugin_accounts_MassiveActions($type) {
 
-   $plugin = new Plugin();
-   if ($plugin->isActivated('accounts')) {
+   if (Plugin::isPluginActive('accounts')) {
       if (in_array($type, PluginAccountsAccount::getTypes(true))) {
          return [
             'PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts')

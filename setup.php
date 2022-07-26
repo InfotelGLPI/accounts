@@ -43,9 +43,7 @@ function plugin_init_accounts() {
    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
    $PLUGIN_HOOKS['change_profile']['accounts']   = ['PluginAccountsProfile', 'initProfile'];
 
-   $plugin = new Plugin();
-
-   if (Session::getLoginUserID() && $plugin->isActivated('accounts')) {
+   if (Session::getLoginUserID() && Plugin::isPluginActive('accounts')) {
 
       // Params : plugin name - string type - number - attributes
       Plugin::registerClass('PluginAccountsAccount',
@@ -74,19 +72,18 @@ function plugin_init_accounts() {
          $PLUGIN_HOOKS["menu_toadd"]['accounts'] = ['admin' => 'PluginAccountsAccount'];
       }
 
-      $plugin = new Plugin();
       if (Session::haveRight("plugin_accounts", READ)
-          && !$plugin->isActivated('servicecatalog')
+          && !Plugin::isPluginActive('servicecatalog')
       ) {
          $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.php';
          $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['accounts'] = PluginAccountsAccount::getIcon();
       }
 
-      if ($plugin->isActivated('servicecatalog')) {
+      if (Plugin::isPluginActive('servicecatalog')) {
          $PLUGIN_HOOKS['servicecatalog']['accounts'] = ['PluginAccountsServicecatalog'];
       }
 
-      if ($plugin->isActivated('fields')
+      if (Plugin::isPluginActive('fields')
           && Session::haveRight("plugin_accounts", READ)
       ) {
          $PLUGIN_HOOKS['plugin_fields']['accounts'] = 'PluginAccountsAccount';

@@ -96,7 +96,7 @@ if (isset($_POST["add"])) {
    }
 } else {
 
-   if ($plugin->isActivated("environment")) {
+   if (Plugin::isPluginActive("environment")) {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "hash");
    } else {
       Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");

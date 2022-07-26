@@ -41,9 +41,7 @@ Session::checkRight("config", UPDATE);
 
 $aeskey = new PluginAccountsAesKey();
 
-$plugin = new Plugin();
-
-if ($plugin->isActivated("environment")) {
+if (Plugin::isPluginActive("environment")) {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
 } else {
    Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");
