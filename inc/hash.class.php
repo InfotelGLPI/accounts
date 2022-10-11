@@ -423,8 +423,7 @@ class PluginAccountsHash extends CommonDBTM {
       $message  = __('You want to change the key : ', 'accounts');
       $message2 = __(' by the key : ', 'accounts');
       echo Html::hidden('ID', ['value' => $hash_id]);
-      $onclick = "return (confirm(\"$message\" +  document.getElementById(\"aeskey\").value + \"$message2\" + document.getElementById(\"aeskeynew\").value))";
-      echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash', 'form' => '', 'onclick' => $onclick, 'class' => 'btn btn-primary']);
+      echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash',  'class' => 'btn btn-primary']);
       //
       //      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
       //      onclick=' '>";
