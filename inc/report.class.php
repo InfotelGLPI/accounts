@@ -173,11 +173,11 @@ class PluginAccountsReport extends CommonDBTM
                         echo Html::hidden("entities_id[$IDc]", ['value' => $field["entities_id"]]);
                     }
                 }
-                echo Search::showItem($output_type, $field["type"], $item_num, $row_num);
+                echo Search::showItem($output_type, ($field["type"]??0), $item_num, $row_num);
                 if ($output_type == Search::HTML_OUTPUT) {
                     echo Html::hidden("type[$IDc]", ['value' => $field["type"]]);
                 }
-                echo Search::showItem($output_type, $field["login"], $item_num, $row_num);
+                echo Search::showItem($output_type, ($field["login"]??""), $item_num, $row_num);
                 if ($output_type == Search::HTML_OUTPUT) {
                     echo Html::hidden("login[$IDc]", ['value' => $field["login"]]);
                 }
@@ -200,7 +200,7 @@ class PluginAccountsReport extends CommonDBTM
 
                     echo Search::showItem($output_type, $pass, $item_num, $row_num);
                 } else {
-                    echo Search::showItem($output_type, $field["password"], $item_num, $row_num);
+                    echo Search::showItem($output_type, ($field["password"]??""), $item_num, $row_num);
                 }
                 echo Search::showEndLine($output_type);
             }

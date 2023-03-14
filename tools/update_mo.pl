@@ -8,20 +8,20 @@ exit();
 }
 
 
-opendir(DIRHANDLE,'locales')||die "ERROR: can not read current directory\n"; 
+opendir(DIRHANDLE,'../locales')||die "ERROR: can not read current directory\n";
 foreach (readdir(DIRHANDLE)){ 
-	if ($_ ne '..' && $_ ne '.'){
+   if ($_ ne '..' && $_ ne '.'){
 
             if(!(-l "$dir/$_")){
                      if (index($_,".po",0)==length($_)-3) {
                         $lang=$_;
                         $lang=~s/\.po//;
                         
-                        `msgfmt locales/$_ -o locales/$lang.mo`;
+                        `msgfmt ../locales/$_ -o ../locales/$lang.mo`;
                      }
             }
 
-	}
+   }
 }
 closedir DIRHANDLE; 
 
