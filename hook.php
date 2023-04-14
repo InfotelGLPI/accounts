@@ -466,7 +466,7 @@ function plugin_accounts_getDatabaseRelations()
            ],
            "glpi_plugin_accounts_accountstates" => [
               "glpi_plugin_accounts_accounts"      => "plugin_accounts_accountstates_id",
-              "glpi_plugin_accounts_mailingstates" => "plugin_accounts_accountstates_id"
+              "glpi_plugin_accounts_notificationstates" => "plugin_accounts_accountstates_id"
            ],
            "glpi_plugin_accounts_accounts"      => [
               "glpi_plugin_accounts_accounts_items" => "plugin_accounts_accounts_id"
