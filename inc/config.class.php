@@ -60,8 +60,8 @@ class PluginAccountsConfig extends CommonDBTM
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
       if ($item->getType() == 'CronTask') {
-
-         PluginAccountsAccount::configCron(1);
+          $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
+         PluginAccountsAccount::configCron($target);
       }
       return true;
    }

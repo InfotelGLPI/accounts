@@ -126,7 +126,7 @@ class PluginAccountsNotificationState extends CommonDBTM
       echo "</td>";
       echo "<td>";
       echo "<div align='center'>";
-      echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'update' => 'btn btn-primary']);
+      echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
       echo "</div></td></tr>";
       echo "</table>";
       Html::closeForm();
@@ -148,7 +148,7 @@ class PluginAccountsNotificationState extends CommonDBTM
          $number = $DB->numrows($result);
          if ($number != 0) {
 
-            echo "<div align='center'>";
+            echo "<div align='left'>";
 
             Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
             $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
@@ -177,11 +177,12 @@ class PluginAccountsNotificationState extends CommonDBTM
             echo "<th></th>";
             echo "</tr>";
 
-            $massiveactionparams['ontop'] = false;
-            Html::showMassiveActions($massiveactionparams);
-            Html::closeForm();
+
 
             echo "</table>";
+             $massiveactionparams['ontop'] = false;
+             Html::showMassiveActions($massiveactionparams);
+             Html::closeForm();
             Html::closeForm();
             echo "</div>";
          }
