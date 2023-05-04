@@ -72,6 +72,7 @@ function plugin_init_accounts()
         );
 
         PluginAccountsAccount::registerType('Appliance');
+        PluginAccountsAccount::registerType('DatabaseInstance');
 
         if (Session::haveRight("plugin_accounts", READ)) {
             $PLUGIN_HOOKS["menu_toadd"]['accounts'] = ['admin' => 'PluginAccountsAccount'];
