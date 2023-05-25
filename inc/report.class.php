@@ -62,13 +62,13 @@ class PluginAccountsReport extends CommonDBTM
         $list     = [];
         if ($aeskey) {
             $query = "SELECT `glpi_plugin_accounts_accounts`.*,
-                  `glpi_plugin_accounts_accounttypes`.`name` AS type
+                  `glpi_plugin_accounts_accounttypes`.`name` AS typename
                   FROM `glpi_plugin_accounts_accounts`
                   LEFT JOIN `glpi_plugin_accounts_accounttypes`
                   ON (`glpi_plugin_accounts_accounts`.`plugin_accounts_accounttypes_id` = `glpi_plugin_accounts_accounttypes`.`id`)
                   WHERE `is_deleted`= '0'";
             $query .= $dbu->getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, $PluginAccountsHash->maybeRecursive());
-            $query .= " ORDER BY `type`,`name`";
+            $query .= " ORDER BY `typename`,`name`";
 
             foreach ($DB->request($query) as $data) {
                 $accounts[] = $data;
@@ -82,7 +82,7 @@ class PluginAccountsReport extends CommonDBTM
                     if (Session::isMultiEntitiesMode()) {
                         $list[$ID]["entities_id"] = Dropdown::getDropdownName("glpi_entities", $account["entities_id"]);
                     }
-                    $list[$ID]["type"]     = $account["type"];
+                    $list[$ID]["typename"]     = $account["typename"];
                     $list[$ID]["login"]    = $account["login"];
                     $list[$ID]["password"] = $account["encrypted_password"];
                 }
@@ -173,9 +173,9 @@ class PluginAccountsReport extends CommonDBTM
                         echo Html::hidden("entities_id[$IDc]", ['value' => $field["entities_id"]]);
                     }
                 }
-                echo Search::showItem($output_type, ($field["type"]??0), $item_num, $row_num);
+                echo Search::showItem($output_type, ($field["typename"]??""), $item_num, $row_num);
                 if ($output_type == Search::HTML_OUTPUT) {
-                    echo Html::hidden("type[$IDc]", ['value' => $field["type"]]);
+                    echo Html::hidden("typename[$IDc]", ['value' => $field["typename"]]);
                 }
                 echo Search::showItem($output_type, ($field["login"]??""), $item_num, $row_num);
                 if ($output_type == Search::HTML_OUTPUT) {
