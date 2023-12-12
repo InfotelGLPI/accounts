@@ -1,0 +1,338 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Accounts Development Team
+# This file is distributed under the same license as the GLPI - Accounts plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# mibsk, 2023
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - Accounts plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-14 20:21+0000\n"
+"PO-Revision-Date: 2020-11-02 15:26+0000\n"
+"Last-Translator: mibsk, 2023\n"
+"Language-Team: Slovak (Slovakia) (https://app.transifex.com/infotelGLPI/teams/12352/sk_SK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: hook.php:758
+msgid "Associate to account"
+msgstr "Priradiť k účtu"
+
+#: setup.php:134 inc/account.class.php:58 inc/profile.class.php:182
+#: inc/profile.class.php:213
+msgid "Account"
+msgid_plural "Accounts"
+msgstr[0] "Účet"
+msgstr[1] "Účty"
+msgstr[2] "Účty"
+msgstr[3] "Účty"
+
+#: ajax/generatepassword.php:67
+msgid "Select at least on checkbox"
+msgstr "Vyberte aspoň jednu možnosť"
+
+#: ajax/log_decrypt.php:44
+msgid "Uncrypted"
+msgstr "Dešifrované"
+
+#: front/account.php:49 front/account.php:50 front/account.php:55
+msgid "Type view"
+msgstr "Zobraziť typ"
+
+#: front/hash.form.php:85 inc/account.class.php:552 inc/account.class.php:626
+#: inc/account.class.php:758 inc/account.class.php:781
+#: inc/account_item.class.php:697 inc/account_item.class.php:717
+#: inc/report.class.php:192
+msgid "Wrong encryption key"
+msgstr "Nesprávny šifrovací kľúč"
+
+#: front/hash.form.php:89 inc/aeskey.class.php:174
+msgid "Encryption key modified"
+msgstr "Šifrovací kľúč zmenený"
+
+#: front/hash.form.php:93
+msgid "The old or the new encryption key can not be empty"
+msgstr "Je nutné vyplniť pôvodný, ako aj nový šifrovací kľúč"
+
+#: inc/account.class.php:150 inc/account.class.php:158
+#: inc/account.class.php:593 inc/account.class.php:603
+#: inc/account_item.class.php:641 inc/notificationtargetaccount.class.php:59
+#: inc/notificationtargetaccount.class.php:177
+#: inc/notificationtargetaccount.class.php:226
+#: inc/notificationtargetaccount.class.php:276
+msgid "Affected User"
+msgstr "Používateľ"
+
+#: inc/account.class.php:453 inc/account.class.php:535
+#: inc/account_item.class.php:608
+msgid "There is no encryption key for this entity"
+msgstr "Pre danú entitu neexistuje šifrovací kľúč"
+
+#: inc/account.class.php:514
+msgid ""
+"Warning : there are multiple encryption keys for this entity. The encryption"
+" key of this entity will be used"
+msgstr ""
+"Upozornenie: Pre túto entitu existuje niekoľko šifrovacích kľúčov. Bude "
+"použitý šifrovací kľúč tejto entity"
+
+#: inc/account.class.php:532
+msgid "Your encryption key is malformed, please generate the hash"
+msgstr "Šifrovací kľúč je chybný, vygenerujte prosím hash"
+
+#: inc/account.class.php:543 inc/account.class.php:587
+#: inc/account.class.php:1500 inc/account_item.class.php:615
+#: inc/account_item.class.php:625 inc/aeskey.class.php:63
+#: inc/aeskey.class.php:192 inc/aeskey.class.php:243 inc/aeskey.class.php:265
+#: inc/hash.class.php:50 inc/hash.class.php:269 inc/profile.class.php:217
+msgid "Encryption key"
+msgid_plural "Encryption keys"
+msgstr[0] "Šifrovací kľúč"
+msgstr[1] "Šifrovacie kľúče"
+msgstr[2] "Šifrovacie kľúče"
+msgstr[3] "Šifrovacie kľúče"
+
+#: inc/account.class.php:555
+msgid "Uncrypt & copy"
+msgstr "Dešifrovať a skopírovať"
+
+#: inc/account.class.php:655 inc/account.class.php:664
+#: inc/notificationtargetaccount.class.php:60
+#: inc/notificationtargetaccount.class.php:180
+#: inc/notificationtargetaccount.class.php:227
+#: inc/notificationtargetaccount.class.php:277
+msgid "Affected Group"
+msgstr "Skupina"
+
+#: inc/account.class.php:691
+msgid "Empty for infinite"
+msgstr "Prázdne bez exspirácie"
+
+#: inc/account.class.php:754
+msgid "You have not filled the password and encryption key"
+msgstr "Nevyplnili ste heslo a šifrovací kľúč"
+
+#: inc/account.class.php:779
+msgid "Password will not be modified"
+msgstr "Heslo nebude zmenené"
+
+#: inc/account.class.php:816
+msgid "Generate password"
+msgstr "Generovať heslo"
+
+#: inc/account.class.php:817
+msgid "Numbers"
+msgstr "Čísla"
+
+#: inc/account.class.php:818
+msgid "Lowercase"
+msgstr "Malé písmeno"
+
+#: inc/account.class.php:819
+msgid "Uppercase"
+msgstr "Veľké písmeno"
+
+#: inc/account.class.php:820
+msgid "Special characters"
+msgstr "Špeciálne znaky"
+
+#: inc/account.class.php:822
+msgid "Length"
+msgstr "Dĺžka"
+
+#: inc/account.class.php:823
+msgid " characters"
+msgstr " znaky"
+
+#: inc/account.class.php:827
+msgid "Generate"
+msgstr "Generovať"
+
+#: inc/account.class.php:1123 inc/account.class.php:1215
+#: inc/notificationtargetaccount.class.php:295
+msgid "Accounts expired or accounts which expires"
+msgstr "Účty, ktorým skončila alebo končí platnosť"
+
+#: inc/account.class.php:1292
+msgid "Select the wanted account type"
+msgstr "Vyberte požadovaný typ účtu"
+
+#: inc/account.class.php:1401 inc/account_item.class.php:740
+msgid "Don't expire"
+msgstr "Platnosť nikdy neskončí"
+
+#: inc/account_item.class.php:567
+msgctxt "button"
+msgid "Associate a account"
+msgstr "Priradiť účet"
+
+#: inc/account_item.class.php:706
+msgid "Uncrypt"
+msgstr "Dešifrovať"
+
+#: inc/accountstate.class.php:51
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] "Stav"
+msgstr[1] "Stavy"
+msgstr[2] "Stavy"
+msgstr[3] "Stavy"
+
+#: inc/accounttype.class.php:51
+msgid "Type of account"
+msgid_plural "Types of account"
+msgstr[0] "Typ účtu"
+msgstr[1] "Typy účtu"
+msgstr[2] "Typy účtu"
+msgstr[3] "Typy účtu"
+
+#: inc/aeskey.class.php:76
+msgid "Save the encryption key"
+msgstr "Uložiť šifrovací kľúč"
+
+#: inc/aeskey.class.php:185
+msgid "Warning : saving the encryption key is a security hole"
+msgstr "Upozornenie: uloženie šifrovacieho kľúča je slabina v zabezpečení"
+
+#: inc/aeskey.class.php:221 inc/hash.class.php:289
+msgid "Hash"
+msgstr "Hash"
+
+#: inc/config.class.php:48
+msgid "Plugin Setup"
+msgstr "Nastavenie zásuvného modulu"
+
+#: inc/config.class.php:82
+msgid "Time of checking of of expiration of accounts"
+msgstr "Kedy kontrolovať koniec platnosti účtov"
+
+#: inc/config.class.php:91
+msgid "Accounts expired for more than"
+msgstr "Účty, ktorým platnosť skončila pred viac ako"
+
+#: inc/config.class.php:96
+msgid "Accounts expiring in less than"
+msgstr "Účty, ktorým platnosť skončí za menej ako"
+
+#: inc/hash.class.php:83 inc/hash.class.php:368 inc/report.class.php:213
+msgid "Linked accounts list"
+msgstr "Zoznam súvisiacich účtov"
+
+#: inc/hash.class.php:84
+msgid "Modification of the encryption key for all password"
+msgstr "Zmena šifrovacieho kľúča pre všetky heslá"
+
+#: inc/hash.class.php:236
+msgid "WARNING : a encryption key already exist for this entity"
+msgstr "UPOZORNENIE: pro túto entitu už existuje šifrovací kľúč"
+
+#: inc/hash.class.php:251
+msgid ""
+"Warning : if you change used hash, the old accounts will use the old "
+"encryption key"
+msgstr ""
+"Upozornenie: pokiaľ zmeníte použitý hash, staré účty budú stále používať "
+"pôvodný šifrovací kľúč"
+
+#: inc/hash.class.php:274
+msgid "Generate hash with this encryption key"
+msgstr "Vytvoriť hash s týmto šifrovacím kľúčom"
+
+#: inc/hash.class.php:278 inc/hash.class.php:371 inc/hash.class.php:389
+msgid "Please fill the encryption key"
+msgstr "Vyplnte šifrovací kľúč"
+
+#: inc/hash.class.php:316
+msgid ""
+"Please do not use special characters like / \\ ' \" & in encryption keys, or"
+" you cannot change it after."
+msgstr ""
+"V šifrovacích kľúčoch nepoužívajte špeciálne znaky ako / \\ ' \" & inak ich "
+"nebudete môcť neskôr zmeniť."
+
+#: inc/hash.class.php:349
+msgid "You must generate the hash for your encryption key"
+msgstr "Pre váš šifrovací kľúč musíte vygenerovať hash"
+
+#: inc/hash.class.php:403
+msgid ""
+"Warning : if you make a mistake in entering the old or the new key, you "
+"could no longer decrypt your passwords. It is STRONGLY recommended that you "
+"make a backup of the database before."
+msgstr ""
+"Upozornenie: pokiaľ sa dopustíte chyby v zadávaní pôvodného alebo nového "
+"kľúča, nebudete môcť dešifrovať heslá. Preto je DÔRAZNE doporučené vytvoriť "
+"pred týmto krokom zálohu databázy."
+
+#: inc/hash.class.php:406
+msgid "Old encryption key"
+msgstr "Pôvodný šifrovací kľúč"
+
+#: inc/hash.class.php:417
+msgid "New encryption key"
+msgstr "Nový šifrovací kľúč"
+
+#: inc/hash.class.php:423
+msgid "You want to change the key : "
+msgstr "Chcete zmeniť kľúč: "
+
+#: inc/hash.class.php:424
+msgid " by the key : "
+msgstr " za kľúč: "
+
+#: inc/notificationstate.class.php:122
+msgid "Add a unused status for expiration mailing"
+msgstr "Pridať stav nepoužité pre správy o ukončení platnosti"
+
+#: inc/notificationstate.class.php:160
+msgid "Unused status for expiration mailing"
+msgstr "Stav nepoužité pre správy o ukončení platnosti"
+
+#: inc/notificationtargetaccount.class.php:48
+msgid "New account"
+msgstr "Nový účet"
+
+#: inc/notificationtargetaccount.class.php:49
+#: inc/notificationtargetaccount.class.php:218
+msgid "Accounts expired"
+msgstr "Účty s ukončenou platnosťou"
+
+#: inc/notificationtargetaccount.class.php:50
+#: inc/notificationtargetaccount.class.php:219
+msgid "Accounts which expires"
+msgstr "Účty, ktorým končí platnosť"
+
+#: inc/notificationtargetaccount.class.php:154
+#: inc/notificationtargetaccount.class.php:292
+msgid "An account has been created"
+msgstr "Účet bol vytvorený"
+
+#: inc/notificationtargetaccount.class.php:207
+#: inc/notificationtargetaccount.class.php:271
+msgid "Direct link to created account"
+msgstr "Priamy odkaz na vytvorený účet"
+
+#: inc/profile.class.php:136 inc/profile.class.php:189
+#: inc/profile.class.php:224
+msgid "See accounts of my groups"
+msgstr "Zobraziť účty v mojich skupinách"
+
+#: inc/profile.class.php:143 inc/profile.class.php:193
+#: inc/profile.class.php:228
+msgid "See all accounts"
+msgstr "Zobraziť všetky účty"
+
+#: inc/report.class.php:146
+msgid "Uncrypted password"
+msgstr "Dešifrované heslo"
+
+#: inc/servicecatalog.class.php:84 inc/servicecatalog.class.php:91
+msgid "See your accounts"
+msgstr "Zobraziť vaše účty"
