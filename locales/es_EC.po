@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-20 15:25+0000\n"
+"POT-Creation-Date: 2023-12-20 18:24+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/teams/12352/es_EC/)\n"
@@ -281,7 +281,7 @@ msgstr "Desea cambiar la clave: "
 
 #: inc/hash.class.php:424
 msgid " by the key : "
-msgstr " por la clave : "
+msgstr " por la clave: "
 
 #: inc/notificationstate.class.php:122
 msgid "Add a unused status for expiration mailing"
