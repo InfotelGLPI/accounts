@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-12 10:38+0000\n"
+"POT-Creation-Date: 2023-12-20 15:25+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/teams/12352/es_EC/)\n"
@@ -147,7 +147,7 @@ msgstr "Longitud"
 
 #: inc/account.class.php:823
 msgid " characters"
-msgstr "Caracteres"
+msgstr " caracteres"
 
 #: inc/account.class.php:827
 msgid "Generate"
@@ -235,7 +235,7 @@ msgid ""
 "encryption key"
 msgstr ""
 "Advertencia: si cambia el hash utilizado, las cuentas antiguas utilizarán la"
-" clave de cifrado antigua."
+" clave de cifrado antigua"
 
 #: inc/hash.class.php:274
 msgid "Generate hash with this encryption key"
@@ -243,7 +243,7 @@ msgstr "Generar hash con esta clave de encriptación"
 
 #: inc/hash.class.php:278 inc/hash.class.php:371 inc/hash.class.php:389
 msgid "Please fill the encryption key"
-msgstr "Por favor, rellene la clave de encriptación "
+msgstr "Por favor, rellene la clave de encriptación"
 
 #: inc/hash.class.php:316
 msgid ""
@@ -277,11 +277,11 @@ msgstr "Nueva clave de encriptación"
 
 #: inc/hash.class.php:423
 msgid "You want to change the key : "
-msgstr "Desea cambiar la clave:"
+msgstr "Desea cambiar la clave: "
 
 #: inc/hash.class.php:424
 msgid " by the key : "
-msgstr "por la clave :"
+msgstr " por la clave : "
 
 #: inc/notificationstate.class.php:122
 msgid "Add a unused status for expiration mailing"
