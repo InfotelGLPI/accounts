@@ -58,8 +58,8 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
    public function addAdditionalTargets($event = '') {
       $this->addTarget(self::ACCOUNT_USER, __('Affected User', 'accounts'));
       $this->addTarget(self::ACCOUNT_GROUP, __('Affected Group', 'accounts'));
-      $this->addTarget(self::ACCOUNT_TECHUSER, __('Technician in charge of the hardware'));
-      $this->addTarget(self::ACCOUNT_TECHGROUP, __('Group in charge of the hardware'));
+      $this->addTarget(self::ACCOUNT_TECHUSER, __('Technician in charge'));
+      $this->addTarget(self::ACCOUNT_TECHGROUP, __('Group in charge'));
    }
 
    /**
@@ -181,10 +181,10 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $this->data['##account.groups##']      = Dropdown::getDropdownName('glpi_groups',
                                                                              $this->obj->getField('groups_id'));
 
-         $this->data['##lang.account.userstech##'] = __('Technician in charge of the hardware');
+         $this->data['##lang.account.userstech##'] = __('Technician in charge');
          $this->data['##account.userstech##']      = $dbu->getUserName($this->obj->getField("users_id_tech"));
 
-         $this->data['##lang.account.groupstech##'] = __('Group in charge of the hardware');
+         $this->data['##lang.account.groupstech##'] = __('Group in charge');
          $this->data['##account.groupstech##']      = Dropdown::getDropdownName('glpi_groups',
                                                                                  $this->obj->getField('groups_id_tech'));
 
@@ -225,8 +225,8 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
          $this->data['##lang.account.login##']          = __('Login');
          $this->data['##lang.account.users##']          = __('Affected User', 'accounts');
          $this->data['##lang.account.groups##']         = __('Affected Group', 'accounts');
-         $this->data['##lang.account.userstech##']      = __('Technician in charge of the hardware');
-         $this->data['##lang.account.groupstech##']     = __('Group in charge of the hardware');
+         $this->data['##lang.account.userstech##']      = __('Technician in charge');
+         $this->data['##lang.account.groupstech##']     = __('Group in charge');
          $this->data['##lang.account.location##']       = __('Location');
          $this->data['##lang.account.others##']         = __('Others');
          $this->data['##lang.account.datecreation##']   = __('Creation date');
@@ -275,8 +275,8 @@ class PluginAccountsNotificationTargetAccount extends NotificationTarget {
                     'account.login'          => __('Login'),
                     'account.users'          => __('Affected User', 'accounts'),
                     'account.groups'         => __('Affected Group', 'accounts'),
-                    'account.userstech'      => __('Technician in charge of the hardware'),
-                    'account.groupstech'     => __('Group in charge of the hardware'),
+                    'account.userstech'      => __('Technician in charge'),
+                    'account.groupstech'     => __('Group in charge'),
                     'account.location'       => __('Location'),
                     'account.others'         => __('Others'),
                     'account.datecreation'   => __('Creation date'),

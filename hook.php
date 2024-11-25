@@ -329,7 +329,7 @@ function plugin_accounts_uninstall()
                "glpi_plugin_accounts_notificationstates"];
 
     foreach ($tables as $table) {
-        $DB->query("DROP TABLE IF EXISTS `$table`;");
+        $DB->dropTable($table);
     }
 
     //old versions
@@ -347,7 +347,7 @@ function plugin_accounts_uninstall()
                "glpi_plugin_accounts_profiles"];
 
     foreach ($tables as $table) {
-        $DB->query("DROP TABLE IF EXISTS `$table`;");
+        $DB->dropTable($table);
     }
 
     $notif          = new Notification();
@@ -401,18 +401,20 @@ function plugin_accounts_uninstall()
                     "glpi_impactitems"];
 
     foreach ($tables_glpi as $table_glpi) {
-        $DB->query("DELETE FROM `$table_glpi`
-               WHERE `itemtype` = 'PluginAccountsAccount'
-               OR `itemtype` = 'PluginAccountsHelpdesk'
-               OR `itemtype` = 'PluginAccountsGroup'
-               OR `itemtype` = 'PluginAccountsAccountState'
-               OR `itemtype` = 'PluginAccountsAccountType' ;");
+        $DB->delete($table_glpi, ['itemtype' => ['LIKE' => 'PluginAccounts%']]);
     }
 
-    $DB->query("DELETE
-                  FROM `glpi_impactrelations`
-                  WHERE `itemtype_source` IN ('PluginAccountsAccount')
-                    OR `itemtype_impacted` IN ('PluginAccountsAccount')");
+
+    $DB->delete('glpi_impactrelations', [
+        'OR' => [
+            [
+                'itemtype_source' => ['PluginAccountsAccount'],
+            ],
+            [
+                'itemtype_impacted' => ['PluginAccountsAccount'],
+            ],
+        ]
+    ]);
 
     if (class_exists('PluginDatainjectionModel')) {
         PluginDatainjectionModel::clean(['itemtype' => 'PluginAccountsAccount']);

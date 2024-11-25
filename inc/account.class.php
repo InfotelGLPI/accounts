@@ -287,7 +287,7 @@ class PluginAccountsAccount extends CommonDBTM
            'table'     => 'glpi_users',
            'field'     => 'name',
            'linkfield' => 'users_id_tech',
-           'name'      => __('Technician in charge of the hardware'),
+           'name'      => __('Technician in charge'),
            'datatype'  => 'dropdown',
            'right'     => 'interface'
         ];
@@ -297,7 +297,7 @@ class PluginAccountsAccount extends CommonDBTM
            'table'     => 'glpi_groups',
            'field'     => 'completename',
            'linkfield' => 'groups_id_tech',
-           'name'      => __('Group in charge of the hardware'),
+           'name'      => __('Group in charge'),
            'condition' => ['`is_assign`' => 1],
            'datatype'  => 'dropdown'
         ];
@@ -675,7 +675,7 @@ class PluginAccountsAccount extends CommonDBTM
         Html::showDateField("date_creation", ['value' => $this->fields["date_creation"]]);
         echo "</td>";
 
-        echo "<td>" . __('Technician in charge of the hardware') . "</td>";
+        echo "<td>" . __('Technician in charge') . "</td>";
         echo "<td>";
         User::dropdown(['name'   => "users_id_tech",
                         'value'  => $this->fields["users_id_tech"],
@@ -694,7 +694,7 @@ class PluginAccountsAccount extends CommonDBTM
         Html::showDateField("date_expiration", ['value' => $this->fields["date_expiration"]]);
         echo "</td>";
 
-        echo "<td>" . __('Group in charge of the hardware') . "</td><td>";
+        echo "<td>" . __('Group in charge') . "</td><td>";
         Group::dropdown(['name'      => 'groups_id_tech',
                          'value'     => $this->fields['groups_id_tech'],
                          'condition' => ['is_assign' => 1]]);

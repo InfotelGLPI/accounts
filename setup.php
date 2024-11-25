@@ -135,7 +135,7 @@ function plugin_version_accounts()
        'version'      => PLUGIN_ACCOUNTS_VERSION,
        'oldname'      => 'compte',
        'license'      => 'GPLv2+',
-       'author'       => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>, Franck Waechter",
+       'author'       => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Franck Waechter",
        'homepage'     => 'https://github.com/InfotelGLPI/accounts',
        'requirements' => [
           'glpi' => [

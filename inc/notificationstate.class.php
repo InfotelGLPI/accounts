@@ -183,7 +183,6 @@ class PluginAccountsNotificationState extends CommonDBTM
              $massiveactionparams['ontop'] = false;
              Html::showMassiveActions($massiveactionparams);
              Html::closeForm();
-            Html::closeForm();
             echo "</div>";
          }
       }
