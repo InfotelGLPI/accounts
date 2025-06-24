@@ -187,7 +187,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                "WHERE `plugin_accounts_accounts_id` = '" . $plugin_accounts_accounts_id . "'
                         AND `itemtype` = '" . $itemtype . "'
                                  AND `items_id` = '" . $items_id . "'";
-      if ($result = $DB->query($query)) {
+      if ($result = $DB->doQuery($query)) {
          if ($DB->numrows($result) != 1) {
             return false;
          }
@@ -256,7 +256,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                 ORDER BY `itemtype`
                 LIMIT " . count(PluginAccountsAccount::getTypes(true));
 
-      $result = $DB->query($query);
+      $result = $DB->doQuery($query);
       $number = $DB->numrows($result);
       $rand   = mt_rand();
 
@@ -373,7 +373,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                $soft = new Software();
             }
 
-            if ($result_linked = $DB->query($query)) {
+            if ($result_linked = $DB->doQuery($query)) {
                if ($DB->numrows($result_linked)) {
 
                   while ($data = $DB->fetchAssoc($result_linked)) {
@@ -503,7 +503,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       }
       $query .= " ORDER BY `assocName`";
 
-      $result = $DB->query($query);
+      $result = $DB->doQuery($query);
       $number = $DB->numrows($result);
       $i      = 0;
 
@@ -540,7 +540,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                WHERE `is_deleted` = '0'
                $limit";
 
-         $result = $DB->query($q);
+         $result = $DB->doQuery($q);
          $nb     = $DB->result($result, 0, 0);
 
          echo "<div class='firstbloc'>";

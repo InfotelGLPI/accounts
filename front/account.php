@@ -27,6 +27,8 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
+
 include('../../../inc/includes.php');
 
 if (Session::getCurrentInterface() == 'central') {
@@ -61,7 +63,7 @@ if ($account->canView()) {
    Search::show("PluginAccountsAccount");
 
 } else {
-   Html::displayRightError();
+    throw new AccessDeniedHttpException();
 }
 
 if (Session::getCurrentInterface() == 'central') {

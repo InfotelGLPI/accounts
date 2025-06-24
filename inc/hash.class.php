@@ -57,14 +57,16 @@ class PluginAccountsHash extends CommonDBTM {
    /**
     * @return bool
     */
-   public static function canCreate() {
+   public static function canCreate(): bool
+   {
       return Session::haveRight(static::$rightname, UPDATE);
    }
 
    /**
     * @return bool
     */
-   public static function canView() {
+   public static function canView(): bool
+   {
       return Session::haveRight(static::$rightname, READ);
    }
 
@@ -464,7 +466,7 @@ class PluginAccountsHash extends CommonDBTM {
       $query_ .= $dbu->getEntitiesRestrictRequest("AND", "glpi_plugin_accounts_accounts", '',
                                                   $entities, $PluginAccountsHash->maybeRecursive());
 
-      $result_ = $DB->query($query_);
+      $result_ = $DB->doQuery($query_);
       if ($DB->numrows($result_) > 0) {
 
          while ($data = $DB->fetchArray($result_)) {

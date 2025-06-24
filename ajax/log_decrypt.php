@@ -47,4 +47,3 @@ if (isset($_POST['idcrypt'])) {
 
 }
 
-Html::ajaxFooter();

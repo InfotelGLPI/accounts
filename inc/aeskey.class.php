@@ -116,7 +116,7 @@ class PluginAccountsAesKey extends CommonDBTM
 
       $query = "SELECT * FROM `" . $this->getTable() . "`
                WHERE `plugin_accounts_hashes_id` = '" . $plugin_accounts_hashes_id . "' ";
-      if ($result = $DB->query($query)) {
+      if ($result = $DB->doQuery($query)) {
          if ($DB->numrows($result) != 1) {
             return false;
          }
@@ -224,7 +224,7 @@ class PluginAccountsAesKey extends CommonDBTM
       $query     = "SELECT *
                      FROM `glpi_plugin_accounts_aeskeys`
                      WHERE `plugin_accounts_hashes_id` = '$ID' ";
-      $result    = $DB->query($query);
+      $result    = $DB->doQuery($query);
       $numrows   = $DB->numrows($result);
 
       $rand = mt_rand();

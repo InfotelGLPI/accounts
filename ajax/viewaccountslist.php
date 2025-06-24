@@ -48,4 +48,3 @@ if (isset($_POST["key"])) {
    echo __('Access denied');
 }
 
-Html::ajaxFooter();

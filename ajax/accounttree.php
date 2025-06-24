@@ -42,4 +42,4 @@ if (!isset($_GET['target'])) {
 
 PluginAccountsAccount::showSelector($_GET['target']);
 
-Html::ajaxFooter();
+

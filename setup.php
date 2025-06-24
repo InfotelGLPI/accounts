@@ -27,12 +27,17 @@
  --------------------------------------------------------------------------
  */
 
+global $CFG_GLPI;
+
+use Glpi\Plugin\Hooks;
+
 define('PLUGIN_ACCOUNTS_VERSION', '3.0.4');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
     define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
     define("PLUGIN_ACCOUNTS_DIR_NOFULL", Plugin::getPhpDir("accounts", false));
-    define("PLUGIN_ACCOUNTS_WEBDIR", Plugin::getWebDir("accounts"));
+    $root = $CFG_GLPI['root_doc'] . '/plugins/accounts';
+    define("PLUGIN_ACCOUNTS_WEBDIR", $root);
 }
 
 // Init the hooks of the plugins -Needed
@@ -48,10 +53,7 @@ function plugin_init_accounts()
         // Params : plugin name - string type - number - attributes
         Plugin::registerClass(
             'PluginAccountsAccount',
-            ['linkgroup_types'             => true,
-             'linkuser_types'              => true,
-             'linkgroup_tech_types'        => true,
-             'linkuser_tech_types'         => true,
+            ['assignable_types'         => true,
              'document_types'              => true,
              'ticket_types'                => true,
              'helpdesk_visible_types'      => true,
@@ -108,14 +110,14 @@ function plugin_init_accounts()
         }
 
         // Add specific files to add to the header : javascript or css
-        $PLUGIN_HOOKS['add_css']['accounts']          = ['accounts.css'];
-        $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/getparameter.js";
-        $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/crypt.js";
+        $PLUGIN_HOOKS[Hooks::ADD_CSS]['accounts'] = ['accounts.css'];
+         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "getparameter.js";
+         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "crypt.js";
         if (strpos($_SERVER['REQUEST_URI'], "front/account.form.php") !== false) {
-            $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/account.form.js.php";
-            $PLUGIN_HOOKS['add_javascript']['accounts'][] = "scripts/clipboard.js";
+             $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "account.form.js.php";
+             $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "clipboard.js";
         }
-        $PLUGIN_HOOKS['add_javascript']['accounts'][] = "lib/lightcrypt.js";
+         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/lightcrypt.js";
 
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 
@@ -139,8 +141,8 @@ function plugin_version_accounts()
        'homepage'     => 'https://github.com/InfotelGLPI/accounts',
        'requirements' => [
           'glpi' => [
-             'min' => '10.0',
-             'max' => '11.0',
+             'min' => '11.0',
+             'max' => '12.0',
              'dev' => false
           ]
        ],

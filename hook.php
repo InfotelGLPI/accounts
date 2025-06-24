@@ -27,6 +27,8 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Search\SearchOption;
+
 /**
  * @return bool
  */
@@ -137,7 +139,7 @@ function plugin_accounts_install()
         $query_id = "SELECT `id` FROM `glpi_notificationtemplates`
                WHERE `itemtype`='PluginAccountsAccount'
                AND `name` = 'New Accounts'";
-        $result = $DB->query($query_id) or die($DB->error());
+        $result = $DB->doQuery($query_id) or die($DB->error());
         $itemtype = $DB->result($result, 0, 'id');
 
         $query = "INSERT INTO `glpi_notificationtemplatetranslations`
@@ -156,21 +158,21 @@ function plugin_accounts_install()
                         ##IFaccount.comment####lang.account.comment## : ##account.comment##\r\n##ENDIFaccount.comment##',
                         '&lt;p&gt;&lt;strong&gt;##lang.account.url##&lt;/strong&gt; : &lt;a href=\"##account.url##\"&gt;##account.url##&lt;/a&gt;&lt;/p&gt;
                         &lt;p&gt;&lt;strong&gt;##lang.account.entity##&lt;/strong&gt; : ##account.entity##&lt;br /&gt; ##IFaccount.name##&lt;strong&gt;##lang.account.name##&lt;/strong&gt; : ##account.name##&lt;br /&gt;##ENDIFaccount.name##  ##IFaccount.type##&lt;strong&gt;##lang.account.type##&lt;/strong&gt; : ##account.type##&lt;br /&gt;##ENDIFaccount.type##  ##IFaccount.state##&lt;strong&gt;##lang.account.state##&lt;/strong&gt; : ##account.state##&lt;br /&gt;##ENDIFaccount.state##  ##IFaccount.login##&lt;strong&gt;##lang.account.login##&lt;/strong&gt; : ##account.login##&lt;br /&gt;##ENDIFaccount.login##  ##IFaccount.users##&lt;strong&gt;##lang.account.users##&lt;/strong&gt; : ##account.users##&lt;br /&gt;##ENDIFaccount.users##  ##IFaccount.groups##&lt;strong&gt;##lang.account.groups##&lt;/strong&gt; : ##account.groups##&lt;br /&gt;##ENDIFaccount.groups##  ##IFaccount.others##&lt;strong&gt;##lang.account.others##&lt;/strong&gt; : ##account.others##&lt;br /&gt;##ENDIFaccount.others##  ##IFaccount.datecreation##&lt;strong&gt;##lang.account.datecreation##&lt;/strong&gt; : ##account.datecreation##&lt;br /&gt;##ENDIFaccount.datecreation##  ##IFaccount.dateexpiration##&lt;strong&gt;##lang.account.dateexpiration##&lt;/strong&gt; : ##account.dateexpiration##&lt;br /&gt;##ENDIFaccount.dateexpiration##  ##IFaccount.comment##&lt;strong&gt;##lang.account.comment##&lt;/strong&gt; : ##account.comment####ENDIFaccount.comment##&lt;/p&gt;');";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query = "INSERT INTO `glpi_notifications` 
                 (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`, `is_active`) 
                VALUES ('New Accounts', 0, 'PluginAccountsAccount', 'new', 1, 1);";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query_id = "SELECT `id` FROM `glpi_notifications`
                WHERE `name` = 'New Accounts' AND `itemtype` = 'PluginAccountsAccount' AND `event` = 'new'";
-        $result = $DB->query($query_id) or die($DB->error());
+        $result = $DB->doQuery($query_id) or die($DB->error());
         $notification = $DB->result($result, 0, 'id');
 
         $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
                VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         /***** End Notif New account *****/
 
@@ -178,7 +180,7 @@ function plugin_accounts_install()
         $query_id = "SELECT `id` FROM `glpi_notificationtemplates`
                WHERE `itemtype`='PluginAccountsAccount'
                AND `name` = 'Alert Accounts'";
-        $result = $DB->query($query_id) or die($DB->error());
+        $result = $DB->doQuery($query_id) or die($DB->error());
         $itemtype = $DB->result($result, 0, 'id');
 
         $query = "INSERT INTO `glpi_notificationtemplatetranslations`
@@ -191,55 +193,58 @@ function plugin_accounts_install()
                         ##FOREACHaccounts##&lt;br /&gt;
                         ##lang.account.name##  : ##account.name## - ##lang.account.dateexpiration## :  ##account.dateexpiration##&lt;br /&gt;
                         ##ENDFOREACHaccounts##&lt;/p&gt;');";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query = "INSERT INTO `glpi_notifications` 
               (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`, `is_active`) 
                VALUES ('Alert Expired Accounts', 0, 'PluginAccountsAccount', 'ExpiredAccounts', 1, 1);";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query_id = "SELECT `id` FROM `glpi_notifications`
                WHERE `name` = 'Alert Expired Accounts' AND `itemtype` = 'PluginAccountsAccount' AND `event` = 'ExpiredAccounts'";
-        $result = $DB->query($query_id) or die($DB->error());
+        $result = $DB->doQuery($query_id) or die($DB->error());
         $notification = $DB->result($result, 0, 'id');
 
         $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
                VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query = "INSERT INTO `glpi_notifications`
                 (`name`, `entities_id`, `itemtype`, `event`, `is_recursive`, `is_active`) 
                VALUES ('Alert Accounts Which Expire', 0, 'PluginAccountsAccount', 'AccountsWhichExpire', 1, 1);";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query_id = "SELECT `id` FROM `glpi_notifications`
                WHERE `name` = 'Alert Accounts Which Expire' AND `itemtype` = 'PluginAccountsAccount' AND `event` = 'AccountsWhichExpire'";
-        $result = $DB->query($query_id) or die($DB->error());
+        $result = $DB->doQuery($query_id) or die($DB->error());
         $notification = $DB->result($result, 0, 'id');
 
         $query = "INSERT INTO `glpi_notifications_notificationtemplates` (`notifications_id`, `mode`, `notificationtemplates_id`) 
                VALUES (" . $notification . ", 'mailing', " . $itemtype . ");";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         /***** End Notif Alert Expired *****/
     }
     if ($update78) {
         //Do One time on 0.78
-        $query_  = "SELECT *
-               FROM `glpi_plugin_accounts_profiles` ";
-        $result_ = $DB->query($query_);
-        if ($DB->numrows($result_) > 0) {
-            while ($data = $DB->fetchArray($result_)) {
+        $iterator = $DB->request([
+            'SELECT' => [
+                'id'
+            ],
+            'FROM' => 'glpi_plugin_accounts_profiles',
+        ]);
+        if (count($iterator) > 0) {
+            foreach ($iterator as $data) {
                 $query = "UPDATE `glpi_plugin_accounts_profiles`
                      SET `profiles_id` = '" . $data["id"] . "'
                               WHERE `id` = '" . $data["id"] . "';";
-                $DB->query($query);
+                $DB->doQuery($query);
             }
         }
 
         $query = "ALTER TABLE `glpi_plugin_accounts_profiles`
                DROP `name` ;";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         Plugin::migrateItemType(
             [1900 => 'PluginAccountsAccount',
@@ -264,12 +269,12 @@ function plugin_accounts_install()
         $query = "UPDATE `glpi_plugin_accounts_hashes`
                SET `is_recursive` = '1'
                WHERE `id` = '1';";
-        $DB->query($query);
+        $DB->doQuery($query);
 
         $query = "UPDATE `glpi_plugin_accounts_aeskeys`
                SET `plugin_accounts_hashes_id` = '1'
                WHERE `id` = '1';";
-        $DB->query($query);
+        $DB->doQuery($query);
     }
 
     $notepad_tables = ['glpi_plugin_accounts_accounts'];
@@ -277,21 +282,28 @@ function plugin_accounts_install()
 
     foreach ($notepad_tables as $t) {
         // Migrate data
-        if ($DB->fieldExists($t, 'notepad')) {
-            $query = "SELECT id, notepad
-                   FROM `$t`
-                   WHERE notepad IS NOT NULL
-                         AND notepad <>'';";
-            foreach ($DB->request($query) as $data) {
+        $iterator = $DB->request([
+            'SELECT' => [
+                'notepad',
+                'id'
+            ],
+            'FROM' => $t,
+            'WHERE' => [
+                'NOT' => ['notepad' => null],
+                'notepad' => ['<>', '']
+            ],
+        ]);
+        if (count($iterator) > 0) {
+            foreach ($iterator as $data) {
                 $iq = "INSERT INTO `glpi_notepads`
                           (`itemtype`, `items_id`, `content`, `date`, `date_mod`)
                    VALUES ('" . $dbu->getItemTypeForTable($t) . "', '" . $data['id'] . "',
                            '" . addslashes($data['notepad']) . "', NOW(), NOW())";
-                $DB->queryOrDie($iq, "0.85 migrate notepad data");
+                $DB->doQuery($iq, "0.85 migrate notepad data");
             }
-            $query = "ALTER TABLE `glpi_plugin_accounts_accounts` DROP COLUMN `notepad`;";
-            $DB->query($query);
         }
+        $query = "ALTER TABLE `glpi_plugin_accounts_accounts` DROP COLUMN `notepad`;";
+        $DB->doQuery($query);
     }
 
     CronTask::Register('PluginAccountsAccount', 'AccountsAlert', DAY_TIMESTAMP);
@@ -356,19 +368,25 @@ function plugin_accounts_uninstall()
     $options = ['itemtype' => 'PluginAccountsAccount',
                 'event'    => 'new',
                 'FIELDS'   => 'id'];
-    foreach ($DB->request('glpi_notifications', $options) as $data) {
+    foreach ($DB->request([
+        'FROM' => 'glpi_notifications',
+        'WHERE' => $options]) as $data) {
         $notif->delete($data);
     }
     $options = ['itemtype' => 'PluginAccountsAccount',
                 'event'    => 'ExpiredAccounts',
                 'FIELDS'   => 'id'];
-    foreach ($DB->request('glpi_notifications', $options) as $data) {
+    foreach ($DB->request([
+        'FROM' => 'glpi_notifications',
+        'WHERE' => $options]) as $data) {
         $notif->delete($data);
     }
     $options = ['itemtype' => 'PluginAccountsAccount',
                 'event'    => 'AccountsWhichExpire',
                 'FIELDS'   => 'id'];
-    foreach ($DB->request('glpi_notifications', $options) as $data) {
+    foreach ($DB->request([
+        'FROM' => 'glpi_notifications',
+        'WHERE' => $options]) as $data) {
         $notif->delete($data);
     }
 
@@ -377,17 +395,24 @@ function plugin_accounts_uninstall()
     $translation = new NotificationTemplateTranslation();
     $options     = ['itemtype' => 'PluginAccountsAccount',
                     'FIELDS'   => 'id'];
-    foreach ($DB->request('glpi_notificationtemplates', $options) as $data) {
-        $options_template = ['notificationtemplates_id' => $data['id'],
-                             'FIELDS'                   => 'id'];
+    foreach ($DB->request([
+        'FROM' => 'glpi_notificationtemplates',
+        'WHERE' => $options]) as $data) {
+        $options_template = [
+            'notificationtemplates_id' => $data['id'],
+            'FIELDS' => 'id'
+        ];
 
-        foreach ($DB->request('glpi_notificationtemplatetranslations', $options_template)
-                 as $data_template) {
+        foreach ($DB->request([
+            'FROM' => 'glpi_notificationtemplatetranslations',
+            'WHERE' => $options_template]) as $data_template) {
             $translation->delete($data_template);
         }
         $template->delete($data);
 
-        foreach ($DB->request('glpi_notifications_notificationtemplates', $options_template) as $data_template) {
+        foreach ($DB->request([
+            'FROM' => 'glpi_notifications_notificationtemplates',
+            'WHERE' => $options_template]) as $data_template) {
             $notif_template->delete($data_template);
         }
     }
@@ -466,10 +491,10 @@ function plugin_accounts_getDatabaseRelations()
            "glpi_plugin_accounts_accounttypes"  => [
               "glpi_plugin_accounts_accounts" => "plugin_accounts_accounttypes_id"
            ],
-           "glpi_plugin_accounts_accountstates" => [
-              "glpi_plugin_accounts_accounts"      => "plugin_accounts_accountstates_id",
-              "glpi_plugin_accounts_notificationstates" => "plugin_accounts_accountstates_id"
-           ],
+//           "glpi_plugin_accounts_accountstates" => [
+//              "glpi_plugin_accounts_accounts"      => "plugin_accounts_accountstates_id",
+//              "glpi_plugin_accounts_notificationstates" => "plugin_accounts_accountstates_id"
+//           ],
            "glpi_plugin_accounts_accounts"      => [
               "glpi_plugin_accounts_accounts_items" => "plugin_accounts_accounts_id"
            ],
@@ -554,18 +579,17 @@ function plugin_accounts_getAddSearchOptions($itemtype)
  *
  * @return string
  */
-function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield, &$already_link_tables)
-{
-    switch ($ref_table) {
-        case "glpi_users": // From items
-            $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
-                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
-            return $out;
-            break;
-    }
-
-    return "";
-}
+//TODO V11
+//function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield) {
+    // Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
+    // No need of the function if you do not have specific cases
+//    switch ($new_table) {
+//        case "glpi_users": // From items
+//            $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
+//                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
+//    }
+//    return "";
+//}
 
 /**
  * @param $type
@@ -632,7 +656,7 @@ function plugin_accounts_forceGroupBy($type)
  */
 function plugin_accounts_displayConfigItem($type, $ID, $data, $num)
 {
-    $searchopt =& Search::getOptions($type);
+    $searchopt  = SearchOption::getOptionsForItemtype($type);
     $table     = $searchopt[$ID]["table"];
     $field     = $searchopt[$ID]["field"];
 
@@ -660,7 +684,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
 
     $dbu = new DbUtils();
 
-    $searchopt =& Search::getOptions($type);
+    $searchopt  = SearchOption::getOptionsForItemtype($type);
     $table     = $searchopt[$ID]["table"];
     $field     = $searchopt[$ID]["field"];
 
@@ -673,7 +697,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
                         WHERE `plugin_accounts_accounts_id` = '" . $data['id'] . "'
                                  ORDER BY `itemtype`
                                  LIMIT " . count(PluginAccountsAccount::getTypes(true));
-                    $result_device = $DB->query($query_device);
+                    $result_device = $DB->doQuery($query_device);
                     $number_device = $DB->numrows($result_device);
                     $out           = '';
                     $accounts      = $data['id'];
@@ -720,7 +744,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
                                     $query .= " ORDER BY `glpi_entities`.`completename`, `" . $table_item . "`.`$column` ";
                                 }
 
-                                if ($result_linked = $DB->query($query)) {
+                                if ($result_linked = $DB->doQuery($query)) {
                                     if ($DB->numrows($result_linked)) {
                                         $item = new $itemtype();
                                         while ($data = $DB->fetchAssoc($result_linked)) {

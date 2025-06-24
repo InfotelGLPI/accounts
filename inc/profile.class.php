@@ -47,11 +47,19 @@ class PluginAccountsProfile extends Profile
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
         if ($item->getType() == 'Profile') {
-            return PluginAccountsAccount::getTypeName(2);
+            return self::createTabEntry(PluginAccountsAccount::getTypeName(2));
         }
         return '';
     }
 
+
+    /**
+     * @return string
+     */
+    public static function getIcon()
+    {
+        return "ti ti-lock";
+    }
 
     /**
      * @param CommonGLPI $item

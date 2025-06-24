@@ -38,47 +38,18 @@ class PluginAccountsNotificationState extends CommonDBTM
 {
 
    /**
-    * @param $plugin_accounts_accountstates_id
-    * @return bool
-    */
-   public function getFromDBbyState($plugin_accounts_accountstates_id) {
-      global $DB;
-
-      $query = "SELECT * FROM `" . $this->getTable() . "` " .
-         "WHERE `plugin_accounts_accountstates_id` = '" . $plugin_accounts_accountstates_id . "' ";
-      if ($result = $DB->query($query)) {
-         if ($DB->numrows($result) != 1) {
-            return false;
-         }
-         $this->fields = $DB->fetchAssoc($result);
-         if (is_array($this->fields) && count($this->fields)) {
-            return true;
-         } else {
-            return false;
-         }
-      }
-      return false;
-   }
-
-   /**
     * @return string
     */
    public function findStates() {
-      global $DB;
 
-      $queryBranch = '';
-      // Recherche les enfants
+       $state = new self();
+       $states = $state->find();
+       $data = [];
+       foreach ($states as $dataChilds) {
+           $data[] = $dataChilds["plugin_accounts_accountstates_id"];
+       }
 
-      $queryChilds = "SELECT `plugin_accounts_accountstates_id`
-               FROM `" . $this->getTable() . "`";
-      if ($resultChilds = $DB->query($queryChilds)) {
-         while ($dataChilds = $DB->fetchArray($resultChilds)) {
-            $child = $dataChilds["plugin_accounts_accountstates_id"];
-            $queryBranch .= ",$child";
-         }
-      }
-
-      return $queryBranch;
+       return $data;
    }
 
    /**
@@ -86,8 +57,7 @@ class PluginAccountsNotificationState extends CommonDBTM
     */
    public function addNotificationState($plugin_accounts_accountstates_id) {
 
-      if ($this->getFromDBbyState($plugin_accounts_accountstates_id)) {
-
+      if ($this->getFromDBbyCrit(['plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id])) {
          $this->update([
             'id' => $this->fields['id'],
             'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
@@ -102,20 +72,13 @@ class PluginAccountsNotificationState extends CommonDBTM
     * @param $target
     */
    public function showAddForm($target) {
-      global $DB;
 
-      $used = [];
-      $query = "SELECT *
-      FROM `" . $this->getTable() . "`
-      ORDER BY `plugin_accounts_accountstates_id` ASC ";
-      if ($result = $DB->query($query)) {
-         $number = $DB->numrows($result);
-         if ($number != 0) {
-            while ($ligne = $DB->fetchArray($result)) {
-               $used[] = $ligne["plugin_accounts_accountstates_id"];
-            }
-         }
-      }
+       $state = new self();
+       $states = $state->find();
+       $used = [];
+       foreach ($states as $data) {
+           $used[] = $data['plugin_accounts_accountstates_id'];
+       }
 
       echo "<div align='center'><form method='post'  action=\"$target\">";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr ><th colspan='2'>";
@@ -139,53 +102,49 @@ class PluginAccountsNotificationState extends CommonDBTM
    public function showNotificationForm($target) {
       global $DB;
 
-      $rand = mt_rand();
+       $rand = mt_rand();
 
-      $query = "SELECT *
-               FROM `" . $this->getTable() . "`
-                        ORDER BY `plugin_accounts_accountstates_id` ASC ";
-      if ($result = $DB->query($query)) {
-         $number = $DB->numrows($result);
-         if ($number != 0) {
+       $data = $this->find([], ["plugin_accounts_accountstates_id ASC"]);
 
-            echo "<div align='left'>";
+       if (count($data) != 0) {
+           Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
+           $massiveactionparams = [
+               'item' => __CLASS__,
+               'container' => 'mass' . __CLASS__ . $rand
+           ];
+           Html::showMassiveActions($massiveactionparams);
 
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
-            Html::showMassiveActions($massiveactionparams);
 
-            echo "<table class='tab_cadre_fixe' cellpadding='5'>";
-            echo "<tr>";
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-            echo "<th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
-            echo "</tr>";
-            while ($ligne = $DB->fetchArray($result)) {
+           echo "<div align='center'>";
+           echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand'  action=\"$target\">";
+           echo "<table class='tab_cadre_fixe' cellpadding='5'>";
+           echo "<tr>";
+           echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+           echo "<th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
+           echo "</tr>";
+           foreach ($data as $ligne) {
                $ID = $ligne["id"];
                echo "<tr class='tab_bg_1'>";
                echo "<td class='center' width='10'>";
                Html::showMassiveActionCheckBox(__CLASS__, $ID);
                echo "</td>";
                echo "<td>";
-               echo Dropdown::getDropdownName("glpi_plugin_accounts_accountstates",
-                  $ligne["plugin_accounts_accountstates_id"]);
+               echo Dropdown::getDropdownName(
+                   "glpi_plugin_accounts_accountstates",
+                   $ligne["plugin_accounts_accountstates_id"]
+               );
                echo "</td>";
                echo "</tr>";
-            }
+           }
 
-            echo "<tr>";
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-            echo "<th></th>";
-            echo "</tr>";
+           $paramsma['ontop'] = false;
 
+           echo "</table>";
+           Html::closeForm();
+           echo "</div>";
 
-
-            echo "</table>";
-             $massiveactionparams['ontop'] = false;
-             Html::showMassiveActions($massiveactionparams);
-             Html::closeForm();
-            echo "</div>";
-         }
-      }
+           Html::showMassiveActions($paramsma);
+       }
    }
 
    /**

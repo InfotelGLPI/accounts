@@ -60,29 +60,24 @@ class PluginAccountsAccountType extends CommonDropdown
       global $DB;
 
       if ($ID > 0) {
-         // Not already transfer
-         // Search init item
-         $query = "SELECT *
-         FROM `glpi_plugin_accounts_accounttypes`
-         WHERE `id` = '$ID'";
+           $table = self::getTable();
+           $iterator = $DB->request([
+               'FROM'   => $table,
+               'WHERE'  => ['id' => $ID]
+           ]);
 
-         if ($result = $DB->query($query)) {
-            if ($DB->numrows($result)) {
-               $data = $DB->fetchAssoc($result);
-               $data = Toolbox::addslashes_deep($data);
-               $input['name'] = $data['name'];
+           foreach ($iterator as $data) {
+               $input['name']        = $data['name'];
                $input['entities_id'] = $entity;
-               $temp = new self();
-               $newID = $temp->getID();
-
+               $temp                 = new self();
+               $newID                = $temp->getID();
                if ($newID < 0) {
-                  $newID = $temp->import($input);
+                   $newID = $temp->import($input);
                }
 
                return $newID;
-            }
-         }
-      }
+           }
+       }
       return 0;
    }
 }

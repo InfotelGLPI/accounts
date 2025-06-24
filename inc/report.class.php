@@ -61,17 +61,39 @@ class PluginAccountsReport extends CommonDBTM
         $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
         $list     = [];
         if ($aeskey) {
-            $query = "SELECT `glpi_plugin_accounts_accounts`.*,
-                  `glpi_plugin_accounts_accounttypes`.`name` AS typename
-                  FROM `glpi_plugin_accounts_accounts`
-                  LEFT JOIN `glpi_plugin_accounts_accounttypes`
-                  ON (`glpi_plugin_accounts_accounts`.`plugin_accounts_accounttypes_id` = `glpi_plugin_accounts_accounttypes`.`id`)
-                  WHERE `is_deleted`= '0'";
-            $query .= $dbu->getEntitiesRestrictRequest(" AND ", "glpi_plugin_accounts_accounts", '', $entities, $PluginAccountsHash->maybeRecursive());
-            $query .= " ORDER BY `typename`,`name`";
 
-            foreach ($DB->request($query) as $data) {
-                $accounts[] = $data;
+            $criteria = [
+                'SELECT'    => [
+                    'glpi_plugin_accounts_accounts.*',
+                    'glpi_plugin_accounts_accounttypes.name AS typename'
+                ],
+                'FROM'      => 'glpi_plugin_accounts_accounts',
+                'LEFT JOIN'       => [
+                    'glpi_plugin_accounts_accounttypes' => [
+                        'ON' => [
+                            'glpi_plugin_accounts_accounts' => 'plugin_accounts_accounttypes_id',
+                            'glpi_plugin_accounts_accounttypes'          => 'id'
+                        ]
+                    ]
+                ],
+                'WHERE'     => [
+                    'is_deleted'  => 0
+                ],
+                'ORDERBY'   => 'typename, name',
+            ];
+
+            $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
+                    'glpi_plugin_accounts_accounts',$field = '',
+                    $entities,
+                    $PluginAccountsHash->maybeRecursive(),
+                );
+
+            $iterator = $DB->request($criteria);
+
+            if (count($iterator) > 0) {
+                foreach ($iterator as $data) {
+                    $accounts[] = $data;
+                }
             }
 
             if (!empty($accounts)) {
@@ -260,13 +282,10 @@ class PluginAccountsReport extends CommonDBTM
     {
         $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');
         $values['-' . Search::PDF_OUTPUT_PORTRAIT]  = __('All pages in portrait PDF');
-        $values['-' . Search::SYLK_OUTPUT]          = __('All pages in SLK');
         $values['-' . Search::CSV_OUTPUT]           = __('All pages in CSV');
 
         Dropdown::showFromArray('display_type', $values);
-        if (GLPI_USE_CSRF_CHECK) {
-            echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
-        }
+        echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
 
         echo Html::submit(_sx('button', 'Export'), ['name' => 'export', 'class' => 'btn btn-primary']);
     }

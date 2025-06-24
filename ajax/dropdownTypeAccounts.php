@@ -43,14 +43,28 @@ if (isset($_POST["accounttype"])) {
    $used = [];
 
    // Clean used array
-   if (isset($_POST['used']) && is_array($_POST['used']) && (count($_POST['used']) > 0)) {
-      $query = "SELECT `id`
-                FROM `glpi_plugin_accounts_accounts`
-                WHERE `id` IN (" . implode(',', $_POST['used']) . ")
-                      AND `plugin_accounts_accounttypes_id` = '" . $_POST["accounttype"] . "'";
+   if (isset($_POST['used'])
+       && is_array($_POST['used'])
+       && (count($_POST['used']) > 0)) {
 
-      foreach ($DB->request($query) AS $data) {
-         $used[$data['id']] = $data['id'];
+       $iterator = $DB->request([
+           'SELECT'    => [
+               'id',
+           ],
+           'FROM'      => 'glpi_plugin_accounts_accounts',
+           'WHERE'     => [
+               ['id' => $_POST['used'],
+                   'plugin_accounts_accounttypes_id' => $_POST["accounttype"],
+                   ]
+           ],
+           'GROUPBY'   => 'entities_id',
+           'HAVING'    => ['cpt' => ['>', 0]]
+       ]);
+
+       if (count($iterator) > 0) {
+           foreach ($iterator as $data) {
+               $used[$data['id']] = $data['id'];
+           }
       }
    }
 

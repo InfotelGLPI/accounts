@@ -28,6 +28,8 @@
  */
 
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
+
 include('../../../inc/includes.php');
 
 if (!isset($_GET["id"])) {
@@ -124,7 +126,7 @@ if (isset($_POST["add"])) {
         }
 
         if ($access != 1) {
-            Html::displayRightError();
+            throw new AccessDeniedHttpException();
         } else {
             $account->display(['id' => $_GET['id']]);
         }
