@@ -38,7 +38,7 @@ msgstr "チェックボックスから１つは選択してください"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
-msgstr "復号化"
+msgstr "復号しました"
 
 #: front/account.php:51 front/account.php:52 front/account.php:57
 msgid "Type view"
