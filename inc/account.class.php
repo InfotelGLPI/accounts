@@ -32,6 +32,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
+use Glpi\DBAL\QueryExpression;
 /**
  * Class PluginAccountsAccount
  */
@@ -596,7 +597,7 @@ class PluginAccountsAccount extends CommonDBTM
                 echo Html::scriptBlock(
                     "$('#aeskey').keypress(function(e) {
                  var root_accounts_doc = '" . PLUGIN_ACCOUNTS_WEBDIR . "';
-                 switch(e.keyCode) { 
+                 switch(e.keyCode) {
                      case 13:
                         if (!check_hash()) {
                            var value = document.getElementById('wrong_key_locale').value;
@@ -834,14 +835,14 @@ class PluginAccountsAccount extends CommonDBTM
                     _sx('button', 'Save'),
                     [
                         'name' => 'update',
-                        'icon' => 'ti ti-save',
+                        'icon' => 'ti ti-device-floppy',
                         'id' => 'account_update',
                         'class' => 'btn btn-primary'
                     ]
                 );
                 //
                 //            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='btn btn-primary' >";
-                //            echo "<i class='ti ti-save'></i>&nbsp;"._sx('button', 'Save');
+                //            echo "<i class='ti ti-device-floppy'></i>&nbsp;"._sx('button', 'Save');
 
                 echo Html::scriptBlock(
                     "$('#account_form').submit(function(event){
@@ -1257,23 +1258,27 @@ class PluginAccountsAccount extends CommonDBTM
      **/
     private static function queryExpiredAccounts()
     {
+        global $DB;
+
         $config = new PluginAccountsConfig();
         $notif = new PluginAccountsNotificationState();
 
         $config->getFromDB('1');
         $delay = $config->fields["delay_expired"];
 
-        $query = "SELECT *
-      FROM `glpi_plugin_accounts_accounts`
-      WHERE `date_expiration` IS NOT NULL
-      AND `is_deleted` = '0'
-      AND DATEDIFF(CURDATE(),`date_expiration`) > $delay
-      AND DATEDIFF(CURDATE(),`date_expiration`) > 0 ";
-        $query .= "AND `plugin_accounts_accountstates_id` NOT IN (999999";
-        $query .= $notif->findStates();
-        $query .= ") ";
+        return [
+            'FROM'   => self::getTable(),
+            'WHERE'  => [
+                'NOT' => ['date_expiration' => null],
+                'NOT' => [
+                    'states_id' => $notif->findStates()
+                ],
+                'is_deleted'   => 0,
+                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
+                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
+            ]
+        ];
 
-        return $query;
     }
 
     /**
@@ -1283,23 +1288,26 @@ class PluginAccountsAccount extends CommonDBTM
      **/
     private static function queryAccountsWhichExpire()
     {
+        global $DB;
+
         $config = new PluginAccountsConfig();
         $notif = new PluginAccountsNotificationState();
 
         $config->getFromDB('1');
         $delay = $config->fields["delay_whichexpire"];
 
-        $query = "SELECT *
-      FROM `glpi_plugin_accounts_accounts`
-      WHERE `date_expiration` IS NOT NULL
-      AND `is_deleted` = '0'
-      AND DATEDIFF(CURDATE(),`date_expiration`) > -$delay
-      AND DATEDIFF(CURDATE(),`date_expiration`) < 0 ";
-        $query .= "AND `plugin_accounts_accountstates_id` NOT IN (999999";
-        $query .= $notif->findStates();
-        $query .= ") ";
-
-        return $query;
+        return [
+            'FROM'   => self::getTable(),
+            'WHERE'  => [
+                'NOT' => ['date_expiration' => null],
+                'NOT' => [
+                    'states_id' => $notif->findStates()
+                ],
+                'is_deleted'   => 0,
+                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
+                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0")
+            ]
+        ];
     }
 
     /**
@@ -1426,7 +1434,7 @@ class PluginAccountsAccount extends CommonDBTM
         Plugin::loadLang('accounts');
         echo Html::css("/lib/base.css");
         echo Html::script("/lib/base.js");
-        echo Html::css(PLUGIN_ACCOUNTS_DIR_NOFULL . "/lib/jstree/themes/default/style.min.css");
+        echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/themes/default/style.min.css");
 
         echo "<div class='alert alert-important alert-info d-flex'>" . __(
                 'Select the wanted account type',

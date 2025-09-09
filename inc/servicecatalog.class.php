@@ -58,7 +58,7 @@ class PluginAccountsServicecatalog extends CommonGLPI {
    static function getNavBarLink() {
       global $CFG_GLPI;
 
-      return PLUGIN_ACCOUNTS_DIR_NOFULL . "/front/account.php";
+      return PLUGIN_ACCOUNTS_WEBDIR . "/front/account.php";
    }
 
    static function getMenuLogo() {

@@ -45,11 +45,15 @@ class PluginAccountsConfig extends CommonDBTM
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if ($item->getType() == 'CronTask' && $item->getField('name') == "AccountsAlert") {
-         return __('Plugin Setup', 'accounts');
+         return self::createTabEntry(__('Plugin Setup', 'accounts'));
       }
       return '';
    }
 
+    public static function getIcon()
+    {
+        return "ti ti-lock";
+    }
 
    /**
     * @param CommonGLPI $item

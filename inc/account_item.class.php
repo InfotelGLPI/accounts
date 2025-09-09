@@ -63,6 +63,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       return $forbidden;
    }
 
+    public static function getIcon()
+    {
+        return "ti ti-lock";
+    }
+
    /**
     * Clean table when item is purged
     *

@@ -35,7 +35,7 @@ define('PLUGIN_ACCOUNTS_VERSION', '3.0.4');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
     define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
-    define("PLUGIN_ACCOUNTS_DIR_NOFULL", Plugin::getPhpDir("accounts", false));
+//    define("PLUGIN_ACCOUNTS_WEBDIR", Plugin::getPhpDir("accounts", false));
     $root = $CFG_GLPI['root_doc'] . '/plugins/accounts';
     define("PLUGIN_ACCOUNTS_WEBDIR", $root);
 }
@@ -61,7 +61,7 @@ function plugin_init_accounts()
             ]
         );
 
-        $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = PLUGIN_ACCOUNTS_DIR_NOFULL . "/accounts.png";
+        $CFG_GLPI['impact_asset_types']['PluginAccountsAccount'] = PLUGIN_ACCOUNTS_WEBDIR . "/accounts.png";
 
         Plugin::registerClass(
             'PluginAccountsConfig',
@@ -83,7 +83,7 @@ function plugin_init_accounts()
         if (Session::haveRight("plugin_accounts", READ)
             && !Plugin::isPluginActive('servicecatalog')
         ) {
-            $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.php';
+            $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.php';
             $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['accounts'] = PluginAccountsAccount::getIcon();
         }
 
@@ -101,7 +101,7 @@ function plugin_init_accounts()
             $PLUGIN_HOOKS['use_massive_action']['accounts'] = 1;
         }
 
-        $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_DIR_NOFULL . '/front/account.form.php';
+        $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.form.php';
 
       //Clean Plugin on Profile delete
         if (class_exists('PluginAccountsAccount_Item')) { // only if plugin activated
