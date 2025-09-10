@@ -107,18 +107,18 @@ CREATE TABLE `glpi_plugin_accounts_notificationstates` (
 
 DROP TABLE IF EXISTS `glpi_plugin_compte_mailing`;
 
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','2','3','0', 'central');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','3','1','0', 'central');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','4','2','0', 'central');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','5','4','0', 'central');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','6','5','0', 'central');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','7','6','0', 'central');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','2','3','0', 'helpdesk');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','3','1','0', 'helpdesk');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','4','2','0', 'helpdesk');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','5','4','0', 'helpdesk');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','6','5','0', 'helpdesk');
-INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\Accounts\Account','7','6','0', 'helpdesk');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','2','3','0', 'central');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','3','1','0', 'central');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','4','2','0', 'central');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','5','4','0', 'central');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','6','5','0', 'central');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','7','6','0', 'central');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','2','3','0', 'helpdesk');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','3','1','0', 'helpdesk');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','4','2','0', 'helpdesk');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','5','4','0', 'helpdesk');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','6','5','0', 'helpdesk');
+INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','7','6','0', 'helpdesk');
 
-INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'New Accounts', 'GlpiPlugin\Accounts\Account', '2010-02-17 22:36:46','',NULL, '2010-02-17 22:36:46');
-INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'Alert Accounts', 'GlpiPlugin\Accounts\Account', '2010-02-23 11:37:46','',NULL, '2010-02-17 22:36:46');
+INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'New Accounts', 'GlpiPlugin\\Accounts\\Account', '2010-02-17 22:36:46','',NULL, '2010-02-17 22:36:46');
+INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'Alert Accounts', 'GlpiPlugin\\Accounts\\Account', '2010-02-23 11:37:46','',NULL, '2010-02-17 22:36:46');

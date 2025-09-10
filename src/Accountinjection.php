@@ -29,7 +29,6 @@
 
 namespace GlpiPlugin\Accounts;
 
-use AllowDynamicProperties;
 use PluginDatainjectionCommonInjectionLib;
 use PluginDatainjectionInjectionInterface;
 use Search;
