@@ -27,57 +27,58 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Accounts;
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
-}
+use CommonDropdown;
 
 // Class for a Dropdown
 /**
- * Class PluginAccountsAccountType
+ * Class AccountType
  */
-class PluginAccountsAccountType extends CommonDropdown
+class AccountType extends CommonDropdown
 {
 
-   static $rightname = "dropdown";
-   var $can_be_translated = true;
+    static $rightname = "dropdown";
+    var $can_be_translated = true;
 
    /**
     * @param int $nb
     * @return translated
     */
-   public static function getTypeName($nb = 0) {
+    public static function getTypeName($nb = 0)
+    {
 
-      return _n('Type of account', 'Types of account', $nb, 'accounts');
-   }
+        return _n('Type of account', 'Types of account', $nb, 'accounts');
+    }
 
    /**
     * @param $ID
     * @param $entity
     * @return ID|int|the
     */
-   public static function transfer($ID, $entity) {
-      global $DB;
+    public static function transfer($ID, $entity)
+    {
+        global $DB;
 
-      if ($ID > 0) {
-           $table = self::getTable();
-           $iterator = $DB->request([
+        if ($ID > 0) {
+            $table = self::getTable();
+            $iterator = $DB->request([
                'FROM'   => $table,
                'WHERE'  => ['id' => $ID]
-           ]);
+            ]);
 
-           foreach ($iterator as $data) {
-               $input['name']        = $data['name'];
-               $input['entities_id'] = $entity;
-               $temp                 = new self();
-               $newID                = $temp->getID();
-               if ($newID < 0) {
-                   $newID = $temp->import($input);
-               }
+            foreach ($iterator as $data) {
+                $input['name']        = $data['name'];
+                $input['entities_id'] = $entity;
+                $temp                 = new self();
+                $newID                = $temp->getID();
+                if ($newID < 0) {
+                    $newID = $temp->import($input);
+                }
 
-               return $newID;
-           }
-       }
-      return 0;
-   }
+                return $newID;
+            }
+        }
+        return 0;
+    }
 }

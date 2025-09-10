@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -28,46 +29,59 @@
  */
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
-
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Account;
 
 if (Session::getCurrentInterface() == 'central') {
-   if (Plugin::isPluginActive("environment")) {
-      Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-   } else {
-      Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount");
-   }
+
+    Html::header(
+        Account::getTypeName(2),
+        $_SERVER["PHP_SELF"],
+        "admin",
+        Account::class,
+        "accounts"
+    );
 } else {
-   Html::helpHeader(PluginAccountsAccount::getTypeName(2));
+    if (Plugin::isPluginActive('servicecatalog')) {
+        PluginServicecatalogMain::showDefaultHeaderHelpdesk(Account::getTypeName(2), true);
+    } else {
+        Html::helpHeader(Account::getTypeName(2));
+    }
 }
 
-$account = new PluginAccountsAccount();
+$account = new Account();
 $account->checkGlobal(READ);
 
 if ($account->canView()) {
+    if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
+        echo "<div class='center'>";
+        echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='submit btn btn-primary' title='" . __('Type view', 'accounts') . "' >";
+        echo __('Type view', 'accounts');
+        echo "</a>";
+        echo "</div><br>";
+        echo Ajax::createIframeModalWindow(
+            'seetypemodal',
+            PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttree.php",
+            ['title'   => __('Type view', 'accounts'),
+                'display'       => false,
+                'width'         => 600,
+                'height'        => 500]
+        );
+    }
+    global $DB;
 
-   if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
-      echo "<div align='center'>";
-      echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='submit btn btn-primary' title='" . __('Type view', 'accounts') . "' >";
-      echo __('Type view', 'accounts');
-      echo "</a>";
-      echo "</div><br>";
-      echo Ajax::createIframeModalWindow('seetypemodal',
-                                         PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttree.php",
-                                         ['title'   => __('Type view', 'accounts'),
-                                          'display'       => false,
-                                           'width'         => 600,
-                                           'height'        => 500]);
-   }
-
-   Search::show("PluginAccountsAccount");
-
+    Search::show(Account::class);
 } else {
     throw new AccessDeniedHttpException();
 }
 
+if (Session::getCurrentInterface() != 'central'
+    && Plugin::isPluginActive('servicecatalog')) {
+
+    PluginServicecatalogMain::showNavBarFooter('accounts');
+}
+
 if (Session::getCurrentInterface() == 'central') {
-   Html::footer();
+    Html::footer();
 } else {
-   Html::helpFooter();
+    Html::helpFooter();
 }

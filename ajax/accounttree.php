@@ -27,9 +27,9 @@
  --------------------------------------------------------------------------
  */
 
-$AJAX_INCLUDE = 1;
+use GlpiPlugin\Accounts\Account;
 
-include('../../../inc/includes.php');
+$AJAX_INCLUDE = 1;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -37,9 +37,7 @@ Html::header_nocache();
 Session::checkLoginUser();
 
 if (!isset($_GET['target'])) {
-   $_GET['target'] = Toolbox::getItemTypeSearchURL('PluginAccountsAccount');
+    $_GET['target'] = Toolbox::getItemTypeSearchURL(Account::class);
 }
 
-PluginAccountsAccount::showSelector($_GET['target']);
-
-
+Account::showSelector($_GET['target']);

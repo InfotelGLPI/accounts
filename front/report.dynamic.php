@@ -27,45 +27,57 @@
  --------------------------------------------------------------------------
  */
 
-
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Report;
 
 Session::checkCentralAccess();
 
 if (isset($_POST["display_type"])) {
+    if ($_POST["display_type"] < 0) {
+        $_POST["display_type"] = -$_POST["display_type"];
+        $_POST["export_all"] = 1;
+    }
 
-   if ($_POST["display_type"] < 0) {
-      $_POST["display_type"] = -$_POST["display_type"];
-      $_POST["export_all"] = 1;
-   }
+    $post = $_POST;
 
-   $post = $_POST;
+    $parm["display_type"] = $post["display_type"];
+    $parm["id"] = $post["hash_id"];
+    $parm["aeskey"] = $post["aeskey"];
+    $parm["item_type"] = $post["item_type"];
 
-   $parm["display_type"] = $post["display_type"];
-   $parm["id"] = $post["hash_id"];
-   $parm["aeskey"] = $post["aeskey"];
-   $parm["item_type"] = $post["item_type"];
+    $accounts = [];
+    foreach ($post["id"] as $k => $v) {
+        $accounts[$k]["id"] = $v;
+    }
+    $accounts[$k]["name"] = [];
+    if (isset($post["name"]) && is_array($post["name"])) {
+        foreach ($post["name"] as $k => $v) {
+            $accounts[$k]["name"] = $v;
+        }
+    }
+    $accounts[$k]["entities_id"] = [];
+    if (isset($post["entities_id"]) && is_array($post["entities_id"])) {
+        foreach ($post["entities_id"] as $k => $v) {
+            $accounts[$k]["entities_id"] = $v ?? 0;
+        }
+    }
+    $accounts[$k]["type"] = [];
+    if (isset($post["type"]) && is_array($post["type"])) {
+        foreach ($post["type"] as $k => $v) {
+            $accounts[$k]["type"] = $v;
+        }
+    }
+    $accounts[$k]["login"] = [];
+    if (isset($post["login"]) && is_array($post["login"])) {
+        foreach ($post["login"] as $k => $v) {
+            $accounts[$k]["login"] = $v;
+        }
+    }
+    $accounts[$k]["password"] = [];
+    if (isset($post["password"]) && is_array($post["password"])) {
+        foreach ($post["password"] as $k => $v) {
+            $accounts[$k]["password"] = $v;
+        }
+    }
 
-   $accounts = [];
-   foreach ($post["id"] as $k => $v) {
-      $accounts[$k]["id"] = $v;
-   }
-   foreach ($post["name"] as $k => $v) {
-      $accounts[$k]["name"] = $v;
-   }
-   foreach ($post["entities_id"] as $k => $v) {
-      $accounts[$k]["entities_id"] = $v;
-   }
-   foreach ($post["type"] as $k => $v) {
-      $accounts[$k]["type"] = $v;
-   }
-   foreach ($post["login"] as $k => $v) {
-      $accounts[$k]["login"] = $v;
-   }
-   foreach ($post["password"] as $k => $v) {
-      $accounts[$k]["password"] = $v;
-   }
-
-   PluginAccountsReport::showAccountsList($parm, $accounts);
-
+    Report::showAccountsList($parm, $accounts);
 }

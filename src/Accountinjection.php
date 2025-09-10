@@ -27,28 +27,24 @@
  --------------------------------------------------------------------------
  */
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
-}
+namespace GlpiPlugin\Accounts;
 
+use AllowDynamicProperties;
+use PluginDatainjectionCommonInjectionLib;
+use PluginDatainjectionInjectionInterface;
+use Search;
 /**
- * Class PluginAccountsAccountInjection
+ * Class AccountInjection
  */
-class PluginAccountsAccountInjection extends PluginAccountsAccount
+#[AllowDynamicProperties]
+class AccountInjection extends Account
    implements PluginDatainjectionInjectionInterface
 {
 
-   /**
-    * @param null $classname
-    *
-    * @return mixed
-    */
-   static function getTable($classname = null) {
-
-      $parenttype = get_parent_class();
-      return $parenttype::getTable();
-
-   }
+    static function getTable($classname = null)
+    {
+        return Account::getTable();
+    }
 
    /**
     * @return bool

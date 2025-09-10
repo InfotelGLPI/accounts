@@ -28,11 +28,15 @@
  */
 
 
+use GlpiPlugin\Accounts\Account;
+
 if (strpos($_SERVER['PHP_SELF'], "dropdownTypeAccounts.php")) {
-   include('../../../inc/includes.php');
-   header("Content-Type: text/html; charset=UTF-8");
-   Html::header_nocache();
+    include('../../../inc/includes.php');
+    header("Content-Type: text/html; charset=UTF-8");
+    Html::header_nocache();
 }
+
+global $DB;
 
 Session::checkCentralAccess();
 
@@ -40,14 +44,13 @@ Session::checkCentralAccess();
 
 // Make a select box
 if (isset($_POST["accounttype"])) {
-   $used = [];
+    $used = [];
 
    // Clean used array
-   if (isset($_POST['used'])
+    if (isset($_POST['used'])
        && is_array($_POST['used'])
        && (count($_POST['used']) > 0)) {
-
-       $iterator = $DB->request([
+        $iterator = $DB->request([
            'SELECT'    => [
                'id',
            ],
@@ -59,21 +62,22 @@ if (isset($_POST["accounttype"])) {
            ],
            'GROUPBY'   => 'entities_id',
            'HAVING'    => ['cpt' => ['>', 0]]
-       ]);
+        ]);
 
-       if (count($iterator) > 0) {
-           foreach ($iterator as $data) {
-               $used[$data['id']] = $data['id'];
-           }
-      }
-   }
+        if (count($iterator) > 0) {
+            foreach ($iterator as $data) {
+                $used[$data['id']] = $data['id'];
+            }
+        }
+    }
 
-   Dropdown::show('PluginAccountsAccount',
-      ['name' => $_POST['myname'],
+    Dropdown::show(
+        Account::class,
+        ['name' => $_POST['myname'],
          'used' => $used,
          'width' => '50%',
          'entity' => $_POST['entity'],
          'rand' => $_POST['rand'],
-         'condition' => ['glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id' => $_POST["accounttype"]]]);
-
+        'condition' => ['glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id' => $_POST["accounttype"]]]
+    );
 }

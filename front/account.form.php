@@ -29,8 +29,8 @@
 
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
-
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Accounts\Account_Item;
 
 if (!isset($_GET["id"])) {
     $_GET["id"] = 0;
@@ -39,8 +39,8 @@ if (!isset($_GET["withtemplate"])) {
     $_GET["withtemplate"] = "";
 }
 
-$account      = new PluginAccountsAccount();
-$account_item = new PluginAccountsAccount_Item();
+$account      = new Account();
+$account_item = new Account_Item();
 
 if (isset($_POST["add"])) {
     $account->check(-1, CREATE, $_POST);
@@ -92,13 +92,13 @@ if (isset($_POST["add"])) {
     $account->checkGlobal(READ);
 
     if (Session::getCurrentInterface() == 'central') {
-        if (Plugin::isPluginActive("environment")) {
-            Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-        } else {
-            Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount");
-        }
+        Html::header(Account::getTypeName(2), '', "admin", Account::class);
     } else {
-        Html::helpHeader(PluginAccountsAccount::getTypeName(2));
+        if (Plugin::isPluginActive('servicecatalog')) {
+            PluginServicecatalogMain::showDefaultHeaderHelpdesk(Account::getTypeName(2), true);
+        } else {
+            Html::helpHeader(Account::getTypeName(2));
+        }
     }
 
     $account->check($_GET['id'], READ);
@@ -132,6 +132,12 @@ if (isset($_POST["add"])) {
         }
     } else {
         $account->display(['id' => $_GET['id']]);
+    }
+
+    if (Session::getCurrentInterface() != 'central'
+        && Plugin::isPluginActive('servicecatalog')) {
+
+        PluginServicecatalogMain::showNavBarFooter('accounts');
     }
 
     if (Session::getCurrentInterface() == 'central') {

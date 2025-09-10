@@ -17,7 +17,6 @@ Ce plugin vous permet de gérer les comptes de votre réseau et de les associer 
 * Utilisation d'un hash et d'une clé de cryptage pour le hash,
 * Envoi de mails à l'expiration de comptes,
 * Utilisable depuis le helpdesk
-* Peut être intégré au plugin "environment":https://github.com/InfotelGLPI/environment.
 
 ### English
 
@@ -26,4 +25,3 @@ This plugin enables you to manage the accounts of your network and associate the
 * Using hash and crypting key,
 * Mailing system allow to verify expired accounts,
 * Can be used with helpdesk,
-* Can be integrated into "environment":https://github.com/InfotelGLPI/environment plugin.

@@ -27,14 +27,20 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Accounts;
+
+use CommonDBTM;
+use CommonGLPI;
+use Html;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginAccountsConfig
+ * Class Config
  */
-class PluginAccountsConfig extends CommonDBTM
+class Config extends CommonDBTM
 {
 
    /**
@@ -65,7 +71,7 @@ class PluginAccountsConfig extends CommonDBTM
 
       if ($item->getType() == 'CronTask') {
           $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
-         PluginAccountsAccount::configCron($target);
+         Account::configCron($target);
       }
       return true;
    }

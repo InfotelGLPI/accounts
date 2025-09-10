@@ -28,17 +28,14 @@
  */
 
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Accounts\Hash;
 
-$account = new PluginAccountsAccount();
+$account = new Account();
 $account->checkGlobal(UPDATE);
 
-if (Plugin::isPluginActive("environment")) {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "hash");
-} else {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");
-}
+Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 
-Search::show("PluginAccountsHash");
+Search::show(Hash::class);
 
 Html::footer();

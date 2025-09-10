@@ -27,16 +27,32 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Accounts;
+
+use Glpi\DBAL\QueryExpression;
+use Ajax;
+use CommonDBTM;
+use DbUtils;
+use Dropdown;
+use Group;
+use Html;
+use Location;
+use MassiveAction;
+use Session;
+use Plugin;
+use NotificationEvent;
+use Change_Item;
+use Item_Problem;
+use Item_Project;
+use User;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
-
-use Glpi\DBAL\QueryExpression;
 /**
- * Class PluginAccountsAccount
+ * Class Account
  */
-class PluginAccountsAccount extends CommonDBTM
+class Account extends CommonDBTM
 {
     public static $rightname = "plugin_accounts";
 
@@ -81,7 +97,7 @@ class PluginAccountsAccount extends CommonDBTM
      */
     public function cleanDBonPurge()
     {
-        $temp = new PluginAccountsAccount_Item();
+        $temp = new Account_Item();
         $temp->deleteByCriteria(['plugin_accounts_accounts_id' => $this->fields['id']]);
 
         $ip = new Item_Problem();
@@ -120,7 +136,7 @@ class PluginAccountsAccount extends CommonDBTM
                 'field' => 'name',
                 'name' => __('Name'),
                 'datatype' => 'itemlink',
-                'itemlink_type' => 'PluginAccountsAccount',
+                'itemlink_type' => Account::class,
                 'massiveaction' => false,
                 'searchtype' => 'contains'
             ];
@@ -131,7 +147,7 @@ class PluginAccountsAccount extends CommonDBTM
                 'field' => 'name',
                 'name' => __('Name'),
                 'datatype' => 'itemlink',
-                'itemlink_type' => 'PluginAccountsAccount',
+                'itemlink_type' => Account::class,
                 'massiveaction' => false
             ];
         }
@@ -364,7 +380,7 @@ class PluginAccountsAccount extends CommonDBTM
         $ong = [];
         $this->addDefaultFormTab($ong);
         $this->addImpactTab($ong, $options);
-        $this->addStandardTab('PluginAccountsAccount_Item', $ong, $options);
+        $this->addStandardTab(Account_Item::class, $ong, $options);
         $this->addStandardTab('Item_Ticket', $ong, $options);
         $this->addStandardTab('Item_Problem', $ong, $options);
         //$this->addStandardTab('Change_Item', $ong, $options);
@@ -457,7 +473,7 @@ class PluginAccountsAccount extends CommonDBTM
             return false;
         }
 
-        $hashclass = new PluginAccountsHash();
+        $hashclass = new Hash();
         $dbu = new DbUtils();
 
         $restrict = $dbu->getEntitiesRestrictCriteria(
@@ -490,7 +506,7 @@ class PluginAccountsAccount extends CommonDBTM
 
         echo "<td>" . __('Status') . "</td><td>";
         Dropdown::show(
-            'PluginAccountsAccountState',
+            AccountState::class,
             ['value' => $this->fields["plugin_accounts_accountstates_id"]]
         );
         echo "</td>";
@@ -506,7 +522,7 @@ class PluginAccountsAccount extends CommonDBTM
 
         echo "<td>" . __('Type') . "</td><td>";
         Dropdown::show(
-            'PluginAccountsAccountType',
+            AccountType::class,
             ['value' => $this->fields["plugin_accounts_accounttypes_id"]]
         );
         echo "</td>";
@@ -556,7 +572,7 @@ class PluginAccountsAccount extends CommonDBTM
             $alert = __('There is no encryption key for this entity', 'accounts');
         }
 
-        $aeskey = new PluginAccountsAesKey();
+        $aeskey = new AesKey();
 
         //aeskey non enregistre
         if ($hash) {
@@ -633,12 +649,12 @@ class PluginAccountsAccount extends CommonDBTM
                     'right' => 'all'
                 ]);
             } else {
-                echo $dbu->getUserName($this->fields["users_id"]);
+                echo getUserName($this->fields["users_id"]);
             }
             echo "</td>";
         } else {
             echo "<td>" . __('Affected User', 'accounts') . "</td><td>";
-            echo $dbu->getUserName($this->fields["users_id"]);
+            echo getUserName($this->fields["users_id"]);
             echo "</td>";
         }
 
@@ -896,34 +912,34 @@ class PluginAccountsAccount extends CommonDBTM
                <tbody>
                <tr class='tab_bg_1 center'><th colspan ='2'>" . __s('Generate password', 'accounts') . "</th></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> " . __(
-                    "Numbers",
-                    "accounts"
-                ) . " <small>(0123456789)</small></label></td></tr>
+                   "Numbers",
+                   "accounts"
+               ) . " <small>(0123456789)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-1\" /></td><td><label for=\"char-1\"> " . __(
-                    "Lowercase",
-                    "accounts"
-                ) . " <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
+                   "Lowercase",
+                   "accounts"
+               ) . " <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-2\" /></td><td><label for=\"char-2\"> " . __(
-                    "Uppercase",
-                    "accounts"
-                ) . " <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
+                   "Uppercase",
+                   "accounts"
+               ) . " <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> " . __(
-                    "Special characters",
-                    "accounts"
-                ) . " <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
+                   "Special characters",
+                   "accounts"
+               ) . " <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
                <tr class='tab_bg_1'>
                         <td><label for='length'>" . __("Length", "accounts") . "</label></td>
                         <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> " . __(
-                    " characters",
-                    "accounts"
-                ) . "</td>
+                            " characters",
+                            "accounts"
+                        ) . "</td>
                      </tr>
                <tr id='fakeupdate'></tr>
                <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
                <button type='button' id='generatePass' name='generatePass' class='submit btn btn-primary' value='" . __s(
-                    'Generate',
-                    'accounts'
-                ) . "'>" . __s('Generate', 'accounts') . "</button></td></tr>
+                            'Generate',
+                            'accounts'
+                        ) . "'>" . __s('Generate', 'accounts') . "</button></td></tr>
                </tbody>
                </table>";
             Ajax::updateItemOnEvent(
@@ -1045,11 +1061,11 @@ class PluginAccountsAccount extends CommonDBTM
 
         if (Session::getCurrentInterface() == 'central') {
             if ($isadmin) {
-                $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'install'] = _x(
+                $actions['GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . 'install'] = _x(
                     'button',
                     'Associate'
                 );
-                $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x(
+                $actions['GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x(
                     'button',
                     'Dissociate'
                 );
@@ -1057,7 +1073,7 @@ class PluginAccountsAccount extends CommonDBTM
                 if (Session::haveRight('transfer', READ)
                     && Session::isMultiEntitiesMode()
                 ) {
-                    $actions['PluginAccountsAccount' . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __(
+                    $actions['GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __(
                         'Transfer'
                     );
                 }
@@ -1120,7 +1136,7 @@ class PluginAccountsAccount extends CommonDBTM
         CommonDBTM $item,
         array $ids
     ) {
-        $account_item = new PluginAccountsAccount_Item();
+        $account_item = new Account_Item();
         $dbu = new DbUtils();
 
         switch ($ma->getAction()) {
@@ -1153,10 +1169,10 @@ class PluginAccountsAccount extends CommonDBTM
 
             case "transfer":
                 $input = $ma->getInput();
-                if ($item->getType() == 'PluginAccountsAccount') {
+                if ($item->getType() == Account::class) {
                     foreach ($ids as $key) {
                         $item->getFromDB($key);
-                        $type = PluginAccountsAccountType::transfer(
+                        $type = AccountType::transfer(
                             $item->fields["plugin_accounts_accounttypes_id"],
                             $input['entities_id']
                         );
@@ -1260,8 +1276,8 @@ class PluginAccountsAccount extends CommonDBTM
     {
         global $DB;
 
-        $config = new PluginAccountsConfig();
-        $notif = new PluginAccountsNotificationState();
+        $config = new Config();
+        $notif = new NotificationState();
 
         $config->getFromDB('1');
         $delay = $config->fields["delay_expired"];
@@ -1278,7 +1294,6 @@ class PluginAccountsAccount extends CommonDBTM
                 new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
             ]
         ];
-
     }
 
     /**
@@ -1290,8 +1305,8 @@ class PluginAccountsAccount extends CommonDBTM
     {
         global $DB;
 
-        $config = new PluginAccountsConfig();
-        $notif = new PluginAccountsNotificationState();
+        $config = new Config();
+        $notif = new NotificationState();
 
         $config->getFromDB('1');
         $delay = $config->fields["delay_whichexpire"];
@@ -1345,9 +1360,9 @@ class PluginAccountsAccount extends CommonDBTM
 
                 if (!isset($account_messages[$type][$entity])) {
                     $account_messages[$type][$entity] = __(
-                            'Accounts expired or accounts which expires',
-                            'accounts'
-                        ) . "<br />";
+                        'Accounts expired or accounts which expires',
+                        'accounts'
+                    ) . "<br />";
                 }
                 $account_messages[$type][$entity] .= $message;
             }
@@ -1359,7 +1374,7 @@ class PluginAccountsAccount extends CommonDBTM
 
                 if (NotificationEvent::raiseEvent(
                     ($type == Alert::NOTICE ? "AccountsWhichExpire" : "ExpiredAccounts"),
-                    new PluginAccountsAccount(),
+                    new Account(),
                     [
                         'entities_id' => $entity,
                         'accounts' => $accounts
@@ -1413,8 +1428,8 @@ class PluginAccountsAccount extends CommonDBTM
      **/
     public static function configCron($target)
     {
-        $notif = new PluginAccountsNotificationState();
-        $config = new PluginAccountsConfig();
+        $notif = new NotificationState();
+        $config = new Config();
 
         $config->showConfigForm($target, 1);
         $notif->showNotificationForm($target);
@@ -1437,9 +1452,9 @@ class PluginAccountsAccount extends CommonDBTM
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/themes/default/style.min.css");
 
         echo "<div class='alert alert-important alert-info d-flex'>" . __(
-                'Select the wanted account type',
-                'accounts'
-            ) . "</div><br>";
+            'Select the wanted account type',
+            'accounts'
+        ) . "</div><br>";
         echo "<a href='" . $target . "?reset=reset' target='_blank' title=\"" .
             __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __('Show all')) . "</a>";
         $root = PLUGIN_ACCOUNTS_WEBDIR;
@@ -1648,37 +1663,37 @@ class PluginAccountsAccount extends CommonDBTM
     public static function getMenuContent()
     {
         $image = "<i class='ti ti-lock-open' title='" . _n(
-                'Encryption key',
-                'Encryption keys',
-                2,
-                'accounts'
-            ) . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
+            'Encryption key',
+            'Encryption keys',
+            2,
+            'accounts'
+        ) . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
 
         $menu = [];
         $menu['title'] = self::getMenuName();
         $menu['page'] = self::getSearchURL(false);
         $menu['links']['search'] = self::getSearchURL(false);
         $menu['links']['lists'] = "";
-        $menu['links'][$image] = PluginAccountsHash::getSearchURL(false);
+        $menu['links'][$image] = Hash::getSearchURL(false);
         if (self::canCreate()) {
             $menu['links']['add'] = self::getFormURL(false);
         }
 
         $menu['options']['account']['title'] = self::getTypeName(2);
         $menu['options']['account']['page'] = self::getSearchURL(false);
-        $menu['options']['account']['links']['search'] = PluginAccountsAccount::getSearchURL(false);
-        $menu['options']['account']['links'][$image] = PluginAccountsHash::getSearchURL(false);
-        if (PluginAccountsAccount::canCreate()) {
+        $menu['options']['account']['links']['search'] = Account::getSearchURL(false);
+        $menu['options']['account']['links'][$image] = Hash::getSearchURL(false);
+        if (Account::canCreate()) {
             $menu['options']['account']['links']['add'] = self::getFormURL(false);
         }
 
-        $menu['options']['hash']['title'] = PluginAccountsHash::getTypeName(2);
-        $menu['options']['hash']['page'] = PluginAccountsHash::getSearchURL(false);
-        $menu['options']['hash']['links']['search'] = PluginAccountsHash::getSearchURL(false);
-        $menu['options']['hash']['links'][$image] = PluginAccountsHash::getSearchURL(false);
+        $menu['options']['hash']['title'] = Hash::getTypeName(2);
+        $menu['options']['hash']['page'] = Hash::getSearchURL(false);
+        $menu['options']['hash']['links']['search'] = Hash::getSearchURL(false);
+        $menu['options']['hash']['links'][$image] = Hash::getSearchURL(false);
 
-        if (PluginAccountsHash::canCreate()) {
-            $menu['options']['hash']['links']['add'] = PluginAccountsHash::getFormURL(false);
+        if (Hash::canCreate()) {
+            $menu['options']['hash']['links']['add'] = Hash::getFormURL(false);
         }
 
         $menu['icon'] = self::getIcon();
@@ -1688,11 +1703,11 @@ class PluginAccountsAccount extends CommonDBTM
 
     public static function removeRightsFromSession()
     {
-        if (isset($_SESSION['glpimenu']['admin']['types']['PluginAccountsAccount'])) {
-            unset($_SESSION['glpimenu']['admin']['types']['PluginAccountsAccount']);
+        if (isset($_SESSION['glpimenu']['admin']['types']['GlpiPlugin\Accounts\Account'])) {
+            unset($_SESSION['glpimenu']['admin']['types']['GlpiPlugin\Accounts\Account']);
         }
-        if (isset($_SESSION['glpimenu']['admin']['content']['pluginaccountsaccounts'])) {
-            unset($_SESSION['glpimenu']['admin']['content']['pluginaccountsaccounts']);
+        if (isset($_SESSION['glpimenu']['admin']['content']['GlpiPlugin\Accounts\Account'])) {
+            unset($_SESSION['glpimenu']['admin']['content']['GlpiPlugin\Accounts\Account']);
         }
     }
 }

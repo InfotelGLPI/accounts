@@ -27,16 +27,13 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Accounts\AesKey;
 
 Session::checkRight("config", UPDATE);
 
-if (Plugin::isPluginActive("environment")) {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-} else {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");
-}
+Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 
-Search::show("PluginAccountsAesKey");
+Search::show(AesKey::class);
 
 Html::footer();

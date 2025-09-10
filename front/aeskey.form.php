@@ -28,51 +28,44 @@
  */
 
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Accounts\AesKey;
 
 if (!isset($_GET["id"])) {
-   $_GET["id"] = "";
+    $_GET["id"] = "";
 }
 if (!isset($_GET["plugin_accounts_hashes_id"])) {
-   $_GET["plugin_accounts_hashes_id"] = "";
+    $_GET["plugin_accounts_hashes_id"] = "";
 }
 
 Session::checkRight("config", UPDATE);
 
-$aeskey = new PluginAccountsAesKey();
+$aeskey = new AesKey();
 
-if (Plugin::isPluginActive("environment")) {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "assets", "pluginenvironmentdisplay", "accounts");
-} else {
-   Html::header(PluginAccountsAccount::getTypeName(2), '', "admin", "pluginaccountsaccount", "hash");
-}
+Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 
 if (isset($_POST["add"])) {
-   if ($aeskey->canCreate()) {
-      $newID = $aeskey->add($_POST);
-   }
-   if ($_SESSION['glpibackcreated']) {
-      Html::redirect($aeskey->getFormURL() . "?id=" . $newID);
-   }
-   Html::back();
-
-} else if (isset($_POST["update"])) {
-
-   if ($aeskey->canCreate()) {
-      $aeskey->update($_POST);
-   }
-   Html::back();
-
-} else if (isset($_POST["delete"])) {
-   if ($aeskey->canCreate()) {
-      foreach ($_POST["check"] as $ID => $value) {
-         $aeskey->delete(["id" => $ID], 1);
-      }
-   }
-   Html::back();
-
+    if ($aeskey->canCreate()) {
+        $newID = $aeskey->add($_POST);
+    }
+    if ($_SESSION['glpibackcreated']) {
+        Html::redirect($aeskey->getFormURL() . "?id=" . $newID);
+    }
+    Html::back();
+} elseif (isset($_POST["update"])) {
+    if ($aeskey->canCreate()) {
+        $aeskey->update($_POST);
+    }
+    Html::back();
+} elseif (isset($_POST["delete"])) {
+    if ($aeskey->canCreate()) {
+        foreach ($_POST["check"] as $ID => $value) {
+            $aeskey->delete(["id" => $ID], 1);
+        }
+    }
+    Html::back();
 } else {
-   $aeskey->display(['id' => $_GET['id'],
+    $aeskey->display(['id' => $_GET['id'],
       'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]]);
 }
 

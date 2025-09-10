@@ -27,14 +27,23 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Accounts;
+
+use CommonDBTM;
+use Dropdown;
+use DbUtils;
+use Html;
+use Search;
+use Session;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginAccountsReport
+ * Class Report
  */
-class PluginAccountsReport extends CommonDBTM
+class Report extends CommonDBTM
 {
     /**
      * @param $values
@@ -48,7 +57,7 @@ class PluginAccountsReport extends CommonDBTM
         $ID     = $values["id"];
         $aeskey = $values["aeskey"];
 
-        $PluginAccountsHash = new PluginAccountsHash();
+        $PluginAccountsHash = new Hash();
         $PluginAccountsHash->getFromDB($ID);
         $dbu = new DbUtils();
 
@@ -124,8 +133,8 @@ class PluginAccountsReport extends CommonDBTM
 
         $ID     = $values["id"];
         $aeskey = $values["aeskey"];
-
-        $PluginAccountsHash = new PluginAccountsHash();
+//
+        $PluginAccountsHash = new Hash();
         $PluginAccountsHash->getFromDB($ID);
         $hash = $PluginAccountsHash->fields["hash"];
 
@@ -139,6 +148,9 @@ class PluginAccountsReport extends CommonDBTM
             }
         }
 
+        if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
+            return false;
+        }
         // Set display type for export if define
         $output_type = Search::HTML_OUTPUT;
 
@@ -153,9 +165,9 @@ class PluginAccountsReport extends CommonDBTM
 
         $parameters = "id=" . $ID . "&amp;aeskey=" . $aeskey;
         if ($output_type == Search::HTML_OUTPUT && !empty($list)) {
-            self::printPager($start, $numrows, $_SERVER['PHP_SELF'], $parameters, "PluginAccountsReport");
+            self::printPager($start, $numrows, $_SERVER['PHP_SELF'], $parameters, "Report");
         }
-
+        echo Search::showBeginHeader($output_type);
         echo Search::showHeader($output_type, 1, $nbcols, 1);
 
         echo Search::showNewLine($output_type);
@@ -167,7 +179,7 @@ class PluginAccountsReport extends CommonDBTM
         echo Search::showHeaderItem($output_type, __('Login'), $header_num);
         echo Search::showHeaderItem($output_type, __('Uncrypted password', 'accounts'), $header_num);
         echo Search::showEndLine($output_type);
-
+        echo Search::showEndHeader($output_type);
         if (!empty($list)) {
             foreach ($list as $user => $field) {
                 $row_num++;
@@ -216,7 +228,7 @@ class PluginAccountsReport extends CommonDBTM
                            pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
                            }
                            document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
-               
+
                            document.getElementById(\"show_password$$IDc\").innerHTML = pass;
                            ");
 

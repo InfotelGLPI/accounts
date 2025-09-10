@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -27,56 +28,60 @@
  --------------------------------------------------------------------------
  */
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
+namespace GlpiPlugin\Accounts;
+
+use CommonDBTM;
+use CommonGLPI;
+use DbUtils;
+use Html;
+use Session;
+use Toolbox;
 
 /**
- * Class PluginAccountsAesKey
+ * Class AesKey
  */
-class PluginAccountsAesKey extends CommonDBTM
+class AesKey extends CommonDBTM
 {
+    public static $rightname = "plugin_accounts";
 
-    static $rightname = "plugin_accounts";
-
-   /**
-    * @var hash
-    */
+    /**
+     * @var hash
+     */
     private $h;
 
-   /**
-    * PluginAccountsAesKey constructor.
-    */
+    /**
+     * AesKey constructor.
+     */
     public function __construct()
     {
-        $this->h = new PluginAccountsHash();
+        $this->h = new Hash();
     }
 
-    static function getIcon()
+    public static function getIcon()
     {
         return "ti ti-lock-open";
     }
 
-   /**
-    * @param int $nb
-    * @return translated
-    */
+    /**
+     * @param int $nb
+     * @return translated
+     */
     public static function getTypeName($nb = 0)
     {
         return _n('Encryption key', 'Encryption key', $nb, 'accounts');
     }
 
-   /**
-    * @param CommonGLPI $item
-    * @param int $withtemplate
-    * @return string|translated
-    */
+    /**
+     * @param CommonGLPI $item
+     * @param int $withtemplate
+     * @return string|translated
+     */
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
 
         if (!$withtemplate) {
             switch ($item->getType()) {
-                case 'PluginAccountsHash':
+                case Hash::class:
                     return self::createTabEntry(__('Save the encryption key', 'accounts'));
                 case __CLASS__:
                     return self::createTabEntry(self::getTypeName());
@@ -85,19 +90,19 @@ class PluginAccountsAesKey extends CommonDBTM
         return '';
     }
 
-   /**
-    * @param CommonGLPI $item
-    * @param int $tabnum
-    * @param int $withtemplate
-    * @return bool
-    */
+    /**
+     * @param CommonGLPI $item
+     * @param int $tabnum
+     * @param int $withtemplate
+     * @return bool
+     */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
 
         $self = new self();
 
         switch ($item->getType()) {
-            case 'PluginAccountsHash':
+            case Hash::class:
                 $key = self::checkIfAesKeyExists($item->getID());
                 if ($key) {
                     $self->showAesKey($item->getID());
@@ -112,10 +117,10 @@ class PluginAccountsAesKey extends CommonDBTM
         return true;
     }
 
-   /**
-    * @param $plugin_accounts_hashes_id
-    * @return bool
-    */
+    /**
+     * @param $plugin_accounts_hashes_id
+     * @return bool
+     */
     public function getFromDBByHash($plugin_accounts_hashes_id)
     {
         global $DB;
@@ -136,10 +141,10 @@ class PluginAccountsAesKey extends CommonDBTM
         return false;
     }
 
-   /**
-    * @param $plugin_accounts_hashes_id
-    * @return bool
-    */
+    /**
+     * @param $plugin_accounts_hashes_id
+     * @return bool
+     */
     public static function checkIfAesKeyExists($plugin_accounts_hashes_id)
     {
 
@@ -161,10 +166,10 @@ class PluginAccountsAesKey extends CommonDBTM
         }
     }
 
-   /**
-    * @param array $options
-    * @return array
-    */
+    /**
+     * @param array $options
+     * @return array
+     */
     public function defineTabs($options = [])
     {
 
@@ -173,10 +178,10 @@ class PluginAccountsAesKey extends CommonDBTM
         return $ong;
     }
 
-   /**
-    * @param $ID
-    * @param array $options
-    */
+    /**
+     * @param $ID
+     * @param array $options
+     */
     public function showForm($ID, $options = [])
     {
         $dbu = new DbUtils();
@@ -209,29 +214,29 @@ class PluginAccountsAesKey extends CommonDBTM
         $this->showFormButtons($options);
     }
 
-   /**
-    * @param datas $input
-    * @return bool|datas
-    */
+    /**
+     * @param datas $input
+     * @return bool|datas
+     */
     public function prepareInputForAdd($input)
     {
-       // Not attached to hash -> not added
+        // Not attached to hash -> not added
         if (!isset($input['plugin_accounts_hashes_id']) || $input['plugin_accounts_hashes_id'] <= 0) {
             return false;
         }
         return $input;
     }
 
-   /**
-    * @param $ID
-    */
+    /**
+     * @param $ID
+     */
     public function showAesKey($ID)
     {
         global $DB;
 
         $this->h->getFromDB($ID);
 
-        Session::initNavigateListItems("PluginAccountsAesKey", __('Hash', 'accounts') . " = " . $this->h->fields["name"]);
+        Session::initNavigateListItems("AesKey", __('Hash', 'accounts') . " = " . $this->h->fields["name"]);
 
         $candelete = Session::haveRight(self::$rightname, DELETE);
         $query     = "SELECT *
@@ -263,7 +268,7 @@ class PluginAccountsAesKey extends CommonDBTM
 
         if ($DB->numrows($result) > 0) {
             while ($data = $DB->fetchArray($result)) {
-                Session::addToNavigateListItems("PluginAccountsAesKey", $data['id']);
+                Session::addToNavigateListItems("AesKey", $data['id']);
                 $name = "item[" . $data["id"] . "]";
                 echo Html::hidden($name, ['value' => $ID]);
                 echo "<tr class='tab_bg_1 center'>";
@@ -272,7 +277,7 @@ class PluginAccountsAesKey extends CommonDBTM
                     Html::showMassiveActionCheckBox(__CLASS__, $data["id"]);
                     echo "</td>";
                 }
-                $link = Toolbox::getItemTypeFormURL("PluginAccountsAesKey");
+                $link = Toolbox::getItemTypeFormURL("AesKey");
                 echo "<td class='left'><a href='" . $link . "?id=" . $data["id"] . "&plugin_accounts_hashes_id=" . $ID . "'>";
                 echo __('Encryption key', 'accounts') . "</a></td>";
                 echo "</tr>";
@@ -297,10 +302,10 @@ class PluginAccountsAesKey extends CommonDBTM
         echo "</div>";
     }
 
-   /**
-    * @return an|array
-    */
-    function getForbiddenStandardMassiveAction()
+    /**
+     * @return an|array
+     */
+    public function getForbiddenStandardMassiveAction()
     {
 
         $forbidden   = parent::getForbiddenStandardMassiveAction();

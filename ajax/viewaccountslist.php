@@ -27,8 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\Report;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -40,9 +39,9 @@ if (isset($_POST["key"])) {
    $options = ['id' => $_POST["id"],
       'aeskey' => $_POST["key"]];
 
-   $accounts = PluginAccountsReport::queryAccountsList($options);
+   $accounts = Report::queryAccountsList($options);
 
-   PluginAccountsReport::showAccountsList($options, $accounts);
+   Report::showAccountsList($options, $accounts);
 
 } else {
    echo __('Access denied');

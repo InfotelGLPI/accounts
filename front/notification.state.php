@@ -28,18 +28,17 @@
  */
 
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Accounts\NotificationState;
+use GlpiPlugin\Accounts\Config;
 
 Session::checkRight("config", UPDATE);
 
 if (isset($_POST["add"])) {
-   $notif = new PluginAccountsNotificationState();
-   $notif->addNotificationState($_POST['plugin_accounts_accountstates_id']);
-   Html::back();
-
-} else if (isset($_POST["update"])) {
-   $config = new PluginAccountsConfig();
-   $config->update($_POST);
-   Html::back();
-
+    $notif = new NotificationState();
+    $notif->addNotificationState($_POST['plugin_accounts_accountstates_id']);
+    Html::back();
+} elseif (isset($_POST["update"])) {
+    $config = new Config();
+    $config->update($_POST);
+    Html::back();
 }

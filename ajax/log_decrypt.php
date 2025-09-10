@@ -28,6 +28,8 @@
  */
 
 
+use GlpiPlugin\Accounts\Account;
+
 $AJAX_INCLUDE = 1;
 
 include('../../../inc/includes.php');
@@ -42,7 +44,7 @@ if (isset($_POST['idcrypt'])) {
    $changes[0] = 15;
    $changes[1] = "";
    $changes[2] = __('Uncrypted', 'accounts');
-   Log::history(intval($_POST['idcrypt']), "PluginAccountsAccount", $changes, 0,
+   Log::history(intval($_POST['idcrypt']), Account::class, $changes, 0,
       Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
 }

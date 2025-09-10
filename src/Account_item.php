@@ -27,20 +27,23 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Accounts;
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
-}
+use CommonDBRelation;
+use CommonDBTM;
+use CommonGLPI;
+use DbUtils;
+use Dropdown;
+use Html;
+use Session;
+use Toolbox;
 
-/**
- * Class PluginAccountsAccount_Item
- */
-class PluginAccountsAccount_Item extends CommonDBRelation {
+final class Account_Item extends CommonDBRelation {
 
    static $rightname = "plugin_accounts";
 
    // From CommonDBRelation
-   static public $itemtype_1    = "PluginAccountsAccount";
+   static public $itemtype_1    = Account::class;
    static public $items_id_1    = 'plugin_accounts_accounts_id';
    static public $take_entity_1 = false;
 
@@ -100,8 +103,8 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (!$withtemplate) {
-         if ($item->getType() == 'PluginAccountsAccount'
-             && count(PluginAccountsAccount::getTypes(false))
+         if ($item->getType() == Account::class
+             && count(Account::getTypes(false))
          ) {
             if ($_SESSION['glpishow_count_on_tabs']) {
                return self::createTabEntry(_n('Associated item', 'Associated items', 2),
@@ -109,14 +112,14 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
             }
             return _n('Associated item', 'Associated items', 2);
 
-         } else if (in_array($item->getType(), PluginAccountsAccount::getTypes(true))
+         } else if (in_array($item->getType(), Account::getTypes(true))
                     && Session::haveRight("plugin_accounts", READ)
          ) {
             if ($_SESSION['glpishow_count_on_tabs']) {
-               return self::createTabEntry(PluginAccountsAccount::getTypeName(2),
+               return self::createTabEntry(Account::getTypeName(2),
                                            self::countForItem($item));
             }
-            return PluginAccountsAccount::getTypeName(2);
+            return Account::getTypeName(2);
          }
       }
       return '';
@@ -135,11 +138,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
-      if ($item->getType() == 'PluginAccountsAccount') {
+      if ($item->getType() == Account::class) {
 
          self::showForAccount($item);
 
-      } else if (in_array($item->getType(), PluginAccountsAccount::getTypes(true))) {
+      } else if (in_array($item->getType(), Account::getTypes(true))) {
 
          self::showForItem($item);
 
@@ -149,11 +152,11 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
 
    /**
-    * @param PluginAccountsAccount $item
+    * @param Account $item
     *
     * @return int
     */
-   private static function countForAccount(PluginAccountsAccount $item) {
+   private static function countForAccount(Account $item) {
 
       if (count($item->getTypes()) <= 0) {
          return 0;
@@ -237,15 +240,15 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
    /**
     * Show items links to a account
     *
-    * @param PluginAccountsAccount $account
+    * @param Account $account
     *
     * @return bool
-    * @internal param PluginAccountsAccount $PluginAccountsAccount object
+    * @internal param Account object
     *
     * @since version 0.84
     *
     */
-   public static function showForAccount(PluginAccountsAccount $account) {
+   public static function showForAccount(Account $account) {
       global $DB;
 
       $dbu    = new DbUtils();
@@ -259,7 +262,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                 FROM `glpi_plugin_accounts_accounts_items`
                 WHERE `plugin_accounts_accounts_id` = '$instID'
                 ORDER BY `itemtype`
-                LIMIT " . count(PluginAccountsAccount::getTypes(true));
+                LIMIT " . count(Account::getTypes(true));
 
       $result = $DB->doQuery($query);
       $number = $DB->numrows($result);
@@ -268,14 +271,14 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       if ($canedit) {
          echo "<div class='firstbloc'>";
          echo "<form name='accountitem_form$rand' id='accountitem_form$rand' method='post'
-         action='" . Toolbox::getItemTypeFormURL("PluginAccountsAccount") . "'>";
+         action='" . Toolbox::getItemTypeFormURL(Account::class) . "'>";
 
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr class='tab_bg_2'><th colspan='2'>" . __('Add an item') . "</th></tr>";
 
          echo "<tr class='tab_bg_1'><td class='right'>";
          Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'items_id',
-                                                'itemtypes'     => PluginAccountsAccount::getTypes(true),
+                                                'itemtypes'     => Account::getTypes(true),
                                                 'entity_restrict'
                                                                 => ($account->fields['is_recursive']
                                                    ? $dbu->getSonsOf('glpi_entities',
@@ -468,7 +471,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
          $withtemplate = 0;
       }
 
-      $canedit      = $item->canadditem('PluginAccountsAccount');
+      $canedit      = $item->canadditem(Account::class);
       $rand         = mt_rand();
       $is_recursive = $item->isRecursive();
       $who          = Session::getLoginUserID();
@@ -513,7 +516,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       $i      = 0;
 
       $accounts = [];
-      $account  = new PluginAccountsAccount();
+      $account  = new Account();
       $used     = [];
       if ($numrows = $DB->numrows($result)) {
          while ($data = $DB->fetchAssoc($result)) {
@@ -554,7 +557,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
              && ($nb > count($used))
          ) {
             echo "<form name='account_form$rand' id='account_form$rand' method='post'
-                   action='" . Toolbox::getItemTypeFormURL('PluginAccountsAccount') . "'>";
+                   action='" . Toolbox::getItemTypeFormURL(Account::class) . "'>";
             echo "<table class='tab_cadre_fixe'>";
             echo "<tr class='tab_bg_1'>";
             echo "<td colspan='4' class='center'>";
@@ -566,7 +569,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                echo Html::hidden('tickets_id', ['value' => $ID]);
             }
 
-            PluginAccountsAccount::dropdownAccount(['entity' => $entities,
+            Account::dropdownAccount(['entity' => $entities,
                                                     'used'   => $used]);
             echo "</td><td class='center' width='20%'>";
             echo Html::submit(_sx('button', 'Associate a account', 'accounts'), ['name' => 'additem', 'class' => 'btn btn-primary']);
@@ -594,7 +597,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
       }
 
       //hash
-      $hashclass = new PluginAccountsHash();
+      $hashclass = new Hash();
       $hash_id   = 0;
       $hash      = 0;
       $restrict  = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes",
@@ -613,7 +616,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
          $alert = __('There is no encryption key for this entity', 'accounts');
       }
 
-      $aeskey = new PluginAccountsAesKey();
+      $aeskey = new AesKey();
       echo "<tr><th colspan='" . (8 + $colsup) . "'>";
       if ($hash) {
          if (!$aeskey->getFromDBByHash($hash_id) || !$aeskey->fields["name"]) {
@@ -652,7 +655,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
 
       if ($number) {
 
-         Session::initNavigateListItems('PluginAccountsAccount',
+         Session::initNavigateListItems(Account::class,
             //TRANS : %1$s is the itemtype name,
             //        %2$s is the name of the item (used for headings of a list)
                                         sprintf(__('%1$s = %2$s'),
@@ -666,7 +669,7 @@ class PluginAccountsAccount_Item extends CommonDBRelation {
                $link = $account->getLink();
             }
 
-            Session::addToNavigateListItems('PluginAccountsAccount', $accountID);
+            Session::addToNavigateListItems(Account::class, $accountID);
 
             $used[$accountID] = $accountID;
 

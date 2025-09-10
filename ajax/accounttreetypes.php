@@ -79,7 +79,7 @@ if (isset($_REQUEST['node'])) {
                     'a_attr' => [
                         "onclick" => 'window.open("' . PLUGIN_ACCOUNTS_WEBDIR . '/front/' . $target .
                             '?criteria[0][field]=2&criteria[0][searchtype]=contains&criteria[0][value]=^' .
-                            rawurlencode($value) . '&itemtype=PluginAccountsAccount&start=0")'
+                            rawurlencode($value) . '&itemtype=GlpiPlugin\Accounts\Account&start=0")'
                     ]
                 ];
                 $nodes[] = $path;

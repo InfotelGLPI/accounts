@@ -26,3 +26,32 @@
  along with accounts. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+
+namespace GlpiPlugin\Accounts;
+
+use CommonDropdown;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access directly to this file");
+}
+
+// Class for a Dropdown
+/**
+ * Class AccountState
+ */
+class AccountState extends CommonDropdown
+{
+
+   static $rightname = "dropdown";
+   var $can_be_translated = true;
+
+   /**
+    * @param int $nb
+    * @return translated
+    */
+   public static function getTypeName($nb = 0) {
+
+      return _n('Status', 'Statuses', $nb, 'accounts');
+   }
+
+}
