@@ -34,14 +34,13 @@ use GlpiPlugin\Accounts\AccountType;
 use GlpiPlugin\Accounts\AccountState;
 use GlpiPlugin\Accounts\Profile;
 use GlpiPlugin\Accounts\AccountInjection;
+
 /**
  * @return bool
  */
 function plugin_accounts_install()
 {
     global $DB, $CFG_GLPI;
-
-    include_once(PLUGIN_ACCOUNTS_DIR . "/inc/profile.class.php");
 
     $install   = false;
     $update78  = false;
@@ -255,23 +254,23 @@ function plugin_accounts_install()
                DROP `name` ;";
         $DB->doQuery($query);
 
-        Plugin::migrateItemType(
-            [1900 => 'PluginAccountsAccount',
-             1901 => 'PluginAccountsHelpdesk',
-             1902 => 'PluginAccountsGroup'],
-            ["glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
-             "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
-            ["glpi_plugin_accounts_accounts_items"]
-        );
-
-        Plugin::migrateItemType(
-            [1200 => "PluginAppliancesAppliance",
-             1300 => "PluginWebapplicationsWebapplication",
-             1700 => "PluginCertificatesCertificate",
-             4400 => "PluginDomainsDomain",
-             2400 => "PluginDatabasesDatabase"],
-            ["glpi_plugin_accounts_accounts_items"]
-        );
+//        Plugin::migrateItemType(
+//            [1900 => 'PluginAccountsAccount',
+//             1901 => 'PluginAccountsHelpdesk',
+//             1902 => 'PluginAccountsGroup'],
+//            ["glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
+//             "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"],
+//            ["glpi_plugin_accounts_accounts_items"]
+//        );
+//
+//        Plugin::migrateItemType(
+//            [1200 => "PluginAppliancesAppliance",
+//             1300 => "PluginWebapplicationsWebapplication",
+//             1700 => "PluginCertificatesCertificate",
+//             4400 => "PluginDomainsDomain",
+//             2400 => "PluginDatabasesDatabase"],
+//            ["glpi_plugin_accounts_accounts_items"]
+//        );
     }
 
     if ($update171) {
@@ -317,8 +316,8 @@ function plugin_accounts_install()
     }
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
 
-   Profile::initProfile();
-   Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
+    Profile::initProfile();
+    Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
     $migration = new Migration("2.2.0");
     $migration->dropTable('glpi_plugin_accounts_profiles');
     return true;
@@ -330,8 +329,6 @@ function plugin_accounts_install()
 function plugin_accounts_uninstall()
 {
     global $DB;
-
-    include_once(PLUGIN_ACCOUNTS_DIR . "/inc/profile.class.php");
 
     //Delete rights associated with the plugin
     $profileRight = new ProfileRight();
@@ -350,7 +347,7 @@ function plugin_accounts_uninstall()
                "glpi_plugin_accounts_notificationstates"];
 
     foreach ($tables as $table) {
-        $DB->dropTable($table);
+        $DB->dropTable($table, true);
     }
 
     //old versions
@@ -368,7 +365,7 @@ function plugin_accounts_uninstall()
                "glpi_plugin_accounts_profiles"];
 
     foreach ($tables as $table) {
-        $DB->dropTable($table);
+        $DB->dropTable($table, true);
     }
 
     $notif          = new Notification();
@@ -454,7 +451,7 @@ function plugin_accounts_uninstall()
         PluginDatainjectionModel::clean(['itemtype' => 'GlpiPlugin\Accounts\Account']);
     }
 
-   Profile::removeRightsFromSession();
+    Profile::removeRightsFromSession();
 
     Account::removeRightsFromSession();
 
