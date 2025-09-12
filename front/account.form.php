@@ -31,6 +31,7 @@
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Account_Item;
+use GlpiPlugin\Servicecatalog\Main;
 
 if (!isset($_GET["id"])) {
     $_GET["id"] = 0;
@@ -95,7 +96,7 @@ if (isset($_POST["add"])) {
         Html::header(Account::getTypeName(2), '', "admin", Account::class);
     } else {
         if (Plugin::isPluginActive('servicecatalog')) {
-            PluginServicecatalogMain::showDefaultHeaderHelpdesk(Account::getTypeName(2), true);
+            Main::showDefaultHeaderHelpdesk(Account::getTypeName(2), true);
         } else {
             Html::helpHeader(Account::getTypeName(2));
         }
@@ -137,7 +138,7 @@ if (isset($_POST["add"])) {
     if (Session::getCurrentInterface() != 'central'
         && Plugin::isPluginActive('servicecatalog')) {
 
-        PluginServicecatalogMain::showNavBarFooter('accounts');
+        Main::showNavBarFooter('accounts');
     }
 
     if (Session::getCurrentInterface() == 'central') {

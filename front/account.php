@@ -30,6 +30,7 @@
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Servicecatalog\Main;
 
 if (Session::getCurrentInterface() == 'central') {
 
@@ -42,7 +43,7 @@ if (Session::getCurrentInterface() == 'central') {
     );
 } else {
     if (Plugin::isPluginActive('servicecatalog')) {
-        PluginServicecatalogMain::showDefaultHeaderHelpdesk(Account::getTypeName(2), true);
+        Main::showDefaultHeaderHelpdesk(Account::getTypeName(2), true);
     } else {
         Html::helpHeader(Account::getTypeName(2));
     }
@@ -77,7 +78,7 @@ if ($account->canView()) {
 if (Session::getCurrentInterface() != 'central'
     && Plugin::isPluginActive('servicecatalog')) {
 
-    PluginServicecatalogMain::showNavBarFooter('accounts');
+    Main::showNavBarFooter('accounts');
 }
 
 if (Session::getCurrentInterface() == 'central') {
