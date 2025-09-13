@@ -170,7 +170,7 @@ class NotificationState extends CommonDBTM
     {
         $actions = parent::getSpecificMassiveActions($checkitem);
 
-        $actions['PluginAccountsNotificationState' . MassiveAction::CLASS_ACTION_SEPARATOR . 'Delete'] = __('Delete');
+        $actions['GlpiPlugin\Accounts\NotificationState' . MassiveAction::CLASS_ACTION_SEPARATOR . 'Delete'] = __('Delete');
         return $actions;
     }
 

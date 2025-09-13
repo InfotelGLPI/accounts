@@ -57,14 +57,14 @@ class Report extends CommonDBTM
         $ID     = $values["id"];
         $aeskey = $values["aeskey"];
 
-        $PluginAccountsHash = new Hash();
-        $PluginAccountsHash->getFromDB($ID);
+        $Hash = new Hash();
+        $Hash->getFromDB($ID);
         $dbu = new DbUtils();
 
-        if ($PluginAccountsHash->isRecursive()) {
-            $entities = $dbu->getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
+        if ($Hash->isRecursive()) {
+            $entities = $dbu->getSonsOf('glpi_entities', $Hash->getEntityID());
         } else {
-            $entities = [$PluginAccountsHash->getEntityID()];
+            $entities = [$Hash->getEntityID()];
         }
 
         $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
@@ -94,7 +94,7 @@ class Report extends CommonDBTM
             $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
                     'glpi_plugin_accounts_accounts',$field = '',
                     $entities,
-                    $PluginAccountsHash->maybeRecursive(),
+                    $Hash->maybeRecursive(),
                 );
 
             $iterator = $DB->request($criteria);
@@ -134,9 +134,9 @@ class Report extends CommonDBTM
         $ID     = $values["id"];
         $aeskey = $values["aeskey"];
 //
-        $PluginAccountsHash = new Hash();
-        $PluginAccountsHash->getFromDB($ID);
-        $hash = $PluginAccountsHash->fields["hash"];
+        $Hash = new Hash();
+        $Hash->getFromDB($ID);
+        $hash = $Hash->fields["hash"];
 
         $default_values["start"]  = $start = 0;
         $default_values["id"]     = $id = 0;
@@ -270,7 +270,7 @@ class Report extends CommonDBTM
         if (Session::getCurrentInterface() == "central") {
             echo "<td class='tab_bg_2' width='30%'>";
 
-            echo Html::hidden('item_type', ['value' => 'PluginAccountsReport']);
+            echo Html::hidden('item_type', ['value' => Report::class]);
             if ($item_type_output_param != 0) {
                 echo Html::hidden('item_type_param', ['value' => serialize($item_type_output_param)]);
             }

@@ -462,14 +462,14 @@ class Hash extends CommonDBTM
     {
         global $DB;
 
-        $PluginAccountsHash = new self();
-        $PluginAccountsHash->getFromDB($hash_id);
+        $Hash = new self();
+        $Hash->getFromDB($hash_id);
         $dbu = new DbUtils();
 
-        if ($PluginAccountsHash->isRecursive()) {
-            $entities = $dbu->getSonsOf('glpi_entities', $PluginAccountsHash->getEntityID());
+        if ($Hash->isRecursive()) {
+            $entities = $dbu->getSonsOf('glpi_entities', $Hash->getEntityID());
         } else {
-            $entities = $PluginAccountsHash->getEntityID();
+            $entities = $Hash->getEntityID();
         }
 
         $account = new Account();
@@ -487,7 +487,7 @@ class Hash extends CommonDBTM
             "glpi_plugin_accounts_accounts",
             '',
             $entities,
-            $PluginAccountsHash->maybeRecursive()
+            $Hash->maybeRecursive()
         );
 
         $result_ = $DB->doQuery($query_);
@@ -500,7 +500,7 @@ class Hash extends CommonDBTM
                     'id'                 => $data["id"],
                     'encrypted_password' => $newpassword]);
             }
-            $PluginAccountsHash->update(['id' => $hash_id, 'hash' => $newhashstore]);
+            $Hash->update(['id' => $hash_id, 'hash' => $newhashstore]);
 
             if ($aeskey->getFromDBByHash($hash_id) && isset($aeskey->fields["name"])) {
                 $values["id"]   = $aeskey->fields["id"];

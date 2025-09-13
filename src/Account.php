@@ -1142,18 +1142,17 @@ class Account extends CommonDBTM
         switch ($ma->getAction()) {
             case "add_item":
                 $input = $ma->getInput();
-                foreach ($ma->items as $itemtype => $myitem) {
-                    foreach ($myitem as $key => $value) {
+                foreach ($ids as $key) {
                         if (!$dbu->countElementsInTable(
                             'glpi_plugin_accounts_accounts_items',
                             [
-                                "itemtype" => $itemtype,
+                                "itemtype" => $item->getType(),
                                 "items_id" => $key,
                                 "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id']
                             ]
                         )) {
                             $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
-                            $myvalue['itemtype'] = $itemtype;
+                            $myvalue['itemtype'] = $item->getType();
                             $myvalue['items_id'] = $key;
                             if ($account_item->add($myvalue)) {
                                 $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
@@ -1164,7 +1163,7 @@ class Account extends CommonDBTM
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
                         }
                     }
-                }
+
                 break;
 
             case "transfer":

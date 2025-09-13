@@ -793,7 +793,7 @@ function plugin_accounts_MassiveActions($type)
 /*
 function plugin_accounts_MassiveActionsProcess($data) {
 
-   $account_item = new PluginAccountsAccount_Item();
+   $account_item = new Account_Item();
 
    $res = array('ok' => 0,
             'ko' => 0,
