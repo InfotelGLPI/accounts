@@ -35,6 +35,7 @@ use CommonGLPI;
 use DbUtils;
 use Dropdown;
 use Html;
+use KnowbaseItem;
 use Session;
 use Toolbox;
 
