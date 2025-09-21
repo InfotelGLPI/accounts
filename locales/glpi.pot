@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-17 09:27+0000\n"
+"POT-Creation-Date: 2025-09-21 14:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,170 +18,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:786
-msgid "Associate to account"
-msgstr ""
-
-#: setup.php:142 src/Account.php:87 src/Profile.php:199 src/Profile.php:230
+#: setup.php:142 src/Account.php:88 src/Profile.php:199 src/Profile.php:236
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ajax/generatepassword.php:67
-msgid "Select at least on checkbox"
-msgstr ""
-
 #: ajax/log_decrypt.php:46
 msgid "Uncrypted"
 msgstr ""
 
-#: front/account.php:58 front/account.php:59 front/account.php:65
-msgid "Type view"
+#: ajax/generatepassword.php:67
+msgid "Select at least on checkbox"
 msgstr ""
 
-#: front/hash.form.php:78 src/Account.php:597 src/Account.php:686
-#: src/Account.php:835 src/Account.php:868 src/Account_item.php:706
-#: src/Account_item.php:726 src/Report.php:226
-msgid "Wrong encryption key"
+#: src/Account_item.php:577
+msgctxt "button"
+msgid "Associate a account"
 msgstr ""
 
-#: front/hash.form.php:82 src/Aeskey.php:190
-msgid "Encryption key modified"
-msgstr ""
-
-#: front/hash.form.php:86
-msgid "The old or the new encryption key can not be empty"
-msgstr ""
-
-#: src/Account.php:179 src/Account.php:187 src/Account.php:644
-#: src/Account.php:656 src/Account_item.php:650
-#: src/Notificationtargetaccount.php:69 src/Notificationtargetaccount.php:195
-#: src/Notificationtargetaccount.php:250 src/Notificationtargetaccount.php:311
-msgid "Affected User"
-msgstr ""
-
-#: src/Account.php:487 src/Account.php:572 src/Account_item.php:617
+#: src/Account_item.php:618 src/Account.php:488 src/Account.php:573
 msgid "There is no encryption key for this entity"
 msgstr ""
 
-#: src/Account.php:549
-msgid ""
-"Warning : there are multiple encryption keys for this entity. The encryption "
-"key of this entity will be used"
-msgstr ""
-
-#: src/Account.php:569
-msgid "Your encryption key is malformed, please generate the hash"
-msgstr ""
-
-#: src/Account.php:580 src/Account.php:638 src/Account.php:1665
-#: src/Account.php:1669 src/Account_item.php:624 src/Account_item.php:634
+#: src/Account_item.php:625 src/Account_item.php:635 src/Account.php:581
+#: src/Account.php:639 src/Account.php:1672 src/Account.php:1676
 #: src/Aeskey.php:71 src/Aeskey.php:208 src/Aeskey.php:261 src/Aeskey.php:282
-#: src/Hash.php:60 src/Hash.php:290 src/Profile.php:234
+#: src/Hash.php:60 src/Hash.php:290 src/Profile.php:240
 msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:601
-msgid "Uncrypt and copy"
-msgstr ""
-
-#: src/Account.php:718 src/Account.php:729 src/Notificationtargetaccount.php:70
-#: src/Notificationtargetaccount.php:198 src/Notificationtargetaccount.php:251
+#: src/Account_item.php:651 src/Account.php:180 src/Account.php:188
+#: src/Account.php:645 src/Account.php:657 src/Notificationtargetaccount.php:70
+#: src/Notificationtargetaccount.php:196 src/Notificationtargetaccount.php:251
 #: src/Notificationtargetaccount.php:312
-msgid "Affected Group"
+msgid "Affected User"
 msgstr ""
 
-#: src/Account.php:758
-msgid "Empty for infinite"
+#: src/Account_item.php:707 src/Account_item.php:727 src/Account.php:598
+#: src/Account.php:687 src/Account.php:836 src/Account.php:869
+#: src/Report.php:226 front/hash.form.php:78
+msgid "Wrong encryption key"
 msgstr ""
 
-#: src/Account.php:831
-msgid "You have not filled the password and encryption key"
-msgstr ""
-
-#: src/Account.php:866
-msgid "Password will not be modified"
-msgstr ""
-
-#: src/Account.php:913
-msgid "Generate password"
-msgstr ""
-
-#: src/Account.php:915
-msgid "Numbers"
-msgstr ""
-
-#: src/Account.php:919
-msgid "Lowercase"
-msgstr ""
-
-#: src/Account.php:923
-msgid "Uppercase"
-msgstr ""
-
-#: src/Account.php:927
-msgid "Special characters"
-msgstr ""
-
-#: src/Account.php:931
-msgid "Length"
-msgstr ""
-
-#: src/Account.php:933
-msgid " characters"
-msgstr ""
-
-#: src/Account.php:940 src/Account.php:942
-msgid "Generate"
-msgstr ""
-
-#: src/Account.php:1262 src/Account.php:1362
-#: src/Notificationtargetaccount.php:330
-msgid "Accounts expired or accounts which expires"
-msgstr ""
-
-#: src/Account.php:1454
-msgid "Select the wanted account type"
-msgstr ""
-
-#: src/Account.php:1565 src/Account_item.php:749
-msgid "Don't expire"
-msgstr ""
-
-#: src/Account_item.php:576
-msgctxt "button"
-msgid "Associate a account"
-msgstr ""
-
-#: src/Account_item.php:715
+#: src/Account_item.php:716
 msgid "Uncrypt"
 msgstr ""
 
-#: src/Accountstate.php:54
-msgid "Status"
-msgid_plural "Statuses"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/Accounttype.php:51
-msgid "Type of account"
-msgid_plural "Types of account"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/Aeskey.php:85
-msgid "Save the encryption key"
-msgstr ""
-
-#: src/Aeskey.php:201
-msgid "Warning : saving the encryption key is a security hole"
-msgstr ""
-
-#: src/Aeskey.php:239 src/Hash.php:310
-msgid "Hash"
+#: src/Account_item.php:750 src/Account.php:1566
+msgid "Don't expire"
 msgstr ""
 
 #: src/Config.php:54
@@ -198,6 +85,121 @@ msgstr ""
 
 #: src/Config.php:106
 msgid "Accounts expiring in less than"
+msgstr ""
+
+#: src/Account.php:550
+msgid ""
+"Warning : there are multiple encryption keys for this entity. The encryption "
+"key of this entity will be used"
+msgstr ""
+
+#: src/Account.php:570
+msgid "Your encryption key is malformed, please generate the hash"
+msgstr ""
+
+#: src/Account.php:602
+msgid "Uncrypt and copy"
+msgstr ""
+
+#: src/Account.php:719 src/Account.php:730 src/Notificationtargetaccount.php:71
+#: src/Notificationtargetaccount.php:199 src/Notificationtargetaccount.php:252
+#: src/Notificationtargetaccount.php:313
+msgid "Affected Group"
+msgstr ""
+
+#: src/Account.php:759
+msgid "Empty for infinite"
+msgstr ""
+
+#: src/Account.php:832
+msgid "You have not filled the password and encryption key"
+msgstr ""
+
+#: src/Account.php:867
+msgid "Password will not be modified"
+msgstr ""
+
+#: src/Account.php:914
+msgid "Generate password"
+msgstr ""
+
+#: src/Account.php:916
+msgid "Numbers"
+msgstr ""
+
+#: src/Account.php:920
+msgid "Lowercase"
+msgstr ""
+
+#: src/Account.php:924
+msgid "Uppercase"
+msgstr ""
+
+#: src/Account.php:928
+msgid "Special characters"
+msgstr ""
+
+#: src/Account.php:932
+msgid "Length"
+msgstr ""
+
+#: src/Account.php:934
+msgid " characters"
+msgstr ""
+
+#: src/Account.php:941 src/Account.php:943
+msgid "Generate"
+msgstr ""
+
+#: src/Account.php:1263 src/Account.php:1363
+#: src/Notificationtargetaccount.php:331
+msgid "Accounts expired or accounts which expires"
+msgstr ""
+
+#: src/Account.php:1455
+msgid "Select the wanted account type"
+msgstr ""
+
+#: src/Accountstate.php:54
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Aeskey.php:85
+msgid "Save the encryption key"
+msgstr ""
+
+#: src/Aeskey.php:190 front/hash.form.php:82
+msgid "Encryption key modified"
+msgstr ""
+
+#: src/Aeskey.php:201
+msgid "Warning : saving the encryption key is a security hole"
+msgstr ""
+
+#: src/Aeskey.php:239 src/Hash.php:310
+msgid "Hash"
+msgstr ""
+
+#: src/Notificationtargetaccount.php:58
+msgid "New account"
+msgstr ""
+
+#: src/Notificationtargetaccount.php:59 src/Notificationtargetaccount.php:243
+msgid "Accounts expired"
+msgstr ""
+
+#: src/Notificationtargetaccount.php:60 src/Notificationtargetaccount.php:244
+msgid "Accounts which expires"
+msgstr ""
+
+#: src/Notificationtargetaccount.php:167 src/Notificationtargetaccount.php:328
+msgid "An account has been created"
+msgstr ""
+
+#: src/Notificationtargetaccount.php:232 src/Notificationtargetaccount.php:307
+msgid "Direct link to created account"
 msgstr ""
 
 #: src/Hash.php:97 src/Hash.php:390 src/Report.php:247
@@ -259,6 +261,10 @@ msgstr ""
 msgid " by the key : "
 msgstr ""
 
+#: src/Report.php:180
+msgid "Uncrypted password"
+msgstr ""
+
 #: src/Notificationstate.php:94
 msgid "Add a unused status for expiration mailing"
 msgstr ""
@@ -267,38 +273,32 @@ msgstr ""
 msgid "Unused status for expiration mailing"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:57
-msgid "New account"
+#: src/Servicecatalog.php:90 src/Servicecatalog.php:97
+msgid "See your accounts"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:58 src/Notificationtargetaccount.php:242
-msgid "Accounts expired"
-msgstr ""
+#: src/Accounttype.php:51
+msgid "Type of account"
+msgid_plural "Types of account"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/Notificationtargetaccount.php:59 src/Notificationtargetaccount.php:243
-msgid "Accounts which expires"
-msgstr ""
-
-#: src/Notificationtargetaccount.php:166 src/Notificationtargetaccount.php:327
-msgid "An account has been created"
-msgstr ""
-
-#: src/Notificationtargetaccount.php:231 src/Notificationtargetaccount.php:306
-msgid "Direct link to created account"
-msgstr ""
-
-#: src/Profile.php:153 src/Profile.php:206 src/Profile.php:241
+#: src/Profile.php:153 src/Profile.php:206 src/Profile.php:247
 msgid "See accounts of my groups"
 msgstr ""
 
-#: src/Profile.php:160 src/Profile.php:210 src/Profile.php:245
+#: src/Profile.php:160 src/Profile.php:210 src/Profile.php:251
 msgid "See all accounts"
 msgstr ""
 
-#: src/Report.php:180
-msgid "Uncrypted password"
+#: hook.php:841
+msgid "Associate to account"
 msgstr ""
 
-#: src/Servicecatalog.php:90 src/Servicecatalog.php:97
-msgid "See your accounts"
+#: front/hash.form.php:86
+msgid "The old or the new encryption key can not be empty"
+msgstr ""
+
+#: front/account.php:58 front/account.php:59 front/account.php:65
+msgid "Type view"
 msgstr ""
