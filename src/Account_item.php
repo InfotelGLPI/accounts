@@ -37,6 +37,7 @@ use Dropdown;
 use Html;
 use KnowbaseItem;
 use Session;
+use Software;
 use Toolbox;
 
 final class Account_Item extends CommonDBRelation {

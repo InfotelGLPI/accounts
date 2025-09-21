@@ -4,6 +4,7 @@ UPDATE `glpi_displaypreferences` SET `itemtype` = 'GlpiPlugin\\Accounts\\Account
 UPDATE `glpi_displaypreferences` SET `itemtype` = 'GlpiPlugin\\Accounts\\Account' WHERE `glpi_displaypreferences`.`itemtype` = 'PluginAccountsAccount';
 UPDATE `glpi_notificationtemplates` SET `itemtype` = 'GlpiPlugin\\Accounts\\Account' WHERE `itemtype` = 'PluginAccountsAccount';
 UPDATE `glpi_notifications` SET `itemtype` = 'GlpiPlugin\\Accounts\\Account' WHERE `itemtype` = 'PluginAccountsAccount';
+UPDATE `glpi_notificationtemplates` SET `itemtype` = 'GlpiPlugin\\Accounts\\Account' WHERE `itemtype` = 'PluginAccountsAccount';
 UPDATE `glpi_impactrelations` SET `itemtype_source` = 'GlpiPlugin\\Accounts\\Account' WHERE `itemtype_source` = 'PluginAccountsAccount';
 UPDATE `glpi_impactrelations` SET `itemtype_impacted` = 'GlpiPlugin\\Accounts\\Account' WHERE `itemtype_impacted` = 'PluginAccountsAccount';
 

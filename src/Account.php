@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Accounts;
 
+use Alert;
 use Glpi\DBAL\QueryExpression;
 use Ajax;
 use CommonDBTM;
@@ -397,9 +398,9 @@ class Account extends CommonDBTM
     /**
      * Prepare input datas for adding the item
      *
-     * @param datas $input
+     * @param  $input
      *
-     * @return \datas $input
+     * @return $input
      */
     public function prepareInputForAdd($input)
     {
@@ -1583,6 +1584,12 @@ class Account extends CommonDBTM
      */
     public function getRights($interface = 'central')
     {
+        global $DB;
+
+        if (!$DB->tableExists('glpi_plugin_accounts_accounts')) {
+            return true;
+        }
+
         $values = parent::getRights();
 
         if ($interface == 'helpdesk') {
@@ -1702,6 +1709,12 @@ class Account extends CommonDBTM
 
     public static function removeRightsFromSession()
     {
+        global $DB;
+
+        if (!$DB->tableExists('glpi_plugin_accounts_accounts')) {
+            return true;
+        }
+
         if (isset($_SESSION['glpimenu']['admin']['types']['GlpiPlugin\Accounts\Account'])) {
             unset($_SESSION['glpimenu']['admin']['types']['GlpiPlugin\Accounts\Account']);
         }

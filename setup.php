@@ -37,7 +37,7 @@ use GlpiPlugin\Accounts\Config;
 use GlpiPlugin\Accounts\Profile;
 use GlpiPlugin\Accounts\ServiceCatalog;
 
-define('PLUGIN_ACCOUNTS_VERSION', '3.0.4');
+define('PLUGIN_ACCOUNTS_VERSION', '3.1.0');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
     define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
@@ -143,7 +143,7 @@ function plugin_version_accounts()
         'version'      => PLUGIN_ACCOUNTS_VERSION,
         'oldname'      => 'compte',
         'license'      => 'GPLv2+',
-        'author'       => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Franck Waechter",
+        'author'       => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD, Franck WAECHTER",
         'homepage'     => 'https://github.com/InfotelGLPI/accounts',
         'requirements' => [
             'glpi' => [

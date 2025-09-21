@@ -119,6 +119,3 @@ INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Accoun
 INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','5','4','0', 'helpdesk');
 INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','6','5','0', 'helpdesk');
 INSERT INTO `glpi_displaypreferences` VALUES (NULL,'GlpiPlugin\\Accounts\\Account','7','6','0', 'helpdesk');
-
-INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'New Accounts', 'GlpiPlugin\\Accounts\\Account', '2010-02-17 22:36:46','',NULL, '2010-02-17 22:36:46');
-INSERT INTO `glpi_notificationtemplates` VALUES(NULL, 'Alert Accounts', 'GlpiPlugin\\Accounts\\Account', '2010-02-23 11:37:46','',NULL, '2010-02-17 22:36:46');

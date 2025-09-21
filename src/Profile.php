@@ -225,6 +225,12 @@ class Profile extends \Profile
      */
     public static function getAllRights($all = false)
     {
+        global $DB;
+
+        if (!$DB->tableExists('glpi_plugin_accounts_accounts')) {
+            return [];
+        }
+
         $rights = [
             ['rights' => \Profile::getRightsFor(Account::class, 'central'),
                 'label'  => _n('Account', 'Accounts', 2, 'accounts'),
@@ -359,6 +365,11 @@ class Profile extends \Profile
 
     public static function removeRightsFromSession()
     {
+        global $DB;
+
+        if (!$DB->tableExists('glpi_plugin_accounts_profiles')) {
+            return true;
+        }
         foreach (self::getAllRights(true) as $right) {
             if (isset($_SESSION['glpiactiveprofile'][$right['field']])) {
                 unset($_SESSION['glpiactiveprofile'][$right['field']]);

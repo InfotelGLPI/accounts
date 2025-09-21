@@ -33,6 +33,7 @@ use DbUtils;
 use Dropdown;
 use Html;
 use NotificationTarget;
+use User;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
