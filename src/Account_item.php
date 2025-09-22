@@ -337,7 +337,7 @@ final class Account_Item extends CommonDBRelation {
             if ($itemtype == 'KnowbaseItem') {
                $query .= "-1 AS entity
                FROM `glpi_plugin_accounts_accounts_items`, `$itemtable`
-               " . KnowbaseItem::addVisibilityJoins() . "
+               " . self::addVisibilityJoins() . "
                WHERE `$itemtable`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
                AND ";
             } else {
@@ -356,7 +356,7 @@ final class Account_Item extends CommonDBRelation {
 
             if ($itemtype == 'KnowbaseItem') {
                if (Session::getLoginUserID()) {
-                  $query = "AND " . KnowbaseItem::addVisibilityRestrict();
+                  $query = "AND " . self::addVisibilityRestrict();
                } else {
                   // Anonymous access
                   if (Session::isMultiEntitiesMode()) {
@@ -767,4 +767,55 @@ final class Account_Item extends CommonDBRelation {
       }
       echo "</div>";
    }
+
+    /**
+     * Return visibility SQL restriction to add
+     *
+     * @return string restrict to add
+     **/
+    public static function addVisibilityRestrict()
+    {
+        //not deprecated because used in Search
+
+        //get and clean criteria
+        $criteria = \KnowbaseItem::getVisibilityCriteria();
+        unset($criteria['LEFT JOIN']);
+        $criteria['FROM'] = self::getTable();
+
+        $it = new \DBmysqlIterator(null);
+        $it->buildQuery($criteria);
+        $sql = $it->getSql();
+        $sql = preg_replace('/.*WHERE /', '', $sql);
+
+        return $sql;
+    }
+
+    /**
+     * Return visibility joins to add to SQL
+     *
+     * @param $forceall force all joins (false by default)
+     *
+     * @return string joins to add
+     **/
+    public static function addVisibilityJoins($forceall = false)
+    {
+        //not deprecated because used in Search
+        /** @var \DBmysql $DB */
+        global $DB;
+
+        //get and clean criteria
+        $criteria = self::getVisibilityCriteria();
+        unset($criteria['WHERE']);
+        $criteria['FROM'] = self::getTable();
+
+        $it = new \DBmysqlIterator(null);
+        $it->buildQuery($criteria);
+        $sql = $it->getSql();
+        $sql = trim(str_replace(
+            'SELECT * FROM ' . $DB->quoteName(self::getTable()),
+            '',
+            $sql
+        ));
+        return $sql;
+    }
 }

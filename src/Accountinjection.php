@@ -91,22 +91,6 @@ class AccountInjection extends Account implements PluginDatainjectionInjectionIn
     }
 
     /**
-     * Standard method to delete an object into glpi
-     * WILL BE INTEGRATED INTO THE CORE IN 0.80
-     * @param array $values
-     * @param array|options $options
-     * @return an
-     * @internal param fields $fields to add into glpi
-     * @internal param options $options used during creation
-     */
-    public function deleteObject($values = [], $options = [])
-    {
-        $lib = new PluginDatainjectionCommonInjectionLib($this, $values, $options);
-        $lib->deleteObject();
-        return $lib->getInjectionResults();
-    }
-
-    /**
      * Standard method to add an object into glpi
      * WILL BE INTEGRATED INTO THE CORE IN 0.80
      * @param array|fields $values
