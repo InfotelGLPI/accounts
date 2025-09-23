@@ -8,7 +8,13 @@ if (@ARGV != 0) {
     exit();
 }
 
-my $dir = "../locales";
+use Cwd 'abs_path';
+use File::Basename;
+
+my $script_dir = dirname(abs_path($0));   # chemin absolu du script
+my $dir = "$script_dir/../locales";       # locales un niveau au-dessus du script
+
+-d $dir or die "ERROR: directory $dir does not exist\n";
 
 opendir(my $dh, $dir) || die "ERROR: cannot read directory $dir\n";
 foreach my $file (readdir($dh)) {
