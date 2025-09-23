@@ -547,7 +547,7 @@ class Account extends CommonDBTM
             if (count($hashes) > 1) {
                 echo "<div class='alert alert-important alert-warning d-flex'>";
                 echo __(
-                    'Warning : there are multiple encryption keys for this entity. The encryption key of this entity will be used',
+                    'WARNING : there are multiple encryption keys for this entity. The encryption key of this entity will be used',
                     'accounts'
                 );
                 echo "</div>";

@@ -198,7 +198,7 @@ class AesKey extends CommonDBTM
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
-        echo "<div class='alert alert-important alert-warning d-flex'>" . __('Warning : saving the encryption key is a security hole', 'accounts') . "</div></br>";
+        echo "<div class='alert alert-important alert-warning d-flex'>" . __('WARNING : saving the encryption key is a security hole', 'accounts') . "</div></br>";
 
         $options['colspan'] = 2;
         $this->h->getFromDB($plugin_accounts_hashes_id);

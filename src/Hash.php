@@ -269,7 +269,7 @@ class Hash extends CommonDBTM
 
         if ($options['update'] == 1) {
             echo "<div class='alert alert-important alert-warning d-flex'>"
-              . __('Warning : if you change used hash, the old accounts will use the old encryption key', 'accounts')
+              . __('WARNING : if you change used hash, the old accounts will use the old encryption key', 'accounts')
               . "</font><br><br>";
         }
 
@@ -420,7 +420,7 @@ class Hash extends CommonDBTM
     {
 
         echo "<div class='alert alert-important alert-warning d-flex'>";
-        echo "<b>" . __('Warning : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') . "</b></div><br>";
+        echo "<b>" . __('WARNING : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') . "</b></div><br>";
         echo "<form method='post' action='./hash.form.php'>";
         echo "<table class='tab_cadre_fixe'><tr><th colspan='2'>";
         echo __('Old encryption key', 'accounts') . "</th></tr>";
