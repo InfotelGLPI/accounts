@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-22 17:21+0000\n"
+"POT-Creation-Date: 2025-09-23 10:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgstr ""
 
 #: src/Account_item.php:707 src/Account_item.php:727 src/Account.php:598
 #: src/Account.php:687 src/Account.php:836 src/Account.php:869
-#: src/Report.php:226 front/hash.form.php:78
+#: src/Report.php:264 front/hash.form.php:79
 msgid "Wrong encryption key"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr[1] ""
 msgid "Save the encryption key"
 msgstr ""
 
-#: src/Aeskey.php:190 front/hash.form.php:82
+#: src/Aeskey.php:190 front/hash.form.php:83
 msgid "Encryption key modified"
 msgstr ""
 
@@ -202,7 +202,7 @@ msgstr ""
 msgid "Direct link to created account"
 msgstr ""
 
-#: src/Hash.php:97 src/Hash.php:390 src/Report.php:247
+#: src/Hash.php:97 src/Hash.php:390 src/Report.php:286
 msgid "Linked accounts list"
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 msgid " by the key : "
 msgstr ""
 
-#: src/Report.php:180
+#: src/Report.php:195 src/Report.php:205
 msgid "Uncrypted password"
 msgstr ""
 
@@ -295,7 +295,7 @@ msgstr ""
 msgid "Associate to account"
 msgstr ""
 
-#: front/hash.form.php:86
+#: front/hash.form.php:87
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
