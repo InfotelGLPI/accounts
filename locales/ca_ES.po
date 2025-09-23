@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 10:36+0000\n"
+"POT-Creation-Date: 2025-09-23 10:52+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
 "Language-Team: Catalan (Spain) (https://app.transifex.com/infotelGLPI/teams/12352/ca_ES/)\n"
@@ -27,11 +27,11 @@ msgid_plural "Accounts"
 msgstr[0] "Comptes"
 msgstr[1] "Comptes"
 
-#: ajax/log_decrypt.php:46
+#: ajax/log_decrypt.php:44
 msgid "Uncrypted"
 msgstr "Encriptada"
 
-#: ajax/generatepassword.php:67
+#: ajax/generatepassword.php:64
 msgid "Select at least on checkbox"
 msgstr "Cochez au moins une case"
 
