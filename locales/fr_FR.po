@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 10:52+0000\n"
+"POT-Creation-Date: 2025-09-23 11:23+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
@@ -94,10 +94,10 @@ msgstr "Comptes qui vont expirer dans moins de"
 
 #: src/Account.php:550
 msgid ""
-"Warning : there are multiple encryption keys for this entity. The encryption"
+"WARNING : there are multiple encryption keys for this entity. The encryption"
 " key of this entity will be used"
 msgstr ""
-"Attention : il existe plusieurs clés de chiffrement pour cette entité. La "
+"ATTENTION : il existe plusieurs clés de chiffrement pour cette entité. La "
 "clé de cryptage de cette entité sera utilisée"
 
 #: src/Account.php:570
@@ -183,9 +183,9 @@ msgid "Encryption key modified"
 msgstr "Clé de chiffrement modifiée"
 
 #: src/Aeskey.php:201
-msgid "Warning : saving the encryption key is a security hole"
+msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
-"Attention : enregistrer la clé de chiffrement est une faille de sécurité"
+"ATTENTION : enregistrer la clé de chiffrement est une faille de sécurité"
 
 #: src/Aeskey.php:239 src/Hash.php:310
 msgid "Hash"
@@ -225,7 +225,7 @@ msgstr "ATTENTION : Une clé de chiffrement existe déjà pour cette entité."
 
 #: src/Hash.php:272
 msgid ""
-"Warning : if you change used hash, the old accounts will use the old "
+"WARNING : if you change used hash, the old accounts will use the old "
 "encryption key"
 msgstr ""
 "ATTENTION : si vous modifiez la hash utilisé, les anciens comptes "
@@ -254,7 +254,7 @@ msgstr "Vous devez générer le hachage de votre clé de chiffrement"
 
 #: src/Hash.php:423
 msgid ""
-"Warning : if you make a mistake in entering the old or the new key, you "
+"WARNING : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr ""
