@@ -1,29 +1,35 @@
-#!/usr/bin/perl
-#!/usr/bin/perl -w 
+#!/usr/bin/perl -w
+use strict;
+use warnings;
 
-if (@ARGV!=0){
-print "USAGE update_mo.pl\n\n";
-
-exit();
+# Vérifie qu'aucun argument n'est passé
+if (@ARGV != 0) {
+    print "USAGE: update_mo.pl\n\n";
+    exit();
 }
 
+my $dir = "../locales";
 
-opendir(DIRHANDLE,'../locales')||die "ERROR: can not read current directory\n";
-foreach (readdir(DIRHANDLE)){ 
-   if ($_ ne '..' && $_ ne '.'){
+opendir(my $dh, $dir) || die "ERROR: cannot read directory $dir\n";
+foreach my $file (readdir($dh)) {
+    next if $file eq '.' or $file eq '..';
 
-            if(!(-l "$dir/$_")){
-                     if (index($_,".po",0)==length($_)-3) {
-                        $lang=$_;
-                        $lang=~s/\.po//;
-                        
-                        `msgfmt ../locales/$_ -o ../locales/$lang.mo`;
-                     }
-            }
+    # On ne traite que les fichiers *.po
+    if ($file =~ /\.po$/) {
+        my $lang = $file;
+        $lang =~ s/\.po$//;
 
-   }
+        my $po_file = "$dir/$file";
+        my $mo_file = "$dir/$lang.mo";
+
+        print "Compiling $po_file -> $mo_file...\n";
+
+        my $status = system("msgfmt", $po_file, "-o", $mo_file);
+        if ($status != 0) {
+            warn "ERROR: msgfmt failed on $po_file (exit code $status)\n";
+        }
+    }
 }
-closedir DIRHANDLE; 
+closedir $dh;
 
-#  
-#  
+print "Done.\n";
