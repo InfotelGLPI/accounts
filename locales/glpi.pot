@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 11:19+0000\n"
+"POT-Creation-Date: 2025-09-23 11:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: src/Account.php:550
 msgid ""
-"Warning : there are multiple encryption keys for this entity. The encryption "
+"WARNING : there are multiple encryption keys for this entity. The encryption "
 "key of this entity will be used"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgid "Encryption key modified"
 msgstr ""
 
 #: src/Aeskey.php:201
-msgid "Warning : saving the encryption key is a security hole"
+msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
 
 #: src/Aeskey.php:239 src/Hash.php:310
@@ -216,7 +216,7 @@ msgstr ""
 
 #: src/Hash.php:272
 msgid ""
-"Warning : if you change used hash, the old accounts will use the old "
+"WARNING : if you change used hash, the old accounts will use the old "
 "encryption key"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgstr ""
 
 #: src/Hash.php:423
 msgid ""
-"Warning : if you make a mistake in entering the old or the new key, you "
+"WARNING : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr ""
