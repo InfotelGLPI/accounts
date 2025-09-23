@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -35,15 +36,12 @@ Html::header_nocache();
 Session::checkLoginUser();
 
 if (isset($_POST["key"])) {
+    $options = ['id' => $_POST["id"],
+        'aeskey' => $_POST["key"]];
 
-   $options = ['id' => $_POST["id"],
-      'aeskey' => $_POST["key"]];
+    $accounts = Report::queryAccountsList($options);
 
-   $accounts = Report::queryAccountsList($options);
-
-   Report::showAccountsList($options, $accounts);
-
+    Report::showAccountsList($options, $accounts);
 } else {
-   echo __('Access denied');
+    echo __('Access denied');
 }
-

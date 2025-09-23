@@ -60,7 +60,8 @@ if (isset($_POST["add"])) {
     $hashClass->redirectToList();
 } elseif (isset($_POST['updatehash'])) {
     if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
-        require_once(PLUGIN_ACCOUNTS_DIR . '/inc/aes.function.php');
+
+        require_once(PLUGIN_ACCOUNTS_DIR . '/src/Aes.function.php');
 
         $hash = 0;
         $hash_id = 0;

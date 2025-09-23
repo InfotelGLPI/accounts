@@ -494,16 +494,16 @@ function plugin_accounts_uninstall()
     $DB->delete('glpi_impactrelations', [
         'OR' => [
             [
-                'itemtype_source' => ['GlpiPlugin\Accounts\Account'],
+                'itemtype_source' => [Account::class],
             ],
             [
-                'itemtype_impacted' => ['GlpiPlugin\Accounts\Account'],
+                'itemtype_impacted' => [Account::class],
             ],
         ],
     ]);
 
     if (class_exists('PluginDatainjectionModel')) {
-        PluginDatainjectionModel::clean(['itemtype' => 'GlpiPlugin\Accounts\Account']);
+        PluginDatainjectionModel::clean(['itemtype' => Account::class]);
     }
 
     Profile::removeRightsFromSession();
@@ -838,7 +838,7 @@ function plugin_accounts_MassiveActions($type)
     if (Plugin::isPluginActive('accounts')) {
         if (in_array($type, Account::getTypes(true))) {
             return [
-                'GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts'),
+                Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts'),
             ];
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -42,7 +43,7 @@ if (isset($_POST["display_type"])) {
     $parm["display_type"] = $post["display_type"];
     $parm["id"] = $post["hash_id"];
     $parm["aeskey"] = $post["aeskey"];
-    $parm["item_type"] = $post["item_type"];
+    $parm["itemtype"] = $post["itemtype"];
 
     $accounts = [];
     foreach ($post["id"] as $k => $v) {
@@ -78,6 +79,7 @@ if (isset($_POST["display_type"])) {
             $accounts[$k]["password"] = $v;
         }
     }
+    $reindexed = array_values($accounts);
 
-    Report::showAccountsList($parm, $accounts);
+    Report::showAccountsList($parm, $reindexed);
 }

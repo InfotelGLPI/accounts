@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -83,7 +84,7 @@ if (isset($_POST["add"])) {
 
     Html::back();
 
-//from items ?
+    //from items ?
 } elseif (isset($_POST["deleteaccounts"])) {
     $input = ['id' => $_POST["id"]];
     $account_item->check($_POST["id"], UPDATE);
@@ -137,7 +138,6 @@ if (isset($_POST["add"])) {
 
     if (Session::getCurrentInterface() != 'central'
         && Plugin::isPluginActive('servicecatalog')) {
-
         Main::showNavBarFooter('accounts');
     }
 

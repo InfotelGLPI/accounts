@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -30,8 +31,10 @@
 namespace GlpiPlugin\Accounts;
 
 use CommonDBTM;
-use Dropdown;
 use DbUtils;
+use Dropdown;
+use Glpi\Search\Output\HTMLSearchOutput;
+use Glpi\Search\SearchEngine;
 use Html;
 use Search;
 use Session;
@@ -70,32 +73,32 @@ class Report extends CommonDBTM
         $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
         $list     = [];
         if ($aeskey) {
-
             $criteria = [
                 'SELECT'    => [
                     'glpi_plugin_accounts_accounts.*',
-                    'glpi_plugin_accounts_accounttypes.name AS typename'
+                    'glpi_plugin_accounts_accounttypes.name AS typename',
                 ],
                 'FROM'      => 'glpi_plugin_accounts_accounts',
                 'LEFT JOIN'       => [
                     'glpi_plugin_accounts_accounttypes' => [
                         'ON' => [
                             'glpi_plugin_accounts_accounts' => 'plugin_accounts_accounttypes_id',
-                            'glpi_plugin_accounts_accounttypes'          => 'id'
-                        ]
-                    ]
+                            'glpi_plugin_accounts_accounttypes'          => 'id',
+                        ],
+                    ],
                 ],
                 'WHERE'     => [
-                    'is_deleted'  => 0
+                    'is_deleted'  => 0,
                 ],
                 'ORDERBY'   => 'typename, name',
             ];
 
             $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
-                    'glpi_plugin_accounts_accounts',$field = '',
-                    $entities,
-                    $Hash->maybeRecursive(),
-                );
+                'glpi_plugin_accounts_accounts',
+                $field = '',
+                $entities,
+                $Hash->maybeRecursive(),
+            );
 
             $iterator = $DB->request($criteria);
 
@@ -106,16 +109,17 @@ class Report extends CommonDBTM
             }
 
             if (!empty($accounts)) {
+                $i = 0;
                 foreach ($accounts as $account) {
-                    $ID                = $account["id"];
-                    $list[$ID]["id"]   = $account["id"];
-                    $list[$ID]["name"] = $account["name"];
+                    $list[$i]["id"]   = $account["id"];
+                    $list[$i]["name"] = $account["name"];
                     if (Session::isMultiEntitiesMode()) {
-                        $list[$ID]["entities_id"] = Dropdown::getDropdownName("glpi_entities", $account["entities_id"]);
+                        $list[$i]["entities_id"] = Dropdown::getDropdownName("glpi_entities", $account["entities_id"]);
                     }
-                    $list[$ID]["typename"]     = $account["typename"];
-                    $list[$ID]["login"]    = $account["login"];
-                    $list[$ID]["password"] = $account["encrypted_password"];
+                    $list[$i]["type"]     = $account["typename"];
+                    $list[$i]["login"]    = $account["login"];
+                    $list[$i]["password"] = $account["encrypted_password"];
+                    $i++;
                 }
             }
         }
@@ -129,14 +133,12 @@ class Report extends CommonDBTM
      */
     public static function showAccountsList($values, $list)
     {
-        global $CFG_GLPI;
-
         $ID     = $values["id"];
         $aeskey = $values["aeskey"];
-//
+
         $Hash = new Hash();
         $Hash->getFromDB($ID);
-        $hash = $Hash->fields["hash"];
+        $hashvalue = $Hash->fields["hash"];
 
         $default_values["start"]  = $start = 0;
         $default_values["id"]     = $id = 0;
@@ -147,104 +149,181 @@ class Report extends CommonDBTM
                 $$key = $values[$key];
             }
         }
-
+        $itemtype     = Account::class;
         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
             return false;
         }
         // Set display type for export if define
-        $output_type = Search::HTML_OUTPUT;
+        $output_type = $values["display_type"] ?? Search::HTML_OUTPUT;
+        $output = SearchEngine::getOutputForLegacyKey($output_type);
+        $is_html_output = $output instanceof HTMLSearchOutput;
+        $html_output = '';
 
         if (isset($values["display_type"])) {
             $output_type = $values["display_type"];
         }
 
-        $header_num = 1;
+        $headers = [];
+        $rows = [];
+        $numrows = count($list);
+        $end_display = $start + $_SESSION['glpilist_limit'];
+        if (isset($_GET['export_all'])) {
+            $start       = 0;
+            $end_display = $numrows;
+        }
+
         $nbcols     = 4;
-        $row_num    = 1;
-        $numrows    = 1;
+        if (!$is_html_output) {
+            $nbcols--;
+        }
 
         $parameters = "id=" . $ID . "&amp;aeskey=" . $aeskey;
-        if ($output_type == Search::HTML_OUTPUT && !empty($list)) {
+
+        if ($is_html_output && !empty($list)) {
             self::printPager($start, $numrows, $_SERVER['PHP_SELF'], $parameters, "Report");
         }
-        echo Search::showBeginHeader($output_type);
-        echo Search::showHeader($output_type, 1, $nbcols, 1);
 
-        echo Search::showNewLine($output_type);
-        echo Search::showHeaderItem($output_type, __('Name'), $header_num);
-        if (Session::isMultiEntitiesMode()) {
-            echo Search::showHeaderItem($output_type, __('Entity'), $header_num);
+        $html_output .= $output::showHeader($end_display - $start + 1, $nbcols);
+
+        if (!$is_html_output) {
+            $headers[] = __('Name');
+            if (Session::isMultiEntitiesMode()) {
+                $headers[] = __('Entity');
+            }
+            $headers[] = __('Type');
+            $headers[] = __('Login');
+            $headers[] = __('Uncrypted password', 'accounts');
+        } else {
+            $header_num    = 1;
+            $html_output .= $output::showNewLine();
+            $html_output .= $output::showHeaderItem(__('Name'), $header_num);
+            if (Session::isMultiEntitiesMode()) {
+                $html_output .= $output::showHeaderItem(__('Entity'), $header_num);
+            }
+            $html_output .= $output::showHeaderItem(__('Type'), $header_num);
+            $html_output .= $output::showHeaderItem(__('Login'), $header_num);
+            $html_output .= $output::showHeaderItem(__('Uncrypted password', 'accounts'), $header_num);
+            $html_output .= $output::showEndLine($output_type);
         }
-        echo Search::showHeaderItem($output_type, __('Type'), $header_num);
-        echo Search::showHeaderItem($output_type, __('Login'), $header_num);
-        echo Search::showHeaderItem($output_type, __('Uncrypted password', 'accounts'), $header_num);
-        echo Search::showEndLine($output_type);
-        echo Search::showEndHeader($output_type);
+        $row_num = 0;
         if (!empty($list)) {
-            foreach ($list as $user => $field) {
+            for ($i = $start; ($i < $numrows) && ($i < $end_display); $i++) {
                 $row_num++;
+                $current_row = [];
                 $item_num = 1;
-                echo Search::showNewLine($output_type);
+                $colnum = 0;
 
-                $IDc = $field["id"];
-                if ($output_type == Search::HTML_OUTPUT) {
+                $html_output .= $output::showNewLine($i % 2 === 1);
+                $IDc = $list[$i]["id"];
+                if ($is_html_output) {
                     echo Html::hidden('hash_id', ['value' => $ID]);
                     echo Html::hidden("id[$IDc]", ['value' => $IDc]);
                 }
 
-                $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . $IDc . "'>" . $field["name"];
+                $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . $IDc . "'>" . $list[$i]["name"];
                 if ($_SESSION["glpiis_ids_visible"]) {
                     $name .= " (" . $IDc . ")";
                 }
                 $name .= "</a>";
-                echo Search::showItem($output_type, $name, $item_num, $row_num);
-                if ($output_type == Search::HTML_OUTPUT) {
-                    echo Html::hidden("name[$IDc]", ['value' => $field["name"]]);
+                if ($is_html_output) {
+                    $html_output .= $output::showItem($name, $item_num, $row_num);
+                    echo Html::hidden("name[$IDc]", ['value' => $list[$i]["name"]]);
+                } else {
+                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $name];
                 }
                 if (Session::isMultiEntitiesMode()) {
-                    echo Search::showItem($output_type, $field['entities_id'], $item_num, $row_num);
-                    if ($output_type == Search::HTML_OUTPUT) {
-                        echo Html::hidden("entities_id[$IDc]", ['value' => $field["entities_id"]]);
+                    if ($is_html_output) {
+                        $html_output .= $output::showItem($list[$i]['entities_id'], $item_num, $row_num);
+                        echo Html::hidden("entities_id[$IDc]", ['value' => $list[$i]["entities_id"]]);
+                    } else {
+                        $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]['entities_id']];
                     }
                 }
-                echo Search::showItem($output_type, ($field["typename"]??""), $item_num, $row_num);
-                if ($output_type == Search::HTML_OUTPUT) {
-                    echo Html::hidden("typename[$IDc]", ['value' => $field["typename"]]);
+                if ($is_html_output) {
+                    $html_output .= $output::showItem($list[$i]["type"], $item_num, $row_num);
+                    echo Html::hidden("type[$IDc]", ['value' => $list[$i]["type"]]);
+                } else {
+                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["type"]];
                 }
-                echo Search::showItem($output_type, ($field["login"]??""), $item_num, $row_num);
-                if ($output_type == Search::HTML_OUTPUT) {
-                    echo Html::hidden("login[$IDc]", ['value' => $field["login"]]);
+
+                if ($is_html_output) {
+                    $html_output .= $output::showItem($list[$i]["login"], $item_num, $row_num);
+                    echo Html::hidden("login[$IDc]", ['value' => $list[$i]["login"]]);
+                } else {
+                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["login"]];
                 }
-                if ($output_type == Search::HTML_OUTPUT) {
-                    $encrypted = $field["password"];
+
+                if ($is_html_output) {
+                    $encrypted = $list[$i]["password"];
                     echo Html::hidden("password[$IDc]");
                     $pass = "<p name='show_password' id='show_password$$IDc'></p>";
                     $pass .= Html::scriptBlock("
-                              var good_hash=\"$hash\";
-                              var hash=SHA256(SHA256(\"$aeskey\"));
-                              if (hash != good_hash) {
-                              pass = \"" . __('Wrong encryption key', 'accounts') . "\";
-                           } else {
-                           pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
-                           }
-                           document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
+                                var good_hash=\"$hashvalue\";
+                                var hash=SHA256(SHA256(\"$aeskey\"));
+                                if (hash != good_hash) {
+                                    pass = \"" . __('Wrong encryption key', 'accounts') . "\";
+                                } else {
+                                    pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
+                                }
 
-                           document.getElementById(\"show_password$$IDc\").innerHTML = pass;
-                           ");
+                                document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
+                                document.getElementById(\"show_password$$IDc\").innerHTML = pass;
+                                ");
 
-                    echo Search::showItem($output_type, $pass, $item_num, $row_num);
+                    $html_output .= $output::showItem($pass, $item_num, $row_num);
                 } else {
-                    echo Search::showItem($output_type, ($field["password"]??""), $item_num, $row_num);
+                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["password"]];
+                    \Toolbox::logInfo($current_row);
                 }
-                echo Search::showEndLine($output_type);
+
+                $rows[$row_num] = $current_row;
+                $html_output .= $output::showEndLine(false);
             }
         }
 
-        if ($output_type == Search::HTML_OUTPUT) {
+        if ($is_html_output) {
             Html::closeForm();
+            $output::showFooter(__('Linked accounts list', 'accounts'), $numrows);
         }
-        // Display footer
-        echo Search::showFooter($output_type, __('Linked accounts list', 'accounts'));
+
+        if ($is_html_output) {
+            echo $html_output;
+        } else {
+            $params = [
+                'start' => 0,
+                'is_deleted' => 0,
+                'as_map' => 0,
+                'browse' => 0,
+                'unpublished' => 1,
+                'criteria' => [],
+                'metacriteria' => [],
+                'display_type' => 0,
+                'hide_controls' => true,
+            ];
+
+            $accounts_data = SearchEngine::prepareDataForSearch($itemtype, $params);
+            $accounts_data = array_merge($accounts_data, [
+                'itemtype' => $itemtype,
+                'data' => [
+                    'totalcount' => $numrows,
+                    'count' => $numrows,
+                    'search' => '',
+                    'cols' => [],
+                    'rows' => $rows,
+                ],
+            ]);
+
+            $colid = 0;
+            foreach ($headers as $header) {
+                $accounts_data['data']['cols'][] = [
+                    'name' => $header,
+                    'itemtype' => $itemtype,
+                    'id' => ++$colid,
+                ];
+            }
+
+            $output->displayData($accounts_data, []);
+        }
     }
 
     /**
@@ -261,8 +340,8 @@ class Report extends CommonDBTM
 
         // Print it
 
-        echo "<form method='POST' action=\"" . PLUGIN_ACCOUNTS_WEBDIR .
-             "/front/report.dynamic.php\" target='_blank'>\n";
+        echo "<form method='POST' action=\"" . PLUGIN_ACCOUNTS_WEBDIR
+             . "/front/report.dynamic.php\" target='_blank'>\n";
 
         echo "<table class='tab_cadre_pager'>\n";
         echo "<tr>\n";
@@ -270,7 +349,7 @@ class Report extends CommonDBTM
         if (Session::getCurrentInterface() == "central") {
             echo "<td class='tab_bg_2' width='30%'>";
 
-            echo Html::hidden('item_type', ['value' => Report::class]);
+            echo Html::hidden('itemtype', ['value' => Report::class]);
             if ($item_type_output_param != 0) {
                 echo Html::hidden('item_type_param', ['value' => serialize($item_type_output_param)]);
             }

@@ -494,7 +494,7 @@ class Account extends CommonDBTM
         //         $this->check($ID, UPDATE);
         //         $this->getEmpty();
         //      }
-        $options["formoptions"] = "id = 'account_form'";
+        $options["form_id"] = "account_form";
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
@@ -599,7 +599,7 @@ class Account extends CommonDBTM
                     'id' => 'wrong_key_locale'
                 ]);
                 if (!empty($ID) || $ID > 0) {
-                    echo Html::submit(__s('Uncrypt and copy', 'accounts'), [
+                    echo Html::submit(__('Uncrypt and copy', 'accounts'), [
                         'name' => 'decrypte',
                         'id' => 'decrypte_link',
                         'icon' => 'ti ti-eye',
@@ -1062,11 +1062,11 @@ class Account extends CommonDBTM
 
         if (Session::getCurrentInterface() == 'central') {
             if ($isadmin) {
-                $actions['GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . 'install'] = _x(
+                $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'install'] = _x(
                     'button',
                     'Associate'
                 );
-                $actions['GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x(
+                $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x(
                     'button',
                     'Dissociate'
                 );
@@ -1074,7 +1074,7 @@ class Account extends CommonDBTM
                 if (Session::haveRight('transfer', READ)
                     && Session::isMultiEntitiesMode()
                 ) {
-                    $actions['GlpiPlugin\Accounts\Account' . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __(
+                    $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __(
                         'Transfer'
                     );
                 }
@@ -1715,11 +1715,11 @@ class Account extends CommonDBTM
             return true;
         }
 
-        if (isset($_SESSION['glpimenu']['admin']['types']['GlpiPlugin\Accounts\Account'])) {
-            unset($_SESSION['glpimenu']['admin']['types']['GlpiPlugin\Accounts\Account']);
+        if (isset($_SESSION['glpimenu']['admin']['types'][Account::class])) {
+            unset($_SESSION['glpimenu']['admin']['types'][Account::class]);
         }
-        if (isset($_SESSION['glpimenu']['admin']['content']['GlpiPlugin\Accounts\Account'])) {
-            unset($_SESSION['glpimenu']['admin']['content']['GlpiPlugin\Accounts\Account']);
+        if (isset($_SESSION['glpimenu']['admin']['content'][Account::class])) {
+            unset($_SESSION['glpimenu']['admin']['content'][Account::class]);
         }
     }
 }

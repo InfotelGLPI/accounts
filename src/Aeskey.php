@@ -251,8 +251,8 @@ class AesKey extends CommonDBTM
         echo Html::hidden('plugin_accounts_hashes_id', ['value' => $ID]);
 
         if ($candelete && $numrows) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
+            Html::openMassiveActionsForm('massaeskey' . $rand);
+            $massiveactionparams = ['item' => __CLASS__, 'container' => 'massaeskey' . $rand];
             Html::showMassiveActions($massiveactionparams);
         }
 
@@ -261,7 +261,7 @@ class AesKey extends CommonDBTM
         echo "<tr><th colspan='" . ($candelete ? 2 : 1) . "'>" . __('Encryption key', 'accounts') . "</th></tr>";
         echo "<tr>";
         if ($candelete && $numrows) {
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('massaeskey' . $rand) . "</th>";
         }
         echo "<th class='left'>" . __('Name') . "</th>";
         echo "</tr>";
@@ -277,7 +277,7 @@ class AesKey extends CommonDBTM
                     Html::showMassiveActionCheckBox(__CLASS__, $data["id"]);
                     echo "</td>";
                 }
-                $link = Toolbox::getItemTypeFormURL("AesKey");
+                $link = Toolbox::getItemTypeFormURL(AesKey::class);
                 echo "<td class='left'><a href='" . $link . "?id=" . $data["id"] . "&plugin_accounts_hashes_id=" . $ID . "'>";
                 echo __('Encryption key', 'accounts') . "</a></td>";
                 echo "</tr>";
@@ -285,7 +285,7 @@ class AesKey extends CommonDBTM
 
             echo "<tr>";
             if ($candelete && $numrows) {
-                echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
+                echo "<th width='10'>" . Html::getCheckAllAsCheckbox('massaeskey' . $rand) . "</th>";
             }
             echo "<th class='left'>" . __('Name') . "</th>";
             echo "</tr>";

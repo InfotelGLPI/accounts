@@ -230,7 +230,7 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##account.comment##']      = $this->obj->getField("comment");
 
             $this->data['##lang.account.url##'] = __('Direct link to created account', 'accounts');
-            $this->data['##account.url##']      = urldecode($CFG_GLPI["url_base"] . "/index.php?redirect=GlpiPlugin\Accounts\Account_" .
+            $this->data['##account.url##']      = urldecode($CFG_GLPI["url_base"] . "/index.php?redirect=".Account::class."_" .
                                                           $this->obj->getField("id"));
         } else {
             $this->data['##account.entity##']      =
