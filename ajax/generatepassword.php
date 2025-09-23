@@ -27,10 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-
 $AJAX_INCLUDE = 1;
-
-include('../../../inc/includes.php');
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -40,15 +37,15 @@ Session::checkLoginUser();
 if (isset($_POST['password'])) {
 
   echo Html::scriptBlock("
-  
+
          function randomInt(n) {
             var x = Math.floor(Math.random() * n);
             if (x < 0 || x >= n)
                throw \"Arithmetic exception\";
             return x;
          }
-         
-         
+
+
          var CHARACTERS = [
          [ 'Numbers', '0123456789'],
          [ 'Lowercase', 'abcdefghijklmnopqrstuvwxyz'],
@@ -66,20 +63,20 @@ if (isset($_POST['password'])) {
       if(j==0){
          alert('".__("Select at least on checkbox","accounts")."');
       }
-      
+
       length = parseInt(document.getElementById('length').value, 10);
       var chars = [];
       for (var i = 0; i < allChars.length; i++) {
          var c = allChars.charCodeAt(i);
-         if (c < 0xD800 || c >= 0xE000) { 
+         if (c < 0xD800 || c >= 0xE000) {
             var s = allChars.charAt(i);
             if (chars.indexOf(s) == -1)
                chars.push(s);
             continue;
          }
-         if (0xD800 <= c && c < 0xDC00 && i + 1 < allChars.length) { 
+         if (0xD800 <= c && c < 0xDC00 && i + 1 < allChars.length) {
             var d = allChars.charCodeAt(i + 1);
-            if (0xDC00 <= d && d < 0xE000) {  
+            if (0xDC00 <= d && d < 0xE000) {
                var s = allChars.substring(i, i + 2);
                i++;
                if (chars.indexOf(s) == -1)
@@ -90,13 +87,13 @@ if (isset($_POST['password'])) {
 
       }
         var result = '';
-         
+
          for (var i = 0; i < length; i++)
             result += chars[randomInt(chars.length)];
-         
-         
+
+
       $('#hidden_password').val(result);
-     
+
    ");
 }
 
