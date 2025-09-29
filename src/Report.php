@@ -273,7 +273,6 @@ class Report extends CommonDBTM
                     $html_output .= $output::showItem($pass, $item_num, $row_num);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["password"]];
-                    \Toolbox::logInfo($current_row);
                 }
 
                 $rows[$row_num] = $current_row;
