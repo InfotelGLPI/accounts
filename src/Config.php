@@ -85,12 +85,12 @@ class Config extends CommonDBTM
       $this->getFromDB($ID);
       $delay_expired = $this->fields["delay_expired"];
       $delay_whichexpire = $this->fields["delay_whichexpire"];
-      echo "<div align='center'>";
+      echo "<div class='center'>";
       $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
       echo "<form method='post' action=\"$target\">";
       echo "<table class='tab_cadre_fixe' cellpadding='5'><tr><th>";
       echo __('Time of checking of of expiration of accounts', 'accounts') . "</th></tr>";
-      echo "<tr class='tab_bg_1'><td><div align='center'>";
+      echo "<tr class='tab_bg_1'><td><div class='center'>";
 
       $delay_stamp_first = mktime(0, 0, 0, date("m"), date("d") - $delay_expired, date("y"));
       $delay_stamp_next = mktime(0, 0, 0, date("m"), date("d") + $delay_whichexpire, date("y"));
@@ -114,7 +114,7 @@ class Config extends CommonDBTM
 
       echo "<tr><th>";
       echo Html::hidden('id', ['value' => $ID]);
-      echo "<div align='center'>";
+      echo "<div class='center'>";
       echo Html::submit(_sx('button', 'Save'), ['name' => 'xxx', 'update' => 'btn btn-primary']);
       echo "</div></th></tr>";
       echo "</table>";

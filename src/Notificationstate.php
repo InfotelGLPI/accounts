@@ -89,7 +89,7 @@ class NotificationState extends CommonDBTM
             $used[] = $data['plugin_accounts_accountstates_id'];
         }
 
-        echo "<div align='center'><form method='post'  action=\"$target\">";
+        echo "<div class='center'><form method='post'  action=\"$target\">";
         echo "<table class='tab_cadre_fixe' cellpadding='5'><tr ><th colspan='2'>";
         echo __('Add a unused status for expiration mailing', 'accounts') . "</th></tr>";
         echo "<tr class='tab_bg_1'><td>";
@@ -97,7 +97,7 @@ class NotificationState extends CommonDBTM
          'used' => $used]);
         echo "</td>";
         echo "<td>";
-        echo "<div align='center'>";
+        echo "<div class='center'>";
         echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
         echo "</div></td></tr>";
         echo "</table>";
@@ -125,7 +125,7 @@ class NotificationState extends CommonDBTM
             Html::showMassiveActions($massiveactionparams);
 
 
-            echo "<div align='center'>";
+            echo "<div class='center'>";
             echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand'  action=\"$target\">";
             echo "<table class='tab_cadre_fixe' cellpadding='5'>";
             echo "<tr>";
