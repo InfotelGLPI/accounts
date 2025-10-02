@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-02 07:00+0000\n"
+"POT-Creation-Date: 2025-10-02 07:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 #: front/hash.form.php:79 src/Account.php:598 src/Account.php:687
 #: src/Account.php:836 src/Account.php:869 src/Report.php:264
-#: src/Account_item.php:707 src/Account_item.php:727
+#: src/Account_Item.php:707 src/Account_Item.php:727
 msgid "Wrong encryption key"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:196
 #: src/NotificationTargetAccount.php:251 src/NotificationTargetAccount.php:312
 #: src/Account.php:180 src/Account.php:188 src/Account.php:645
-#: src/Account.php:657 src/Account_item.php:651
+#: src/Account.php:657 src/Account_Item.php:651
 msgid "Affected User"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgid_plural "Types of account"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:488 src/Account.php:573 src/Account_item.php:618
+#: src/Account.php:488 src/Account.php:573 src/Account_Item.php:618
 msgid "There is no encryption key for this entity"
 msgstr ""
 
@@ -113,9 +113,9 @@ msgid "Your encryption key is malformed, please generate the hash"
 msgstr ""
 
 #: src/Account.php:581 src/Account.php:639 src/Account.php:1672
-#: src/Account.php:1676 src/Profile.php:240 src/AesKey.php:71
-#: src/AesKey.php:208 src/AesKey.php:261 src/AesKey.php:282 src/Hash.php:60
-#: src/Hash.php:290 src/Account_item.php:625 src/Account_item.php:635
+#: src/Account.php:1676 src/Profile.php:240 src/Account_Item.php:625
+#: src/Account_Item.php:635 src/AesKey.php:71 src/AesKey.php:208
+#: src/AesKey.php:261 src/AesKey.php:282 src/Hash.php:60 src/Hash.php:290
 msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] ""
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Select the wanted account type"
 msgstr ""
 
-#: src/Account.php:1566 src/Account_item.php:750
+#: src/Account.php:1566 src/Account_Item.php:750
 msgid "Don't expire"
 msgstr ""
 
@@ -191,6 +191,15 @@ msgstr ""
 
 #: src/Report.php:285 src/Hash.php:97 src/Hash.php:390
 msgid "Linked accounts list"
+msgstr ""
+
+#: src/Account_Item.php:577
+msgctxt "button"
+msgid "Associate a account"
+msgstr ""
+
+#: src/Account_Item.php:716
+msgid "Uncrypt"
 msgstr ""
 
 #: src/Config.php:54
@@ -284,15 +293,6 @@ msgstr ""
 
 #: src/Hash.php:444
 msgid " by the key : "
-msgstr ""
-
-#: src/Account_item.php:577
-msgctxt "button"
-msgid "Associate a account"
-msgstr ""
-
-#: src/Account_item.php:716
-msgid "Uncrypt"
 msgstr ""
 
 #: src/NotificationsState.php:94
