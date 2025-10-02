@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 07:10+0000\n"
+"POT-Creation-Date: 2025-10-02 07:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Wrong encryption key"
 msgstr ""
 
-#: front/hash.form.php:83 src/Aeskey.php:190
+#: front/hash.form.php:83 src/AesKey.php:190
 msgid "Encryption key modified"
 msgstr ""
 
@@ -54,45 +54,45 @@ msgstr ""
 msgid "Uncrypted"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:58
+#: src/NotificationTargetAccount.php:58
 msgid "New account"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:59 src/Notificationtargetaccount.php:243
+#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:243
 msgid "Accounts expired"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:60 src/Notificationtargetaccount.php:244
+#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:244
 msgid "Accounts which expires"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:70 src/Notificationtargetaccount.php:196
-#: src/Notificationtargetaccount.php:251 src/Notificationtargetaccount.php:312
+#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:196
+#: src/NotificationTargetAccount.php:251 src/NotificationTargetAccount.php:312
 #: src/Account.php:180 src/Account.php:188 src/Account.php:645
 #: src/Account.php:657 src/Account_item.php:651
 msgid "Affected User"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:71 src/Notificationtargetaccount.php:199
-#: src/Notificationtargetaccount.php:252 src/Notificationtargetaccount.php:313
+#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:199
+#: src/NotificationTargetAccount.php:252 src/NotificationTargetAccount.php:313
 #: src/Account.php:719 src/Account.php:730
 msgid "Affected Group"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:167 src/Notificationtargetaccount.php:328
+#: src/NotificationTargetAccount.php:167 src/NotificationTargetAccount.php:328
 msgid "An account has been created"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:232 src/Notificationtargetaccount.php:307
+#: src/NotificationTargetAccount.php:232 src/NotificationTargetAccount.php:307
 msgid "Direct link to created account"
 msgstr ""
 
-#: src/Notificationtargetaccount.php:331 src/Account.php:1263
+#: src/NotificationTargetAccount.php:331 src/Account.php:1263
 #: src/Account.php:1363
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: src/Accounttype.php:51
+#: src/AccountType.php:51
 msgid "Type of account"
 msgid_plural "Types of account"
 msgstr[0] ""
@@ -113,9 +113,9 @@ msgid "Your encryption key is malformed, please generate the hash"
 msgstr ""
 
 #: src/Account.php:581 src/Account.php:639 src/Account.php:1672
-#: src/Account.php:1676 src/Profile.php:240 src/Hash.php:60 src/Hash.php:290
-#: src/Account_item.php:625 src/Account_item.php:635 src/Aeskey.php:71
-#: src/Aeskey.php:208 src/Aeskey.php:261 src/Aeskey.php:282
+#: src/Account.php:1676 src/Profile.php:240 src/AesKey.php:71
+#: src/AesKey.php:208 src/AesKey.php:261 src/AesKey.php:282 src/Hash.php:60
+#: src/Hash.php:290 src/Account_item.php:625 src/Account_item.php:635
 msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] ""
@@ -209,9 +209,27 @@ msgstr ""
 msgid "Accounts expiring in less than"
 msgstr ""
 
+#: src/AesKey.php:85
+msgid "Save the encryption key"
+msgstr ""
+
+#: src/AesKey.php:201
+msgid "WARNING : saving the encryption key is a security hole"
+msgstr ""
+
+#: src/AesKey.php:239 src/Hash.php:310
+msgid "Hash"
+msgstr ""
+
 #: src/Servicecatalog.php:90 src/Servicecatalog.php:97
 msgid "See your accounts"
 msgstr ""
+
+#: src/AccountState.php:54
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/Hash.php:98
 msgid "Modification of the encryption key for all password"
@@ -233,10 +251,6 @@ msgstr ""
 
 #: src/Hash.php:299 src/Hash.php:393 src/Hash.php:409
 msgid "Please fill the encryption key"
-msgstr ""
-
-#: src/Hash.php:310 src/Aeskey.php:239
-msgid "Hash"
 msgstr ""
 
 #: src/Hash.php:338
@@ -272,14 +286,6 @@ msgstr ""
 msgid " by the key : "
 msgstr ""
 
-#: src/Notificationstate.php:94
-msgid "Add a unused status for expiration mailing"
-msgstr ""
-
-#: src/Notificationstate.php:133
-msgid "Unused status for expiration mailing"
-msgstr ""
-
 #: src/Account_item.php:577
 msgctxt "button"
 msgid "Associate a account"
@@ -289,16 +295,10 @@ msgstr ""
 msgid "Uncrypt"
 msgstr ""
 
-#: src/Aeskey.php:85
-msgid "Save the encryption key"
+#: src/NotificationsState.php:94
+msgid "Add a unused status for expiration mailing"
 msgstr ""
 
-#: src/Aeskey.php:201
-msgid "WARNING : saving the encryption key is a security hole"
+#: src/NotificationsState.php:133
+msgid "Unused status for expiration mailing"
 msgstr ""
-
-#: src/Accountstate.php:54
-msgid "Status"
-msgid_plural "Statuses"
-msgstr[0] ""
-msgstr[1] ""
