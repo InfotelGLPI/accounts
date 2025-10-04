@@ -145,7 +145,7 @@ msgstr "Parola değiştirilmeyecek"
 
 #: src/Account.php:914
 msgid "Generate password"
-msgstr "Parola üret"
+msgstr "Parola oluştur"
 
 #: src/Account.php:916
 msgid "Numbers"
