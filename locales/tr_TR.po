@@ -169,7 +169,7 @@ msgstr "Uzunluk"
 
 #: src/Account.php:934
 msgid " characters"
-msgstr "karakter sayısı"
+msgstr "karakter"
 
 #: src/Account.php:941 src/Account.php:943
 msgid "Generate"
