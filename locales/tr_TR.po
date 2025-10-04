@@ -239,7 +239,7 @@ msgstr "Karma"
 
 #: src/Servicecatalog.php:90 src/Servicecatalog.php:97
 msgid "See your accounts"
-msgstr "Hesaplarınıza bakın"
+msgstr "Hesaplarımı görüntüle"
 
 #: src/AccountState.php:54
 msgid "Status"
