@@ -281,7 +281,7 @@ msgstr ""
 
 #: src/Hash.php:371
 msgid "You must generate the hash for your encryption key"
-msgstr "Şifreleme anahtarınızın karmasını üretmelisiniz"
+msgstr "Şifreleme anahtarınız için bir karma oluşturmalısınız"
 
 #: src/Hash.php:423
 msgid ""
