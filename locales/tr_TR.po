@@ -189,7 +189,7 @@ msgstr "Gruplarımın hesaplarını görüntüle"
 
 #: src/Profile.php:160 src/Profile.php:210 src/Profile.php:251
 msgid "See all accounts"
-msgstr "Tüm hesaplara bakın"
+msgstr "Tüm hesapları görüntüle"
 
 #: src/Report.php:195 src/Report.php:205
 msgid "Uncrypted password"
