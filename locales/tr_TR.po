@@ -173,7 +173,7 @@ msgstr "karakter"
 
 #: src/Account.php:941 src/Account.php:943
 msgid "Generate"
-msgstr "Üret"
+msgstr "Oluştur"
 
 #: src/Account.php:1455
 msgid "Select the wanted account type"
