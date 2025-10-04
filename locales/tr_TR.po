@@ -303,7 +303,7 @@ msgstr "Yeni şifreleme anahtarı"
 
 #: src/Hash.php:443
 msgid "You want to change the key : "
-msgstr "Şu anahtarı :"
+msgstr "Şu anahtarı değiştirmek istediniz:"
 
 #: src/Hash.php:444
 msgid " by the key : "
