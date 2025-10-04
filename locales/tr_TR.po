@@ -185,7 +185,7 @@ msgstr "Süresi dolmaz"
 
 #: src/Profile.php:153 src/Profile.php:206 src/Profile.php:247
 msgid "See accounts of my groups"
-msgstr "Gruplarınızın hesaplarına bakın"
+msgstr "Gruplarımın hesaplarını görüntüle"
 
 #: src/Profile.php:160 src/Profile.php:210 src/Profile.php:251
 msgid "See all accounts"
