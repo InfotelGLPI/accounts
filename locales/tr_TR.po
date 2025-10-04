@@ -116,7 +116,7 @@ msgstr ""
 
 #: src/Account.php:570
 msgid "Your encryption key is malformed, please generate the hash"
-msgstr "Şifreleme anahtarınız bozulmuş. Lütfen karma üretin"
+msgstr "Şifreleme anahtarınız bozulmuş. Lütfen karma oluşturun"
 
 #: src/Account.php:581 src/Account.php:639 src/Account.php:1672
 #: src/Account.php:1676 src/Profile.php:240 src/Account_Item.php:625
