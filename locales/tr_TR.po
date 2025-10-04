@@ -226,7 +226,7 @@ msgstr "Şu zaman içinde süresi dolacak hesaplar"
 
 #: src/AesKey.php:85
 msgid "Save the encryption key"
-msgstr "Şifreleme anahtarını kaydedin"
+msgstr "Şifreleme anahtarını kaydet"
 
 #: src/AesKey.php:201
 msgid "WARNING : saving the encryption key is a security hole"
