@@ -307,7 +307,7 @@ msgstr "Şu anahtarı:"
 
 #: src/Hash.php:444
 msgid " by the key : "
-msgstr "bu anahtarla değiştirmek istediniz :"
+msgstr "bu anahtarla değiştirmek istediniz:"
 
 #: src/NotificationsState.php:94
 msgid "Add a unused status for expiration mailing"
