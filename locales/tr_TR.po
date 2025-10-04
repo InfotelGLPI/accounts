@@ -202,7 +202,7 @@ msgstr "Bağlantılı hesap listesi"
 #: src/Account_Item.php:577
 msgctxt "button"
 msgid "Associate a account"
-msgstr "Hesabı ilişkilendirin"
+msgstr "Bir hesap ilişkilendirin"
 
 #: src/Account_Item.php:716
 msgid "Uncrypt"
