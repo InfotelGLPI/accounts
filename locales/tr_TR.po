@@ -111,8 +111,8 @@ msgid ""
 "WARNING : there are multiple encryption keys for this entity. The encryption"
 " key of this entity will be used"
 msgstr ""
-"DİKKAT: Bu birim için birden çok şifreleme anahtarı var. Bu birimin "
-"şifreleme anahtarı kullanılacak"
+"DİKKAT: Bu birim için birden çok şifreleme anahtarı var. Bu birim için "
+"kullanılacak şifreleme anahtarı"
 
 #: src/Account.php:570
 msgid "Your encryption key is malformed, please generate the hash"
