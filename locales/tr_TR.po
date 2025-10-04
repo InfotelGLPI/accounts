@@ -52,7 +52,7 @@ msgstr "Hesapla ilişkilendir"
 
 #: ajax/generatepassword.php:64
 msgid "Select at least on checkbox"
-msgstr "En azından işaret kutusundan seçin"
+msgstr "İşaret kutusundan en azından seçin"
 
 #: ajax/log_decrypt.php:44
 msgid "Uncrypted"
