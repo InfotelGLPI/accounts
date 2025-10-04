@@ -206,7 +206,7 @@ msgstr "Bir hesap ilişkilendirin"
 
 #: src/Account_Item.php:716
 msgid "Uncrypt"
-msgstr "Şifreyi çözün"
+msgstr "Şifreyi çöz"
 
 #: src/Config.php:54
 msgid "Plugin Setup"
