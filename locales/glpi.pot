@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-02 07:36+0000\n"
+"POT-Creation-Date: 2025-10-07 12:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:142 src/Account.php:88 src/Profile.php:199 src/Profile.php:236
+#: setup.php:142 src/Account.php:89 src/Profile.php:199 src/Profile.php:236
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] ""
@@ -28,8 +28,8 @@ msgstr[1] ""
 msgid "Type view"
 msgstr ""
 
-#: front/hash.form.php:79 src/Account.php:598 src/Account.php:687
-#: src/Account.php:836 src/Account.php:869 src/Report.php:264
+#: front/hash.form.php:79 src/Account.php:599 src/Account.php:688
+#: src/Account.php:837 src/Account.php:870 src/Report.php:264
 #: src/Account_Item.php:707 src/Account_Item.php:727
 msgid "Wrong encryption key"
 msgstr ""
@@ -68,14 +68,14 @@ msgstr ""
 
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:196
 #: src/NotificationTargetAccount.php:251 src/NotificationTargetAccount.php:312
-#: src/Account.php:180 src/Account.php:188 src/Account.php:645
-#: src/Account.php:657 src/Account_Item.php:651
+#: src/Account.php:181 src/Account.php:189 src/Account.php:646
+#: src/Account.php:658 src/Account_Item.php:651
 msgid "Affected User"
 msgstr ""
 
 #: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:199
 #: src/NotificationTargetAccount.php:252 src/NotificationTargetAccount.php:313
-#: src/Account.php:719 src/Account.php:730
+#: src/Account.php:720 src/Account.php:731
 msgid "Affected Group"
 msgstr ""
 
@@ -87,8 +87,8 @@ msgstr ""
 msgid "Direct link to created account"
 msgstr ""
 
-#: src/NotificationTargetAccount.php:331 src/Account.php:1263
-#: src/Account.php:1363
+#: src/NotificationTargetAccount.php:331 src/Account.php:1264
+#: src/Account.php:1364
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
@@ -98,22 +98,22 @@ msgid_plural "Types of account"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:488 src/Account.php:573 src/Account_Item.php:618
+#: src/Account.php:489 src/Account.php:574 src/Account_Item.php:618
 msgid "There is no encryption key for this entity"
 msgstr ""
 
-#: src/Account.php:550
+#: src/Account.php:551
 msgid ""
 "WARNING : there are multiple encryption keys for this entity. The encryption "
 "key of this entity will be used"
 msgstr ""
 
-#: src/Account.php:570
+#: src/Account.php:571
 msgid "Your encryption key is malformed, please generate the hash"
 msgstr ""
 
-#: src/Account.php:581 src/Account.php:639 src/Account.php:1672
-#: src/Account.php:1676 src/Profile.php:240 src/Account_Item.php:625
+#: src/Account.php:582 src/Account.php:640 src/Account.php:1673
+#: src/Account.php:1677 src/Profile.php:240 src/Account_Item.php:625
 #: src/Account_Item.php:635 src/AesKey.php:71 src/AesKey.php:208
 #: src/AesKey.php:261 src/AesKey.php:282 src/Hash.php:60 src/Hash.php:290
 msgid "Encryption key"
@@ -121,59 +121,59 @@ msgid_plural "Encryption keys"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:602
+#: src/Account.php:603
 msgid "Uncrypt and copy"
 msgstr ""
 
-#: src/Account.php:759
+#: src/Account.php:760
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/Account.php:832
+#: src/Account.php:833
 msgid "You have not filled the password and encryption key"
 msgstr ""
 
-#: src/Account.php:867
+#: src/Account.php:868
 msgid "Password will not be modified"
 msgstr ""
 
-#: src/Account.php:914
+#: src/Account.php:915
 msgid "Generate password"
 msgstr ""
 
-#: src/Account.php:916
+#: src/Account.php:917
 msgid "Numbers"
 msgstr ""
 
-#: src/Account.php:920
+#: src/Account.php:921
 msgid "Lowercase"
 msgstr ""
 
-#: src/Account.php:924
+#: src/Account.php:925
 msgid "Uppercase"
 msgstr ""
 
-#: src/Account.php:928
+#: src/Account.php:929
 msgid "Special characters"
 msgstr ""
 
-#: src/Account.php:932
+#: src/Account.php:933
 msgid "Length"
 msgstr ""
 
-#: src/Account.php:934
+#: src/Account.php:935
 msgid " characters"
 msgstr ""
 
-#: src/Account.php:941 src/Account.php:943
+#: src/Account.php:942 src/Account.php:944
 msgid "Generate"
 msgstr ""
 
-#: src/Account.php:1455
+#: src/Account.php:1456
 msgid "Select the wanted account type"
 msgstr ""
 
-#: src/Account.php:1566 src/Account_Item.php:750
+#: src/Account.php:1567 src/Account_Item.php:750
 msgid "Don't expire"
 msgstr ""
 
@@ -228,6 +228,14 @@ msgstr ""
 
 #: src/AesKey.php:239 src/Hash.php:310
 msgid "Hash"
+msgstr ""
+
+#: src/NotificationState.php:94
+msgid "Add a unused status for expiration mailing"
+msgstr ""
+
+#: src/NotificationState.php:133
+msgid "Unused status for expiration mailing"
 msgstr ""
 
 #: src/Servicecatalog.php:90 src/Servicecatalog.php:97
@@ -293,12 +301,4 @@ msgstr ""
 
 #: src/Hash.php:444
 msgid " by the key : "
-msgstr ""
-
-#: src/NotificationsState.php:94
-msgid "Add a unused status for expiration mailing"
-msgstr ""
-
-#: src/NotificationsState.php:133
-msgid "Unused status for expiration mailing"
 msgstr ""
