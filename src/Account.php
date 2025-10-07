@@ -47,6 +47,7 @@ use Item_Problem;
 use Item_Project;
 use User;
 
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
@@ -1270,7 +1271,7 @@ class Account extends CommonDBTM
     /**
      * Query used for check expired accounts
      *
-     * @return query
+     * @return array
      **/
     private static function queryExpiredAccounts()
     {
@@ -1299,7 +1300,7 @@ class Account extends CommonDBTM
     /**
      * Query used for check accounts which expire
      *
-     * @return query
+     * @return array
      **/
     private static function queryAccountsWhichExpire()
     {
@@ -1330,7 +1331,7 @@ class Account extends CommonDBTM
      *
      * @param $task for log, if NULL display
      *
-     * @return cron_status
+     * @return int
      **/
     public static function cronAccountsAlert($task = null)
     {
@@ -1422,9 +1423,9 @@ class Account extends CommonDBTM
     /**
      * Cron task configuration
      *
-     * @param $target url
+     * @param $target
      *
-     * @return nothing (display)
+     * @return
      **/
     public static function configCron($target)
     {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -43,14 +44,13 @@ if (!defined('GLPI_ROOT')) {
  */
 class NotificationState extends CommonDBTM
 {
-
-   /**
-    * @return string
-    */
+    /**
+     * @return array
+     */
     public function findStates()
     {
 
-        $state = new self();
+        $state = new NotificationState();
         $states = $state->find();
         $data = [];
         foreach ($states as $dataChilds) {
@@ -60,25 +60,25 @@ class NotificationState extends CommonDBTM
         return $data;
     }
 
-   /**
-    * @param $plugin_accounts_accountstates_id
-    */
+    /**
+     * @param $plugin_accounts_accountstates_id
+     */
     public function addNotificationState($plugin_accounts_accountstates_id)
     {
 
         if ($this->getFromDBbyCrit(['plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id])) {
             $this->update([
-            'id' => $this->fields['id'],
-            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
+                'id' => $this->fields['id'],
+                'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
         } else {
             $this->add([
-            'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
+                'plugin_accounts_accountstates_id' => $plugin_accounts_accountstates_id]);
         }
     }
 
-   /**
-    * @param $target
-    */
+    /**
+     * @param $target
+     */
     public function showAddForm($target)
     {
 
@@ -94,7 +94,7 @@ class NotificationState extends CommonDBTM
         echo __('Add a unused status for expiration mailing', 'accounts') . "</th></tr>";
         echo "<tr class='tab_bg_1'><td>";
         Dropdown::show(AccountState::class, ['name' => "plugin_accounts_accountstates_id",
-         'used' => $used]);
+            'used' => $used]);
         echo "</td>";
         echo "<td>";
         echo "<div class='center'>";
@@ -105,9 +105,9 @@ class NotificationState extends CommonDBTM
         echo "</div>";
     }
 
-   /**
-    * @param $target
-    */
+    /**
+     * @param $target
+     */
     public function showNotificationForm($target)
     {
         global $DB;
@@ -117,10 +117,10 @@ class NotificationState extends CommonDBTM
         $data = $this->find([], ["plugin_accounts_accountstates_id ASC"]);
 
         if (count($data) != 0) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
+            Html::openMassiveActionsForm('massAccountState'  . $rand);
             $massiveactionparams = [
-               'item' => __CLASS__,
-               'container' => 'mass' . __CLASS__ . $rand
+                'item' => __CLASS__,
+                'container' => 'massAccountState'  . $rand,
             ];
             Html::showMassiveActions($massiveactionparams);
 
@@ -157,16 +157,16 @@ class NotificationState extends CommonDBTM
         }
     }
 
-   /**
-    * Get the specific massive actions
-    *
-    * @since version 0.84
-    *
-    * @param $checkitem link item to check right   (default NULL)
-    *
-    * @return an array of massive actions
-    * */
-    function getSpecificMassiveActions($checkitem = null)
+    /**
+     * Get the specific massive actions
+     *
+     * @since version 0.84
+     *
+     * @param $checkitem link item to check right   (default NULL)
+     *
+     * @return an array of massive actions
+     * */
+    public function getSpecificMassiveActions($checkitem = null)
     {
         $actions = parent::getSpecificMassiveActions($checkitem);
 
@@ -174,18 +174,18 @@ class NotificationState extends CommonDBTM
         return $actions;
     }
 
-   /**
-    * @since version 0.85
-    *
-    * @see CommonDBTM::processMassiveActionsForOneItemtype()
-    *
-    * @param MassiveAction $ma
-    * @param CommonDBTM    $item
-    * @param array         $ids
-    *
-    * @return nothing|void
-    */
-    static function processMassiveActionsForOneItemtype(
+    /**
+     * @since version 0.85
+     *
+     * @see CommonDBTM::processMassiveActionsForOneItemtype()
+     *
+     * @param MassiveAction $ma
+     * @param CommonDBTM    $item
+     * @param array         $ids
+     *
+     * @return nothing|void
+     */
+    public static function processMassiveActionsForOneItemtype(
         MassiveAction $ma,
         CommonDBTM $item,
         array $ids
