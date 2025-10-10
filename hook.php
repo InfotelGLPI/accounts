@@ -640,17 +640,24 @@ function plugin_accounts_getAddSearchOptions($itemtype)
  *
  * @return string
  */
-//TODO V11
-//function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield) {
+
+function plugin_accounts_addLeftJoin($type, $ref_table, $new_table, $linkfield) {
 // Example of standard LEFT JOIN  clause but use it ONLY for specific LEFT JOIN
 // No need of the function if you do not have specific cases
-//    switch ($new_table) {
-//        case "glpi_users": // From items
-//            $out = " LEFT JOIN `glpi_plugin_accounts_accounts`
-//                  ON (`glpi_plugin_accounts_accounts`.`users_id` = `glpi_users`.`id` ) ";
-//    }
-//    return "";
-//}
+    switch ($new_table) {
+        case "glpi_users": // From items
+            $out['LEFT JOIN'] = [
+                'glpi_plugin_accounts_accounts' => [
+                    'ON' => [
+                        'glpi_plugin_accounts_accounts'   => 'users_id',
+                        'glpi_users'                  => 'id'
+                    ],
+                ],
+            ];
+            return $out;
+    }
+    return "";
+}
 
 /**
  * @param $type
