@@ -1286,10 +1286,9 @@ class Account extends CommonDBTM
         return [
             'FROM'   => self::getTable(),
             'WHERE'  => [
-                'NOT' => ['date_expiration' => null],
-                'NOT' => [
-                    'states_id' => $notif->findStates()
-                ],
+                'NOT' => ['date_expiration' => null,
+                        'plugin_accounts_accountstates_id' => $notif->findStates()
+                        ],
                 'is_deleted'   => 0,
                 new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
                 new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
@@ -1315,10 +1314,8 @@ class Account extends CommonDBTM
         return [
             'FROM'   => self::getTable(),
             'WHERE'  => [
-                'NOT' => ['date_expiration' => null],
-                'NOT' => [
-                    'states_id' => $notif->findStates()
-                ],
+                'NOT' => ['date_expiration' => null,
+                        'states_id' => $notif->findStates()],
                 'is_deleted'   => 0,
                 new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
                 new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0")
