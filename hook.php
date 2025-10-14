@@ -588,8 +588,8 @@ function plugin_accounts_getDropdown()
 {
     if (Plugin::isPluginActive("accounts")) {
         return [
-            "AccountType"  => AccountType::getTypeName(2),
-            "AccountState" => AccountState::getTypeName(2),
+            AccountType::class  => AccountType::getTypeName(2),
+            AccountState::class => AccountState::getTypeName(2),
         ];
     } else {
         return [];
