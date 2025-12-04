@@ -35,9 +35,9 @@ use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Account_Item;
 use GlpiPlugin\Accounts\Config;
 use GlpiPlugin\Accounts\Profile;
-use GlpiPlugin\Accounts\ServiceCatalog;
+use GlpiPlugin\Accounts\Servicecatalog;
 
-define('PLUGIN_ACCOUNTS_VERSION', '3.1.1');
+define('PLUGIN_ACCOUNTS_VERSION', '3.1.2');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
     define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
