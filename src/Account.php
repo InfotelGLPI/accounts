@@ -1720,4 +1720,9 @@ class Account extends CommonDBTM
             unset($_SESSION['glpimenu']['admin']['content'][Account::class]);
         }
     }
+
+    public static function supportHelpdeskDisplayPreferences(): bool
+    {
+        return true;
+    }
 }
