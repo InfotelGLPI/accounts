@@ -144,6 +144,8 @@ function plugin_accounts_install()
 
     $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-3.1.3.sql");
 
+    $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/sql/update-3.1.4.sql");
+
     //DisplayPreferences Migration
     $classes = ['PluginAccountsAccount' => Account::class];
 

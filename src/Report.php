@@ -182,9 +182,9 @@ class Report extends CommonDBTM
         if ($is_html_output && !empty($list)) {
             self::printPager($start, $numrows, $_SERVER['PHP_SELF'], $parameters, "Report");
         }
-
-        $html_output .= $output::showHeader($end_display - $start + 1, $nbcols);
-
+        if ($is_html_output) {
+            $html_output .= $output::showHeader($end_display - $start + 1, $nbcols);
+        }
         if (!$is_html_output) {
             $headers[] = __('Name');
             if (Session::isMultiEntitiesMode()) {
