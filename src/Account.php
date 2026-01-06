@@ -1350,19 +1350,21 @@ class Account extends CommonDBTM
 
         foreach ($querys as $type => $query) {
             $account_infos[$type] = [];
-            foreach ($DB->request($query) as $data) {
-                $entity = $data['entities_id'];
-                $message = $data["name"] . ": " .
-                    Html::convDate($data["date_expiration"]) . "<br>\n";
-                $account_infos[$type][$entity][] = $data;
+            if (!empty($query)) {
+                foreach ($DB->request($query) as $data) {
+                    $entity = $data['entities_id'];
+                    $message = $data["name"] . ": " .
+                        Html::convDate($data["date_expiration"]) . "<br>\n";
+                    $account_infos[$type][$entity][] = $data;
 
-                if (!isset($account_messages[$type][$entity])) {
-                    $account_messages[$type][$entity] = __(
-                        'Accounts expired or accounts which expires',
-                        'accounts'
-                    ) . "<br />";
+                    if (!isset($account_messages[$type][$entity])) {
+                        $account_messages[$type][$entity] = __(
+                                'Accounts expired or accounts which expires',
+                                'accounts'
+                            ) . "<br />";
+                    }
+                    $account_messages[$type][$entity] .= $message;
                 }
-                $account_messages[$type][$entity] .= $message;
             }
         }
 
