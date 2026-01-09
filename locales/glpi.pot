@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 16:08+0000\n"
+"POT-Creation-Date: 2026-01-09 16:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,7 +88,7 @@ msgid "Direct link to created account"
 msgstr ""
 
 #: src/NotificationTargetAccount.php:331 src/Account.php:1264
-#: src/Account.php:1368
+#: src/Account.php:1379
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
@@ -112,8 +112,8 @@ msgstr ""
 msgid "Your encryption key is malformed, please generate the hash"
 msgstr ""
 
-#: src/Account.php:582 src/Account.php:640 src/Account.php:1678
-#: src/Account.php:1682 src/Profile.php:240 src/Account_Item.php:625
+#: src/Account.php:582 src/Account.php:640 src/Account.php:1689
+#: src/Account.php:1693 src/Profile.php:240 src/Account_Item.php:625
 #: src/Account_Item.php:635 src/AesKey.php:71 src/AesKey.php:208
 #: src/AesKey.php:261 src/AesKey.php:282 src/Hash.php:60 src/Hash.php:290
 msgid "Encryption key"
@@ -169,11 +169,11 @@ msgstr ""
 msgid "Generate"
 msgstr ""
 
-#: src/Account.php:1461
+#: src/Account.php:1472
 msgid "Select the wanted account type"
 msgstr ""
 
-#: src/Account.php:1572 src/Account_Item.php:750
+#: src/Account.php:1583 src/Account_Item.php:750
 msgid "Don't expire"
 msgstr ""
 
