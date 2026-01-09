@@ -1284,17 +1284,22 @@ class Account extends CommonDBTM
         $delay = $config->fields["delay_expired"];
 
         if ($delay) {
-            return [
+            $criteria = [
+                'SELECT' => '*',
                 'FROM'   => self::getTable(),
                 'WHERE'  => [
                     'NOT' => ['date_expiration' => null,
-                        'plugin_accounts_accountstates_id' => $notif->findStates()
                     ],
                     'is_deleted'   => 0,
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
                 ]
             ];
+
+            if (count($notif->findStates()) > 0) {
+                $criteria['WHERE'] = $criteria['WHERE'] + ['plugin_accounts_accountstates_id' => $notif->findStates()];
+            }
+            return $criteria;
         }
         return [];
     }
@@ -1315,16 +1320,22 @@ class Account extends CommonDBTM
         $delay = $config->fields["delay_whichexpire"];
 
         if ($delay) {
-            return [
+
+            $criteria = [
+                'SELECT' => '*',
                 'FROM'   => self::getTable(),
                 'WHERE'  => [
-                    'NOT' => ['date_expiration' => null,
-                            'states_id' => $notif->findStates()],
+                    'NOT' => ['date_expiration' => null],
                     'is_deleted'   => 0,
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0")
                 ]
             ];
+
+            if (count($notif->findStates()) > 0) {
+                $criteria['WHERE'] = $criteria['WHERE'] + ['plugin_accounts_accountstates_id' => $notif->findStates()];
+            }
+            return $criteria;
         }
         return [];
     }
@@ -1353,7 +1364,7 @@ class Account extends CommonDBTM
 
         $account_infos = [];
         $account_messages = [];
-
+        
         foreach ($querys as $type => $query) {
             $account_infos[$type] = [];
             if (!empty($query)) {
