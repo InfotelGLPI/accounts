@@ -1283,17 +1283,20 @@ class Account extends CommonDBTM
         $config->getFromDB('1');
         $delay = $config->fields["delay_expired"];
 
-        return [
-            'FROM'   => self::getTable(),
-            'WHERE'  => [
-                'NOT' => ['date_expiration' => null,
+        if ($delay) {
+            return [
+                'FROM'   => self::getTable(),
+                'WHERE'  => [
+                    'NOT' => ['date_expiration' => null,
                         'plugin_accounts_accountstates_id' => $notif->findStates()
-                        ],
-                'is_deleted'   => 0,
-                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
-                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
-            ]
-        ];
+                    ],
+                    'is_deleted'   => 0,
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
+                ]
+            ];
+        }
+        return [];
     }
 
     /**
@@ -1311,16 +1314,19 @@ class Account extends CommonDBTM
         $config->getFromDB('1');
         $delay = $config->fields["delay_whichexpire"];
 
-        return [
-            'FROM'   => self::getTable(),
-            'WHERE'  => [
-                'NOT' => ['date_expiration' => null,
-                        'states_id' => $notif->findStates()],
-                'is_deleted'   => 0,
-                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
-                new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0")
-            ]
-        ];
+        if ($delay) {
+            return [
+                'FROM'   => self::getTable(),
+                'WHERE'  => [
+                    'NOT' => ['date_expiration' => null,
+                            'states_id' => $notif->findStates()],
+                    'is_deleted'   => 0,
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0")
+                ]
+            ];
+        }
+        return [];
     }
 
     /**
