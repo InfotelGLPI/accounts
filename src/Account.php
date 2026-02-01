@@ -1364,7 +1364,7 @@ class Account extends CommonDBTM
 
         $account_infos = [];
         $account_messages = [];
-        
+
         foreach ($querys as $type => $query) {
             $account_infos[$type] = [];
             if (!empty($query)) {
