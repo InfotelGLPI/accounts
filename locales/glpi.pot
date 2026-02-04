@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-01 14:24+0000\n"
+"POT-Creation-Date: 2026-02-04 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgid "Type view"
 msgstr ""
 
 #: front/hash.form.php:79 src/Account.php:599 src/Account.php:688
-#: src/Account.php:837 src/Account.php:870 src/Report.php:264
+#: src/Account.php:837 src/Account.php:870 src/Report.php:265
 #: src/Account_Item.php:707 src/Account_Item.php:727
 msgid "Wrong encryption key"
 msgstr ""
@@ -189,7 +189,7 @@ msgstr ""
 msgid "Uncrypted password"
 msgstr ""
 
-#: src/Report.php:285 src/Hash.php:97 src/Hash.php:390
+#: src/Report.php:288 src/Hash.php:97 src/Hash.php:390
 msgid "Linked accounts list"
 msgstr ""
 
