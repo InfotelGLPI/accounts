@@ -212,8 +212,9 @@ class Report extends CommonDBTM
                 $current_row = [];
                 $item_num = 1;
                 $colnum = 0;
-
-                $html_output .= $output::showNewLine($i % 2 === 1);
+                if ($is_html_output) {
+                    $html_output .= $output::showNewLine($i % 2 === 1);
+                }
                 $IDc = $list[$i]["id"];
                 if ($is_html_output) {
                     echo Html::hidden('hash_id', ['value' => $ID]);
@@ -276,7 +277,9 @@ class Report extends CommonDBTM
                 }
 
                 $rows[$row_num] = $current_row;
-                $html_output .= $output::showEndLine(false);
+                if ($is_html_output) {
+                    $html_output .= $output::showEndLine(false);
+                }
             }
         }
 
