@@ -34,6 +34,8 @@ Html::header_nocache();
 
 Session::checkLoginUser();
 
+Session::checkRight("plugin_accounts", READ);
+
 if (isset($_POST['password'])) {
 
   echo Html::scriptBlock("
@@ -61,7 +63,7 @@ if (isset($_POST['password'])) {
             }
       });
       if(j==0){
-         alert('".__("Select at least on checkbox","accounts")."');
+         alert('".__s("Select at least on checkbox","accounts")."');
       }
 
       length = parseInt(document.getElementById('length').value, 10);

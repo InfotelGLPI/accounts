@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -31,10 +32,11 @@ namespace GlpiPlugin\Accounts;
 
 use CommonDBTM;
 use CommonGLPI;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
@@ -42,83 +44,77 @@ if (!defined('GLPI_ROOT')) {
  */
 class Config extends CommonDBTM
 {
+    public static $rightname = "config";
+    /**
+     * @param CommonGLPI $item
+     * @param int $withtemplate
+     * @return string|translated
+     */
+    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+    {
 
-   /**
-    * @param CommonGLPI $item
-    * @param int $withtemplate
-    * @return string|translated
-    */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-
-      if ($item->getType() == 'CronTask' && $item->getField('name') == "AccountsAlert") {
-         return self::createTabEntry(__('Plugin Setup', 'accounts'));
-      }
-      return '';
-   }
+        if ($item->getType() == 'CronTask'
+            && $item->getField('name') == "AccountsAlert") {
+            return self::createTabEntry(__s('Plugin Setup', 'accounts'));
+        }
+        return '';
+    }
 
     public static function getIcon()
     {
         return "ti ti-lock";
     }
 
-   /**
-    * @param CommonGLPI $item
-    * @param int $tabnum
-    * @param int $withtemplate
-    * @return bool
-    */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+    /**
+     * @param CommonGLPI $item
+     * @param int $tabnum
+     * @param int $withtemplate
+     * @return bool
+     */
+    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+    {
 
-      if ($item->getType() == 'CronTask') {
-          $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
-         Account::configCron($target);
-      }
-      return true;
-   }
+        if ($item->getType() == 'CronTask') {
+            $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
+            Account::configCron($target);
+        }
+        return true;
+    }
 
-   /**
-    * @param $target
-    * @param $ID
-    */
-   public function showConfigForm($target, $ID) {
+    /**
+     * @param $target
+     * @param $ID
+     */
+    public function showConfigForm($target)
+    {
 
-      $this->getFromDB($ID);
-      $delay_expired = $this->fields["delay_expired"];
-      $delay_whichexpire = $this->fields["delay_whichexpire"];
-      echo "<div class='center'>";
-      $target = PLUGIN_ACCOUNTS_WEBDIR . "/front/notification.state.php";
-      echo "<form method='post' action=\"$target\">";
-      echo "<table class='tab_cadre_fixe' cellpadding='5'><tr><th>";
-      echo __('Time of checking of of expiration of accounts', 'accounts') . "</th></tr>";
-      echo "<tr class='tab_bg_1'><td><div class='center'>";
+        if (!$this->canCreate()) {
+            return false;
+        }
 
-      $delay_stamp_first = mktime(0, 0, 0, date("m"), date("d") - $delay_expired, date("y"));
-      $delay_stamp_next = mktime(0, 0, 0, date("m"), date("d") + $delay_whichexpire, date("y"));
-      $date_first = date("Y-m-d", $delay_stamp_first);
-      $date_next = date("Y-m-d", $delay_stamp_next);
+        $canedit = true;
 
-      echo "<tr class='tab_bg_1'><td><div align='left'>";
-      echo __('Accounts expired for more than', 'accounts');
-      echo "&nbsp;";
-      echo Html::input('delay_expired', ['value' => $delay_expired, 'size' => 5]);
-      echo "&nbsp;";
-      echo _n('Day', 'Days', 2) . " ( >" . Html::convDate($date_first) . ")<br>";
-      echo __('Accounts expiring in less than', 'accounts');
-      echo "&nbsp;";
-      echo Html::input('delay_whichexpire', ['value' => $delay_whichexpire, 'size' => 5]);
-      echo "&nbsp;";
-      echo _n('Day', 'Days', 2) . " ( <" . Html::convDate($date_next) . ")";
+        if ($canedit) {
+            $ID = 1;
+            $this->getFromDB($ID);
+            $delay_expired = $this->fields["delay_expired"];
+            $delay_whichexpire = $this->fields["delay_whichexpire"];
+            $delay_stamp_first = mktime(0, 0, 0, date("m"), date("d") - $delay_expired, date("y"));
+            $delay_stamp_next = mktime(0, 0, 0, date("m"), date("d") + $delay_whichexpire, date("y"));
+            $date_first = date("Y-m-d", $delay_stamp_first);
+            $date_next = date("Y-m-d", $delay_stamp_next);
 
-      echo "</td>";
-      echo "</tr>";
-
-      echo "<tr><th>";
-      echo Html::hidden('id', ['value' => $ID]);
-      echo "<div class='center'>";
-      echo Html::submit(_sx('button', 'Save'), ['name' => 'xxx', 'update' => 'btn btn-primary']);
-      echo "</div></th></tr>";
-      echo "</table>";
-      Html::closeForm();
-      echo "</div>";
-   }
+            TemplateRenderer::getInstance()->display(
+                '@accounts/config.html.twig',
+                [
+                    'id'                => 1,
+                    'item'              => $this,
+                    'config'            => $this->fields,
+                    'action'            => $target,
+                    'date_first'            => Html::convDate($date_first),
+                    'date_next'            => Html::convDate($date_next),
+                ],
+            );
+        }
+    }
 }

@@ -43,11 +43,10 @@ class AccountType extends CommonDropdown
 
    /**
     * @param int $nb
-    * @return translated
+    * @return string
     */
     public static function getTypeName($nb = 0)
     {
-
         return _n('Type of account', 'Types of account', $nb, 'accounts');
     }
 

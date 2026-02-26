@@ -35,6 +35,8 @@ Html::header_nocache();
 
 Session::checkLoginUser();
 
+Session::checkRight("plugin_accounts", READ);
+
 if (isset($_POST["key"])) {
     $options = ['id' => $_POST["id"],
         'aeskey' => $_POST["key"]];
@@ -43,5 +45,5 @@ if (isset($_POST["key"])) {
 
     Report::showAccountsList($options, $accounts);
 } else {
-    echo __('Access denied');
+    echo __s('Access denied');
 }

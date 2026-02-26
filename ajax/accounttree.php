@@ -36,6 +36,8 @@ Html::header_nocache();
 
 Session::checkLoginUser();
 
+Session::checkRight("plugin_accounts", READ);
+
 if (!isset($_GET['target'])) {
     $_GET['target'] = Toolbox::getItemTypeSearchURL(Account::class);
 }

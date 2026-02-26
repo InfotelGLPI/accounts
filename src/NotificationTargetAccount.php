@@ -55,9 +55,9 @@ class NotificationTargetAccount extends NotificationTarget
     */
     public function getEvents()
     {
-        return ['new'                 => __('New account', 'accounts'),
-                   'ExpiredAccounts'     => __('Accounts expired', 'accounts'),
-                   'AccountsWhichExpire' => __('Accounts which expires', 'accounts')];
+        return ['new'                 => __s('New account', 'accounts'),
+                   'ExpiredAccounts'     => __s('Accounts expired', 'accounts'),
+                   'AccountsWhichExpire' => __s('Accounts which expires', 'accounts')];
     }
 
    /**
@@ -67,10 +67,10 @@ class NotificationTargetAccount extends NotificationTarget
     */
     public function addAdditionalTargets($event = '')
     {
-        $this->addTarget(self::ACCOUNT_USER, __('Affected User', 'accounts'));
-        $this->addTarget(self::ACCOUNT_GROUP, __('Affected Group', 'accounts'));
-        $this->addTarget(self::ACCOUNT_TECHUSER, __('Technician in charge'));
-        $this->addTarget(self::ACCOUNT_TECHGROUP, __('Group in charge'));
+        $this->addTarget(self::ACCOUNT_USER, __s('Affected User', 'accounts'));
+        $this->addTarget(self::ACCOUNT_GROUP, __s('Affected Group', 'accounts'));
+        $this->addTarget(self::ACCOUNT_TECHUSER, __s('Technician in charge'));
+        $this->addTarget(self::ACCOUNT_TECHGROUP, __s('Group in charge'));
     }
 
    /**
@@ -83,13 +83,13 @@ class NotificationTargetAccount extends NotificationTarget
        //Look for all targets whose type is Notification::ITEM_USER
         switch ($data['items_id']) {
             case self::ACCOUNT_USER:
-                $this->getUserAddress();
+                $this->addUserByField("users_id");
                 break;
             case self::ACCOUNT_GROUP:
                 $this->getGroupAddress();
                 break;
             case self::ACCOUNT_TECHUSER:
-                $this->getUserTechAddress();
+                $this->addUserByField("users_id_tech");
                 break;
             case self::ACCOUNT_TECHGROUP:
                 $this->getGroupTechAddress();
@@ -97,11 +97,6 @@ class NotificationTargetAccount extends NotificationTarget
         }
     }
 
-   //Get receipient
-    public function getUserAddress()
-    {
-        return $this->addUserByField("users_id");
-    }
 
     public function getGroupAddress()
     {
@@ -125,11 +120,6 @@ class NotificationTargetAccount extends NotificationTarget
         }
     }
 
-   //Get recipient
-    function getUserTechAddress()
-    {
-        return $this->addUserByField("users_id_tech");
-    }
 
     public function getGroupTechAddress()
     {
@@ -164,72 +154,72 @@ class NotificationTargetAccount extends NotificationTarget
         $dbu = new DbUtils();
 
         if ($event == 'new') {
-            $this->data['##lang.account.title##'] = __('An account has been created', 'accounts');
+            $this->data['##lang.account.title##'] = __s('An account has been created', 'accounts');
 
-            $this->data['##lang.account.entity##'] = __('Entity');
+            $this->data['##lang.account.entity##'] = __s('Entity');
             $this->data['##account.entity##']      =
             Dropdown::getDropdownName(
                 'glpi_entities',
                 $this->obj->getField('entities_id')
             );
-            $this->data['##lang.account.id##']     = __('ID');
+            $this->data['##lang.account.id##']     = __s('ID');
             $this->data['##account.id##']          = sprintf("%07d", $this->obj->getField("id"));
 
-            $this->data['##lang.account.name##'] = __('Name');
+            $this->data['##lang.account.name##'] = __s('Name');
             $this->data['##account.name##']      = $this->obj->getField("name");
 
-            $this->data['##lang.account.type##'] = __('Type');
+            $this->data['##lang.account.type##'] = __s('Type');
             $this->data['##account.type##']      = Dropdown::getDropdownName(
                 'glpi_plugin_accounts_accounttypes',
                 $this->obj->getField('plugin_accounts_accounttypes_id')
             );
 
-            $this->data['##lang.account.state##'] = __('Status');
+            $this->data['##lang.account.state##'] = __s('Status');
             $this->data['##account.state##']      = Dropdown::getDropdownName(
                 'glpi_plugin_accounts_accountstates',
                 $this->obj->getField('plugin_accounts_accountstates_id')
             );
 
-            $this->data['##lang.account.login##'] = __('Login');
+            $this->data['##lang.account.login##'] = __s('Login');
             $this->data['##account.login##']      = $this->obj->getField("login");
 
-            $this->data['##lang.account.users##'] = __('Affected User', 'accounts');
+            $this->data['##lang.account.users##'] = __s('Affected User', 'accounts');
             $this->data['##account.users##']      = getUserName($this->obj->getField("users_id"));
 
-            $this->data['##lang.account.groups##'] = __('Affected Group', 'accounts');
+            $this->data['##lang.account.groups##'] = __s('Affected Group', 'accounts');
             $this->data['##account.groups##']      = Dropdown::getDropdownName(
                 'glpi_groups',
                 $this->obj->getField('groups_id')
             );
 
-            $this->data['##lang.account.userstech##'] = __('Technician in charge');
+            $this->data['##lang.account.userstech##'] = __s('Technician in charge');
             $this->data['##account.userstech##']      = $dbu->getUserName($this->obj->getField("users_id_tech"));
 
-            $this->data['##lang.account.groupstech##'] = __('Group in charge');
+            $this->data['##lang.account.groupstech##'] = __s('Group in charge');
             $this->data['##account.groupstech##']      = Dropdown::getDropdownName(
                 'glpi_groups',
                 $this->obj->getField('groups_id_tech')
             );
 
-            $this->data['##lang.account.location##'] = __('Location');
+            $this->data['##lang.account.location##'] = __s('Location');
             $this->data['##account.location##']      = Dropdown::getDropdownName(
                 'glpi_locations',
                 $this->obj->getField('locations_id')
             );
 
-            $this->data['##lang.account.others##'] = __('Others');
+            $this->data['##lang.account.others##'] = __s('Others');
             $this->data['##account.others##']      = $this->obj->getField("others");
 
-            $this->data['##lang.account.datecreation##'] = __('Creation date');
+            $this->data['##lang.account.datecreation##'] = __s('Creation date');
             $this->data['##account.datecreation##']      = Html::convDate($this->obj->getField('date_creation'));
 
-            $this->data['##lang.account.dateexpiration##'] = __('Expiration date');
+            $this->data['##lang.account.dateexpiration##'] = __s('Expiration date');
             $this->data['##account.dateexpiration##']      = Html::convDate($this->obj->getField('date_expiration'));
 
-            $this->data['##lang.account.comment##'] = __('Comments');
+            $this->data['##lang.account.comment##'] = __s('Comments');
             $this->data['##account.comment##']      = $this->obj->getField("comment");
 
-            $this->data['##lang.account.url##'] = __('Direct link to created account', 'accounts');
+            $this->data['##lang.account.url##'] = __s('Direct link to created account', 'accounts');
             $this->data['##account.url##']      = urldecode($CFG_GLPI["url_base"] . "/index.php?redirect=".Account::class."_" .
                                                           $this->obj->getField("id"));
         } else {
@@ -238,25 +228,25 @@ class NotificationTargetAccount extends NotificationTarget
                 'glpi_entities',
                 $options['entities_id']
             );
-            $this->data['##lang.account.entity##'] = __('Entity');
-            $this->data['##lang.account.action##'] = __('Action');
-            $this->data['##account.action##']      = ($event == "ExpiredAccounts" ? __('Accounts expired', 'accounts') :
-            __('Accounts which expires', 'accounts'));
+            $this->data['##lang.account.entity##'] = __s('Entity');
+            $this->data['##lang.account.action##'] = __s('Action');
+            $this->data['##account.action##']      = ($event == "ExpiredAccounts" ? __s('Accounts expired', 'accounts') :
+            __s('Accounts which expires', 'accounts'));
 
-            $this->data['##lang.account.name##']           = __('Name');
-            $this->data['##lang.account.dateexpiration##'] = __('Expiration date');
-            $this->data['##lang.account.type##']           = __('Type');
-            $this->data['##lang.account.state##']          = __('Status');
-            $this->data['##lang.account.login##']          = __('Login');
-            $this->data['##lang.account.users##']          = __('Affected User', 'accounts');
-            $this->data['##lang.account.groups##']         = __('Affected Group', 'accounts');
-            $this->data['##lang.account.userstech##']      = __('Technician in charge');
-            $this->data['##lang.account.groupstech##']     = __('Group in charge');
-            $this->data['##lang.account.location##']       = __('Location');
-            $this->data['##lang.account.others##']         = __('Others');
-            $this->data['##lang.account.datecreation##']   = __('Creation date');
-            $this->data['##lang.account.dateexpiration##'] = __('Expiration date');
-            $this->data['##lang.account.comment##']        = __('Comments');
+            $this->data['##lang.account.name##']           = __s('Name');
+            $this->data['##lang.account.dateexpiration##'] = __s('Expiration date');
+            $this->data['##lang.account.type##']           = __s('Type');
+            $this->data['##lang.account.state##']          = __s('Status');
+            $this->data['##lang.account.login##']          = __s('Login');
+            $this->data['##lang.account.users##']          = __s('Affected User', 'accounts');
+            $this->data['##lang.account.groups##']         = __s('Affected Group', 'accounts');
+            $this->data['##lang.account.userstech##']      = __s('Technician in charge');
+            $this->data['##lang.account.groupstech##']     = __s('Group in charge');
+            $this->data['##lang.account.location##']       = __s('Location');
+            $this->data['##lang.account.others##']         = __s('Others');
+            $this->data['##lang.account.datecreation##']   = __s('Creation date');
+            $this->data['##lang.account.dateexpiration##'] = __s('Expiration date');
+            $this->data['##lang.account.comment##']        = __s('Comments');
 
             foreach ($options['accounts'] as $id => $account) {
                 $tmp = [];
@@ -301,23 +291,23 @@ class NotificationTargetAccount extends NotificationTarget
     function getTags()
     {
 
-        $tags = ['account.action'         => __('Action'),
-                    'account.entity'         => __('Entity'),
-                    'account.id'             => __('ID'),
-                    'account.url'            => __('Direct link to created account', 'accounts'),
-                    'account.name'           => __('Name'),
-                    'account.type'           => __('Type'),
-                    'account.state'          => __('Status'),
-                    'account.login'          => __('Login'),
-                    'account.users'          => __('Affected User', 'accounts'),
-                    'account.groups'         => __('Affected Group', 'accounts'),
-                    'account.userstech'      => __('Technician in charge'),
-                    'account.groupstech'     => __('Group in charge'),
-                    'account.location'       => __('Location'),
-                    'account.others'         => __('Others'),
-                    'account.datecreation'   => __('Creation date'),
-                    'account.dateexpiration' => __('Expiration date'),
-                    'account.comment'        => __('Comments')];
+        $tags = ['account.action'         => __s('Action'),
+                    'account.entity'         => __s('Entity'),
+                    'account.id'             => __s('ID'),
+                    'account.url'            => __s('Direct link to created account', 'accounts'),
+                    'account.name'           => __s('Name'),
+                    'account.type'           => __s('Type'),
+                    'account.state'          => __s('Status'),
+                    'account.login'          => __s('Login'),
+                    'account.users'          => __s('Affected User', 'accounts'),
+                    'account.groups'         => __s('Affected Group', 'accounts'),
+                    'account.userstech'      => __s('Technician in charge'),
+                    'account.groupstech'     => __s('Group in charge'),
+                    'account.location'       => __s('Location'),
+                    'account.others'         => __s('Others'),
+                    'account.datecreation'   => __s('Creation date'),
+                    'account.dateexpiration' => __s('Expiration date'),
+                    'account.comment'        => __s('Comments')];
         foreach ($tags as $tag => $label) {
             $this->addTagToList(['tag'   => $tag, 'label' => $label,
                                    'value' => true]);
@@ -325,10 +315,10 @@ class NotificationTargetAccount extends NotificationTarget
 
         $this->addTagToList(['tag'   => '##lang.account.title##',
                                 'value' => false,
-                                'label' => __('An account has been created', 'accounts')]);
+                                'label' => __s('An account has been created', 'accounts')]);
 
         $this->addTagToList(['tag'     => 'accounts',
-                                'label'   => __('Accounts expired or accounts which expires', 'accounts'),
+                                'label'   => __s('Accounts expired or accounts which expires', 'accounts'),
                                 'value'   => false,
                                 'foreach' => true,
                                 'events'  => ['AccountsWhichExpire', 'ExpiredAccounts']]);

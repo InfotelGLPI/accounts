@@ -82,7 +82,7 @@ class AesKey extends CommonDBTM
         if (!$withtemplate) {
             switch ($item->getType()) {
                 case Hash::class:
-                    return self::createTabEntry(__('Save the encryption key', 'accounts'));
+                    return self::createTabEntry(__s('Save the encryption key', 'accounts'));
                 case __CLASS__:
                     return self::createTabEntry(self::getTypeName());
             }
@@ -117,29 +117,6 @@ class AesKey extends CommonDBTM
         return true;
     }
 
-    /**
-     * @param $plugin_accounts_hashes_id
-     * @return bool
-     */
-    public function getFromDBByHash($plugin_accounts_hashes_id)
-    {
-        global $DB;
-
-        $query = "SELECT * FROM `" . $this->getTable() . "`
-               WHERE `plugin_accounts_hashes_id` = '" . $plugin_accounts_hashes_id . "' ";
-        if ($result = $DB->doQuery($query)) {
-            if ($DB->numrows($result) != 1) {
-                return false;
-            }
-            $this->fields = $DB->fetchAssoc($result);
-            if (is_array($this->fields) && count($this->fields)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
 
     /**
      * @param $plugin_accounts_hashes_id
@@ -187,7 +164,7 @@ class AesKey extends CommonDBTM
         $dbu = new DbUtils();
         $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
         if ($dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
-            echo "<div class='center red'>" . __('Encryption key modified', 'accounts') . "</div></br>";
+            echo "<div class='center red'>" . __s('Encryption key modified', 'accounts') . "</div></br>";
         }
 
         $plugin_accounts_hashes_id = -1;
@@ -198,14 +175,14 @@ class AesKey extends CommonDBTM
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
-        echo "<div class='alert alert-important alert-warning d-flex'>" . __('WARNING : saving the encryption key is a security hole', 'accounts') . "</div></br>";
+        echo "<div class='alert alert-important alert-warning d-flex'>" . __s('WARNING : saving the encryption key is a security hole', 'accounts') . "</div></br>";
 
         $options['colspan'] = 2;
         $this->h->getFromDB($plugin_accounts_hashes_id);
         echo Html::hidden('plugin_accounts_hashes_id', ['value' => $plugin_accounts_hashes_id]);
 
         echo "<tr class='tab_bg_2'><td colspan='2'>";
-        echo __('Encryption key', 'accounts');
+        echo __s('Encryption key', 'accounts');
         echo "</td><td colspan='2'>";
         echo Html::input('name', ['value' => $this->fields["name"], 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
         echo "</td>";
@@ -236,21 +213,23 @@ class AesKey extends CommonDBTM
 
         $this->h->getFromDB($ID);
 
-        Session::initNavigateListItems("AesKey", __('Hash', 'accounts') . " = " . $this->h->fields["name"]);
+        Session::initNavigateListItems("AesKey", __s('Hash', 'accounts') . " = " . $this->h->fields["name"]);
 
         $candelete = Session::haveRight(self::$rightname, DELETE);
-        $query     = "SELECT *
-                     FROM `glpi_plugin_accounts_aeskeys`
-                     WHERE `plugin_accounts_hashes_id` = '$ID' ";
-        $result    = $DB->doQuery($query);
-        $numrows   = $DB->numrows($result);
+
+        $iterator = $DB->request([
+            'FROM'      => 'glpi_plugin_accounts_aeskeys',
+            'WHERE'     => [
+                'plugin_accounts_hashes_id'  => $ID
+            ],
+        ]);
 
         $rand = mt_rand();
         echo "<div class='left'>";
 
         echo Html::hidden('plugin_accounts_hashes_id', ['value' => $ID]);
 
-        if ($candelete && $numrows) {
+        if ($candelete && count($iterator) > 0) {
             Html::openMassiveActionsForm('massaeskey' . $rand);
             $massiveactionparams = ['item' => __CLASS__, 'container' => 'massaeskey' . $rand];
             Html::showMassiveActions($massiveactionparams);
@@ -258,16 +237,16 @@ class AesKey extends CommonDBTM
 
         echo "<table class='tab_cadre_fixe'>";
 
-        echo "<tr><th colspan='" . ($candelete ? 2 : 1) . "'>" . __('Encryption key', 'accounts') . "</th></tr>";
+        echo "<tr><th colspan='" . ($candelete ? 2 : 1) . "'>" . __s('Encryption key', 'accounts') . "</th></tr>";
         echo "<tr>";
-        if ($candelete && $numrows) {
+        if ($candelete && count($iterator) > 0) {
             echo "<th width='10'>" . Html::getCheckAllAsCheckbox('massaeskey' . $rand) . "</th>";
         }
-        echo "<th class='left'>" . __('Name') . "</th>";
+        echo "<th class='left'>" . __s('Name') . "</th>";
         echo "</tr>";
 
-        if ($DB->numrows($result) > 0) {
-            while ($data = $DB->fetchArray($result)) {
+        if (count($iterator) > 0) {
+            foreach ($iterator as $data) {
                 Session::addToNavigateListItems("AesKey", $data['id']);
                 $name = "item[" . $data["id"] . "]";
                 echo Html::hidden($name, ['value' => $ID]);
@@ -279,15 +258,15 @@ class AesKey extends CommonDBTM
                 }
                 $link = Toolbox::getItemTypeFormURL(AesKey::class);
                 echo "<td class='left'><a href='" . $link . "?id=" . $data["id"] . "&plugin_accounts_hashes_id=" . $ID . "'>";
-                echo __('Encryption key', 'accounts') . "</a></td>";
+                echo __s('Encryption key', 'accounts') . "</a></td>";
                 echo "</tr>";
             }
 
             echo "<tr>";
-            if ($candelete && $numrows) {
+            if ($candelete && count($iterator) > 0) {
                 echo "<th width='10'>" . Html::getCheckAllAsCheckbox('massaeskey' . $rand) . "</th>";
             }
-            echo "<th class='left'>" . __('Name') . "</th>";
+            echo "<th class='left'>" . __s('Name') . "</th>";
             echo "</tr>";
             echo "</table>";
 

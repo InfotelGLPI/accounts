@@ -55,14 +55,14 @@ $account->checkGlobal(READ);
 if ($account->canView()) {
     if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
         echo "<div class='center'>";
-        echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='submit btn btn-primary' title='" . __('Type view', 'accounts') . "' >";
-        echo __('Type view', 'accounts');
+        echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='submit btn btn-primary' title='" . __s('Type view', 'accounts') . "' >";
+        echo __s('Type view', 'accounts');
         echo "</a>";
         echo "</div><br>";
         echo Ajax::createIframeModalWindow(
             'seetypemodal',
             PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttree.php",
-            ['title'   => __('Type view', 'accounts'),
+            ['title'   => __s('Type view', 'accounts'),
                 'display'       => false,
                 'width'         => 600,
                 'height'        => 500]

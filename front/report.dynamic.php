@@ -32,6 +32,8 @@ use GlpiPlugin\Accounts\Report;
 
 Session::checkCentralAccess();
 
+Session::checkRight("plugin_accounts", READ);
+
 if (isset($_POST["display_type"])) {
     if ($_POST["display_type"] < 0) {
         $_POST["display_type"] = -$_POST["display_type"];

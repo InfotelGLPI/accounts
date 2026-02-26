@@ -32,8 +32,7 @@ namespace GlpiPlugin\Accounts;
 
 use CommonDBTM;
 use Dropdown;
-use Html;
-use MassiveAction;
+use Glpi\Application\View\TemplateRenderer;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
@@ -44,6 +43,7 @@ if (!defined('GLPI_ROOT')) {
  */
 class NotificationState extends CommonDBTM
 {
+    public static $rightname = "config";
     /**
      * @return array
      */
@@ -79,131 +79,75 @@ class NotificationState extends CommonDBTM
     /**
      * @param $target
      */
-    public function showAddForm($target)
-    {
-
-        $state = new self();
-        $states = $state->find();
-        $used = [];
-        foreach ($states as $data) {
-            $used[] = $data['plugin_accounts_accountstates_id'];
-        }
-
-        echo "<div class='center'><form method='post'  action=\"$target\">";
-        echo "<table class='tab_cadre_fixe' cellpadding='5'><tr ><th colspan='2'>";
-        echo __('Add a unused status for expiration mailing', 'accounts') . "</th></tr>";
-        echo "<tr class='tab_bg_1'><td>";
-        Dropdown::show(AccountState::class, ['name' => "plugin_accounts_accountstates_id",
-            'used' => $used]);
-        echo "</td>";
-        echo "<td>";
-        echo "<div class='center'>";
-        echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
-        echo "</div></td></tr>";
-        echo "</table>";
-        Html::closeForm();
-        echo "</div>";
-    }
-
-    /**
-     * @param $target
-     */
     public function showNotificationForm($target)
     {
-        global $DB;
+
+        $states = $this->find([], ["plugin_accounts_accountstates_id ASC"]);
+
+        $used = $entries = [];
+
+        $canedit = $this->canEdit($this->getID());
+
+        foreach ($states as $value) {
+            $used[] = $value['plugin_accounts_accountstates_id'];
+
+
+            $entries[] = [
+                'itemtype' => self::class,
+                'id' => $value['id'],
+                'name' => Dropdown::getDropdownName(
+                    "glpi_plugin_accounts_accountstates",
+                    $value["plugin_accounts_accountstates_id"]
+                ),
+            ];
+        }
+
+
+        $columns = [
+            'name' => __('Name'),
+        ];
+        $formatters = [
+            'name' => 'raw_html',
+        ];
+        $footers = [];
 
         $rand = mt_rand();
 
-        $data = $this->find([], ["plugin_accounts_accountstates_id ASC"]);
-
-        if (count($data) != 0) {
-            Html::openMassiveActionsForm('massAccountState'  . $rand);
-            $massiveactionparams = [
-                'item' => __CLASS__,
-                'container' => 'massAccountState'  . $rand,
-            ];
-            Html::showMassiveActions($massiveactionparams);
-
-
-            echo "<div class='center'>";
-            echo "<form method='post' name='massiveaction_form$rand' id='massiveaction_form$rand'  action=\"$target\">";
-            echo "<table class='tab_cadre_fixe' cellpadding='5'>";
-            echo "<tr>";
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-            echo "<th>" . __('Unused status for expiration mailing', 'accounts') . "</th>";
-            echo "</tr>";
-            foreach ($data as $ligne) {
-                $ID = $ligne["id"];
-                echo "<tr class='tab_bg_1'>";
-                echo "<td class='center' width='10'>";
-                Html::showMassiveActionCheckBox(__CLASS__, $ID);
-                echo "</td>";
-                echo "<td>";
-                echo Dropdown::getDropdownName(
-                    "glpi_plugin_accounts_accountstates",
-                    $ligne["plugin_accounts_accountstates_id"]
-                );
-                echo "</td>";
-                echo "</tr>";
-            }
-
-            $paramsma['ontop'] = false;
-
-            echo "</table>";
-            Html::closeForm();
-            echo "</div>";
-
-            Html::showMassiveActions($paramsma);
-        }
+        TemplateRenderer::getInstance()->display(
+            '@accounts/status_cron.html.twig',
+            [
+                'id'                => 1,
+                'item'              => $this,
+                'config'            => $this->fields,
+                'action'            => $target,
+                'used'            => $used,
+                'can_edit' => $canedit,
+                'datatable_params' => [
+                    'is_tab' => true,
+                    'nofilter' => true,
+                    'nosort' => true,
+                    'columns' => $columns,
+                    'formatters' => $formatters,
+                    'entries' => $entries,
+                    'footers' => $footers,
+                    'total_number' => count($entries),
+                    'filtered_number' => count($entries),
+                    'showmassiveactions' => $canedit,
+                    'massiveactionparams' => [
+                        'container' => 'massiveactioncontainer' . $rand,
+                        'itemtype'  => self::class,
+                    ],
+                ],
+            ],
+        );
     }
 
-    /**
-     * Get the specific massive actions
-     *
-     * @since version 0.84
-     *
-     * @param $checkitem link item to check right   (default NULL)
-     *
-     * @return an array of massive actions
-     * */
-    public function getSpecificMassiveActions($checkitem = null)
+    public function getForbiddenStandardMassiveAction()
     {
-        $actions = parent::getSpecificMassiveActions($checkitem);
-
-        $actions['GlpiPlugin\Accounts\NotificationState' . MassiveAction::CLASS_ACTION_SEPARATOR . 'Delete'] = __('Delete');
-        return $actions;
-    }
-
-    /**
-     * @since version 0.85
-     *
-     * @see CommonDBTM::processMassiveActionsForOneItemtype()
-     *
-     * @param MassiveAction $ma
-     * @param CommonDBTM    $item
-     * @param array         $ids
-     *
-     * @return nothing|void
-     */
-    public static function processMassiveActionsForOneItemtype(
-        MassiveAction $ma,
-        CommonDBTM $item,
-        array $ids
-    ) {
-
-        switch ($ma->getAction()) {
-            case 'Delete':
-                $notif = new NotificationState();
-                foreach ($ids as $id) {
-                    if ($notif->delete(['id' => $id])) {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
-                    } else {
-                        $ma->itemDone($item->getType(), $ids, MassiveAction::ACTION_KO);
-                    }
-                }
-
-                return;
-        }
-        parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
+        $forbidden = parent::getForbiddenStandardMassiveAction();
+        $forbidden[] = 'update';
+        $forbidden[] = 'delete';
+        $forbidden[] = 'restore';
+        return $forbidden;
     }
 }

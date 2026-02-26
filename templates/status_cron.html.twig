@@ -1,0 +1,71 @@
+{#
+# -------------------------------------------------------------------------
+# Accounts plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of Accounts.
+#
+# Accounts is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Accounts is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Accounts. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2026-2026 by Accounts plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/InfotelGLPI/Accounts
+# -------------------------------------------------------------------------
+#}
+
+{% import 'components/form/basic_inputs_macros.html.twig' as inputs %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% set rand = random() %}
+{% set field_options = {
+    'field_class': 'col-4',
+} %}
+{% if can_edit %}
+    <form method="post" action='{{ action }}' data-submit-once>
+        <div class="card">
+            <div class="card-header">
+
+                <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="id" value="{{ id }}">
+
+                <h3 class="card-title">
+                    {{ __('Add a unused status for expiration mailing', 'accounts') }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {{ inputs.hidden('_glpi_csrf_token', csrf_token()) }}
+                    {{ fields.dropdownField(
+                        'GlpiPlugin\\Accounts\\AccountState',
+                        'plugin_accounts_accountstates_id',
+                        config['plugin_accounts_accountstates_id'],
+                        'GlpiPlugin\\Accounts\\AccountState'|itemtype_name(1), {
+                            'used': used
+                        }|merge(field_options)) }}
+                </div>
+
+                <div class="hr mt-3 mb-3"></div>
+                <div class="hstack gap-1">
+                    <div class="pe-5 ms-auto">
+                        {{ inputs.submit('add', _x('button', 'Add'), 1, {class: 'btn btn-primary ms-1', icon: 'ti ti-plus'}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endif %}
+
+ {{ include('components/datatable.html.twig', datatable_params, with_context = false) }}

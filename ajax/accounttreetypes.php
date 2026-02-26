@@ -37,6 +37,8 @@ use GlpiPlugin\Accounts\Account;
 
 Session::checkLoginUser();
 
+Session::checkRight("plugin_accounts", READ);
+
 global $DB;
 
 if (isset($_REQUEST['node'])) {

@@ -186,23 +186,23 @@ class Report extends CommonDBTM
             $html_output .= $output::showHeader($end_display - $start + 1, $nbcols);
         }
         if (!$is_html_output) {
-            $headers[] = __('Name');
+            $headers[] = __s('Name');
             if (Session::isMultiEntitiesMode()) {
-                $headers[] = __('Entity');
+                $headers[] = __s('Entity');
             }
-            $headers[] = __('Type');
-            $headers[] = __('Login');
-            $headers[] = __('Uncrypted password', 'accounts');
+            $headers[] = __s('Type');
+            $headers[] = __s('Login');
+            $headers[] = __s('Uncrypted password', 'accounts');
         } else {
             $header_num    = 1;
             $html_output .= $output::showNewLine();
-            $html_output .= $output::showHeaderItem(__('Name'), $header_num);
+            $html_output .= $output::showHeaderItem(__s('Name'), $header_num);
             if (Session::isMultiEntitiesMode()) {
-                $html_output .= $output::showHeaderItem(__('Entity'), $header_num);
+                $html_output .= $output::showHeaderItem(__s('Entity'), $header_num);
             }
-            $html_output .= $output::showHeaderItem(__('Type'), $header_num);
-            $html_output .= $output::showHeaderItem(__('Login'), $header_num);
-            $html_output .= $output::showHeaderItem(__('Uncrypted password', 'accounts'), $header_num);
+            $html_output .= $output::showHeaderItem(__s('Type'), $header_num);
+            $html_output .= $output::showHeaderItem(__s('Login'), $header_num);
+            $html_output .= $output::showHeaderItem(__s('Uncrypted password', 'accounts'), $header_num);
             $html_output .= $output::showEndLine($output_type);
         }
         $row_num = 0;
@@ -262,7 +262,7 @@ class Report extends CommonDBTM
                                 var good_hash=\"$hashvalue\";
                                 var hash=SHA256(SHA256(\"$aeskey\"));
                                 if (hash != good_hash) {
-                                    pass = \"" . __('Wrong encryption key', 'accounts') . "\";
+                                    pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
                                 } else {
                                     pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
                                 }
@@ -285,7 +285,7 @@ class Report extends CommonDBTM
 
         if ($is_html_output) {
             Html::closeForm();
-            $output::showFooter(__('Linked accounts list', 'accounts'), $numrows);
+            $output::showFooter(__s('Linked accounts list', 'accounts'), $numrows);
         }
 
         if ($is_html_output) {
@@ -373,9 +373,9 @@ class Report extends CommonDBTM
 
     public static function showOutputFormat()
     {
-        $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');
-        $values['-' . Search::PDF_OUTPUT_PORTRAIT]  = __('All pages in portrait PDF');
-        $values['-' . Search::CSV_OUTPUT]           = __('All pages in CSV');
+        $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __s('All pages in landscape PDF');
+        $values['-' . Search::PDF_OUTPUT_PORTRAIT]  = __s('All pages in portrait PDF');
+        $values['-' . Search::CSV_OUTPUT]           = __s('All pages in CSV');
 
         Dropdown::showFromArray('display_type', $values);
         echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);

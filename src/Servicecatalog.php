@@ -87,14 +87,14 @@ class Servicecatalog extends CommonGLPI
     public static function getMenuTitle()
     {
 
-        return __('See your accounts', 'accounts');
+        return __s('See your accounts', 'accounts');
     }
 
 
     public static function getMenuComment()
     {
 
-        return __('See your accounts', 'accounts');
+        return __s('See your accounts', 'accounts');
     }
 
     public static function getLinkList()

@@ -32,6 +32,7 @@ namespace GlpiPlugin\Accounts;
 
 use CommonGLPI;
 use DbUtils;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use ProfileRight;
 use Session;
@@ -77,22 +78,28 @@ class Profile extends \Profile
      *
      * @return bool
      */
-    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-    {
-        if ($item->getType() == 'Profile') {
-            $ID   = $item->getID();
-            $prof = new self();
-
-            self::addDefaultProfileInfos(
-                $ID,
-                ['plugin_accounts'               => 0,
-                    'plugin_accounts_hash'          => 0,
-                    'plugin_accounts_my_groups'     => 0,
-                    'plugin_accounts_open_ticket'   => 0,
-                    'plugin_accounts_see_all_users' => 0]
-            );
-            $prof->showForm($ID);
+    public static function displayTabContentForItem(
+        CommonGLPI $item,
+        $tabnum = 1,
+        $withtemplate = 0
+    ) {
+        if (!$item instanceof \Profile || !self::canView()) {
+            return false;
         }
+
+        $profile = new \Profile();
+        $profile->getFromDB($item->getID());
+
+        $rights = self::getAllRights($profile->getField('interface'));
+
+        $twig = TemplateRenderer::getInstance();
+        $twig->display('@accounts/profile.html.twig', [
+            'id'      => $item->getID(),
+            'profile' => $profile,
+            'title'   => self::getTypeName(Session::getPluralNumber()),
+            'rights'  => $rights,
+        ]);
+
         return true;
     }
 
@@ -113,148 +120,59 @@ class Profile extends \Profile
         );
     }
 
-    /**
-     * Show profile form
-     *
-     * @param int  $profiles_id
-     * @param bool $openform
-     * @param bool $closeform
-     *
-     * @return nothing
-     * @internal param int $items_id id of the profile
-     * @internal param value $target url of target
-     *
-     */
-    public function showForm($profiles_id = 0, $openform = true, $closeform = true)
-    {
-        echo "<div class='firstbloc'>";
-        if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE]))
-            && $openform) {
-            $profile = new \Profile();
-            echo "<form method='post' action='" . $profile->getFormURL() . "'>";
-        }
-
-        $profile = new \Profile();
-        $profile->getFromDB($profiles_id);
-
-        $rights = $this->getHelpdeskRights();
-        if ($profile->getField('interface') == 'central') {
-            $rights = $this->getAllRights();
-        }
-        $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-            'default_class' => 'tab_bg_2',
-            'title'         => __('General')]);
-
-        echo "<table class='tab_cadre_fixehov'>";
-        $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_accounts_see_all_users',
-            'plugin_accounts_my_groups']);
-
-        echo "<tr class='tab_bg_2'>";
-        echo "<td width='20%'>" . __('See accounts of my groups', 'accounts') . "</td>";
-        echo "<td colspan='5'>";
-        Html::showCheckbox(['name'    => '_plugin_accounts_my_groups',
-            'checked' => $effective_rights['plugin_accounts_my_groups']]);
-        echo "</td></tr>\n";
-
-        echo "<tr class='tab_bg_2'>";
-        echo "<td width='20%'>" . __('See all accounts', 'accounts') . "</td>";
-        echo "<td colspan='5'>";
-        Html::showCheckbox(['name'    => '_plugin_accounts_see_all_users',
-            'checked' => $effective_rights['plugin_accounts_see_all_users']]);
-        echo "</td></tr>\n";
-        echo "</table>";
-
-        echo "<table class='tab_cadre_fixehov'>";
-        echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Helpdesk') . "</th></tr>\n";
-
-        $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_accounts_open_ticket']);
-        echo "<tr class='tab_bg_2'>";
-        echo "<td width='20%'>" . __('Associable items to a ticket') . "</td>";
-        echo "<td colspan='5'>";
-        Html::showCheckbox(['name'    => '_plugin_accounts_open_ticket',
-            'checked' => $effective_rights['plugin_accounts_open_ticket']]);
-        echo "</td></tr>\n";
-        echo "</table>";
-
-        if ($canedit
-            && $closeform) {
-            echo "<div class='center'>";
-            echo Html::hidden('id', ['value' => $profiles_id]);
-            echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
-            echo "</div>\n";
-            Html::closeForm();
-        }
-        echo "</div>";
-    }
 
     /**
      * @param bool $all
      *
      * @return array
      */
-    public static function getHelpdeskRights($all = false)
-    {
-        $rights = [
-            ['rights' => \Profile::getRightsFor(Account::class, 'helpdesk'),
-                'label'  => _n('Account', 'Accounts', 2, 'accounts'),
-                'field'  => 'plugin_accounts',
-            ],
-        ];
-
-        if ($all) {
-            $rights[] = ['itemtype' => Account::class,
-                'label'    => __('See accounts of my groups', 'accounts'),
-                'field'    => 'plugin_accounts_my_groups'];
-
-            $rights[] = ['itemtype' => Account::class,
-                'label'    => __('See all accounts', 'accounts'),
-                'field'    => 'plugin_accounts_see_all_users'];
-
-            $rights[] = ['itemtype' => Account::class,
-                'label'    => __('Associable items to a ticket'),
-                'field'    => 'plugin_accounts_open_ticket'];
-        }
-
-        return $rights;
-    }
-
-    /**
-     * @param bool $all
-     *
-     * @return array
-     */
-    public static function getAllRights($all = false)
+    public static function getAllRights($helpdesk = "central")
     {
         global $DB;
+
 
         if (!$DB->tableExists('glpi_plugin_accounts_accounts')) {
             return [];
         }
 
         $rights = [
-            ['rights' => \Profile::getRightsFor(Account::class, 'central'),
-                'label'  => _n('Account', 'Accounts', 2, 'accounts'),
-                'field'  => 'plugin_accounts',
-            ],
-            ['rights' => \Profile::getRightsFor(Hash::class, 'central'),
-                'label'  => _n('Encryption key', 'Encryption keys', 2, 'accounts'),
-                'field'  => 'plugin_accounts_hash',
+            [
+                'itemtype' => Account::class,
+                'label'  => Account::getTypeName(Session::getPluralNumber()),
+                'field'    => Account::$rightname,
+                'rights' => \Profile::getRightsFor(Account::class),
             ],
         ];
 
-        if ($all) {
-            $rights[] = ['itemtype' => Account::class,
-                'label'    => __('See accounts of my groups', 'accounts'),
-                'field'    => 'plugin_accounts_my_groups'];
-
-            $rights[] = ['itemtype' => Account::class,
-                'label'    => __('See all accounts', 'accounts'),
-                'field'    => 'plugin_accounts_see_all_users'];
-
-            $rights[] = ['itemtype' => Account::class,
-                'label'    => __('Associable items to a ticket'),
-                'field'    => 'plugin_accounts_open_ticket'];
+        if ($helpdesk == "central") {
+            $rights[] = [
+                'itemtype' => Hash::class,
+                'label'  => Hash::getTypeName(Session::getPluralNumber()),
+                'field'    => Hash::$rightname,
+                'rights' => \Profile::getRightsFor(Hash::class),
+            ];
         }
+
+        $rights[] = ['itemtype' => Account::class,
+            'label'    => __s('See accounts of my groups', 'accounts'),
+            'field'    => 'plugin_accounts_my_groups',
+            'rights' => [
+                READ  => __s('Read'),
+            ],];
+
+        $rights[] = ['itemtype' => Account::class,
+            'label'    => __s('See all accounts', 'accounts'),
+            'field'    => 'plugin_accounts_see_all_users',
+            'rights' => [
+                READ  => __s('Read'),
+            ],];
+
+        $rights[] = ['itemtype' => Account::class,
+            'label'    => __s('Associable items to a ticket'),
+            'field'    => 'plugin_accounts_open_ticket',
+            'rights' => [
+                READ  => __s('Read'),
+            ],];
 
         return $rights;
     }
@@ -289,7 +207,7 @@ class Profile extends \Profile
      * @since 0.85
      * Migration rights from old system to the new one for one profile
      *
-     * @param $profiles_id the profile ID
+     * @param $profiles_id
      *
      * @return bool
      */
@@ -331,7 +249,7 @@ class Profile extends \Profile
         $profile = new self();
         $dbu     = new DbUtils();
         //Add new rights in glpi_profilerights table
-        foreach ($profile->getAllRights(true) as $data) {
+        foreach ($profile->getAllRights() as $data) {
             if ($dbu->countElementsInTable(
                 "glpi_profilerights",
                 ["name" => $data['field']]
@@ -370,7 +288,7 @@ class Profile extends \Profile
         if (!$DB->tableExists('glpi_plugin_accounts_profiles')) {
             return true;
         }
-        foreach (self::getAllRights(true) as $right) {
+        foreach (self::getAllRights() as $right) {
             if (isset($_SESSION['glpiactiveprofile'][$right['field']])) {
                 unset($_SESSION['glpiactiveprofile'][$right['field']]);
             }

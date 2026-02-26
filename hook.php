@@ -483,7 +483,7 @@ function plugin_accounts_uninstall()
 
     //Delete rights associated with the plugin
     $profileRight = new ProfileRight();
-    foreach (Profile::getAllRights(true) as $right) {
+    foreach (Profile::getAllRights() as $right) {
         $profileRight->deleteByCriteria(['name' => $right['field']]);
     }
 
@@ -686,7 +686,7 @@ function plugin_accounts_getAddSearchOptions($itemtype)
         if (Session::haveRight("plugin_accounts", READ)) {
             $sopt[1900]['table']         = 'glpi_plugin_accounts_accounts';
             $sopt[1900]['field']         = 'name';
-            $sopt[1900]['name']          = Account::getTypeName(2) . " - " . __('Name');
+            $sopt[1900]['name']          = Account::getTypeName(2) . " - " . __s('Name');
             $sopt[1900]['forcegroupby']  = true;
             $sopt[1900]['datatype']      = 'itemlink';
             $sopt[1900]['massiveaction'] = false;
@@ -697,7 +697,7 @@ function plugin_accounts_getAddSearchOptions($itemtype)
             }
             $sopt[1901]['table']         = 'glpi_plugin_accounts_accounttypes';
             $sopt[1901]['field']         = 'name';
-            $sopt[1901]['name']          = Account::getTypeName(2) . " - " . __('Type');
+            $sopt[1901]['name']          = Account::getTypeName(2) . " - " . __s('Type');
             $sopt[1901]['forcegroupby']  = true;
             $sopt[1901]['joinparams']    = ['beforejoin' => [['table'      => 'glpi_plugin_accounts_accounts',
                 'joinparams' => $sopt[1900]['joinparams']]]];
@@ -921,8 +921,10 @@ function plugin_accounts_MassiveActions($type)
 {
     if (Plugin::isPluginActive('accounts')) {
         if (in_array($type, Account::getTypes(true))) {
+            $icon = "<i class='".Account::getIcon()."'></i>";
             return [
-                Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" => __('Associate to account', 'accounts'),
+                Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" =>
+                    $icon." ".__s('Associate to account', 'accounts'),
             ];
         }
     }

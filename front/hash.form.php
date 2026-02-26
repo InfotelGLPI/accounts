@@ -76,15 +76,15 @@ if (isset($_POST["add"])) {
 
         if (!empty($_POST["aeskeynew"]) && !empty($_POST["aeskey"]) && !empty($hash)) {
             if ($hash <> hash("sha256", hash("sha256", $_POST["aeskey"]))) {
-                Session::addMessageAfterRedirect(__('Wrong encryption key', 'accounts'), true, ERROR);
+                Session::addMessageAfterRedirect(__s('Wrong encryption key', 'accounts'), true, ERROR);
                 Html::back();
             } else {
                 Hash::updateHash($_POST["aeskey"], $_POST["aeskeynew"], $hash_id);
-                Session::addMessageAfterRedirect(__('Encryption key modified', 'accounts'), true);
+                Session::addMessageAfterRedirect(__s('Encryption key modified', 'accounts'), true);
                 Html::back();
             }
         } else {
-            Session::addMessageAfterRedirect(__('The old or the new encryption key can not be empty', 'accounts'), true, ERROR);
+            Session::addMessageAfterRedirect(__s('The old or the new encryption key can not be empty', 'accounts'), true, ERROR);
             Html::back();
         }
     }

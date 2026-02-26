@@ -64,7 +64,7 @@ class AccountInjection extends Account implements PluginDatainjectionInjectionIn
 
     /**
      * @param string $primary_type
-     * @return array|the
+     * @return array
      */
     public function getOptions($primary_type = '')
     {
@@ -93,9 +93,9 @@ class AccountInjection extends Account implements PluginDatainjectionInjectionIn
     /**
      * Standard method to add an object into glpi
      * WILL BE INTEGRATED INTO THE CORE IN 0.80
-     * @param array|fields $values
-     * @param array|options $options
-     * @return an array of IDs of newly created objects : for example array(Computer=>1, Networkport=>10)
+     * @param array| $values
+     * @param array| $options
+     * @return array array of IDs of newly created objects : for example array(Computer=>1, Networkport=>10)
      * @internal param fields $values to add into glpi
      * @internal param options $options used during creation
      */

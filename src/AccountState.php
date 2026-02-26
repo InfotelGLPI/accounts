@@ -47,7 +47,7 @@ class AccountState extends CommonDropdown
 
    /**
     * @param int $nb
-    * @return translated
+    * @return string
     */
    public static function getTypeName($nb = 0) {
 
