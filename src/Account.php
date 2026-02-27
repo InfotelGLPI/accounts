@@ -222,7 +222,7 @@ class Account extends CommonDBTM
             'id' => '6',
             'table' => $this->getTable(),
             'field' => 'date_expiration',
-            'name' => __s('Expiration date'),
+            'name' => __('Expiration date'),
             'datatype' => 'date',
         ];
 
@@ -456,17 +456,6 @@ class Account extends CommonDBTM
         return $input;
     }
 
-    /**
-     * Return the SQL command to retrieve linked object
-     *
-     * @return SQL command which return a set of (itemtype, items_id)
-     */
-    public function getSelectLinkedItem()
-    {
-        return "SELECT `itemtype`, `items_id`
-               FROM `glpi_plugin_accounts_accounts_items`
-               WHERE `plugin_accounts_accounts_id`='" . $this->fields['id'] . "'";
-    }
 
     /**
      * Print the acccount form

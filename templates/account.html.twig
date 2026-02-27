@@ -185,7 +185,6 @@
                                                size='30'>
 
                                         <div class="btn btn-outline-secondary"
-                                            {#                                             toggle='#hidden_password' #}
                                              onmousedown="showDisclosablePasswordField('hidden_password')"
                                              onmouseup="hideDisclosablePasswordField('hidden_password')"
                                              onmouseout="hideDisclosablePasswordField('hidden_password')">
@@ -214,9 +213,17 @@
                                     }
                                 ) }}
                             {% else %}
-                                {{ call('getUserName', item.fields['users_id']) }}
+                                <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                    <label class="col-form-label col-xxl-5 text-xxl-end">
+                                        {{ __('Affected User', 'accounts') }}
+                                    </label>
+                                    <div class="col-xxl-7 field-container">
+                                        {{ call('getUserName', [item.fields['users_id']]) }}
+                                    </div>
+                                </div>
                             {% endif %}
                         {% endif %}
+
 
                         {% if item.isField('groups_id') %}
                             {% if get_current_interface() == 'central' %}
@@ -233,30 +240,48 @@
                                     }
                                 ) }}
                             {% else %}
-                                {{ call('Dropdown::getDropdownName', ["glpi_groups", item.fields['groups_id']]) }}
+                                <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                    <label class="col-form-label col-xxl-5 text-xxl-end">
+                                        {{ __('Affected Group', 'accounts') }}
+                                    </label>
+                                    <div class="col-xxl-7 field-container">
+                                        {{ call('Dropdown::getDropdownName', ["glpi_groups", item.fields['groups_id']]) }}
+                                    </div>
+                                </div>
                             {% endif %}
-
                         {% endif %}
 
-
+                        {% set current_day = time|date('Y-m-d') %}
                         {% if item.isField('date_creation') %}
                             {{ fields.dateField('date_creation',
-                                item.fields['date_creation'],
+                                item.fields['date_creation']|default(current_day),
                                 __('Creation date'), {
                                 }) }}
                         {% endif %}
 
+
                         {% if item.isField('users_id_tech') %}
-                            {{ fields.dropdownField(
-                                "User",
-                                "users_id_tech",
-                                item.fields['users_id_tech'],
-                                __('Technician in charge'),
-                                {
-                                    'entity': item.fields['entities_id'],
-                                    'right': 'interface',
-                                }
-                            ) }}
+                            {% if get_current_interface() == 'central' %}
+                                {{ fields.dropdownField(
+                                    "User",
+                                    "users_id_tech",
+                                    item.fields['users_id_tech'],
+                                    __('Technician in charge'),
+                                    {
+                                        'entity': item.fields['entities_id'],
+                                        'right': 'interface',
+                                    }
+                                ) }}
+                            {% else %}
+                                <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                    <label class="col-form-label col-xxl-5 text-xxl-end">
+                                        {{ __('Technician in charge') }}
+                                    </label>
+                                    <div class="col-xxl-7 field-container">
+                                        {{ call('getUserName', [item.fields['users_id_tech']]) }}
+                                    </div>
+                                </div>
+                            {% endif %}
                         {% endif %}
 
                         {% if item.isField('date_expiration') %}
@@ -267,20 +292,32 @@
                                 }) }}
                         {% endif %}
 
-
                         {% if item.isField('groups_id_tech') %}
-                            {{ fields.dropdownField(
-                                'Group',
-                                'groups_id_tech',
-                                item.fields['groups_id_tech'],
-                                __('Group in charge'),
-                                {
-                                    'entity': item.fields['entities_id'],
-                                    'condition': {'is_assign': 1},
-                                    'multiple': false,
-                                }
-                            ) }}
+                            {% if get_current_interface() == 'central' %}
+
+                                {{ fields.dropdownField(
+                                    'Group',
+                                    'groups_id_tech',
+                                    item.fields['groups_id_tech'],
+                                    __('Group in charge'),
+                                    {
+                                        'entity': item.fields['entities_id'],
+                                        'condition': {'is_assign': 1},
+                                        'multiple': false,
+                                    }
+                                ) }}
+                            {% else %}
+                                <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                    <label class="col-form-label col-xxl-5 text-xxl-end">
+                                        {{ __('Group in charge') }}
+                                    </label>
+                                    <div class="col-xxl-7 field-container">
+                                        {{ call('Dropdown::getDropdownName', ["glpi_groups", item.fields['groups_id_tech']]) }}
+                                    </div>
+                                </div>
+                            {% endif %}
                         {% endif %}
+
 
                         {% if item.isField('others') %}
                             {{ fields.textField(

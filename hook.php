@@ -747,25 +747,23 @@ function plugin_accounts_addDefaultWhere($type)
         case Account::class:
             $who = Session::getLoginUserID();
             if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
-                if (count($_SESSION["glpigroups"]) && Session::haveRight("plugin_accounts_my_groups", 1)) {
-                    $first_groups = true;
-                    $groups       = "";
-                    foreach ($_SESSION['glpigroups'] as $val) {
-                        if (!$first_groups) {
-                            $groups .= ",";
-                        } else {
-                            $first_groups = false;
-                        }
-                        $groups .= "'" . $val . "'";
-                    }
-                    return " (`glpi_plugin_accounts_accounts`.`groups_id` IN (
-               SELECT DISTINCT `groups_id`
-               FROM `glpi_groups_users`
-               WHERE `groups_id` IN ($groups)
-               )
-               OR `glpi_plugin_accounts_accounts`.`users_id` = '$who') ";
+                if (count($_SESSION["glpigroups"])
+                    && Session::haveRight("plugin_accounts_my_groups", 1)) {
+
+                    $criteria = [
+                        'OR' => [
+                            ['glpi_plugin_accounts_accounts.groups_id' => $_SESSION['glpigroups']],
+                            ['glpi_plugin_accounts_accounts.users_id' => $who],
+                            ]
+                    ];
+
+                    return $criteria;
+
                 } else { // Only personal ones
-                    return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
+//                    return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
+                    $criteria = ['glpi_plugin_accounts_accounts.users_id' => $who];
+
+                    return $criteria;
                 }
             }
     }
