@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 15:02+0000\n"
+"POT-Creation-Date: 2026-02-27 16:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:927
+#: hook.php:925
 msgid "Associate to account"
 msgstr ""
 
@@ -36,8 +36,8 @@ msgid_plural "Types of account"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account_Item.php:442 src/Account_Item.php:456 src/Account.php:502
-#: src/Account.php:550
+#: src/Account_Item.php:442 src/Account_Item.php:456 src/Account.php:491
+#: src/Account.php:539
 msgid "There is no encryption key for this entity"
 msgstr ""
 
@@ -64,7 +64,7 @@ msgid "Linked accounts list"
 msgstr ""
 
 #: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:227 src/AesKey.php:248
-#: src/Account.php:1365 src/Account.php:1369 src/Hash.php:61
+#: src/Account.php:1354 src/Account.php:1358 src/Hash.php:61
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] ""
@@ -92,58 +92,58 @@ msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:524
+#: src/Account.php:513
 msgid ""
 "WARNING : there are multiple encryption keys for this entity. The encryption "
 "key of this entity will be used"
 msgstr ""
 
-#: src/Account.php:543
+#: src/Account.php:532
 msgid "Your encryption key is malformed, please generate the hash"
 msgstr ""
 
-#: src/Account.php:579
+#: src/Account.php:568
 msgid "Generate password"
 msgstr ""
 
-#: src/Account.php:581
+#: src/Account.php:570
 msgid "Numbers"
 msgstr ""
 
-#: src/Account.php:585
+#: src/Account.php:574
 msgid "Lowercase"
 msgstr ""
 
-#: src/Account.php:589
+#: src/Account.php:578
 msgid "Uppercase"
 msgstr ""
 
-#: src/Account.php:593
+#: src/Account.php:582
 msgid "Special characters"
 msgstr ""
 
-#: src/Account.php:597
+#: src/Account.php:586
 msgid "Length"
 msgstr ""
 
-#: src/Account.php:599
+#: src/Account.php:588
 msgid " characters"
 msgstr ""
 
-#: src/Account.php:606 src/Account.php:608
+#: src/Account.php:595 src/Account.php:597
 msgid "Generate"
 msgstr ""
 
-#: src/Account.php:941 src/Account.php:1056
+#: src/Account.php:930 src/Account.php:1045
 #: src/NotificationTargetAccount.php:321
 msgid "Accounts expired or accounts which expires"
 msgstr ""
 
-#: src/Account.php:1148
+#: src/Account.php:1137
 msgid "Select the wanted account type"
 msgstr ""
 
-#: src/Account.php:1259
+#: src/Account.php:1248
 msgid "Don't expire"
 msgstr ""
 
