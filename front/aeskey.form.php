@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -47,6 +48,8 @@ Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 if (isset($_POST["add"])) {
     if ($aeskey->canCreate()) {
         $newID = $aeskey->add($_POST);
+        unset($_SESSION['MESSAGE_AFTER_REDIRECT']);
+        Session::addMessageAfterRedirect(__s('Encryption key saved', 'accounts'), true);
     }
     if ($_SESSION['glpibackcreated']) {
         Html::redirect($aeskey->getFormURL() . "?id=" . $newID);
@@ -66,7 +69,7 @@ if (isset($_POST["add"])) {
     Html::back();
 } else {
     $aeskey->display(['id' => $_GET['id'],
-      'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]]);
+        'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]]);
 }
 
 Html::footer();

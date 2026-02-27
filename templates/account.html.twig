@@ -1,0 +1,377 @@
+{#
+# -------------------------------------------------------------------------
+# Accounts plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of Accounts.
+#
+# Accounts is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Accounts is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Accounts. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2026-2026 by Accounts plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/InfotelGLPI/Accounts
+# -------------------------------------------------------------------------
+#}
+
+{% import "components/form/fields_macros.html.twig" as fields %}
+
+{% set bg = "" %}
+{% if item.isDeleted() %}
+    {% set bg = "asset-deleted" %}
+{% endif %}
+
+<div class="asset {{ bg }}">
+    {% include("components/form/header.html.twig") %}
+
+    {% set rand = random() %}
+    {% set params  = params ?? [] %}
+    {% set target       = params['target'] ?? item.getFormURL() %}
+    {% set withtemplate = params['withtemplate'] ?? "" %}
+    {% set item_type = item.getType() %}
+
+    <div class="card-body d-flex">
+        <div class="col-12 flex-column">
+            <div class="d-flex flex-row flex-wrap flex-xl-nowrap">
+                <div class="row flex-row align-items-start flex-grow-1">
+                    <div class="row flex-row">
+
+                        {% if item.isNewItem() and nbhashes == 0 %}
+                            <div class='alert alert-warning d-flex'>
+                                {{ __('WARNING : a encryption key already exist for this entity', 'accounts') }}
+                            </div>
+                        {% endif %}
+
+                        {% if item.isField('name') %}
+                            {{ fields.autoNameField(
+                                "name",
+                                item,
+                                __('Name'),
+                                withtemplate
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('plugin_accounts_accountstates_id') %}
+                            {{ fields.dropdownField(
+                                "GlpiPlugin\\Accounts\\AccountState",
+                                "plugin_accounts_accountstates_id",
+                                item.fields['plugin_accounts_accountstates_id'],
+                                __("Status"),
+                                {
+                                    'entity': item.fields['entities_id'],
+                                }
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('login') %}
+                            {{ fields.textField(
+                                "login",
+                                item.fields['login'],
+                                __("Login"),
+                            ) }}
+                        {% endif %}
+
+
+                        {% if item.isField('plugin_accounts_accounttypes_id') %}
+                            {{ fields.dropdownField(
+                                "GlpiPlugin\\Accounts\\AccountType",
+                                "plugin_accounts_accounttypes_id",
+                                item.fields['plugin_accounts_accounttypes_id'],
+                                __("Type"),
+                                {
+                                    'entity': item.fields['entities_id'],
+                                }
+                            ) }}
+                        {% endif %}
+
+                        {% if aeskey_uncrypted is not defined or aeskey_uncrypted == false %}
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end">
+                                    {{ __('Encryption key', 'accounts') }}
+                                </label>
+                                <div class="col-xxl-7 field-container">
+                                    <div class="btn-group btn-group-sm d-flex">
+                                        <input type="password" name="aeskey" id="aeskey" size="30" autocomplete="off"/>
+                                        <div class="btn btn-outline-secondary btn-light"
+                                             onclick="uncryptpassword()">
+                                            <i class="ti ti-lock-open"></i>
+                                        </div>
+                                        <input type="hidden" name="good_hash" id="good_hash" size="40"
+                                               autocomplete="off"
+                                               value="{{ hash }}"/>
+                                        <input type="hidden" name="encrypted_password" id="encrypted_password" size="40"
+                                               autocomplete="off"
+                                               value="{{ item.fields['encrypted_password'] }}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end">
+                                    {{ __('Password') }}
+                                </label>
+                                <div class="col-xxl-7 field-container">
+                                    <input type="hidden" name="wrong_key_locale" id="wrong_key_locale" size="40"
+                                           autocomplete="off"
+                                           value="{{ __('Wrong encryption key', 'accounts') }}"/>
+                                    <div id="wrong_key_locale_div" style="color:red"></div>
+                                    <div class="btn-group btn-group-sm d-flex">
+                                        <input type="password" id="hidden_password" class="form-control "
+                                               name="hidden_password"
+                                               size='30'>
+
+                                        <div class="btn btn-outline-secondary btn-light"
+                                             onmousedown="showDisclosablePasswordField('hidden_password')"
+                                             onmouseup="hideDisclosablePasswordField('hidden_password')"
+                                             onmouseout="hideDisclosablePasswordField('hidden_password')">
+                                            <i class="ti ti-eye disclose"></i>
+                                        </div>
+
+                                        <div class="btn btn-outline-secondary btn-light"
+                                             onclick="copyDisclosablePasswordFieldToClipboard('hidden_password')">
+                                            <i class="ti ti-clipboard-copy disclose"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end">
+                                    {{ __('Encryption key', 'accounts') }}
+                                </label>
+                                <div class="col-xxl-7 field-container">
+                                    <div class="btn-group btn-group-sm d-flex">
+                                        <input type="password" name="aeskey" id="aeskey" size="40"
+                                               autocomplete="off"
+                                               value="{{ aeskey_uncrypted }}"/>
+                                        <input type="hidden" name="good_hash" id="good_hash" size="40"
+                                               autocomplete="off"
+                                               value="{{ hash }}"/>
+                                        <input type="hidden" name="encrypted_password" id="encrypted_password" size="40"
+                                               autocomplete="off"
+                                               value="{{ item.fields['encrypted_password'] }}"/>
+                                        <script type="text/javascript">
+                                            $(document).ready(function () {
+                                                auto_decrypt();
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end">
+                                    {{ __('Password') }}
+                                </label>
+                                <div class="col-xxl-7 field-container">
+                                    <input type="hidden" name="wrong_key_locale" id="wrong_key_locale" size="40"
+                                           autocomplete="off"
+                                           value="{{ __('Wrong encryption key', 'accounts') }}"/>
+                                    <div id="wrong_key_locale_div" style="color:red"></div>
+                                    <div class="btn-group btn-group-sm d-flex">
+                                        <input type="password" id="hidden_password" class="form-control "
+                                               name="hidden_password"
+                                               size='30'>
+
+                                        <div class="btn btn-outline-secondary"
+                                            {#                                             toggle='#hidden_password' #}
+                                             onmousedown="showDisclosablePasswordField('hidden_password')"
+                                             onmouseup="hideDisclosablePasswordField('hidden_password')"
+                                             onmouseout="hideDisclosablePasswordField('hidden_password')">
+                                            <i class="ti ti-eye disclose"></i>
+                                        </div>
+
+                                        <div class="btn btn-outline-secondary"
+                                             onclick="copyDisclosablePasswordFieldToClipboard('hidden_password')">
+                                            <i class="ti ti-clipboard-copy disclose"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if item.isField('users_id') %}
+                            {% if get_current_interface() == 'central' %}
+                                {{ fields.dropdownField(
+                                    "User",
+                                    "users_id",
+                                    item.fields['users_id'],
+                                    __('Affected User', 'accounts'),
+                                    {
+                                        'entity': item.fields['entities_id'],
+                                        'right': 'all',
+                                    }
+                                ) }}
+                            {% else %}
+                                {{ call('getUserName', item.fields['users_id']) }}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if item.isField('groups_id') %}
+                            {% if get_current_interface() == 'central' %}
+
+                                {{ fields.dropdownField(
+                                    'Group',
+                                    'groups_id',
+                                    item.fields['groups_id'],
+                                    __('Affected Group', 'accounts'),
+                                    {
+                                        'entity': item.fields['entities_id'],
+                                        'condition': {'is_itemgroup': 1},
+                                        'multiple': false,
+                                    }
+                                ) }}
+                            {% else %}
+                                {{ call('Dropdown::getDropdownName', ["glpi_groups", item.fields['groups_id']]) }}
+                            {% endif %}
+
+                        {% endif %}
+
+
+                        {% if item.isField('date_creation') %}
+                            {{ fields.dateField('date_creation',
+                                item.fields['date_creation'],
+                                __('Creation date'), {
+                                }) }}
+                        {% endif %}
+
+                        {% if item.isField('users_id_tech') %}
+                            {{ fields.dropdownField(
+                                "User",
+                                "users_id_tech",
+                                item.fields['users_id_tech'],
+                                __('Technician in charge'),
+                                {
+                                    'entity': item.fields['entities_id'],
+                                    'right': 'interface',
+                                }
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('date_expiration') %}
+                            {{ fields.dateField('date_expiration',
+                                item.fields['date_expiration'],
+                                __('Expiration date'), {
+                                    'helper': __('Empty for infinite')
+                                }) }}
+                        {% endif %}
+
+
+                        {% if item.isField('groups_id_tech') %}
+                            {{ fields.dropdownField(
+                                'Group',
+                                'groups_id_tech',
+                                item.fields['groups_id_tech'],
+                                __('Group in charge'),
+                                {
+                                    'entity': item.fields['entities_id'],
+                                    'condition': {'is_assign': 1},
+                                    'multiple': false,
+                                }
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('others') %}
+                            {{ fields.textField(
+                                "others",
+                                item.fields['others'],
+                                __('Others'),
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('locations_id') %}
+                            {{ fields.dropdownField(
+                                "Location",
+                                "locations_id",
+                                item.fields['locations_id'],
+                                "Location"|itemtype_name,
+                                {
+                                    'entity': item.fields['entities_id'],
+                                }
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('comment') %}
+                            {{ fields.textareaField(
+                                "comment",
+                                item.fields['comment'],
+                                _n('Comment', 'Comments', 2),
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('is_helpdesk_visible') %}
+                            {{ fields.checkboxField(
+                                'is_helpdesk_visible',
+                                item.fields['is_helpdesk_visible'],
+                                __('Associable to a ticket')
+                            ) }}
+                        {% endif %}
+
+
+                    </div> {# .row #}
+                </div> {# .row #}
+            </div> {# .flex-row #}
+        </div>
+
+    </div> {# .card-body #}
+    {% if item.isNewItem() %}
+        <script type="text/javascript">
+            $('#account_form').submit(function (event) {
+                if ($('input[name="hidden_password"]').val() == '' || $('input[name="aeskey"]').val() == '') {
+                    alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
+                    return false;
+                }
+                if (!check_hash()) {
+                    alert('{{ __('Wrong encryption key', 'accounts') }}');
+                    return false;
+                } else {
+                    encrypt_password();
+                }
+            });
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            $('#account_form').submit(function (event) {
+                if ($('input[name="hidden_password"]').val() == '' || $('input[name="aeskey"]').val() == '') {
+                    alert('{{ __('Password will not be modified', 'accounts') }}');
+                } else if (!check_hash()) {
+                    alert('{{ __('Wrong encryption key', 'accounts') }}');
+                    return false;
+                } else {
+                    encrypt_password();
+                }
+            });
+        </script>
+    {% endif %}
+    {% include("components/form/buttons.html.twig") %}
+    {#    {% include("components/form/inventory_info.html.twig") %} #}
+
+
+    {% if params['formfooter'] == null %}
+        <div class="card-footer mx-n2 mb-n2 mt-4">
+            {% include("components/form/dates.html.twig") %}
+        </div>
+    {% endif %}
+</div>
+<script type="text/javascript">
+    $(document).on('click', '#generate_hash', function (event) {
+        if ($('input[name="aeskey"]').val() == '' || $('input[name="aeskey"]').val() == undefined) {
+            alert('{{ __('Please fill the encryption key', 'accounts') }}');
+            $('input[name="hash"]').val('');
+        } else {
+            $('input[name="hash"]').val(SHA256(SHA256($('input[name="aeskey"]').val())));
+        }
+    });
+
+</script>

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -29,26 +30,27 @@
 
 namespace GlpiPlugin\Accounts;
 
-use Alert;
-use Glpi\DBAL\QueryExpression;
 use Ajax;
+use Alert;
+use Change_Item;
 use CommonDBTM;
 use DbUtils;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
+use Glpi\DBAL\QueryExpression;
 use Glpi\DBAL\QuerySubQuery;
 use Glpi\Features\Clonable;
 use Group;
 use Html;
-use Location;
-use MassiveAction;
-use Session;
-use Plugin;
-use NotificationEvent;
-use Change_Item;
 use Item_Problem;
 use Item_Project;
+use Location;
+use MassiveAction;
+use NotificationEvent;
+use Plugin;
+use Session;
+use Twig\TwigFilter;
 use User;
-
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
@@ -76,7 +78,7 @@ class Account extends CommonDBTM
         'Contract',
         'Supplier',
         'Certificate',
-        'Cluster'
+        'Cluster',
     ];
 
     public $dohistory = true;
@@ -137,7 +139,7 @@ class Account extends CommonDBTM
     {
         $tab[] = [
             'id' => 'common',
-            'name' => self::getTypeName(2)
+            'name' => self::getTypeName(2),
         ];
 
         if (Session::getCurrentInterface() != 'central') {
@@ -149,7 +151,7 @@ class Account extends CommonDBTM
                 'datatype' => 'itemlink',
                 'itemlink_type' => Account::class,
                 'massiveaction' => false,
-                'searchtype' => 'contains'
+                'searchtype' => 'contains',
             ];
         } else {
             $tab[] = [
@@ -159,7 +161,7 @@ class Account extends CommonDBTM
                 'name' => __s('Name'),
                 'datatype' => 'itemlink',
                 'itemlink_type' => Account::class,
-                'massiveaction' => false
+                'massiveaction' => false,
             ];
         }
 
@@ -170,7 +172,7 @@ class Account extends CommonDBTM
                 'field' => 'name',
                 'name' => __s('Type'),
                 'datatype' => 'dropdown',
-                'searchtype' => 'contains'
+                'searchtype' => 'contains',
             ];
         } else {
             $tab[] = [
@@ -178,7 +180,7 @@ class Account extends CommonDBTM
                 'table' => 'glpi_plugin_accounts_accounttypes',
                 'field' => 'name',
                 'name' => __s('Type'),
-                'datatype' => 'dropdown'
+                'datatype' => 'dropdown',
             ];
         }
 
@@ -188,7 +190,7 @@ class Account extends CommonDBTM
                 'table' => 'glpi_users',
                 'field' => 'name',
                 'name' => __s('Affected User', 'accounts'),
-                'searchtype' => 'contains'
+                'searchtype' => 'contains',
             ];
         } else {
             $tab[] = [
@@ -205,7 +207,7 @@ class Account extends CommonDBTM
             'id' => '4',
             'table' => $this->getTable(),
             'field' => 'login',
-            'name' => __s('Login')
+            'name' => __s('Login'),
         ];
 
         $tab[] = [
@@ -213,7 +215,7 @@ class Account extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'date_creation',
             'name' => __s('Creation date'),
-            'datatype' => 'date'
+            'datatype' => 'date',
         ];
 
         $tab[] = [
@@ -221,7 +223,7 @@ class Account extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'date_expiration',
             'name' => __s('Expiration date'),
-            'datatype' => 'date'
+            'datatype' => 'date',
         ];
 
         $tab[] = [
@@ -229,7 +231,7 @@ class Account extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'comment',
             'name' => __s('Comments'),
-            'datatype' => 'text'
+            'datatype' => 'text',
         ];
 
         if (Session::getCurrentInterface() == 'central') {
@@ -241,7 +243,7 @@ class Account extends CommonDBTM
                 'name' => _n('Associated item', 'Associated items', 2),
                 'forcegroupby' => true,
                 'massiveaction' => false,
-                'joinparams' => ['jointype' => 'child']
+                'joinparams' => ['jointype' => 'child'],
             ];
         }
 
@@ -249,7 +251,7 @@ class Account extends CommonDBTM
             'id' => '9',
             'table' => $this->getTable(),
             'field' => 'others',
-            'name' => __s('Others')
+            'name' => __s('Others'),
         ];
 
         if (Session::getCurrentInterface() != 'central') {
@@ -258,7 +260,7 @@ class Account extends CommonDBTM
                 'table' => 'glpi_plugin_accounts_accountstates',
                 'field' => 'name',
                 'name' => __s('Status'),
-                'searchtype' => 'contains'
+                'searchtype' => 'contains',
             ];
         } else {
             $tab[] = [
@@ -266,7 +268,7 @@ class Account extends CommonDBTM
                 'table' => 'glpi_plugin_accounts_accountstates',
                 'field' => 'name',
                 'name' => __s('Status'),
-                'datatype' => 'dropdown'
+                'datatype' => 'dropdown',
             ];
         }
 
@@ -277,7 +279,7 @@ class Account extends CommonDBTM
                 'table' => $this->getTable(),
                 'field' => 'is_recursive',
                 'name' => __s('Child entities'),
-                'datatype' => 'bool'
+                'datatype' => 'bool',
             ];
         }
 
@@ -289,7 +291,7 @@ class Account extends CommonDBTM
                 'name' => __s('Group'),
                 'datatype' => 'dropdown',
                 'condition' => ['`is_itemgroup`' => 1],
-                'searchtype' => 'contains'
+                'searchtype' => 'contains',
             ];
         } else {
             $tab[] = [
@@ -298,7 +300,7 @@ class Account extends CommonDBTM
                 'field' => 'completename',
                 'name' => __s('Group'),
                 'datatype' => 'dropdown',
-                'condition' => ['`is_itemgroup`' => 1]
+                'condition' => ['`is_itemgroup`' => 1],
             ];
         }
 
@@ -319,7 +321,7 @@ class Account extends CommonDBTM
             'field' => 'date_mod',
             'name' => __s('Last update'),
             'massiveaction' => false,
-            'datatype' => 'datetime'
+            'datatype' => 'datetime',
         ];
 
         $tab[] = [
@@ -329,7 +331,7 @@ class Account extends CommonDBTM
             'linkfield' => 'users_id_tech',
             'name' => __s('Technician in charge'),
             'datatype' => 'dropdown',
-            'right' => 'interface'
+            'right' => 'interface',
         ];
 
         $tab[] = [
@@ -339,7 +341,7 @@ class Account extends CommonDBTM
             'linkfield' => 'groups_id_tech',
             'name' => __s('Group in charge'),
             'condition' => ['`is_assign`' => 1],
-            'datatype' => 'dropdown'
+            'datatype' => 'dropdown',
         ];
 
         $tab[] = [
@@ -347,14 +349,14 @@ class Account extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'id',
             'name' => __s('ID'),
-            'datatype' => 'number'
+            'datatype' => 'number',
         ];
 
         $tab[] = [
             'id' => '81',
             'table' => 'glpi_entities',
             'field' => 'entities_id',
-            'name' => __s('Entity-ID')
+            'name' => __s('Entity-ID'),
         ];
 
         $tab[] = [
@@ -362,7 +364,7 @@ class Account extends CommonDBTM
             'table' => 'glpi_entities',
             'field' => 'completename',
             'name' => __s('Entity'),
-            'datatype' => 'dropdown'
+            'datatype' => 'dropdown',
         ];
 
         $tab[] = [
@@ -370,7 +372,7 @@ class Account extends CommonDBTM
             'table' => $this->getTable(),
             'field' => 'is_recursive',
             'name' => __s('Child entities'),
-            'datatype' => 'bool'
+            'datatype' => 'bool',
         ];
 
         return $tab;
@@ -479,83 +481,45 @@ class Account extends CommonDBTM
      */
     public function showForm($ID, $options = [])
     {
-        global $CFG_GLPI;
+
         if (!$this->canView()) {
             return false;
         }
 
         $hashclass = new Hash();
-        $dbu = new DbUtils();
 
-        $restrict = $dbu->getEntitiesRestrictCriteria(
+        $restrict = getEntitiesRestrictCriteria(
             "glpi_plugin_accounts_hashes",
             '',
             '',
             $hashclass->maybeRecursive()
         );
-        if ($ID < 1 && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
-            echo "<div class='alert alert-important alert-warning d-flex'>";
+
+        $nbhashes = countElementsInTable("glpi_plugin_accounts_hashes", $restrict);
+
+        if ($ID < 1 && $nbhashes == 0) {
+            echo "<div class='alert alert-warning d-flex'>";
             echo __s('There is no encryption key for this entity', 'accounts');
             echo "</div>";
             return false;
         }
-        //      if ($ID != 0) {
-        //         // Create item
-        //         $this->check($ID, UPDATE);
-        //         $this->getEmpty();
-        //      }
+
         $options["form_id"] = "account_form";
-        $this->initForm($ID, $options);
-        $this->showFormHeader($options);
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Name') . "</td>";
-        echo "<td>";
-        echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
-        echo "</td>";
-
-        echo "<td>" . __s('Status') . "</td><td>";
-        Dropdown::show(
-            AccountState::class,
-            ['value' => $this->fields["plugin_accounts_accountstates_id"]]
-        );
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Login') . "</td>";
-        echo "<td>";
-        echo Html::input('login', ['value' => $this->fields['login'], 'size' => 40]);
-        echo "</td>";
-
-        echo "<td>" . __s('Type') . "</td><td>";
-        Dropdown::show(
-            AccountType::class,
-            ['value' => $this->fields["plugin_accounts_accounttypes_id"]]
-        );
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
 
         //hash
         $hash = 0;
         $hash_id = 0;
-        $restrict = $dbu->getEntitiesRestrictCriteria(
+        $restrict = getEntitiesRestrictCriteria(
             "glpi_plugin_accounts_hashes",
             '',
             $this->getEntityID(),
             $hashclass->maybeRecursive()
         );
-        $hashes = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
+        $hashes = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
 
         if (!empty($hashes)) {
             if (count($hashes) > 1) {
-                echo "<div class='alert alert-important alert-warning d-flex'>";
+                echo "<div class='alert alert-warning d-flex'>";
                 echo __s(
                     'WARNING : there are multiple encryption keys for this entity. The encryption key of this entity will be used',
                     'accounts'
@@ -575,382 +539,73 @@ class Account extends CommonDBTM
                 }
             }
 
-            $alert = '';
             if (empty($hash)) {
                 $alert = __s('Your encryption key is malformed, please generate the hash', 'accounts');
+                echo "<div class='alert alert-warning d-flex'>";
+                echo $alert;
+                echo "</div>";
+                return false;
             }
         } else {
             $alert = __s('There is no encryption key for this entity', 'accounts');
+            echo "<div class='alert alert-warning d-flex'>";
+            echo $alert;
+            echo "</div>";
+            return false;
         }
 
         $aeskey = new AesKey();
-
-        //aeskey non enregistre
         if ($hash) {
-            if (!$aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id]) || !$aeskey->fields["name"]) {
-                echo "<td>" . __s('Encryption key', 'accounts') . "</div></td><td>";
-                echo Html::input(
-                    'aeskey',
-                    ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']
-                );
-                //            echo "<input type='password' class='form-control' autocomplete='off' size='20' name='aeskey' id='aeskey'
-                //            style='width: 50%;display: inline;'>";
-
-                echo Html::hidden('encrypted_password', [
-                    'value' => $this->fields["encrypted_password"],
-                    'id' => 'encrypted_password'
-                ]);
-                echo Html::hidden('good_hash', [
-                    'value' => $hash,
-                    'id' => 'good_hash'
-                ]);
-                echo Html::hidden('wrong_key_locale', [
-                    'value' => __s('Wrong encryption key', 'accounts'),
-                    'id' => 'wrong_key_locale'
-                ]);
-                if (!empty($ID) || $ID > 0) {
-                    echo Html::submit(__s('Uncrypt and copy', 'accounts'), [
-                        'name' => 'decrypte',
-                        'id' => 'decrypte_link',
-                        'icon' => 'ti ti-eye',
-                        'form' => '',
-                        'class' => 'btn btn-primary'
-                    ]);
-
-                    //               echo "&nbsp;<button type='submit' id='decrypte_link' name='decrypte' value='" . __s('Uncrypt & copy', 'accounts') . "'
-                    //                        class='btn btn-primary'>";
-                    //               echo "<i class='ti ti-eye'></i>&nbsp;".__s('Uncrypt & copy', 'accounts');
-                }
-                echo Html::scriptBlock(
-                    "$('#aeskey').keypress(function(e) {
-                 var root_accounts_doc = '" . PLUGIN_ACCOUNTS_WEBDIR . "';
-                 switch(e.keyCode) {
-                     case 13:
-                        if (!check_hash()) {
-                           var value = document.getElementById('wrong_key_locale').value;
-                           document.getElementById('wrong_key_locale_div').innerHTML = value;
-                        } else {
-                           document.getElementById('wrong_key_locale_div').innerHTML = '';
-                           decrypt_password(root_accounts_doc);
-                        }
-                      return false;
-                      break;
-                 }
-               });"
-                );
-                echo "</button>";
-                echo "<div id='wrong_key_locale_div' style='color:red'></div>";
-                echo "</td>";
-            } else {
-                echo "<td></td><td>";
-                echo "</td>";
-            }
-        } else {
-            echo "<td>" . __s('Encryption key', 'accounts') . "</td>";
-            echo "<td><div class='alert alert-important alert-warning d-flex'>";
-            echo $alert;
-            echo "</div></td>";
-        }
-        if (Session::getCurrentInterface() == 'central') {
-            echo "<td>" . __s('Affected User', 'accounts') . "</td><td>";
-            if ($this->canCreate()) {
-                User::dropdown([
-                    'value' => $this->fields["users_id"],
-                    'entity' => $this->fields["entities_id"],
-                    'right' => 'all'
-                ]);
-            } else {
-                echo getUserName($this->fields["users_id"]);
-            }
-            echo "</td>";
-        } else {
-            echo "<td>" . __s('Affected User', 'accounts') . "</td><td>";
-            echo getUserName($this->fields["users_id"]);
-            echo "</td>";
-        }
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Password') . "</td>";
-
-        echo "<td>";
-        //aeskey enregistre
-        if (isset($hash_id)
-            && $aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
-            && $aeskey->fields["name"]) {
-            echo Html::hidden('good_hash', [
-                'value' => $hash,
-                'id' => 'good_hash'
-            ]);
-            echo Html::hidden('aeskey', [
-                'value' => $aeskey->fields["name"],
-                'id' => 'aeskey',
-                'autocomplete' => 'off'
-            ]);
-            echo Html::hidden('encrypted_password', [
-                'value' => $this->fields["encrypted_password"],
-                'id' => 'encrypted_password'
-            ]);
-            echo Html::hidden('wrong_key_locale', [
-                'value' => __s('Wrong encryption key', 'accounts'),
-                'id' => 'wrong_key_locale'
-            ]);
-            //         echo Html::scriptBlock("");
-            echo '<script type="text/javascript">
-               $(document).ready(function () {
-                  auto_decrypt();
-               });</script>';
-        }
-        if (!empty($ID) || $ID > 0) {
-            echo "<span class='account_to_clipboard_wrapper pointer'>";
-        }
-        //      echo Html::input('hidden_password', ['id' => 'hidden_password', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-        echo "<input type='password' name='hidden_password' id='hidden_password' size='30' >";
-        if (!empty($ID) || $ID > 0) {
-            echo "</span>";
-        }
-        echo "<span toggle='#hidden_password' class='ti ti-eye field-icon toggle-password pointer'></span>";
-        echo "</td>";
-
-        echo Html::scriptBlock(
-            '$(".toggle-password").click(function() {
-                                 $(".toggle-password").toggleClass("ti-eye ti-eye-off");
-                                 var input = $($(this).attr("toggle"));
-                                 if (input.attr("type") == "password") {
-                                     input.attr("type", "text");
-                                 } else {
-                                     input.attr("type", "password");
-                                 }
-                             });'
-        );
-        if (Session::getCurrentInterface() == 'central') {
-            echo "<td>" . __s('Affected Group', 'accounts') . "</td><td>";
-            if (self::canCreate()) {
-                Dropdown::show('Group', [
-                    'value' => $this->fields["groups_id"],
-                    'condition' => ['is_itemgroup' => 1]
-                ]);
-            } else {
-                echo Dropdown::getDropdownName("glpi_groups", $this->fields["groups_id"]);
-            }
-            echo "</td>";
-        } else {
-            echo "<td>" . __s('Affected Group', 'accounts') . ":	</td><td>";
-            echo Dropdown::getDropdownName("glpi_groups", $this->fields["groups_id"]);
-            echo "</td>";
-        }
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Creation date') . "</td>";
-        echo "<td>";
-        Html::showDateField("date_creation", ['value' => $this->fields["date_creation"]]);
-        echo "</td>";
-
-        echo "<td>" . __s('Technician in charge') . "</td>";
-        echo "<td>";
-        User::dropdown([
-            'name' => "users_id_tech",
-            'value' => $this->fields["users_id_tech"],
-            'entity' => $this->fields["entities_id"],
-            'right' => 'interface'
-        ]);
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Expiration date') . "&nbsp;";
-        Html::showToolTip(nl2br(__s('Empty for infinite', 'accounts')));
-        echo "</td>";
-        echo "<td>";
-        Html::showDateField("date_expiration", ['value' => $this->fields["date_expiration"]]);
-        echo "</td>";
-
-        echo "<td>" . __s('Group in charge') . "</td><td>";
-        Group::dropdown([
-            'name' => 'groups_id_tech',
-            'value' => $this->fields['groups_id_tech'],
-            'condition' => ['is_assign' => 1]
-        ]);
-        echo "</td>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Others') . "</td>";
-        echo "<td>";
-        echo Html::input('others', ['value' => $this->fields['others'], 'size' => 40]);
-        echo "</td>";
-
-        echo "<td>" . __s('Location') . "</td><td>";
-        Location::dropdown([
-            'value' => $this->fields["locations_id"],
-            'entity' => $this->fields["entities_id"]
-        ]);
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td colspan = '4'>";
-        echo "<table cellpadding='2' cellspacing='2' border='0'><tr><td>";
-        echo __s('Comments') . "</td></tr>";
-        echo "<tr><td class='center'>";
-        Html::textarea([
-            'name' => 'comment',
-            'value' => $this->fields["comment"],
-            'cols' => 125,
-            'rows' => 3,
-            'enable_richtext' => false
-        ]);
-        echo "</td></tr></table>";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __s('Associable to a ticket') . "</td><td>";
-        Dropdown::showYesNo('is_helpdesk_visible', $this->fields['is_helpdesk_visible']);
-        echo "</td>";
-        echo "<td colspan='2'>";
-        echo "</td>";
-
-        echo "</tr>";
-
-        Plugin::doHook("post_item_form", ['item' => $this, 'options' => &$params]);
-
-        $options['colspan'] = 2;
-        $this->showDates($options);
-
-        if (self::canCreate() || self::canUpdate()) {
-            if ((empty($ID) || $ID < 0) && self::canCreate()) {
-                echo "<tr class='tab_bg_2'>";
-                echo "<td class='center' colspan='4'>";
-                echo Html::submit(
-                    _sx('button', 'Add'),
-                    ['name' => 'add', 'icon' => 'ti ti-plus', 'id' => 'account_add', 'class' => 'btn btn-primary']
-                );
-
-                echo Html::scriptBlock(
-                    "$('#account_form').submit(function(event){
-               if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
-                  alert('" . __s('You have not filled the password and encryption key', 'accounts') . "');
-                  return false;
-               };
-               if (!check_hash()) {
-                  alert('" . __s('Wrong encryption key', 'accounts') . "');
-                  return false;
-               } else {
-                  encrypt_password();
-               }
-            });"
-                );
-                //            echo "</button>";
-                echo "</td>";
-                echo "</tr>";
-            } elseif ($ID > 0) {
-                echo "<tr class='tab_bg_2'>";
-                echo "<td class='center' colspan='4'>";
-                echo Html::hidden('id', ['value' => $ID]);
-
-                echo Html::submit(
-                    _sx('button', 'Save'),
-                    [
-                        'name' => 'update',
-                        'icon' => 'ti ti-device-floppy',
-                        'id' => 'account_update',
-                        'class' => 'btn btn-primary'
-                    ]
-                );
-                //
-                //            echo "<button type='submit' name='update' id='account_update' value=\"" . _sx('button', 'Save') . "\" class='btn btn-primary' >";
-                //            echo "<i class='ti ti-device-floppy'></i>&nbsp;"._sx('button', 'Save');
-
-                echo Html::scriptBlock(
-                    "$('#account_form').submit(function(event){
-               if ($('#hidden_password').val() == '' || $('#aeskey').val() == '') {
-                  alert('" . __s('Password will not be modified', 'accounts') . "');
-               } else if (!check_hash()) {
-                  alert('" . __s('Wrong encryption key', 'accounts') . "');
-                  return false;
-               } else {
-                  encrypt_password();
-               }
-            });"
-                );
-                //            echo "</button>";
-                echo "</td>";
-                echo "</tr>";
-                echo "<tr class='tab_bg_2'>";
-                echo "<td class='right' colspan='4'>";
-                if ($this->fields["is_deleted"] == '0') {
-                    echo Html::submit(
-                        _sx('button', 'Put in trashbin'),
-                        ['name' => 'delete', 'icon' => 'ti ti-trash', 'class' => 'btn btn-outline-warning me-2']
-                    );
-                    //               echo "<button type='submit' name='delete' value=\"" . _sx('button', 'Put in trashbin') . "\" class='btn btn-primary'>";
-                    //               echo "<i class='ti ti-trash'></i>&nbsp;"._sx('button', 'Put in trashbin');
-                    //               echo "</button>";
-                } else {
-                    echo Html::submit(
-                        _sx('button', 'Restore'),
-                        ['name' => 'restore', 'icon' => 'ti ti-trash-off', 'class' => 'btn btn-outline-secondary me-2']
-                    );
-                    //               echo "<button type='submit' name='restore' value=\"" . _sx('button', 'Restore') . "\" class='btn btn-primary'>";
-                    //               echo "<i class='fas fa-trash-restore'></i>&nbsp;"._sx('button', 'Restore');
-                    //               echo "</button>";
-                    echo Html::submit(
-                        _sx('button', 'Delete permanently'),
-                        ['name' => 'purge', 'icon' => 'ti ti-trash', 'class' => 'btn btn-outline-danger me-2']
-                    );
-                    //               echo "&nbsp;&nbsp;<button type='submit' name='purge' value=\"" . _sx('button', 'Delete permanently') . "\" class='btn btn-primary'>";
-                    //               echo "<i class='fas fa-trash-alt'></i>&nbsp;"._sx('button', 'Delete permanently');
-                    //               echo "</button>";
-                }
-
-                echo "</td>";
-                echo "</tr>";
+            $aeskey_uncrypted = false;
+            if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
+                && $aeskey->fields["name"]) {
+                $aeskey_uncrypted = $aeskey->fields["name"];
             }
         }
+
+        $this->initForm($ID, $options);
+        TemplateRenderer::getInstance()->display('@accounts/account.html.twig', [
+            'item' => $this,
+            'nbhashes' => $nbhashes,
+            'hash' => $hash,
+            'aeskey_uncrypted' => $aeskey_uncrypted,
+            'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
+            'params' => $options,
+        ]);
 
         if (empty($ID)) {
             echo "<br><table class='tab_cadre'>
                <tbody>
                <tr class='tab_bg_1 center'><th colspan ='2'>" . __s('Generate password', 'accounts') . "</th></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> " . __s(
-                   "Numbers",
-                   "accounts"
-               ) . " <small>(0123456789)</small></label></td></tr>
+                "Numbers",
+                "accounts"
+            ) . " <small>(0123456789)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-1\" /></td><td><label for=\"char-1\"> " . __s(
-                   "Lowercase",
-                   "accounts"
-               ) . " <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
+                "Lowercase",
+                "accounts"
+            ) . " <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-2\" /></td><td><label for=\"char-2\"> " . __s(
-                   "Uppercase",
-                   "accounts"
-               ) . " <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
+                "Uppercase",
+                "accounts"
+            ) . " <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
                <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> " . __s(
-                   "Special characters",
-                   "accounts"
-               ) . " <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
+                "Special characters",
+                "accounts"
+            ) . " <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
                <tr class='tab_bg_1'>
                         <td><label for='length'>" . __s("Length", "accounts") . "</label></td>
                         <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> " . __s(
-                            " characters",
-                            "accounts"
-                        ) . "</td>
+                " characters",
+                "accounts"
+            ) . "</td>
                      </tr>
                <tr id='fakeupdate'></tr>
                <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
                <button type='button' id='generatePass' name='generatePass' class='submit btn btn-primary' value='" . __s(
-                            'Generate',
-                            'accounts'
-                        ) . "'>" . __s('Generate', 'accounts') . "</button></td></tr>
+                'Generate',
+                'accounts'
+            ) . "'>" . __s('Generate', 'accounts') . "</button></td></tr>
                </tbody>
                </table>";
             Ajax::updateItemOnEvent(
@@ -962,10 +617,9 @@ class Account extends CommonDBTM
             );
         }
 
-        Html::closeForm();
-
         return true;
     }
+
 
     /**
      * Make a select box for link accounts
@@ -1002,17 +656,21 @@ class Account extends CommonDBTM
             'WHERE' => ['glpi_plugin_accounts_accounts.is_deleted' => 0],
         ];
         $subquery['WHERE'] = $subquery['WHERE'] + getEntitiesRestrictCriteria(
-                'glpi_plugin_accounts_accounts', '', $p['entity'], true
-            );
+            'glpi_plugin_accounts_accounts',
+            '',
+            $p['entity'],
+            true
+        );
 
         if (count($p['used'])) {
-            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN',  array_filter($p['used'])]];;
+            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN',  array_filter($p['used'])]];
+            ;
         }
 
         $criteria = [
             'FROM'      => 'glpi_plugin_accounts_accounttypes',
             'WHERE'     => [
-                'id'  => new QuerySubQuery($subquery)
+                'id'  => new QuerySubQuery($subquery),
             ],
             'GROUPBY'   => 'name',
         ];
@@ -1029,7 +687,7 @@ class Account extends CommonDBTM
         $out = Dropdown::showFromArray('_accounttype', $values, [
             'width' => '30%',
             'rand' => $rand,
-            'display' => false
+            'display' => false,
         ]);
         $field_id = Html::cleanId("dropdown__accounttype$rand");
 
@@ -1038,7 +696,7 @@ class Account extends CommonDBTM
             'entity' => $p['entity'],
             'rand' => $rand,
             'myname' => $p['name'],
-            'used' => $p['used']
+            'used' => $p['used'],
         ];
 
         $out .= Ajax::updateItemOnSelectEvent(
@@ -1164,26 +822,26 @@ class Account extends CommonDBTM
             case "add_item":
                 $input = $ma->getInput();
                 foreach ($ids as $key) {
-                        if (!$dbu->countElementsInTable(
-                            'glpi_plugin_accounts_accounts_items',
-                            [
-                                "itemtype" => $item->getType(),
-                                "items_id" => $key,
-                                "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id']
-                            ]
-                        )) {
-                            $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
-                            $myvalue['itemtype'] = $item->getType();
-                            $myvalue['items_id'] = $key;
-                            if ($account_item->add($myvalue)) {
-                                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
-                            } else {
-                                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
-                            }
+                    if (!$dbu->countElementsInTable(
+                        'glpi_plugin_accounts_accounts_items',
+                        [
+                            "itemtype" => $item->getType(),
+                            "items_id" => $key,
+                            "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id'],
+                        ]
+                    )) {
+                        $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
+                        $myvalue['itemtype'] = $item->getType();
+                        $myvalue['items_id'] = $key;
+                        if ($account_item->add($myvalue)) {
+                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
                         }
+                    } else {
+                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
                     }
+                }
 
                 break;
 
@@ -1223,7 +881,7 @@ class Account extends CommonDBTM
                         $values = [
                             'plugin_accounts_accounts_id' => $key,
                             'items_id' => $input["item_item"],
-                            'itemtype' => $input['typeitem']
+                            'itemtype' => $input['typeitem'],
                         ];
                         if ($account_item->add($values)) {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
@@ -1280,7 +938,7 @@ class Account extends CommonDBTM
         switch ($name) {
             case 'AccountsAlert':
                 return [
-                    'description' => __s('Accounts expired or accounts which expires', 'accounts')
+                    'description' => __s('Accounts expired or accounts which expires', 'accounts'),
                 ]; // Optional
                 break;
         }
@@ -1311,8 +969,8 @@ class Account extends CommonDBTM
                     ],
                     'is_deleted'   => 0,
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
-                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0")
-                ]
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0"),
+                ],
             ];
 
             if (count($notif->findStates()) > 0) {
@@ -1347,8 +1005,8 @@ class Account extends CommonDBTM
                     'NOT' => ['date_expiration' => null],
                     'is_deleted'   => 0,
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
-                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0")
-                ]
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0"),
+                ],
             ];
 
             if (count($notif->findStates()) > 0) {
@@ -1389,15 +1047,15 @@ class Account extends CommonDBTM
             if (!empty($query)) {
                 foreach ($DB->request($query) as $data) {
                     $entity = $data['entities_id'];
-                    $message = $data["name"] . ": " .
-                        Html::convDate($data["date_expiration"]) . "<br>\n";
+                    $message = $data["name"] . ": "
+                        . Html::convDate($data["date_expiration"]) . "<br>\n";
                     $account_infos[$type][$entity][] = $data;
 
                     if (!isset($account_messages[$type][$entity])) {
                         $account_messages[$type][$entity] = __s(
-                                'Accounts expired or accounts which expires',
-                                'accounts'
-                            ) . "<br />";
+                            'Accounts expired or accounts which expires',
+                            'accounts'
+                        ) . "<br />";
                     }
                     $account_messages[$type][$entity] .= $message;
                 }
@@ -1413,7 +1071,7 @@ class Account extends CommonDBTM
                     new Account(),
                     [
                         'entities_id' => $entity,
-                        'accounts' => $accounts
+                        'accounts' => $accounts,
                     ]
                 )) {
                     $message = $account_messages[$type][$entity];
@@ -1437,13 +1095,13 @@ class Account extends CommonDBTM
                 } else {
                     if ($task) {
                         $task->log(
-                            Dropdown::getDropdownName("glpi_entities", $entity) .
-                            ":  Send accounts alert failed\n"
+                            Dropdown::getDropdownName("glpi_entities", $entity)
+                            . ":  Send accounts alert failed\n"
                         );
                     } else {
                         Session::addMessageAfterRedirect(
-                            Dropdown::getDropdownName("glpi_entities", $entity) .
-                            ":  Send accounts alert failed",
+                            Dropdown::getDropdownName("glpi_entities", $entity)
+                            . ":  Send accounts alert failed",
                             false,
                             ERROR
                         );
@@ -1479,7 +1137,6 @@ class Account extends CommonDBTM
      */
     public static function showSelector($target)
     {
-        global $CFG_GLPI;
 
         $rand = mt_rand();
         Plugin::loadLang('accounts');
@@ -1487,12 +1144,12 @@ class Account extends CommonDBTM
         echo Html::script("/lib/base.js");
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/themes/default/style.min.css");
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/jstree-glpi.css");
-        echo "<div class='alert alert-important alert-info d-flex'>" . __s(
+        echo "<div class='alert alert-info d-flex'>" . __s(
             'Select the wanted account type',
             'accounts'
         ) . "</div><br>";
-        echo "<a href='" . $target . "?reset=reset' target='_blank' title=\"" .
-            __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __s('Show all')) . "</a>";
+        echo "<a href='" . $target . "?reset=reset' target='_blank' title=\""
+            . __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __s('Show all')) . "</a>";
         $root = PLUGIN_ACCOUNTS_WEBDIR;
         $js = "   $(function() {
                   $.getScript('{$root}/lib/jstree/jstree.min.js', function(data, textStatus, jqxhr) {
@@ -1637,7 +1294,7 @@ class Account extends CommonDBTM
     /**
      * @param array $options Options
      *
-     * @return boolean
+     * @return bool
      **@since 9.1
      *
      */

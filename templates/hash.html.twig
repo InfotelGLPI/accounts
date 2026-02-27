@@ -1,0 +1,133 @@
+{#
+# -------------------------------------------------------------------------
+# Accounts plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of Accounts.
+#
+# Accounts is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Accounts is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Accounts. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2026-2026 by Accounts plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/InfotelGLPI/Accounts
+# -------------------------------------------------------------------------
+#}
+
+{% import "components/form/fields_macros.html.twig" as fields %}
+
+{% set bg = "" %}
+{% if item.isDeleted() %}
+    {% set bg = "asset-deleted" %}
+{% endif %}
+
+<div class="asset {{ bg }}">
+    {% include("components/form/header.html.twig") %}
+
+    {% set rand = random() %}
+    {% set params  = params ?? [] %}
+    {% set target       = params['target'] ?? item.getFormURL() %}
+    {% set withtemplate = params['withtemplate'] ?? "" %}
+    {% set item_type = item.getType() %}
+
+    <div class="card-body d-flex">
+        <div class="col-12 flex-column">
+            <div class="d-flex flex-row flex-wrap flex-xl-nowrap">
+                <div class="row flex-row align-items-start flex-grow-1">
+                    <div class="row flex-row">
+
+                        {% if item.isNewItem() and nbhashes > 0 %}
+                        <div class='alert alert-warning d-flex'>
+                            {{ __('WARNING : a encryption key already exist for this entity', 'accounts')}}
+                        </div>
+                        {% endif %}
+
+                        {% if item.isField('name') %}
+                            {{ fields.autoNameField(
+                                "name",
+                                item,
+                                __('Name'),
+                            withtemplate
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isNewItem() %}
+                            {{ fields.textField(
+                                "aeskey",
+                                "",
+                                __('Encryption key', 'accounts'), {
+                                    additional_attributes: {
+                                        autocomplete: 'off',
+                                    }
+                                }
+                            ) }}
+                        <div class="center d-inline-block">
+                            <input type="button" id="generate_hash"
+                                   value="{{ __('Generate hash with this encryption key', 'accounts')}}"
+                                   class="submit btn btn-primary">
+                            </div>
+                        {% endif %}
+
+                        {% if item.isField('hash') %}
+                            {{ fields.textField(
+                                "hash",
+                                item.fields['hash'],
+                                __('Hash', 'accounts'),
+                                {'readonly' : true}
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isField('comment') %}
+                            {{ fields.textareaField(
+                                "comment",
+                                item.fields['comment'],
+                                _n('Comment', 'Comments', 2),
+                            ) }}
+                        {% endif %}
+
+                        {% if item.isNewItem() %}
+                            <div class='alert alert-danger d-flex'>
+                                {{ alertmsg }}
+                            </div>
+                        {% endif %}
+                    </div> {# .row #}
+                </div> {# .row #}
+            </div> {# .flex-row #}
+        </div>
+
+    </div> {# .card-body #}
+    {% include("components/form/buttons.html.twig") %}
+    {#    {% include("components/form/inventory_info.html.twig") %}#}
+
+
+    {% if params['formfooter'] == null %}
+        <div class="card-footer mx-n2 mb-n2 mt-4">
+            {% include("components/form/dates.html.twig") %}
+        </div>
+    {% endif %}
+</div>
+<script type="text/javascript">
+
+    $(document).on('click', '#generate_hash', function(event) {
+
+        if ($('input[name="aeskey"]').val() == '' || $('input[name="aeskey"]').val() == undefined) {
+            alert('{{ __('Please fill the encryption key', 'accounts') }}');
+            $('input[name="hash"]').val('');
+        } else {
+            $('input[name="hash"]').val(SHA256(SHA256($('input[name="aeskey"]').val())));
+        }
+    });
+
+</script>

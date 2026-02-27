@@ -1,0 +1,89 @@
+{#
+# -------------------------------------------------------------------------
+# Accounts plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of Accounts.
+#
+# Accounts is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Accounts is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Accounts. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2026-2026 by Accounts plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/InfotelGLPI/Accounts
+# -------------------------------------------------------------------------
+#}
+
+{% import "components/form/fields_macros.html.twig" as fields %}
+
+{% set bg = "" %}
+{% if item.isDeleted() %}
+    {% set bg = "asset-deleted" %}
+{% endif %}
+
+<div class="asset {{ bg }}">
+    {% include("components/form/header.html.twig") %}
+
+    {% set rand = random() %}
+    {% set params  = params ?? [] %}
+    {% set target       = params['target'] ?? item.getFormURL() %}
+    {% set withtemplate = params['withtemplate'] ?? "" %}
+    {% set item_type = item.getType() %}
+
+    <div class="card-body d-flex">
+        <div class="col-12 flex-column">
+            <div class="d-flex flex-row flex-wrap flex-xl-nowrap">
+                <div class="row flex-row align-items-start flex-grow-1">
+                    <div class="row flex-row">
+
+                        {% if nbhashes == 0 %}
+                        <div class='alert alert-warning d-flex'>
+                            {{__('Encryption key modified', 'accounts')}}
+                        </div>
+                        {% endif %}
+
+                        <div class='alert alert-danger d-flex'>
+                            {{__('WARNING : saving the encryption key is a security hole', 'accounts')}}
+                        </div>
+
+                        {{ fields.passwordField('name', item.fields['name'], __('Encryption key', 'accounts'), {
+                            can_regenerate: false,
+                            is_disclosable: true,
+                            clearable: false,
+                            is_copyable: true,
+                            additional_attributes: {
+                                autocomplete: 'off',
+                            },
+                        }) }}
+
+                        {{ fields.hiddenField('plugin_accounts_hashes_id', params['plugin_accounts_hashes_id']) }}
+
+
+                    </div> {# .row #}
+                </div> {# .row #}
+            </div> {# .flex-row #}
+        </div>
+
+    </div> {# .card-body #}
+    {% include("components/form/buttons.html.twig") %}
+    {#    {% include("components/form/inventory_info.html.twig") %}#}
+
+
+    {% if params['formfooter'] == null %}
+        <div class="card-footer mx-n2 mb-n2 mt-4">
+            {% include("components/form/dates.html.twig") %}
+        </div>
+    {% endif %}
+</div>

@@ -35,6 +35,8 @@ use CommonDBTM;
 use CommonGLPI;
 use DbUtils;
 use Dropdown;
+use Entity;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use KnowbaseItem;
 use Session;
@@ -66,6 +68,7 @@ final class Account_Item extends CommonDBRelation
 
         $forbidden   = parent::getForbiddenStandardMassiveAction();
         $forbidden[] = 'update';
+        $forbidden[] = 'add_note';
         return $forbidden;
     }
 
@@ -148,16 +151,22 @@ final class Account_Item extends CommonDBRelation
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
 
-        if ($item->getType() == Account::class) {
+        if (!$item instanceof CommonDBTM) {
+            return false;
+        }
 
-            self::showForAccount($item);
-
-        } elseif (in_array($item->getType(), Account::getTypes(true))) {
-
-            self::showForItem($item);
+        if ($item instanceof Account) {
+            return self::showForAccount($item, $withtemplate);
 
         }
-        return true;
+        if (Account::canView()
+            && in_array($item->getType(), Account::getTypes(true))) {
+
+//            self::showForItem($item);
+            return self::showForAsset($item);
+
+        }
+        return false;
     }
 
 
@@ -232,261 +241,125 @@ final class Account_Item extends CommonDBRelation
 
 
     /**
-     * Show items links to a account
+     * Print the HTML array for Items linked to a account
      *
      * @param Account $account
+     * @param int $withtemplate
      *
      * @return bool
-     * @internal param Account object
-     *
-     * @since version 0.84
-     *
-     */
-    public static function showForAccount(Account $account)
+     **/
+    public static function showForAccount(Account $account, int $withtemplate = 0): bool
     {
-        global $DB;
+        $instID = $account->getID();
 
-        $dbu    = new DbUtils();
-        $instID = $account->fields['id'];
         if (!$account->can($instID, READ)) {
             return false;
         }
-        $canedit = $account->can($instID, UPDATE);
+        $canedit = $account->canEdit($instID);
+        $rand    = mt_rand();
 
-        $iterator = $DB->request([
-            'SELECT'    => [
-                'itemtype'
-            ],
-            'DISTINCT'        => true,
-            'FROM'      => 'glpi_plugin_accounts_accounts_items',
-            'WHERE'     => [
-                'plugin_accounts_accounts_id'  => $instID
-            ],
-            'ORDERBY'   => 'itemtype',
-            'LIMIT'    => count(Account::getTypes(true))
-        ]);
-        $number = count($iterator);
-        $rand   = mt_rand();
+        $types_iterator = self::getDistinctTypes($instID);
 
-        if ($canedit) {
-            echo "<div class='firstbloc'>";
-            echo "<form name='accountitem_form$rand' id='accountitem_form$rand' method='post'
-         action='" . Toolbox::getItemTypeFormURL(Account::class) . "'>";
+        $totalnb = 0;
+        $entity_names_cache = [];
+        $entries = [];
+        $used = [];
 
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr class='tab_bg_2'><th colspan='2'>" . __s('Add an item') . "</th></tr>";
-
-            echo "<tr class='tab_bg_1'><td class='right'>";
-            Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'items_id',
-                'itemtypes'     => Account::getTypes(true),
-                'entity_restrict'
-                                => ($account->fields['is_recursive']
-                   ? $dbu->getSonsOf(
-                       'glpi_entities',
-                       $account->fields['entities_id']
-                   )
-                   : $account->fields['entities_id']),
-                'checkright'
-                                => true,
-            ]);
-            echo "</td><td class='center'>";
-            echo Html::submit(_sx('button', 'Add'), ['name' => 'additem', 'class' => 'btn btn-primary']);
-            echo Html::hidden('plugin_accounts_accounts_id', ['value' => $instID]);
-            echo "</td></tr>";
-            echo "</table>";
-            Html::closeForm();
-            echo "</div>";
-        }
-
-        echo "<div class='spaced'>";
-        if ($canedit && $number) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams['item'] = $account;
-            Html::showMassiveActions($massiveactionparams);
-        }
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr>";
-
-        if ($canedit && $number) {
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-        }
-
-        echo "<th>" . __s('Type') . "</th>";
-        echo "<th>" . __s('Name') . "</th>";
-        echo "<th>" . __s('Entity') . "</th>";
-        echo "<th>" . __s('Serial number') . "</th>";
-        echo "<th>" . __s('Inventory number') . "</th>";
-        echo "</tr>";
-
-        foreach ($iterator as $data) {
-            $itemtype = $data["itemtype"];
-            if (!($item = $dbu->getItemForItemtype($itemtype))) {
+        foreach ($types_iterator as $row) {
+            $itemtype = $row['itemtype'];
+            if (!($item = getItemForItemtype($itemtype)) || !$item::canView()) {
                 continue;
             }
 
-            if ($item->canView()) {
-                $column = "name";
-                if ($itemtype == 'Ticket') {
-                    $column = "id";
+            $itemtype_name = $item::getTypeName(1);
+            $iterator = self::getTypeItems($instID, $itemtype);
+            $nb = count($iterator);
+
+            foreach ($iterator as $data) {
+                $name = $data[$itemtype::getNameField()];
+                if (
+                    $_SESSION["glpiis_ids_visible"]
+                    || empty($data[$itemtype::getNameField()])
+                ) {
+                    $name = sprintf(__('%1$s (%2$s)'), $name, $data["id"]);
+                }
+                $link     = $item::getFormURLWithID($data['id']);
+                $namelink = "<a href=\"" . htmlescape($link) . "\">" . htmlescape($name) . "</a>";
+
+                if (!isset($entity_names_cache[$data['entity']])) {
+                    $entity_names_cache[$data['entity']] = Dropdown::getDropdownName("glpi_entities", $data['entity']);
                 }
 
-                $itemtable = $dbu->getTableForItemType($itemtype);
-                $query     = "SELECT `$itemtable`.*,
-            `glpi_plugin_accounts_accounts_items`.`id` AS IDD, ";
-
-                if ($itemtype == 'KnowbaseItem') {
-                    $query .= "-1 AS entity
-               FROM `glpi_plugin_accounts_accounts_items`, `$itemtable`
-               " . self::addVisibilityJoins() . "
-               WHERE `$itemtable`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
-               AND ";
-                } else {
-                    $query .= "`glpi_entities`.`id` AS entity
-               FROM `glpi_plugin_accounts_accounts_items`, `$itemtable` ";
-
-                    if ($itemtype != 'Entity') {
-                        $query .= "LEFT JOIN `glpi_entities`
-                              ON (`glpi_entities`.`id` = `$itemtable`.`entities_id`) ";
-                    }
-                    $query .= "WHERE `$itemtable`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
-               AND ";
-                }
-                $query .= "`glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
-            AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '$instID' ";
-
-                if ($itemtype == 'KnowbaseItem') {
-                    if (Session::getLoginUserID()) {
-                        $query = "AND " . self::addVisibilityRestrict();
-                    } else {
-                        // Anonymous access
-                        if (Session::isMultiEntitiesMode()) {
-                            $query = " AND (`glpi_entities_knowbaseitems`.`entities_id` = '0'
-                              AND `glpi_entities_knowbaseitems`.`is_recursive` = '1')";
-                        }
-                    }
-                } else {
-                    $query .= $dbu->getEntitiesRestrictRequest(
-                        " AND ",
-                        $itemtable,
-                        '',
-                        '',
-                        $item->maybeRecursive()
-                    );
-                }
-
-                if ($item->maybeTemplate()) {
-                    $query .= " AND `$itemtable`.`is_template` = '0'";
-                }
-
-                if ($itemtype == 'KnowbaseItem') {
-                    $query .= " ORDER BY `$itemtable`.`$column`";
-                } else {
-                    $query .= " ORDER BY `glpi_entities`.`completename`, `$itemtable`.`$column`";
-                }
-
-                if ($itemtype == 'SoftwareLicense') {
-                    $soft = new Software();
-                }
-
-                if ($result_linked = $DB->doQuery($query)) {
-                    if ($DB->numrows($result_linked)) {
-
-                        while ($data = $DB->fetchAssoc($result_linked)) {
-
-                            if ($itemtype == 'Ticket') {
-                                $data["name"] = sprintf(__s('%1$s: %2$s'), __s('Ticket'), $data["id"]);
-                            }
-
-                            if ($itemtype == 'SoftwareLicense') {
-                                $soft->getFromDB($data['softwares_id']);
-                                $data["name"] = sprintf(
-                                    __s('%1$s - %2$s'),
-                                    $data["name"],
-                                    $soft->fields['name']
-                                );
-                            }
-                            $linkname = $data["name"];
-                            if ($_SESSION["glpiis_ids_visible"]
-                                || empty($data["name"])
-                            ) {
-                                $linkname = sprintf(__s('%1$s (%2$s)'), $linkname, $data["id"]);
-                            }
-
-                            $link = Toolbox::getItemTypeFormURL($itemtype);
-                            $name = "<a href=\"" . $link . "?id=" . $data["id"] . "\">" . $linkname . "</a>";
-
-                            echo "<tr class='tab_bg_1'>";
-
-                            if ($canedit) {
-                                echo "<td width='10'>";
-                                Html::showMassiveActionCheckBox(__CLASS__, $data["IDD"]);
-                                echo "</td>";
-                            }
-                            echo "<td class='center'>" . $item->getTypeName(1) . "</td>";
-                            echo "<td "
-                                 . (isset($data['is_deleted']) && $data['is_deleted'] ? "class='tab_bg_2_2'" : "")
-                                 . ">" . $name . "</td>";
-                            echo "<td class='center'>" . Dropdown::getDropdownName(
-                                "glpi_entities",
-                                $data['entity']
-                            );
-                            echo "</td>";
-                            echo "<td class='center'>"
-                                 . (isset($data["serial"]) ? "" . $data["serial"] . "" : "-") . "</td>";
-                            echo "<td class='center'>"
-                                 . (isset($data["otherserial"]) ? "" . $data["otherserial"] . "" : "-") . "</td>";
-                            echo "</tr>";
-                        }
-                    }
-                }
+                $entries[] = [
+                    'itemtype' => self::class,
+                    'id' => $data['linkid'],
+                    'row_class' => (isset($data['is_deleted']) && $data['is_deleted']) ? 'table-deleted' : '',
+                    'type' => $itemtype_name,
+                    'name' => $namelink,
+                    'entity' => $entity_names_cache[$data['entity']],
+                    'serial' => $data["serial"] ?? '-',
+                    'otherserial' => $data["otherserial"] ?? '-',
+                ];
+                $used[$itemtype][$data['id']] = $data['id'];
             }
+            $totalnb += $nb;
         }
-        echo "</table>";
-        if ($canedit && $number) {
-            $paramsma['ontop'] = false;
-            $paramsma['item']  = $account;
-            Html::showMassiveActions($paramsma);
-            Html::closeForm();
-        }
-        echo "</div>";
 
+        $columns = [
+            'type' => _n('Type', 'Types', 1),
+        ];
+        if (Session::isMultiEntitiesMode()) {
+            $columns['entity'] = Entity::getTypeName(1);
+        }
+        $columns += [
+            'name' => __('Name'),
+            'serial' => __('Serial number'),
+            'otherserial' => __('Inventory number'),
+        ];
+        $formatters = [
+            'name' => 'raw_html',
+        ];
+        $footers = [];
+        if ($totalnb > 0) {
+            $footers = [
+                [sprintf(__('%1$s = %2$s'), __('Total'), $totalnb)],
+            ];
+        }
+
+        TemplateRenderer::getInstance()->display('@accounts/item_account.html.twig', [
+            'item' => $account,
+            'can_edit' => $canedit && $withtemplate != 2,
+            'withtemplate' => $withtemplate,
+            'used' => $used,
+            'types' => Account::getTypes(true),
+            'datatable_params' => [
+                'is_tab' => true,
+                'nofilter' => true,
+                'nosort' => true,
+                'columns' => $columns,
+                'formatters' => $formatters,
+                'entries' => $entries,
+                'footers' => $footers,
+                'total_number' => count($entries),
+                'filtered_number' => count($entries),
+                'showmassiveactions' => $canedit,
+                'massiveactionparams' => [
+                    'container' => 'massiveactioncontainer' . $rand,
+                    'itemtype'  => self::class,
+                ],
+            ],
+        ]);
+
+        return true;
     }
 
-    /**
-     * Show accounts associated to an item
-     *
-     * @param $item            CommonDBTM object for which associated accounts must be displayed
-     * @param $withtemplate (default '')
-     *
-     * @return bool
-     * @since version 0.84
-     *
-     */
-    public static function showForItem(CommonDBTM $item, $withtemplate = '')
+
+    private static function showForAsset(CommonDBTM $item): bool
     {
         global $DB;
 
-        $ID  = $item->getField('id');
-        $dbu = new DbUtils();
+        $used = $entries = [];
 
-        if ($item->isNewID($ID)) {
-            return false;
-        }
-        if (!Session::haveRight("plugin_accounts", READ)) {
-            return false;
-        }
-
-        if (!$item->can($item->fields['id'], READ)) {
-            return false;
-        }
-
-        if (empty($withtemplate)) {
-            $withtemplate = 0;
-        }
-
-        $canedit      = $item->canadditem(Account::class);
-        $rand         = mt_rand();
-        $is_recursive = $item->isRecursive();
         $who          = Session::getLoginUserID();
         if (count($_SESSION["glpigroups"])
             && Session::haveRight("plugin_accounts_my_groups", 1)
@@ -503,15 +376,14 @@ final class Account_Item extends CommonDBRelation
             }
 
             $ASSIGN = ['OR' => [
-                    'groups_id'  => $groups,
-                    'users_id'    => $who
-                ]
+                'groups_id'  => $groups,
+                'users_id'    => $who
+            ]
             ];
 
         } else { // Only personal ones
             $ASSIGN = ['users_id' => $who];
         }
-
 
         $criteria = [
             'SELECT' => ['glpi_plugin_accounts_accounts_items.id AS assocID',
@@ -534,7 +406,7 @@ final class Account_Item extends CommonDBRelation
                 ]
             ],
             'WHERE' => [
-                'glpi_plugin_accounts_accounts_items.items_id' => $ID,
+                'glpi_plugin_accounts_accounts_items.items_id' => $item->getID(),
                 'glpi_plugin_accounts_accounts_items.itemtype' => $item->getType(),
             ],
             'ORDERBY'   => 'assocName',
@@ -546,274 +418,144 @@ final class Account_Item extends CommonDBRelation
         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
             $criteria['WHERE'] = $criteria['WHERE'] + $ASSIGN;
         }
-
         $iterator_list = $DB->request($criteria);
-        $number = count($iterator_list);
 
-        $i      = 0;
-
-        $accounts = [];
-        $account  = new Account();
-        $used     = [];
-        if (count($iterator_list) > 0) {
-            foreach ($iterator_list as $data) {
-                $accounts[$data['assocID']] = $data;
-                $used[$data['id']]          = $data['id'];
-            }
-        }
-
-        if ($canedit && $withtemplate < 2) {
-            // Restrict entity for knowbase
-            $entities = "";
-            $entity   = $_SESSION["glpiactive_entity"];
-
-            if ($item->isEntityAssign()) {
-                /// Case of personal items : entity = -1 : create on active entity (Reminder case))
-                if ($item->getEntityID() >= 0) {
-                    $entity = $item->getEntityID();
-                }
-
-                if ($item->isRecursive()) {
-                    $entities = $dbu->getSonsOf('glpi_entities', $entity);
-                } else {
-                    $entities = $entity;
-                }
-            }
-
-            $criteria = [
-                'COUNT' => 'cpt',
-                'FROM' => 'glpi_plugin_accounts_accounts',
-                'WHERE' => ['is_deleted' => 0]
-            ];
-            $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
-                    'glpi_plugin_accounts_accounts', '', $entities, true
-                );
-            $iterator = $DB->request($criteria);
-            $nb = count($iterator);
-            echo "<div class='firstbloc'>";
-
-            if (Session::haveRight('plugin_accounts', READ)
-                && ($nb > count($used))
-            ) {
-                echo "<form name='account_form$rand' id='account_form$rand' method='post'
-                   action='" . Toolbox::getItemTypeFormURL(Account::class) . "'>";
-                echo "<table class='tab_cadre_fixe'>";
-                echo "<tr class='tab_bg_1'>";
-                echo "<td colspan='4' class='center'>";
-                echo Html::hidden('entities_id', ['value' => $entity]);
-                echo Html::hidden('is_recursive', ['value' => $is_recursive]);
-                echo Html::hidden('itemtype', ['value' => $item->getType()]);
-                echo Html::hidden('items_id', ['value' => $ID]);
-                if ($item->getType() == 'Ticket') {
-                    echo Html::hidden('tickets_id', ['value' => $ID]);
-                }
-
-                Account::dropdownAccount(['entity' => $entities,
-                    'used'   => $used]);
-                echo "</td><td class='center' width='20%'>";
-                echo Html::submit(_sx('button', 'Associate a account', 'accounts'), ['name' => 'additem', 'class' => 'btn btn-primary']);
-                echo "</td>";
-                echo "</tr>";
-                echo "</table>";
-                Html::closeForm();
-            }
-
-            echo "</div>";
-        }
-
-        echo "<div class='spaced'>";
-        if ($canedit && $number && ($withtemplate < 2)) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = ['num_displayed' => $number];
-            Html::showMassiveActions($massiveactionparams);
-        }
-        echo "<table class='tab_cadre_fixe'>";
-
-        if (Session::isMultiEntitiesMode()) {
-            $colsup = 1;
-        } else {
-            $colsup = 0;
-        }
 
         //hash
         $hashclass = new Hash();
         $hash_id   = 0;
         $hash      = 0;
-        $restrict  = $dbu->getEntitiesRestrictCriteria(
+        $restrict  = getEntitiesRestrictCriteria(
             "glpi_plugin_accounts_hashes",
             '',
             $item->getEntityID(),
             $hashclass->maybeRecursive()
         );
-        $dbu       = new DbUtils();
-        $hashes    = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
+
+        $hashes    = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
         if (!empty($hashes)) {
             foreach ($hashes as $hashe) {
                 $hash    = $hashe["hash"];
                 $hash_id = $hashe["id"];
             }
-            $alert = '';
         } else {
             $alert = __s('There is no encryption key for this entity', 'accounts');
-        }
-
-        $aeskey = new AesKey();
-        echo "<tr><th colspan='" . (8 + $colsup) . "'>";
-        if ($hash) {
-            if (!$aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id]) || !$aeskey->fields["name"]) {
-                echo __s('Encryption key', 'accounts');
-                echo "&nbsp;";
-                //            echo "<input type='password' class='form-control' name='aeskey' id='aeskey' autocomplete='off'>";
-                echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-            } else {
-                echo Html::hidden('aeskey', ['value'        => $aeskey->fields["name"],
-                    'id'           => 'aeskey',
-                    'autocomplete' => 'off']);
-            }
-        } else {
-            echo __s('Encryption key', 'accounts');
-            echo "<div class='alert alert-important alert-warning d-flex'>";
+            echo "<div class='alert alert-warning d-flex'>";
             echo $alert;
             echo "</div>";
+            return false;
         }
-
-        echo "<tr>";
-        if ($canedit && $number && ($withtemplate < 2)) {
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-        }
-        echo "<th>" . __s('Name') . "</th>";
-        if (Session::isMultiEntitiesMode()) {
-            echo "<th>" . __s('Entity') . "</th>";
-        }
-        echo "<th>" . __s('Login') . "</th>";
-        echo "<th>" . __s('Password') . "</th>";
-        echo "<th>" . __s('Affected User', 'accounts') . "</th>";
-        echo "<th>" . __s('Type') . "</th>";
-        echo "<th>" . __s('Creation date') . "</th>";
-        echo "<th>" . __s('Expiration date') . "</th>";
-        echo "</tr>";
-        $used = [];
-
-        if ($number) {
-
-            Session::initNavigateListItems(
-                Account::class,
-                //TRANS : %1$s is the itemtype name,
-                //        %2$s is the name of the item (used for headings of a list)
-                sprintf(
-                    __s('%1$s = %2$s'),
-                    $item->getTypeName(1),
-                    $item->getName()
-                )
-            );
-
-            foreach ($accounts as $data) {
-                $accountID = $data["id"];
-                $link      = NOT_AVAILABLE;
-
-                if ($account->getFromDB($accountID)) {
-                    $link = $account->getLink();
-                }
-
-                Session::addToNavigateListItems(Account::class, $accountID);
-
-                $used[$accountID] = $accountID;
-
-                echo "<tr class='tab_bg_1" . ($data["is_deleted"] ? "_2" : "") . "'>";
-                if ($canedit && ($withtemplate < 2)) {
-                    echo "<td width='10'>";
-                    Html::showMassiveActionCheckBox(__CLASS__, $data["assocID"]);
-                    echo "</td>";
-                }
-                echo "<td class='center'>$link</td>";
-                if (Session::isMultiEntitiesMode()) {
-                    echo "<td class='center'>" . Dropdown::getDropdownName("glpi_entities", $data['entities_id'])
-                         . "</td>";
-                }
-                echo "<td class='center'>" . $data["login"] . "</td>";
-                echo "<td class='center'>";
-                //hash
-                if (isset($hash_id)
-                    && $aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
-                    && $aeskey->fields["name"]) {
-                    $rand = mt_rand();
-                    echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
-                        'id'           => "encrypted_password$accountID",
-                        'autocomplete' => 'off']);
-
-                    echo "<input type='text' class='form-control' size ='40' id='hidden_password$accountID' onClick='decryptCheck$rand()' value='' size='30' >";
-
-                    echo Html::scriptBlock("
-               function decryptCheck$rand(){
-               var root_accounts_doc = '" . PLUGIN_ACCOUNTS_WEBDIR . "';
-                  if (!check_hash()) {
-                     $('#hidden_password$accountID')
-                        .after('" . __s('Wrong encryption key', 'accounts') . "')
-                        .remove();
-                  } else {
-                     decrypt_password(root_accounts_doc, '$accountID');
-                  }
-               }
-               ");
-                } else {
-                    $rand = mt_rand();
-                    echo "&nbsp;<input type='button' id='decrypt_link$accountID$rand' name='decrypte' value='" . __s('Uncrypt', 'accounts') . "'
-                        class='submit btn btn-primary'
-                        onClick='decryptCheckbtn$rand()'>";
-                    echo Html::hidden("encrypted_password$accountID", ['value'        => $data["encrypted_password"],
-                        'id'           => "encrypted_password$accountID",
-                        'autocomplete' => 'off']);
-
-                    echo Html::scriptBlock("
-               function decryptCheckbtn$rand(){
-                  var root_accounts_doc = '" . PLUGIN_ACCOUNTS_WEBDIR . "';
-                  if (!check_hash()) {
-                     alert('" . __s('Wrong encryption key', 'accounts') . "');
-                  } else {
-                     var decrypted_password = decrypt_password(root_accounts_doc, '$accountID');
-                     $('#decrypt_link$accountID$rand')
-                        .after(decrypted_password)
-                        .remove();
-                  }
-               }");
-                }
-                echo "</td>";
-                echo "<td class='center'>";
-                echo $dbu->getUserName($data["users_id"]);
-                echo "</td>";
-                echo "<td class='center'>";
-                echo Dropdown::getDropdownName(
-                    "glpi_plugin_accounts_accounttypes",
-                    $data["plugin_accounts_accounttypes_id"]
-                );
-                echo "</td>";
-                echo "<td class='center'>" . Html::convDate($data["date_creation"]) . "</td>";
-                if ($data["date_expiration"] <= date('Y-m-d') && !empty($data["date_expiration"])) {
-                    echo "<td class='center'>";
-                    echo "<div class='deleted'>" . Html::convDate($data["date_expiration"]) . "</div>";
-                    echo "</td>";
-                } elseif (empty($data["date_expiration"])) {
-                    echo "<td class='center'>" . __s('Don\'t expire', 'accounts') . "</td>";
-                } else {
-                    echo "<td class='center'>" . Html::convDate($data["date_expiration"]) . "</td>";
-                }
-                echo "</tr>";
-                $i++;
+        $aeskey = new AesKey();
+        if ($hash) {
+            $aeskey_uncrypted = false;
+            if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
+                && $aeskey->fields["name"]) {
+                $aeskey_uncrypted = $aeskey->fields["name"];
             }
+        } else {
+            $alert = __s('There is no encryption key for this entity', 'accounts');
+            echo "<div class='alert alert-warning d-flex'>";
+            echo $alert;
+            echo "</div>";
+            return false;
         }
 
-        echo "</table>";
-        echo Html::hidden('good_hash', ['value' => $hash,
-            'id'    => 'good_hash']);
+        foreach ($iterator_list as $value) {
+            $used[] = $value['id'];
+            $account = new Account();
 
-        if ($canedit && $number && ($withtemplate < 2)) {
-            $massiveactionparams['ontop'] = false;
-            Html::showMassiveActions($massiveactionparams);
-            Html::closeForm();
+            $accountID = $value['id'];
+            $result = $account->getFromDB($value['id']);
+
+            if ($result === false || !$account->can($account->getID(), READ)) {
+                continue;
+            }
+
+            $rand = mt_rand();
+            $entries[] = [
+                'itemtype' => self::class,
+                'id' => $value['assocID'],
+                'name' => $account->getLink(),
+                'entities_id' => Dropdown::getDropdownName("glpi_entities", $account->fields['entities_id']),
+                'login' => $account->fields['login'],
+                'encrypted_password' => [
+                    'hidden-value' => $account->fields["encrypted_password"],
+                    'hidden-id' => "encrypted_password$accountID",
+                    'hidden-name' => "encrypted_password$accountID",
+                ],
+                'decrypt_password' => [
+                    'content' => __s('Uncrypt', 'accounts'),
+                    'button-id' => "decrypt_link$accountID$rand",
+                    'button-name' => 'decrypte',
+                    'rand' => $rand,
+                    'accountID' => $accountID,
+                    'button-onclick' => "decryptCheckbtn$rand()",
+                ],
+                'users_id' => getUserName($account->fields['users_id']),
+                'plugin_accounts_accounttypes_id' => Dropdown::getDropdownName(
+                    "glpi_plugin_accounts_accounttypes",
+                    $account->fields["plugin_accounts_accounttypes_id"]
+                ),
+                'date_creation' => $account->fields['date_creation'],
+                'date_expiration' => $account->fields['date_expiration'],
+            ];
         }
-        echo "</div>";
+
+        $cols = [
+            'columns' => [
+                "name" => __('Name'),
+                "entities_id" => __s('Entity'),
+                "login" => __s('Login'),
+                "encrypted_password" => __s(''),
+                "decrypt_password" => __s('Password'),
+                "users_id" => __s('Affected User', 'accounts'),
+                "plugin_accounts_accounttypes_id" => __s('Type'),
+                "date_creation" => __s('Creation date'),
+                "date_expiration" => __('Expiration date'),
+            ],
+            'formatters' => [
+                'name' => 'raw_html',
+                'entities_id' => 'raw_html',
+                'login' => 'raw_html',
+                'decrypt_password' => 'button',
+                'encrypted_password' => 'hidden',
+                'users_id' => 'raw_html',
+                'plugin_accounts_accounttypes_id' => 'raw_html',
+                'date_creation' => 'date',
+                'date_expiration' => 'date',
+            ],
+        ];
+
+
+        $footers = [];
+
+        TemplateRenderer::getInstance()->display('@accounts/item_account.html.twig', [
+            'item' => $item,
+            'can_edit' => $item->canEdit($item->getID()),
+            'used' => $used,
+            'datatable_params' => [
+                'hash' => $hash,
+                'aeskey_uncrypted' => $aeskey_uncrypted,
+                'is_tab' => true,
+                'nofilter' => true,
+                'nosort' => true,
+                'columns' => $cols['columns'],
+                'formatters' => $cols['formatters'],
+                'entries' => $entries,
+                'footers' => $footers,
+                'total_number' => count($entries),
+                'filtered_number' => count($entries),
+                'alert_encryption' => __s('Wrong encryption key', 'accounts'),
+                'showmassiveactions' => $item->canEdit($item->getID()),
+                'massiveactionparams' => [
+                    'container' => 'massiveactioncontainer' . $rand,
+                    'itemtype'  => self::class,
+                ],
+            ],
+        ]);
+
+        return true;
     }
-
     /**
      * Return visibility SQL restriction to add
      *

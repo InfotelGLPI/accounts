@@ -33,6 +33,7 @@ namespace GlpiPlugin\Accounts;
 use CommonDBTM;
 use CommonGLPI;
 use DbUtils;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use Session;
 
@@ -243,117 +244,23 @@ class Hash extends CommonDBTM
         if (!$this->canView()) {
             return false;
         }
-        $dbu      = new DbUtils();
-        $restrict = $dbu->getEntitiesRestrictCriteria(
+
+        $restrict = getEntitiesRestrictCriteria(
             "glpi_plugin_accounts_hashes",
             '',
             '',
             $this->maybeRecursive()
         );
-
-        if ($ID < 1
-          && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
-            echo "<div class='alert alert-important alert-warning d-flex'>"
-              . __s('WARNING : a encryption key already exist for this entity', 'accounts') . "</div></br>";
-        }
-        /*
-             if ($ID > 0) {
-                $this->check($ID, READ);
-             } else {
-                // Create item
-                $this->check(-1, READ);
-                $this->getEmpty();
-             }
-        */
-        $options['colspan'] = 1;
-
-        if ($options['update'] == 1) {
-            echo "<div class='alert alert-important alert-warning d-flex'>"
-              . __s('WARNING : if you change used hash, the old accounts will use the old encryption key', 'accounts')
-              . "</font><br><br>";
-        }
+        $nbhashes = countElementsInTable("glpi_plugin_accounts_hashes", $restrict);
+        $alert = __s('Please do not use special characters like / \ apostrophe ampersand in encryption keys, or you cannot change it after.', 'accounts');
 
         $this->initForm($ID, $options);
-        $this->showFormHeader($options);
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __s('Name') . "</td>";
-        echo "<td>";
-        echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
-        echo "</td>";
-        echo "</tr>";
-
-        if ($ID < 1 || ($ID == 1 && $options['update'] == 1)) {
-            echo "<tr class='tab_bg_1'>";
-
-            echo "<td>" . __s('Encryption key', 'accounts') . "</td>";
-            echo "<td>";
-            echo Html::input('aeskey', ['id' => 'aeskey', 'size' => 40, 'autocomplete' => 'off']);
-            //         echo "<input type='text' name='aeskey' id='aeskey' value='' class='' autocomplete='off'>";
-            echo "&nbsp;<input type='button' id='generate_hash'"
-              . "value='" . __s('Generate hash with this encryption key', 'accounts')
-              . "' class='submit btn btn-primary'>";
-            echo Html::scriptBlock("$(document).on('click', '#generate_hash', function(event) {
-            if ($('#aeskey').val() == '') {
-               alert('" . __s('Please fill the encryption key', 'accounts') . "');
-               $('#hash').val('');
-            } else {
-               $('#hash').val(SHA256(SHA256($('#aeskey').val())));
-            }
-         });");
-            echo "</td>";
-            echo "</tr>";
-        }
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __s('Hash', 'accounts') . "</td>";
-        echo "<td>";
-        echo Html::input('hash', ['id' => 'hash', 'value' => $this->fields["hash"], 'readonly' => 'readonly', 'size' => 40, 'autocomplete' => 'off']);
-        //      echo "<input type='text' readonly='readonly' size='100' id='hash' name='hash' value='" . $this->fields["hash"] . "' autocomplete='off'>";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td valign='top'>" . __s('Comments') . "</td>";
-        echo "<td>";
-        Html::textarea(['name'            => 'comment',
-            'value'           => $this->fields["comment"],
-            'cols'            => 75,
-            'rows'            => 3,
-            'enable_richtext' => false]);
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td colspan='2'>";
-        printf(__s('Last update on %s'), Html::convDateTime($this->fields["date_mod"]));
-        echo "</td>";
-        echo "</tr>";
-
-        if ($ID < 1) {
-            echo "<tr class='tab_bg_1 '>";
-            echo "<td colspan='2'>";
-            echo "<div class='alert alert-warning alert-important d-flex'>";
-            echo __s('Please do not use special characters like / \ \' " & in encryption keys, or you cannot change it after.', 'accounts');
-            echo "</div>";
-            echo "</td>";
-            echo "</tr>";
-        }
-
-        if (!$options['update'] == 1) {
-            if ($ID < 1
-             && $dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) > 0) {
-                echo "</table>";
-                Html::closeForm();
-            } else {
-                $this->showFormButtons($options);
-            }
-        } else {
-            echo "</table>";
-            Html::closeForm();
-            echo "</div>";
-        }
+        TemplateRenderer::getInstance()->display('@accounts/hash.html.twig', [
+            'item' => $this,
+            'nbhashes' => $nbhashes,
+            'alertmsg' => $alert,
+            'params' => $options,
+        ]);
         return true;
     }
 
@@ -419,7 +326,7 @@ class Hash extends CommonDBTM
     public static function showHashChangeForm($hash_id)
     {
 
-        echo "<div class='alert alert-important alert-warning d-flex'>";
+        echo "<div class='alert alert-danger d-flex'>";
         echo "<b>" . __s('WARNING : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') . "</b></div><br>";
         echo "<form method='post' action='./hash.form.php'>";
         echo "<table class='tab_cadre_fixe'><tr><th colspan='2'>";

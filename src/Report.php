@@ -241,14 +241,14 @@ class Report extends CommonDBTM
                     }
                 }
                 if ($is_html_output) {
-                    $html_output .= $output::showItem($list[$i]["type"], $item_num, $row_num);
+                    $html_output .= $output::showItem($list[$i]["type"] ?? "", $item_num, $row_num);
                     echo Html::hidden("type[$IDc]", ['value' => $list[$i]["type"]]);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["type"]];
                 }
 
                 if ($is_html_output) {
-                    $html_output .= $output::showItem($list[$i]["login"], $item_num, $row_num);
+                    $html_output .= $output::showItem($list[$i]["login"] ?? "", $item_num, $row_num);
                     echo Html::hidden("login[$IDc]", ['value' => $list[$i]["login"]]);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["login"]];

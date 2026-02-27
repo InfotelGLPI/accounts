@@ -33,6 +33,7 @@ namespace GlpiPlugin\Accounts;
 use CommonDBTM;
 use CommonGLPI;
 use DbUtils;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use Session;
 use Toolbox;
@@ -62,6 +63,11 @@ class AesKey extends CommonDBTM
         return "ti ti-lock-open";
     }
 
+    protected function computeFriendlyName()
+    {
+        return _n('Encryption key', 'Encryption key', 1, 'accounts');
+    }
+
     /**
      * @param int $nb
      * @return translated
@@ -74,7 +80,7 @@ class AesKey extends CommonDBTM
     /**
      * @param CommonGLPI $item
      * @param int $withtemplate
-     * @return string|translated
+     * @return string
      */
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
@@ -161,34 +167,15 @@ class AesKey extends CommonDBTM
      */
     public function showForm($ID, $options = [])
     {
-        $dbu = new DbUtils();
-        $restrict = $dbu->getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
-        if ($dbu->countElementsInTable("glpi_plugin_accounts_hashes", $restrict) == 0) {
-            echo "<div class='center red'>" . __s('Encryption key modified', 'accounts') . "</div></br>";
-        }
-
-        $plugin_accounts_hashes_id = -1;
-        if (isset($options['plugin_accounts_hashes_id'])) {
-            $plugin_accounts_hashes_id = $options['plugin_accounts_hashes_id'];
-        }
+        $restrict = getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
+        $nbhashes = countElementsInTable("glpi_plugin_accounts_hashes", $restrict);
 
         $this->initForm($ID, $options);
-        $this->showFormHeader($options);
-
-        echo "<div class='alert alert-important alert-warning d-flex'>" . __s('WARNING : saving the encryption key is a security hole', 'accounts') . "</div></br>";
-
-        $options['colspan'] = 2;
-        $this->h->getFromDB($plugin_accounts_hashes_id);
-        echo Html::hidden('plugin_accounts_hashes_id', ['value' => $plugin_accounts_hashes_id]);
-
-        echo "<tr class='tab_bg_2'><td colspan='2'>";
-        echo __s('Encryption key', 'accounts');
-        echo "</td><td colspan='2'>";
-        echo Html::input('name', ['value' => $this->fields["name"], 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-        echo "</td>";
-        echo "</tr>";
-        $options['candel'] = false;
-        $this->showFormButtons($options);
+        TemplateRenderer::getInstance()->display('@accounts/aeskey.html.twig', [
+            'item' => $this,
+            'nbhashes' => $nbhashes,
+            'params' => $options,
+        ]);
     }
 
     /**
@@ -281,14 +268,12 @@ class AesKey extends CommonDBTM
         echo "</div>";
     }
 
-    /**
-     * @return an|array
-     */
     public function getForbiddenStandardMassiveAction()
     {
 
         $forbidden   = parent::getForbiddenStandardMassiveAction();
         $forbidden[] = 'update';
+        $forbidden[] = 'add_note';
         return $forbidden;
     }
 }

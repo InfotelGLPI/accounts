@@ -28,12 +28,13 @@
  */
 
 use GlpiPlugin\Accounts\Account;
-use GlpiPlugin\Accounts\AesKey;
+use GlpiPlugin\Accounts\Hash;
 
 Session::checkRight("config", UPDATE);
 
 Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 
-Search::show(AesKey::class);
+$hash = new Hash();
+$hash->redirectToList();
 
 Html::footer();
