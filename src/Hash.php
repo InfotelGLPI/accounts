@@ -58,7 +58,7 @@ class Hash extends CommonDBTM
     public static function getTypeName($nb = 0)
     {
 
-        return _n('Footprint', 'Footprints', $nb,'accounts');
+        return _n('Fingerprint', 'Fingerprints', $nb,'accounts');
     }
 
     public static function getIcon()
@@ -167,7 +167,7 @@ class Hash extends CommonDBTM
             'id'            => '2',
             'table'         => $this->getTable(),
             'field'         => 'hash',
-            'name'          => _n('Footprint', 'Footprints', 1,'accounts'),
+            'name'          => _n('Fingerprint', 'Fingerprints', 1,'accounts'),
             'massiveaction' => false,
         ];
 

@@ -311,7 +311,7 @@ class Account extends CommonDBTM
             'id' => '15',
             'table' => 'glpi_plugin_accounts_hashes',
             'field' => 'name',
-            'name' => _n('Footprint', 'Footprints', 1,'accounts'),
+            'name' => _n('Fingerprint', 'Fingerprints', 1,'accounts'),
             'datatype' => 'dropdown',
         ];
 
@@ -356,7 +356,7 @@ class Account extends CommonDBTM
             'id' => '19',
             'table' => 'glpi_plugin_accounts_hashes',
             'field' => 'name',
-            'name' => _n('Footprint', 'Footprints', 1,'accounts'),
+            'name' => _n('Fingerprint', 'Fingerprints', 1,'accounts'),
             'datatype' => 'dropdown',
         ];
 
@@ -1438,7 +1438,7 @@ class Account extends CommonDBTM
                 $cpt = $data['cpt'];
                 if ($cpt > 0) {
                     echo "<div class='alert alert-warning d-flex'>";
-                    echo __s('You have accounts without linked footprint, please add it with massive action or into forms', 'accounts');
+                    echo __s('You have accounts without linked fingerprint, please add it with massive action or into forms', 'accounts');
                     echo "</div>";
                 }
             }

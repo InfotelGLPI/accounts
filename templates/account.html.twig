@@ -145,7 +145,7 @@
 {#                            </div>#}
 {#                        {% endif %}#}
                         <div id="alertfootprint" class="alert alert-warning">
-                            {{ __('WARNING : Warning: if you change the associated footprint, you will no longer be able to correctly decrypt the password. You must submit the password too.', 'accounts') }}
+                            {{ __('WARNING: If you change the associated fingerprint, you will no longer be able to correctly decrypt the password. You will also need to update the password.', 'accounts') }}
                         </div>
                         <input type="hidden" id="change_good_hash" />
                         {% if aeskey_uncrypted is not defined or aeskey_uncrypted == false %}
