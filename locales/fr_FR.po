@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 15:29+0000\n"
+"POT-Creation-Date: 2026-02-28 15:42+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
@@ -166,8 +166,8 @@ msgstr "Flitre"
 
 #: src/AesKey.php:203 src/Account.php:314 src/Account.php:359 src/Hash.php:61
 #: src/Hash.php:170
-msgid "Footprint"
-msgid_plural "Footprints"
+msgid "Fingerprint"
+msgid_plural "Fingerprints"
 msgstr[0] "Empreinte"
 msgstr[1] "Empreintes"
 msgstr[2] "Empreintes"
@@ -177,7 +177,7 @@ msgid "Generate"
 msgstr "Générer"
 
 #: templates/hash.html.twig:72
-msgid "Generate hash with this encryption key"
+msgid "Generate finger print with this encryption key"
 msgstr "Générer l'empreinte à partir de cette clé de chiffrement"
 
 #: src/Account.php:574
@@ -370,16 +370,6 @@ msgstr "Mot de passe déchiffré"
 msgid "Uppercase"
 msgstr "Majuscule"
 
-#: templates/account.html.twig:148
-msgid ""
-"WARNING : Warning: if you change the associated footprint, you will no "
-"longer be able to correctly decrypt the password. You must submit the "
-"password too."
-msgstr ""
-"ATTENTION : Si vous modifiez l’empreinte associée, vous ne pourrez plus "
-"déchiffrer correctement le mot de passe. Vous devrez également mettre à jour"
-" le mot de passe."
-
 #: templates/account.html.twig:53
 msgid "WARNING : a encryption key already exist for this entity"
 msgstr "ATTENTION : Une clé de chiffrement existe déjà pour cette entité."
@@ -399,6 +389,16 @@ msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
 "ATTENTION : enregistrer la clé de chiffrement est une faille de sécurité"
 
+#: templates/account.html.twig:148
+msgid ""
+"WARNING: If you change the associated fingerprint, you will no longer be "
+"able to correctly decrypt the password. You will also need to update the "
+"password."
+msgstr ""
+"ATTENTION : Si vous modifiez l’empreinte associée, vous ne pourrez plus "
+"déchiffrer correctement le mot de passe. Vous devrez également mettre à jour"
+" le mot de passe."
+
 #: src/Account_Item.php:563 src/Report.php:272 front/hash.form.php:66
 #: templates/account.html.twig:180 templates/account.html.twig:240
 #: templates/account.html.twig:435 templates/account.html.twig:450
@@ -411,7 +411,7 @@ msgstr "Oui"
 
 #: src/Account.php:1441
 msgid ""
-"You have accounts without linked footprint, please add it with massive "
+"You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
 msgstr ""
 "Vous avez des comptes sans empreinte liée ; veuillez l'ajouter via une "
