@@ -96,28 +96,27 @@
                             ) }}
                         {% endif %}
 
-{#                        {% if item.isNewItem() %}#}
+                        {% if get_current_interface() == 'central' %}
 
-                        {{ fields.dropdownField(
-                            'GlpiPlugin\\Accounts\\Hash',
-                            'plugin_accounts_hashes_id',
-                            item.fields["plugin_accounts_hashes_id"],
-                            'GlpiPlugin\\Accounts\\Hash'|itemtype_name(get_plural_number()),
-                            {'entity' : item.getEntityID(),
-                                'rand' : rand,
-                                'required': true,
-                                'on_change': 'checkInputIfNewEncryptionKey(this.value, ' ~ item.fields['plugin_accounts_hashes_id'] ~ ')'#}
-                            }
-                        ) }}
+                            {{ fields.dropdownField(
+                                'GlpiPlugin\\Accounts\\Hash',
+                                'plugin_accounts_hashes_id',
+                                item.fields["plugin_accounts_hashes_id"],
+                                'GlpiPlugin\\Accounts\\Hash'|itemtype_name,
+                                {'entity' : item.getEntityID(),
+                                    'rand' : rand,
+                                    'required': true,
+                                    'on_change': 'checkInputIfNewEncryptionKey(this.value, ' ~ item.fields['plugin_accounts_hashes_id'] ~ ')'}
+                            ) }}
 
-                        {% do call('Ajax::updateItemOnSelectEvent', [
-                            'dropdown_plugin_accounts_hashes_id' ~ rand,
-                            'change_good_hash',
-                            config('root_doc') ~ '/plugins/accounts/ajax/getHashOnSelectEncryptionKey.php',
-                            {
-                                'plugin_accounts_hashes_id': '__VALUE__',
-                            }
-                        ]) %}
+                            {% do call('Ajax::updateItemOnSelectEvent', [
+                                'dropdown_plugin_accounts_hashes_id' ~ rand,
+                                'change_good_hash',
+                                config('root_doc') ~ '/plugins/accounts/ajax/getHashOnSelectEncryptionKey.php',
+                                {
+                                    'plugin_accounts_hashes_id': '__VALUE__',
+                                }
+                            ]) %}
 
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
@@ -126,24 +125,26 @@
                                 </div>
                             </div>
 
-{#                        {% else %}#}
-{#                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">#}
-{#                                <label class="col-form-label col-xxl-5 text-xxl-end ">#}
-{#                                    {{ __('Hash', 'accounts') }}#}
-{#                                </label>#}
-{#                                <div class="col-xxl-7 field-container">#}
-{#                                        <span class="default_encryption_key">#}
-{#                                        {{ call('Dropdown::getDropdownName', ["glpi_plugin_accounts_hashes", item.fields['plugin_accounts_hashes_id']]) }}#}
-{#                                        </span>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">#}
-{#                                <label class="col-form-label col-xxl-5 text-xxl-end">#}
-{#                                </label>#}
-{#                                <div class="col-xxl-7 field-container">#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        {% endif %}#}
+                        {% else %}
+
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end ">
+                                    {{ _n('Fingerprint', 'Fingerprints', 1,'accounts') }}
+                                </label>
+                                    <div class="col-xxl-7 field-container">
+                                    <span class="default_encryption_key">
+                                    {{ call('Dropdown::getDropdownName', ["glpi_plugin_accounts_hashes", item.fields['plugin_accounts_hashes_id']]) }}
+                                    </span>
+                                    </div>
+                            </div>
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end">
+                                </label>
+                                <div class="col-xxl-7 field-container">
+                                </div>
+                            </div>
+
+                        {% endif %}
                         <div id="alertfootprint" class="alert alert-warning">
                             {{ __('WARNING: If you change the associated fingerprint, you will no longer be able to correctly decrypt the password. You will also need to update the password.', 'accounts') }}
                         </div>
@@ -166,7 +167,6 @@
                                              onclick="uncryptpassword()">
                                             <i class="ti ti-lock-open"></i>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -197,12 +197,14 @@
                                         </div>
 
                                     </div>
+                                    {% if get_current_interface() == 'central' %}
                                     <span class="d-inline-flex">
-                                            <input type="checkbox" name="_blank_account_passwd" id="_blank_account_passwd" class="ms-1">
-                                            <label for="_blank_account_passwd" class="ms-1">
-                                                Effacer
-                                            </label>
-                                        </span>
+                                        <input type="checkbox" name="_blank_account_passwd" id="__blank_account_passwd" class="ms-1">
+                                        <label for="__blank_account_passwd" class="ms-1">
+                                            {{ __('Clear') }}
+                                        </label>
+                                    </span>
+                                    {% endif %}
                                 </div>
                             </div>
 

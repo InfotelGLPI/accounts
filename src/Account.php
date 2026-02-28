@@ -306,15 +306,15 @@ class Account extends CommonDBTM
             'massiveaction' => false,
             'datatype' => 'datetime',
         ];
-
-        $tab[] = [
-            'id' => '15',
-            'table' => 'glpi_plugin_accounts_hashes',
-            'field' => 'name',
-            'name' => _n('Fingerprint', 'Fingerprints', 1,'accounts'),
-            'datatype' => 'dropdown',
-        ];
-
+        if (Session::getCurrentInterface() != 'central') {
+            $tab[] = [
+                'id' => '15',
+                'table' => 'glpi_plugin_accounts_hashes',
+                'field' => 'name',
+                'name' => _n('Fingerprint', 'Fingerprints', 1, 'accounts'),
+                'datatype' => 'dropdown',
+            ];
+        }
         if (Session::getCurrentInterface() != 'central') {
             $tab[] = [
                 'id' => '16',
@@ -349,14 +349,6 @@ class Account extends CommonDBTM
             'linkfield' => 'groups_id_tech',
             'name' => __s('Group in charge'),
             'condition' => ['`is_assign`' => 1],
-            'datatype' => 'dropdown',
-        ];
-
-        $tab[] = [
-            'id' => '19',
-            'table' => 'glpi_plugin_accounts_hashes',
-            'field' => 'name',
-            'name' => _n('Fingerprint', 'Fingerprints', 1,'accounts'),
             'datatype' => 'dropdown',
         ];
 
@@ -408,15 +400,16 @@ class Account extends CommonDBTM
     {
         $ong = [];
         $this->addDefaultFormTab($ong);
+
         $this->addImpactTab($ong, $options);
-        $this->addStandardTab(Account_Item::class, $ong, $options);
-        $this->addStandardTab('Item_Ticket', $ong, $options);
-        $this->addStandardTab('Item_Problem', $ong, $options);
-        //$this->addStandardTab('Change_Item', $ong, $options);
-        $this->addStandardTab('Item_Project', $ong, $options);
-        $this->addStandardTab('Document_Item', $ong, $options);
-        $this->addStandardTab('Notepad', $ong, $options);
         if (Session::getCurrentInterface() == 'central') {
+            $this->addStandardTab(Account_Item::class, $ong, $options);
+            $this->addStandardTab('Item_Ticket', $ong, $options);
+            $this->addStandardTab('Item_Problem', $ong, $options);
+            //$this->addStandardTab('Change_Item', $ong, $options);
+            $this->addStandardTab('Item_Project', $ong, $options);
+            $this->addStandardTab('Document_Item', $ong, $options);
+            $this->addStandardTab('Notepad', $ong, $options);
             $this->addStandardTab('Log', $ong, $options);
         }
 
