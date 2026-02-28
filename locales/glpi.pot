@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 15:29+0000\n"
+"POT-Creation-Date: 2026-02-28 15:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,8 +158,8 @@ msgstr ""
 
 #: src/AesKey.php:203 src/Account.php:314 src/Account.php:359 src/Hash.php:61
 #: src/Hash.php:170
-msgid "Footprint"
-msgid_plural "Footprints"
+msgid "Fingerprint"
+msgid_plural "Fingerprints"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -168,7 +168,7 @@ msgid "Generate"
 msgstr ""
 
 #: templates/hash.html.twig:72
-msgid "Generate hash with this encryption key"
+msgid "Generate finger print with this encryption key"
 msgstr ""
 
 #: src/Account.php:574
@@ -353,13 +353,6 @@ msgstr ""
 msgid "Uppercase"
 msgstr ""
 
-#: templates/account.html.twig:148
-msgid ""
-"WARNING : Warning: if you change the associated footprint, you will no "
-"longer be able to correctly decrypt the password. You must submit the "
-"password too."
-msgstr ""
-
 #: templates/account.html.twig:53
 msgid "WARNING : a encryption key already exist for this entity"
 msgstr ""
@@ -375,6 +368,13 @@ msgstr ""
 msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
 
+#: templates/account.html.twig:148
+msgid ""
+"WARNING: If you change the associated fingerprint, you will no longer be "
+"able to correctly decrypt the password. You will also need to update the "
+"password."
+msgstr ""
+
 #: src/Account_Item.php:563 src/Report.php:272 front/hash.form.php:66
 #: templates/account.html.twig:180 templates/account.html.twig:240
 #: templates/account.html.twig:435 templates/account.html.twig:450
@@ -387,7 +387,7 @@ msgstr ""
 
 #: src/Account.php:1441
 msgid ""
-"You have accounts without linked footprint, please add it with massive "
+"You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
 msgstr ""
 
