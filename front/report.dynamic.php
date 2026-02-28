@@ -51,34 +51,54 @@ if (isset($_POST["display_type"])) {
     foreach ($post["id"] as $k => $v) {
         $accounts[$k]["id"] = $v;
     }
-    $accounts[$k]["name"] = [];
+    $accounts[$k]["name"] = "";
     if (isset($post["name"]) && is_array($post["name"])) {
         foreach ($post["name"] as $k => $v) {
-            $accounts[$k]["name"] = $v;
+            if (!empty($v)) {
+                $accounts[$k]["name"] = $v;
+            } else {
+                $accounts[$k]["name"] = "";
+            }
         }
     }
-    $accounts[$k]["entities_id"] = [];
+    $accounts[$k]["entities_id"] = 0;
     if (isset($post["entities_id"]) && is_array($post["entities_id"])) {
         foreach ($post["entities_id"] as $k => $v) {
-            $accounts[$k]["entities_id"] = $v ?? 0;
+            if (!empty($v) && !is_array($v)) {
+                $accounts[$k]["entities_id"] = $v;
+            } else {
+                $accounts[$k]["entities_id"] = 0;
+            }
         }
     }
-    $accounts[$k]["type"] = [];
+    $accounts[$k]["type"] = 0;
     if (isset($post["type"]) && is_array($post["type"])) {
         foreach ($post["type"] as $k => $v) {
-            $accounts[$k]["type"] = $v;
+            if (!empty($v)) {
+                $accounts[$k]["type"] = $v;
+            } else {
+                $accounts[$k]["type"] = 0;
+            }
         }
     }
-    $accounts[$k]["login"] = [];
+    $accounts[$k]["login"] = "";
     if (isset($post["login"]) && is_array($post["login"])) {
         foreach ($post["login"] as $k => $v) {
-            $accounts[$k]["login"] = $v;
+            if (!empty($v)) {
+                $accounts[$k]["login"] = $v;
+            } else {
+                $accounts[$k]["login"] = "";
+            }
         }
     }
-    $accounts[$k]["password"] = [];
+    $accounts[$k]["password"] = "";
     if (isset($post["password"]) && is_array($post["password"])) {
         foreach ($post["password"] as $k => $v) {
-            $accounts[$k]["password"] = $v;
+            if (!empty($v)) {
+                $accounts[$k]["password"] = $v;
+            } else {
+                $accounts[$k]["password"] = "";
+            }
         }
     }
     $reindexed = array_values($accounts);

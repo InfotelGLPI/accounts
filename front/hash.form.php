@@ -59,34 +59,22 @@ if (isset($_POST["add"])) {
     $hashClass->delete($_POST);
     $hashClass->redirectToList();
 } elseif (isset($_POST['updatehash'])) {
+
     if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
-
-        require_once(PLUGIN_ACCOUNTS_DIR . '/src/Aes.function.php');
-
-        $hash = 0;
-        $hash_id = 0;
-        $restrict = ["entities_id" => $_SESSION['glpiactive_entity']];
-        $hashes = $dbu->getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
-        if (!empty($hashes)) {
-            foreach ($hashes as $hashe) {
-                $hash_id = $hashe["id"];
-                $hash = $hashe["hash"];
-            }
-        }
-
-        if (!empty($_POST["aeskeynew"]) && !empty($_POST["aeskey"]) && !empty($hash)) {
-            if ($hash <> hash("sha256", hash("sha256", $_POST["aeskey"]))) {
+        if ($hashClass->getFromDB($_POST["id"])) {
+            if ($hashClass->fields['hash'] <> hash("sha256", hash("sha256", $_POST["aeskey"]))) {
                 Session::addMessageAfterRedirect(__s('Wrong encryption key', 'accounts'), true, ERROR);
                 Html::back();
             } else {
-                Hash::updateHash($_POST["aeskey"], $_POST["aeskeynew"], $hash_id);
+//                require_once(PLUGIN_ACCOUNTS_DIR . '/src/Aes.function.php');
+                Hash::updateHash($_POST["aeskey"], $_POST["aeskeynew"], $_POST["id"]);
                 Session::addMessageAfterRedirect(__s('Encryption key modified', 'accounts'), true);
                 Html::back();
             }
-        } else {
-            Session::addMessageAfterRedirect(__s('The old or the new encryption key can not be empty', 'accounts'), true, ERROR);
-            Html::back();
         }
+    } else {
+        Session::addMessageAfterRedirect(__s('The old or the new encryption key can not be empty', 'accounts'), true, ERROR);
+        Html::back();
     }
 } else {
     Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");

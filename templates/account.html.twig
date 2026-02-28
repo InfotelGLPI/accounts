@@ -48,11 +48,11 @@
                 <div class="row flex-row align-items-start flex-grow-1">
                     <div class="row flex-row">
 
-                        {% if item.isNewItem() and nbhashes == 0 %}
-                            <div class='alert alert-warning d-flex'>
-                                {{ __('WARNING : a encryption key already exist for this entity', 'accounts') }}
-                            </div>
-                        {% endif %}
+{#                        {% if item.isNewItem() and nbhashes == 0 %}#}
+{#                            <div class='alert alert-warning d-flex'>#}
+{#                                {{ __('WARNING : a encryption key already exist for this entity', 'accounts') }}#}
+{#                            </div>#}
+{#                        {% endif %}#}
 
                         {% if item.isField('name') %}
                             {{ fields.autoNameField(
@@ -96,6 +96,58 @@
                             ) }}
                         {% endif %}
 
+{#                        {% if item.isNewItem() %}#}
+
+                        {{ fields.dropdownField(
+                            'GlpiPlugin\\Accounts\\Hash',
+                            'plugin_accounts_hashes_id',
+                            item.fields["plugin_accounts_hashes_id"],
+                            'GlpiPlugin\\Accounts\\Hash'|itemtype_name(get_plural_number()),
+                            {'entity' : item.getEntityID(),
+                                'rand' : rand,
+                                'required': true,
+                                'on_change': 'checkInputIfNewEncryptionKey(this.value, ' ~ item.fields['plugin_accounts_hashes_id'] ~ ')'#}
+                            }
+                        ) }}
+
+                        {% do call('Ajax::updateItemOnSelectEvent', [
+                            'dropdown_plugin_accounts_hashes_id' ~ rand,
+                            'change_good_hash',
+                            config('root_doc') ~ '/plugins/accounts/ajax/getHashOnSelectEncryptionKey.php',
+                            {
+                                'plugin_accounts_hashes_id': '__VALUE__',
+                            }
+                        ]) %}
+
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                <label class="col-form-label col-xxl-5 text-xxl-end">
+                                </label>
+                                <div class="col-xxl-7 field-container">
+                                </div>
+                            </div>
+
+{#                        {% else %}#}
+{#                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">#}
+{#                                <label class="col-form-label col-xxl-5 text-xxl-end ">#}
+{#                                    {{ __('Hash', 'accounts') }}#}
+{#                                </label>#}
+{#                                <div class="col-xxl-7 field-container">#}
+{#                                        <span class="default_encryption_key">#}
+{#                                        {{ call('Dropdown::getDropdownName', ["glpi_plugin_accounts_hashes", item.fields['plugin_accounts_hashes_id']]) }}#}
+{#                                        </span>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">#}
+{#                                <label class="col-form-label col-xxl-5 text-xxl-end">#}
+{#                                </label>#}
+{#                                <div class="col-xxl-7 field-container">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+                        <div id="alertfootprint" class="alert alert-warning">
+                            {{ __('WARNING : Warning: if you change the associated footprint, you will no longer be able to correctly decrypt the password. You must submit the password too.', 'accounts') }}
+                        </div>
+                        <input type="hidden" id="change_good_hash" />
                         {% if aeskey_uncrypted is not defined or aeskey_uncrypted == false %}
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
@@ -104,16 +156,17 @@
                                 <div class="col-xxl-7 field-container">
                                     <div class="btn-group btn-group-sm d-flex">
                                         <input type="password" name="aeskey" id="aeskey" size="30" autocomplete="off"/>
-                                        <div class="btn btn-outline-secondary btn-light"
-                                             onclick="uncryptpassword()">
-                                            <i class="ti ti-lock-open"></i>
-                                        </div>
                                         <input type="hidden" name="good_hash" id="good_hash" size="40"
                                                autocomplete="off"
                                                value="{{ hash }}"/>
                                         <input type="hidden" name="encrypted_password" id="encrypted_password" size="40"
                                                autocomplete="off"
                                                value="{{ item.fields['encrypted_password'] }}"/>
+                                        <div class="btn btn-outline-secondary btn-light"
+                                             onclick="uncryptpassword()">
+                                            <i class="ti ti-lock-open"></i>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +195,14 @@
                                              onclick="copyDisclosablePasswordFieldToClipboard('hidden_password')">
                                             <i class="ti ti-clipboard-copy disclose"></i>
                                         </div>
+
                                     </div>
+                                    <span class="d-inline-flex">
+                                            <input type="checkbox" name="_blank_account_passwd" id="_blank_account_passwd" class="ms-1">
+                                            <label for="_blank_account_passwd" class="ms-1">
+                                                Effacer
+                                            </label>
+                                        </span>
                                 </div>
                             </div>
 
@@ -365,7 +425,9 @@
     {% if item.isNewItem() %}
         <script type="text/javascript">
             $('#account_form').submit(function (event) {
-                if ($('input[name="hidden_password"]').val() == '' || $('input[name="aeskey"]').val() == '') {
+                let hiddenPassword    = $('input[name="hidden_password"]').val();
+                let aeskey            = $('input[name="aeskey"]').val();
+                if (hiddenPassword == '' || aeskey == '') {
                     alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
                     return false;
                 }
@@ -380,7 +442,9 @@
     {% else %}
         <script type="text/javascript">
             $('#account_form').submit(function (event) {
-                if ($('input[name="hidden_password"]').val() == '' || $('input[name="aeskey"]').val() == '') {
+                let hiddenPassword    = $('input[name="hidden_password"]').val();
+                let aeskey            = $('input[name="aeskey"]').val();
+                if ((hiddenPassword == '' || aeskey == '')) {
                     alert('{{ __('Password will not be modified', 'accounts') }}');
                 } else if (!check_hash()) {
                     alert('{{ __('Wrong encryption key', 'accounts') }}');

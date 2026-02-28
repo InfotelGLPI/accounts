@@ -68,7 +68,8 @@ if ($account->canView()) {
                 'height'        => 500]
         );
     }
-    global $DB;
+
+    Account::showAccountsWithoutHash();
 
     Search::show(Account::class);
 } else {

@@ -179,8 +179,8 @@ class AesKey extends CommonDBTM
     }
 
     /**
-     * @param datas $input
-     * @return bool|datas
+     * @param  $input
+     * @return mixed[]
      */
     public function prepareInputForAdd($input)
     {
@@ -200,7 +200,7 @@ class AesKey extends CommonDBTM
 
         $this->h->getFromDB($ID);
 
-        Session::initNavigateListItems("AesKey", __s('Hash', 'accounts') . " = " . $this->h->fields["name"]);
+        Session::initNavigateListItems("AesKey", _n('Footprint', 'Footprints', 1,'accounts') . " = " . $this->h->fields["name"]);
 
         $candelete = Session::haveRight(self::$rightname, DELETE);
 

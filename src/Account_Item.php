@@ -40,8 +40,6 @@ use Glpi\Application\View\TemplateRenderer;
 use Html;
 use KnowbaseItem;
 use Session;
-use Software;
-use Toolbox;
 
 final class Account_Item extends CommonDBRelation
 {
@@ -162,7 +160,7 @@ final class Account_Item extends CommonDBRelation
         if (Account::canView()
             && in_array($item->getType(), Account::getTypes(true))) {
 
-//            self::showForItem($item);
+            //            self::showForItem($item);
             return self::showForAsset($item);
 
         }
@@ -377,8 +375,8 @@ final class Account_Item extends CommonDBRelation
 
             $ASSIGN = ['OR' => [
                 'groups_id'  => $groups,
-                'users_id'    => $who
-            ]
+                'users_id'    => $who,
+            ],
             ];
 
         } else { // Only personal ones
@@ -395,15 +393,15 @@ final class Account_Item extends CommonDBRelation
                 'glpi_plugin_accounts_accounts' => [
                     'ON' => [
                         'glpi_plugin_accounts_accounts_items' => 'plugin_accounts_accounts_id',
-                        'glpi_plugin_accounts_accounts'          => 'id'
-                    ]
+                        'glpi_plugin_accounts_accounts'          => 'id',
+                    ],
                 ],
                 'glpi_entities' => [
                     'ON' => [
                         'glpi_plugin_accounts_accounts' => 'entities_id',
-                        'glpi_entities'          => 'id'
-                    ]
-                ]
+                        'glpi_entities'          => 'id',
+                    ],
+                ],
             ],
             'WHERE' => [
                 'glpi_plugin_accounts_accounts_items.items_id' => $item->getID(),
@@ -412,8 +410,11 @@ final class Account_Item extends CommonDBRelation
             'ORDERBY'   => 'assocName',
         ];
         $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
-                'glpi_plugin_accounts_accounts', '', '', true
-            );
+            'glpi_plugin_accounts_accounts',
+            '',
+            '',
+            true
+        );
 
         if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
             $criteria['WHERE'] = $criteria['WHERE'] + $ASSIGN;
@@ -422,43 +423,37 @@ final class Account_Item extends CommonDBRelation
 
 
         //hash
-        $hashclass = new Hash();
-        $hash_id   = 0;
-        $hash      = 0;
-        $restrict  = getEntitiesRestrictCriteria(
-            "glpi_plugin_accounts_hashes",
-            '',
-            $item->getEntityID(),
-            $hashclass->maybeRecursive()
-        );
+//        $hashclass = new Hash();
+//        $hash_id   = 0;
+//        $hash      = 0;
+//        $restrict  = getEntitiesRestrictCriteria(
+//            "glpi_plugin_accounts_hashes",
+//            '',
+//            $item->getEntityID(),
+//            $hashclass->maybeRecursive()
+//        );
+//
+//        $hashes    = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
+//        if (!empty($hashes)) {
+//            foreach ($hashes as $hashe) {
+//                $hash    = $hashe["hash"];
+//                $hash_id = $hashe["id"];
+//            }
+//        } else {
+//            $alert = __s('There is no encryption key for this entity', 'accounts');
+//            echo "<div class='alert alert-warning d-flex'>";
+//            echo $alert;
+//            echo "</div>";
+//            return false;
+//        }
 
-        $hashes    = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
-        if (!empty($hashes)) {
-            foreach ($hashes as $hashe) {
-                $hash    = $hashe["hash"];
-                $hash_id = $hashe["id"];
-            }
-        } else {
-            $alert = __s('There is no encryption key for this entity', 'accounts');
-            echo "<div class='alert alert-warning d-flex'>";
-            echo $alert;
-            echo "</div>";
-            return false;
-        }
-        $aeskey = new AesKey();
-        if ($hash) {
-            $aeskey_uncrypted = false;
-            if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
-                && $aeskey->fields["name"]) {
-                $aeskey_uncrypted = $aeskey->fields["name"];
-            }
-        } else {
-            $alert = __s('There is no encryption key for this entity', 'accounts');
-            echo "<div class='alert alert-warning d-flex'>";
-            echo $alert;
-            echo "</div>";
-            return false;
-        }
+//        else {
+//            $alert = __s('There is no encryption key for this entity', 'accounts');
+//            echo "<div class='alert alert-warning d-flex'>";
+//            echo $alert;
+//            echo "</div>";
+//            return false;
+//        }
 
         foreach ($iterator_list as $value) {
             $used[] = $value['id'];
@@ -470,6 +465,20 @@ final class Account_Item extends CommonDBRelation
             if ($result === false || !$account->can($account->getID(), READ)) {
                 continue;
             }
+            $hash_id = $account->fields['plugin_accounts_hashes_id'];
+            $aeskey = new AesKey();
+            if ($hash_id) {
+                $aeskey_uncrypted = false;
+                if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
+                    && $aeskey->fields["name"]) {
+                    $aeskey_uncrypted = $aeskey->fields["name"];
+                }
+            }
+            $hash = "";
+            $hashclass= new Hash();
+            if ($hashclass->getFromDB($hash_id)) {
+                $hash = $hashclass->fields['hash'];
+            }
 
             $rand = mt_rand();
             $entries[] = [
@@ -478,6 +487,11 @@ final class Account_Item extends CommonDBRelation
                 'name' => $account->getLink(),
                 'entities_id' => Dropdown::getDropdownName("glpi_entities", $account->fields['entities_id']),
                 'login' => $account->fields['login'],
+                'good_hash' => [
+                    'hidden-value' => $hash,
+                    'hidden-id' => 'good_hash',
+                    'hidden-name' => 'good_hash',
+                ],
                 'encrypted_password' => [
                     'hidden-value' => $account->fields["encrypted_password"],
                     'hidden-id' => "encrypted_password$accountID",
@@ -506,6 +520,7 @@ final class Account_Item extends CommonDBRelation
                 "name" => __('Name'),
                 "entities_id" => __s('Entity'),
                 "login" => __s('Login'),
+                "good_hash" => __s(''),
                 "encrypted_password" => __s(''),
                 "decrypt_password" => __s('Password'),
                 "users_id" => __s('Affected User', 'accounts'),
@@ -517,6 +532,7 @@ final class Account_Item extends CommonDBRelation
                 'name' => 'raw_html',
                 'entities_id' => 'raw_html',
                 'login' => 'raw_html',
+                'good_hash' => 'hidden',
                 'decrypt_password' => 'button',
                 'encrypted_password' => 'hidden',
                 'users_id' => 'raw_html',
@@ -534,7 +550,6 @@ final class Account_Item extends CommonDBRelation
             'can_edit' => $item->canEdit($item->getID()),
             'used' => $used,
             'datatable_params' => [
-                'hash' => $hash,
                 'aeskey_uncrypted' => $aeskey_uncrypted,
                 'is_tab' => true,
                 'nofilter' => true,

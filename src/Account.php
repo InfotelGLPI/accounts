@@ -40,7 +40,6 @@ use Glpi\Application\View\TemplateRenderer;
 use Glpi\DBAL\QueryExpression;
 use Glpi\DBAL\QuerySubQuery;
 use Glpi\Features\Clonable;
-use Group;
 use Html;
 use Item_Problem;
 use Item_Project;
@@ -49,12 +48,11 @@ use MassiveAction;
 use NotificationEvent;
 use Plugin;
 use Session;
-use Twig\TwigFilter;
-use User;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
+
 /**
  * Class Account
  */
@@ -105,6 +103,7 @@ class Account extends CommonDBTM
     {
         return [];
     }
+
     /**
      * Actions done when item is deleted from the database
      */
@@ -184,22 +183,6 @@ class Account extends CommonDBTM
             ];
         }
 
-        if (Session::getCurrentInterface() != 'central') {
-            $tab[] = [
-                'id' => '16',
-                'table' => 'glpi_users',
-                'field' => 'name',
-                'name' => __s('Affected User', 'accounts'),
-                'searchtype' => 'contains',
-            ];
-        } else {
-            $tab[] = [
-                'id' => '16',
-                'table' => 'glpi_users',
-                'field' => 'name',
-                'name' => __s('Affected User', 'accounts'),
-            ];
-        }
 
         $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
 
@@ -325,6 +308,31 @@ class Account extends CommonDBTM
         ];
 
         $tab[] = [
+            'id' => '15',
+            'table' => 'glpi_plugin_accounts_hashes',
+            'field' => 'name',
+            'name' => _n('Footprint', 'Footprints', 1,'accounts'),
+            'datatype' => 'dropdown',
+        ];
+
+        if (Session::getCurrentInterface() != 'central') {
+            $tab[] = [
+                'id' => '16',
+                'table' => 'glpi_users',
+                'field' => 'name',
+                'name' => __s('Affected User', 'accounts'),
+                'searchtype' => 'contains',
+            ];
+        } else {
+            $tab[] = [
+                'id' => '16',
+                'table' => 'glpi_users',
+                'field' => 'name',
+                'name' => __s('Affected User', 'accounts'),
+            ];
+        }
+
+        $tab[] = [
             'id' => '17',
             'table' => 'glpi_users',
             'field' => 'name',
@@ -341,6 +349,14 @@ class Account extends CommonDBTM
             'linkfield' => 'groups_id_tech',
             'name' => __s('Group in charge'),
             'condition' => ['`is_assign`' => 1],
+            'datatype' => 'dropdown',
+        ];
+
+        $tab[] = [
+            'id' => '19',
+            'table' => 'glpi_plugin_accounts_hashes',
+            'field' => 'name',
+            'name' => _n('Footprint', 'Footprints', 1,'accounts'),
             'datatype' => 'dropdown',
         ];
 
@@ -453,6 +469,9 @@ class Account extends CommonDBTM
             $input['date_expiration'] = 'NULL';
         }
 
+        if (isset($input["_blank_account_passwd"]) && $input["_blank_account_passwd"]) {
+            $input['encrypted_password'] = '';
+        }
         return $input;
     }
 
@@ -470,7 +489,6 @@ class Account extends CommonDBTM
      */
     public function showForm($ID, $options = [])
     {
-
         if (!$this->canView()) {
             return false;
         }
@@ -496,8 +514,6 @@ class Account extends CommonDBTM
         $options["form_id"] = "account_form";
 
         //hash
-        $hash = 0;
-        $hash_id = 0;
         $restrict = getEntitiesRestrictCriteria(
             "glpi_plugin_accounts_hashes",
             '',
@@ -505,35 +521,27 @@ class Account extends CommonDBTM
             $hashclass->maybeRecursive()
         );
         $hashes = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
-
+        $alerthash = "";
+        $aeskey_uncrypted = false;
         if (!empty($hashes)) {
-            if (count($hashes) > 1) {
-                echo "<div class='alert alert-warning d-flex'>";
-                echo __s(
-                    'WARNING : there are multiple encryption keys for this entity. The encryption key of this entity will be used',
-                    'accounts'
-                );
-                echo "</div>";
-
-                foreach ($hashes as $hashe) {
-                    if ($hashe["entities_id"] == $this->getEntityID()) {
-                        $hash = $hashe["hash"];
-                        $hash_id = $hashe["id"];
-                    }
-                }
-            } else {
-                foreach ($hashes as $hashe) {
-                    $hash = $hashe["hash"];
-                    $hash_id = $hashe["id"];
+            foreach ($hashes as $hash) {
+                if (empty($hash['hash'])) {
+                    $alert = __s('Your encryption key is malformed, please generate the hash', 'accounts');
+                    echo "<div class='alert alert-warning d-flex'>";
+                    echo $alert;
+                    echo "</div>";
+                    return false;
                 }
             }
 
-            if (empty($hash)) {
-                $alert = __s('Your encryption key is malformed, please generate the hash', 'accounts');
-                echo "<div class='alert alert-warning d-flex'>";
-                echo $alert;
-                echo "</div>";
-                return false;
+            $hashclass->getFromDBByCrit(['id' => $this->fields["plugin_accounts_hashes_id"]]);
+            if (count($hashclass->fields) > 0) {
+                $hash = $hashclass->fields["hash"];
+            } else {
+                $alerthash = __(
+                    'There is no encryption key associated to this account, please select one above',
+                    'accounts'
+                );
             }
         } else {
             $alert = __s('There is no encryption key for this entity', 'accounts');
@@ -544,12 +552,9 @@ class Account extends CommonDBTM
         }
 
         $aeskey = new AesKey();
-        if ($hash) {
-            $aeskey_uncrypted = false;
-            if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
-                && $aeskey->fields["name"]) {
-                $aeskey_uncrypted = $aeskey->fields["name"];
-            }
+        if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $this->fields["plugin_accounts_hashes_id"]])
+            && $aeskey->fields["name"]) {
+            $aeskey_uncrypted = $aeskey->fields["name"];
         }
 
         $this->initForm($ID, $options);
@@ -557,6 +562,7 @@ class Account extends CommonDBTM
             'item' => $this,
             'nbhashes' => $nbhashes,
             'hash' => $hash,
+            'alerthash' => $alerthash,
             'aeskey_uncrypted' => $aeskey_uncrypted,
             'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
             'params' => $options,
@@ -640,7 +646,7 @@ class Account extends CommonDBTM
 
         $subquery = [
             'SELECT' => 'plugin_accounts_accounttypes_id',
-            'DISTINCT'        => true,
+            'DISTINCT' => true,
             'FROM' => 'glpi_plugin_accounts_accounts',
             'WHERE' => ['glpi_plugin_accounts_accounts.is_deleted' => 0],
         ];
@@ -652,16 +658,16 @@ class Account extends CommonDBTM
         );
 
         if (count($p['used'])) {
-            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN',  array_filter($p['used'])]];
+            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN', array_filter($p['used'])]];
             ;
         }
 
         $criteria = [
-            'FROM'      => 'glpi_plugin_accounts_accounttypes',
-            'WHERE'     => [
-                'id'  => new QuerySubQuery($subquery),
+            'FROM' => 'glpi_plugin_accounts_accounttypes',
+            'WHERE' => [
+                'id' => new QuerySubQuery($subquery),
             ],
-            'GROUPBY'   => 'name',
+            'GROUPBY' => 'name',
         ];
 
 
@@ -952,11 +958,12 @@ class Account extends CommonDBTM
         if ($delay) {
             $criteria = [
                 'SELECT' => '*',
-                'FROM'   => self::getTable(),
-                'WHERE'  => [
-                    'NOT' => ['date_expiration' => null,
+                'FROM' => self::getTable(),
+                'WHERE' => [
+                    'NOT' => [
+                        'date_expiration' => null,
                     ],
-                    'is_deleted'   => 0,
+                    'is_deleted' => 0,
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0"),
                 ],
@@ -986,13 +993,12 @@ class Account extends CommonDBTM
         $delay = $config->fields["delay_whichexpire"];
 
         if ($delay) {
-
             $criteria = [
                 'SELECT' => '*',
-                'FROM'   => self::getTable(),
-                'WHERE'  => [
+                'FROM' => self::getTable(),
+                'WHERE' => [
                     'NOT' => ['date_expiration' => null],
-                    'is_deleted'   => 0,
+                    'is_deleted' => 0,
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0"),
                 ],
@@ -1116,7 +1122,6 @@ class Account extends CommonDBTM
 
         $config->showConfigForm($target);
         $notif->showNotificationForm($target);
-
     }
 
     /**
@@ -1126,7 +1131,6 @@ class Account extends CommonDBTM
      */
     public static function showSelector($target)
     {
-
         $rand = mt_rand();
         Plugin::loadLang('accounts');
         echo Html::css("/lib/base.css");
@@ -1206,12 +1210,14 @@ class Account extends CommonDBTM
      **/
     public static function getTypes($all = false)
     {
+        global $CFG_GLPI;
+
         if ($all) {
-            return self::$types;
+            return array_merge(self::$types, $CFG_GLPI['asset_types'], ['Database']);
         }
 
         // Only allowed types
-        $types = self::$types;
+        $types = array_merge(self::$types, $CFG_GLPI['asset_types'], ['Database']);
 
         foreach ($types as $key => $type) {
             if (!class_exists($type)) {
@@ -1408,5 +1414,34 @@ class Account extends CommonDBTM
     public static function supportHelpdeskDisplayPreferences(): bool
     {
         return true;
+    }
+
+    public static function showAccountsWithoutHash()
+    {
+        global $DB;
+
+        $criteria = [
+            'SELECT'    => [
+                'COUNT' => 'id AS cpt'
+            ],
+            'FROM'      => 'glpi_plugin_accounts_accounts',
+            'WHERE'     => [
+                'plugin_accounts_hashes_id'  => 0,
+                'is_deleted'  => 0,
+            ],
+        ];
+
+        $iterator = $DB->request($criteria);
+
+        if (count($iterator) > 0) {
+            foreach ($iterator as $data) {
+                $cpt = $data['cpt'];
+                if ($cpt > 0) {
+                    echo "<div class='alert alert-warning d-flex'>";
+                    echo __s('You have accounts without linked footprint, please add it with massive action or into forms', 'accounts');
+                    echo "</div>";
+                }
+            }
+        }
     }
 }

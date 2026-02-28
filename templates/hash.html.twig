@@ -48,12 +48,6 @@
                 <div class="row flex-row align-items-start flex-grow-1">
                     <div class="row flex-row">
 
-                        {% if item.isNewItem() and nbhashes > 0 %}
-                        <div class='alert alert-warning d-flex'>
-                            {{ __('WARNING : a encryption key already exist for this entity', 'accounts')}}
-                        </div>
-                        {% endif %}
-
                         {% if item.isField('name') %}
                             {{ fields.autoNameField(
                                 "name",
@@ -64,7 +58,7 @@
                         {% endif %}
 
                         {% if item.isNewItem() %}
-                            {{ fields.textField(
+                            {{ fields.passwordField(
                                 "aeskey",
                                 "",
                                 __('Encryption key', 'accounts'), {
@@ -84,7 +78,7 @@
                             {{ fields.textField(
                                 "hash",
                                 item.fields['hash'],
-                                __('Hash', 'accounts'),
+                                "GlpiPlugin\\Accounts\\Hash"|itemtype_name,
                                 {'readonly' : true}
                             ) }}
                         {% endif %}

@@ -28,3 +28,9 @@ var uncryptpassword = function (suffix) {
         decrypt_password(root_accounts_doc);
     }
 };
+
+var checkInputIfNewEncryptionKey  = function (newValue, currentValue) {
+    if (currentValue > 0 && newValue != currentValue) {
+        $('#alertfootprint').show();
+    }
+};

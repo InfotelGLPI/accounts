@@ -58,12 +58,12 @@ class Hash extends CommonDBTM
     public static function getTypeName($nb = 0)
     {
 
-        return _n('Encryption key', 'Encryption keys', $nb, 'accounts');
+        return _n('Footprint', 'Footprints', $nb,'accounts');
     }
 
     public static function getIcon()
     {
-        return "ti ti-lock-open";
+        return "ti ti-fingerprint";
     }
 
     /**
@@ -167,7 +167,7 @@ class Hash extends CommonDBTM
             'id'            => '2',
             'table'         => $this->getTable(),
             'field'         => 'hash',
-            'name'          => __s('Hash'),
+            'name'          => _n('Footprint', 'Footprints', 1,'accounts'),
             'massiveaction' => false,
         ];
 
@@ -349,7 +349,7 @@ class Hash extends CommonDBTM
         echo "<tr class='tab_bg_1 center'><td>";
         $message  = __s('You want to change the key : ', 'accounts');
         $message2 = __s(' by the key : ', 'accounts');
-        echo Html::hidden('ID', ['value' => $hash_id]);
+        echo Html::hidden('id', ['value' => $hash_id]);
         echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash',  'class' => 'btn btn-primary']);
         //
         //      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
@@ -371,13 +371,6 @@ class Hash extends CommonDBTM
 
         $Hash = new self();
         $Hash->getFromDB($hash_id);
-        $dbu = new DbUtils();
-
-        if ($Hash->isRecursive()) {
-            $entities = $dbu->getSonsOf('glpi_entities', $Hash->getEntityID());
-        } else {
-            $entities = $Hash->getEntityID();
-        }
 
         $account = new Account();
         $aeskey  = new AesKey();
@@ -390,31 +383,29 @@ class Hash extends CommonDBTM
         $criteria = [
             'SELECT' => '*',
             'FROM' => 'glpi_plugin_accounts_accounts',
-            'WHERE' => getEntitiesRestrictCriteria(
-                'glpi_plugin_accounts_accounts','',
-                $entities,
-                $Hash->maybeRecursive()
-            )
+            'WHERE' => ['plugin_accounts_hashes_id' => $hash_id,
+            'id' => 1325],
         ];
 
         $iterator = $DB->request($criteria);
 
         if (count($iterator) > 0) {
             foreach ($iterator as $data) {
-                $oldpassword = addslashes(plugin_accounts_AESDecryptCtr($data['encrypted_password'], $oldhash, 256));
-                $newpassword = addslashes(plugin_accounts_AESEncryptCtr($oldpassword, $newhash, 256));
+                $oldpassword = addslashes(AesCtr::decrypt($data['encrypted_password'], $oldhash, 256));
+
+                $newpassword = addslashes(AesCtr::encrypt($oldpassword, $newhash, 256));
 
                 $account->update([
                     'id'                 => $data["id"],
                     'encrypted_password' => $newpassword]);
             }
-            $Hash->update(['id' => $hash_id, 'hash' => $newhashstore]);
+        }
+        $Hash->update(['id' => $hash_id, 'hash' => $newhashstore]);
 
-            if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id]) && isset($aeskey->fields["name"])) {
-                $values["id"]   = $aeskey->fields["id"];
-                $values["name"] = $newaeskey;
-                $aeskey->update($values);
-            }
+        if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id]) && isset($aeskey->fields["name"])) {
+            $values["id"]   = $aeskey->fields["id"];
+            $values["name"] = $newaeskey;
+            $aeskey->update($values);
         }
     }
 }

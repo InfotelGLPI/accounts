@@ -100,13 +100,11 @@
                         <tr>
                             <th colspan="8">{{ __('Encryption key', 'accounts') }}
                                 <input type="password" name="aeskey" id="aeskey" size="40" autocomplete="off" />
-                                <input type="hidden" name="good_hash" id="good_hash" size="40" autocomplete="off" value="{{ hash }}"/></th>
                         </tr>
                      {% else %}
                         <tr>
                             <th colspan="8">{{ __('Encryption key', 'accounts') }}
                                 <input type="password" name="aeskey" id="aeskey" size="40" autocomplete="off" value="{{ aeskey_uncrypted }}"/>
-                                <input type="hidden" name="good_hash" id="good_hash" size="40" autocomplete="off" value="{{ hash }}"/></th>
                         </tr>
                     {% endif %}
                     <tr>

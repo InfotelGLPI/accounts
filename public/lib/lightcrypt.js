@@ -2,62 +2,15 @@
 // Original Author of file: Garret Stephane
 // Purpose of file: Passwords historisation
 // ----------------------------------------------------------------------
-var xmlHttp;
 
-function callAjax(url, idcrypt, nameP, token) {
-
-    if (idcrypt.length == 0) {
-        document.getElementsByName("hidden_password").innerHTML = "";
-        return false;
-    }
-    xmlHttp = new XMLHttpRequest();
-
-    if (xmlHttp == null) {
-        alert("Browser does not support HTTP Request");
-        return false;
-    }
-
-    var params = "idcrypt=" + idcrypt + "&nameP=" + nameP
-        + "&_glpi_csrf_token=" + token;
-
-    xmlHttp.open("POST", url, true);
-    // Send the proper header information along with the request
-    xmlHttp.setRequestHeader("Content-type",
-        "application/x-www-form-urlencoded");
-    xmlHttp.setRequestHeader("Content-length", params.length);
-    xmlHttp.setRequestHeader("Connection", "close");
-
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-            document.getElementsByName("hidden_password").innerHTML = xmlHttp.responseText;
-        }
-    }
-    xmlHttp.send(params);
-}
-
-function GetXmlHttpObject() {
-    var xmlHttp = null;
-    try {
-        // Firefox, Opera 8.0+, Safari
-        xmlHttp = new XMLHttpRequest();
-    } catch (e) {
-        // Internet Explorer
-        try {
-            xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e) {
-            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-    }
-    return xmlHttp;
-}
 /*
  * AES Cipher function: encrypt 'input' with Rijndael algorithm
- * 
+ *
  * takes byte-array 'input' (16 bytes) 2D byte-array key schedule 'w' (Nr+1 x Nb
  * bytes)
- * 
+ *
  * applies Nr rounds (10/12/14) using key schedule w for 'add round key' stage
- * 
+ *
  * returns byte-array encrypted value (16 bytes)
  */
 function Cipher(input, w) { // main Cipher function [§5.1]

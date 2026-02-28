@@ -234,7 +234,6 @@ class NotificationTargetAccount extends NotificationTarget
             __s('Accounts which expires', 'accounts'));
 
             $this->data['##lang.account.name##']           = __s('Name');
-            $this->data['##lang.account.dateexpiration##'] = __s('Expiration date');
             $this->data['##lang.account.type##']           = __s('Type');
             $this->data['##lang.account.state##']          = __s('Status');
             $this->data['##lang.account.login##']          = __s('Login');
