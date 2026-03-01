@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-01 10:03+0000\n"
+"POT-Creation-Date: 2026-03-01 10:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account_Item.php:522 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:485 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
 #: templates/account.html.twig:306 templates/account.html.twig:315
@@ -140,7 +140,7 @@ msgstr ""
 msgid "Encryption key saved"
 msgstr ""
 
-#: templates/datatable.html.twig:405
+#: templates/datatable.html.twig:411
 msgid "Entries to show:"
 msgstr ""
 
@@ -211,11 +211,11 @@ msgstr ""
 msgid "New encryption key"
 msgstr ""
 
-#: templates/datatable.html.twig:205 templates/datatable.html.twig:362
+#: templates/datatable.html.twig:205 templates/datatable.html.twig:368
 msgid "No"
 msgstr ""
 
-#: templates/datatable.html.twig:65 templates/datatable.html.twig:378
+#: templates/datatable.html.twig:65 templates/datatable.html.twig:384
 msgid "No results found"
 msgstr ""
 
@@ -333,12 +333,16 @@ msgstr[1] ""
 msgid "Type view"
 msgstr ""
 
-#: src/Account_Item.php:491
+#: src/Account_Item.php:455
 msgid "Uncrypt"
 msgstr ""
 
-#: ajax/log_decrypt.php:46
-msgid "Uncrypted"
+#: ajax/log_decrypt.php:48
+msgid "Uncrypted from account"
+msgstr ""
+
+#: ajax/log_decrypt.php:50
+msgid "Uncrypted from item"
 msgstr ""
 
 #: src/Report.php:202 src/Report.php:212
@@ -371,13 +375,13 @@ msgid ""
 "password."
 msgstr ""
 
-#: src/Account_Item.php:559 src/Report.php:272 front/hash.form.php:65
+#: src/Account_Item.php:519 src/Report.php:272 front/hash.form.php:65
 #: templates/account.html.twig:215 templates/account.html.twig:277
 #: templates/account.html.twig:472 templates/account.html.twig:487
 msgid "Wrong encryption key"
 msgstr ""
 
-#: templates/datatable.html.twig:202 templates/datatable.html.twig:360
+#: templates/datatable.html.twig:202 templates/datatable.html.twig:366
 msgid "Yes"
 msgstr ""
 
