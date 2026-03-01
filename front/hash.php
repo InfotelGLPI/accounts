@@ -27,12 +27,10 @@
  --------------------------------------------------------------------------
  */
 
-
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Hash;
 
-$account = new Account();
-$account->checkGlobal(UPDATE);
+Session::checkRight("plugin_accounts_hash", READ);
 
 Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 

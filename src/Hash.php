@@ -95,8 +95,12 @@ class Hash extends CommonDBTM
             switch ($item->getType()) {
                 case __CLASS__:
                     $ong    = [];
+
                     $ong[2] = self::createTabEntry(__s('Linked accounts list', 'accounts'));
-                    $ong[3] = self::createTabEntry(__s('Modification of the encryption key for all password', 'accounts'));
+                    if (Session::haveRight(static::$rightname, UPDATE)) {
+                        $ong[3] = self::createTabEntry(__s('Modification of the encryption key for all password', 'accounts'));
+                    }
+
                     return $ong;
             }
         }
@@ -338,22 +342,19 @@ class Hash extends CommonDBTM
             $key = $aesKey->fields["name"];
         }
         echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off', 'value' => $key]);
-        //      echo "<input type='password' class='form-control' autocomplete='off' name='aeskey' id= 'aeskey' $key >";
+
         echo "</td></tr>";
         echo "<tr><th>";
         echo __s('New encryption key', 'accounts') . "</th></tr>";
         echo "<tr class='tab_bg_1 center'><td>";
         echo Html::input('aeskeynew', ['id' => 'aeskeynew', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-        //      echo "<input type='password' class='form-control' autocomplete='off' name='aeskeynew' id= 'aeskeynew'>";
+
         echo "</td></tr>";
         echo "<tr class='tab_bg_1 center'><td>";
-        $message  = __s('You want to change the key : ', 'accounts');
-        $message2 = __s(' by the key : ', 'accounts');
+
         echo Html::hidden('id', ['value' => $hash_id]);
         echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash',  'class' => 'btn btn-primary']);
-        //
-        //      echo "<input type='submit' name='updatehash' value=\"" . _sx('button', 'Update') . "\" class='btn btn-primary'
-        //      onclick=' '>";
+
         echo "</td></tr>";
         echo "</table>";
         Html::closeForm();

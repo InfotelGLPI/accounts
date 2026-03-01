@@ -1,8 +1,10 @@
-var check_hash = function () {
+var check_hash = function (suffix) {
 
-    var good_hash        = $("#good_hash").val();
-    var aeskey           = $("#aeskey").val();
-    var on_change_hash   = $("#change_good_hash").text();
+    suffix = suffix || "";
+
+    var good_hash        = $("#good_hash" + suffix).val();
+    var aeskey           = $("#aeskey" + suffix).val();
+    var on_change_hash   = $("#change_good_hash" + suffix).text();
 
     var select_encryption_key = false;
 
@@ -36,10 +38,11 @@ var generic_check_hash = function (good_hash, aeskey) {
 var decrypt_password = function (root_accounts_doc, suffix) {
     suffix = suffix || "";
 
-    var aeskey = $("#aeskey").val();
+    var aeskey = $("#aeskey" + suffix).val();
+    var encrypted_password = $("#encrypted_password" + suffix).val();
 
     var decrypted_password = AESDecryptCtr(
-        $("#encrypted_password" + suffix).val(),
+        encrypted_password,
         SHA256(aeskey),
         256
     );

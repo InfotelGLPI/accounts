@@ -30,7 +30,7 @@
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Hash;
 
-Session::checkRight("config", UPDATE);
+Session::checkRight("plugin_accounts_hash", UPDATE);
 
 Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 

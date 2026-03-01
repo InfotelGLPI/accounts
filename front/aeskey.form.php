@@ -39,7 +39,7 @@ if (!isset($_GET["plugin_accounts_hashes_id"])) {
     $_GET["plugin_accounts_hashes_id"] = "";
 }
 
-Session::checkRight("config", UPDATE);
+Session::checkRight("plugin_accounts_hash", UPDATE);
 
 $aeskey = new AesKey();
 

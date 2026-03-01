@@ -39,6 +39,7 @@ namespace GlpiPlugin\Accounts;
 
 class Aes {
 
+    public static $rightname = "plugin_accounts_hash";
     /**
      * AES Cipher function: encrypt 'input' with Rijndael algorithm
      *

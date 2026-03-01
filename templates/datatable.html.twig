@@ -95,18 +95,6 @@
                     </tr>
                 {% endif %}
                 {% if no_header is not defined or no_header == false %}
-
-                    {% if aeskey_uncrypted is not defined or aeskey_uncrypted == false %}
-                        <tr>
-                            <th colspan="8">{{ __('Encryption key', 'accounts') }}
-                                <input type="password" name="aeskey" id="aeskey" size="40" autocomplete="off" />
-                        </tr>
-                     {% else %}
-                        <tr>
-                            <th colspan="8">{{ __('Encryption key', 'accounts') }}
-                                <input type="password" name="aeskey" id="aeskey" size="40" autocomplete="off" value="{{ aeskey_uncrypted }}"/>
-                        </tr>
-                    {% endif %}
                     <tr>
                         {% if showmassiveactions %}
                             <th style="width: 30px;">
@@ -321,32 +309,43 @@
                                             {% set entry_data = entry[colkey] %}
                                             {% set content = entry_data['content'] %}
                                             {% if content is not empty %}
-                                                <input type='button' id='{{ entry_data['button-id'] }}'
-                                                       name='{{ entry_data['button-name'] }}' value='{{ content }}'
-                                                class='submit btn btn-primary'
-                                                onClick='{{ entry_data['button-onclick'] }}'>
-
+                                                <div class="btn-group btn-group-sm d-flex" id='check{{ entry_data['rand'] }}' >
+                                                        <input type='password' id='aeskey{{ entry_data['rand'] }}'
+                                                               name='aeskey{{ entry_data['rand'] }}' value="{{ entry_data['aeskey_uncrypted'] }}">
+                                                        <input type='hidden' id='good_hash{{ entry_data['rand'] }}'
+                                                            name='good_hash{{ entry_data['rand'] }}' value='{{ entry_data['good_hash'] }}'>
+                                                        <input type='hidden' id='{{ entry_data['hidden-id'] }}{{ entry_data['rand'] }}'
+                                                            name='{{ entry_data['hidden-name'] }}{{ entry_data['rand'] }}' value='{{ entry_data['hidden-value'] }}'>
+                                                    <div class="btn btn-outline-secondary btn-light" id='{{ entry_data['button-id'] }}'#} name='{{ entry_data['button-name'] }}'#} onclick="{{ entry_data['button-onclick'] }}">
+                                                        <i class="ti ti-lock-open"></i>
+                                                    </div>
+                                                </div>
                                                 <script type="text/javascript">
 
                                                     function decryptCheckbtn{{ entry_data['rand'] }}() {
                                                         var root_accounts_doc = `${CFG_GLPI.root_doc}/plugins/accounts`;
-                                                        var accountID = {{ entry_data['accountID'] }};
+                                                        var rand = {{ entry_data['rand'] }};
 
-                                                        if (!check_hash()) {
-                                                            $('#{{ entry_data['button-id'] }}')
-                                                                .after('{{ alert_encryption }}')
-                                                        .remove();
+                                                        if (!check_hash(rand)) {
+                                                            $('#check{{ entry_data['rand'] }}')
+                                                                .after('<div class="red">{{ alert_encryption }}</div>')
+                                                        // .remove()
+                                                            ;
                                                         } else {
-                                                        var decrypted_password = decrypt_password(root_accounts_doc, accountID);
-                                                        $('#{{ entry_data['button-id'] }}')
-                                                            .after(decrypted_password)
-                                                            .remove();
+                                                            var decrypted_password = decrypt_password(root_accounts_doc, rand);
+                                                            $('#check{{ entry_data['rand'] }}')
+                                                                .after(decrypted_password)
+                                                                // .remove()
+                                                            ;
                                                         }
                                                     }
 
                                                 </script>
                                             {% endif %}
-
+                                        {% elseif formatter == "password" and entry[colkey] is not empty %}
+                                            {% set entry_data = entry[colkey] %}
+                                            <input type='password' id='{{ entry_data['hidden-id'] }}{{ entry_data['rand'] }}'
+                                               name='{{ entry_data['hidden-name'] }}{{ entry_data['rand'] }}' >
 
                                         {% elseif formatter == "hidden" and entry[colkey] is not empty %}
                                             {% set entry_data = entry[colkey] %}

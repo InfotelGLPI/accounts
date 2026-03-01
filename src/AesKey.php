@@ -43,7 +43,7 @@ use Toolbox;
  */
 class AesKey extends CommonDBTM
 {
-    public static $rightname = "plugin_accounts";
+    public static $rightname = "plugin_accounts_hash";
 
     /**
      * @var hash
@@ -88,7 +88,10 @@ class AesKey extends CommonDBTM
         if (!$withtemplate) {
             switch ($item->getType()) {
                 case Hash::class:
-                    return self::createTabEntry(__s('Save the encryption key', 'accounts'));
+                    if (Session::haveRight(static::$rightname, UPDATE)) {
+                        return self::createTabEntry(__s('Save the encryption key', 'accounts'));
+                    }
+                    return "";
                 case __CLASS__:
                     return self::createTabEntry(self::getTypeName());
             }

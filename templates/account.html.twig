@@ -98,25 +98,60 @@
 
                         {% if get_current_interface() == 'central' %}
 
-                            {{ fields.dropdownField(
-                                'GlpiPlugin\\Accounts\\Hash',
-                                'plugin_accounts_hashes_id',
-                                item.fields["plugin_accounts_hashes_id"],
-                                'GlpiPlugin\\Accounts\\Hash'|itemtype_name,
-                                {'entity' : item.getEntityID(),
-                                    'rand' : rand,
-                                    'required': true,
-                                    'on_change': 'checkInputIfNewEncryptionKey(this.value, ' ~ item.fields['plugin_accounts_hashes_id'] ~ ')'}
-                            ) }}
+                            {% if item.isNewItem() %}
+                                {{ fields.dropdownField(
+                                    'GlpiPlugin\\Accounts\\Hash',
+                                    'plugin_accounts_hashes_id',
+                                    item.fields["plugin_accounts_hashes_id"],
+                                    'GlpiPlugin\\Accounts\\Hash'|itemtype_name,
+                                    {'entity' : item.getEntityID(),
+                                        'rand' : rand,
+                                        'required': true,
+                                        'on_change': 'checkInputIfNewEncryptionKey(this.value, ' ~ item.fields['plugin_accounts_hashes_id'] ~ ')'}
+                                ) }}
 
-                            {% do call('Ajax::updateItemOnSelectEvent', [
-                                'dropdown_plugin_accounts_hashes_id' ~ rand,
-                                'change_good_hash',
-                                config('root_doc') ~ '/plugins/accounts/ajax/getHashOnSelectEncryptionKey.php',
-                                {
-                                    'plugin_accounts_hashes_id': '__VALUE__',
-                                }
-                            ]) %}
+                                {% do call('Ajax::updateItemOnSelectEvent', [
+                                    'dropdown_plugin_accounts_hashes_id' ~ rand,
+                                    'change_good_hash',
+                                    config('root_doc') ~ '/plugins/accounts/ajax/getHashOnSelectEncryptionKey.php',
+                                    {
+                                        'plugin_accounts_hashes_id': '__VALUE__',
+                                    }
+                                ]) %}
+                            {% endif %}
+
+                            {% if not (item.isNewItem()) and canupdateHash == true %}
+                                {{ fields.dropdownField(
+                                    'GlpiPlugin\\Accounts\\Hash',
+                                    'plugin_accounts_hashes_id',
+                                    item.fields["plugin_accounts_hashes_id"],
+                                    'GlpiPlugin\\Accounts\\Hash'|itemtype_name,
+                                    {'entity' : item.getEntityID(),
+                                        'rand' : rand,
+                                        'required': true,
+                                        'on_change': 'checkInputIfNewEncryptionKey(this.value, ' ~ item.fields['plugin_accounts_hashes_id'] ~ ')'}
+                                ) }}
+
+                                {% do call('Ajax::updateItemOnSelectEvent', [
+                                    'dropdown_plugin_accounts_hashes_id' ~ rand,
+                                    'change_good_hash',
+                                    config('root_doc') ~ '/plugins/accounts/ajax/getHashOnSelectEncryptionKey.php',
+                                    {
+                                        'plugin_accounts_hashes_id': '__VALUE__',
+                                    }
+                                ]) %}
+                            {% else %}
+                                <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                    <label class="col-form-label col-xxl-5 text-xxl-end ">
+                                        {{ _n('Fingerprint', 'Fingerprints', 1,'accounts') }}
+                                    </label>
+                                    <div class="col-xxl-7 field-container">
+                                    <span class="default_encryption_key">
+                                    {{ call('Dropdown::getDropdownName', ["glpi_plugin_accounts_hashes", item.fields['plugin_accounts_hashes_id']]) }}
+                                    </span>
+                                    </div>
+                                </div>
+                            {% endif %}
 
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">

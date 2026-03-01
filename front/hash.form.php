@@ -35,8 +35,7 @@ if (!isset($_GET["id"])) {
     $_GET["id"] = "";
 }
 
-$account = new Account();
-$account->checkGlobal(UPDATE);
+Session::checkRight("plugin_accounts_hash", READ);
 
 $hashClass = new Hash();
 $dbu       = new DbUtils();

@@ -306,7 +306,8 @@ class Account extends CommonDBTM
             'massiveaction' => false,
             'datatype' => 'datetime',
         ];
-        if (Session::getCurrentInterface() != 'central') {
+
+        if (Session::getCurrentInterface() == 'central') {
             $tab[] = [
                 'id' => '15',
                 'table' => 'glpi_plugin_accounts_hashes',
@@ -465,6 +466,11 @@ class Account extends CommonDBTM
         if (isset($input["_blank_account_passwd"]) && $input["_blank_account_passwd"]) {
             $input['encrypted_password'] = '';
         }
+        if (isset($input["plugin_accounts_hashes_id"])
+            && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
+            unset($input['plugin_accounts_hashes_id']);
+        }
+
         return $input;
     }
 
@@ -550,11 +556,14 @@ class Account extends CommonDBTM
             $aeskey_uncrypted = $aeskey->fields["name"];
         }
 
+        $canupdateHash = Session::haveRight('plugin_accounts_hash', UPDATE);
+
         $this->initForm($ID, $options);
         TemplateRenderer::getInstance()->display('@accounts/account.html.twig', [
             'item' => $this,
             'nbhashes' => $nbhashes,
             'hash' => $hash,
+            'canupdateHash' => $canupdateHash,
             'alerthash' => $alerthash,
             'aeskey_uncrypted' => $aeskey_uncrypted,
             'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
@@ -1361,7 +1370,9 @@ class Account extends CommonDBTM
         $menu['page'] = self::getSearchURL(false);
         $menu['links']['search'] = self::getSearchURL(false);
         $menu['links']['lists'] = "";
-        $menu['links'][$image] = Hash::getSearchURL(false);
+        if (Hash::canView()) {
+            $menu['links'][$image] = Hash::getSearchURL(false);
+        }
         if (self::canCreate()) {
             $menu['links']['add'] = self::getFormURL(false);
         }
@@ -1369,16 +1380,19 @@ class Account extends CommonDBTM
         $menu['options']['account']['title'] = self::getTypeName(2);
         $menu['options']['account']['page'] = self::getSearchURL(false);
         $menu['options']['account']['links']['search'] = Account::getSearchURL(false);
-        $menu['options']['account']['links'][$image] = Hash::getSearchURL(false);
+        if (Hash::canView()) {
+            $menu['options']['account']['links'][$image] = Hash::getSearchURL(false);
+        }
         if (Account::canCreate()) {
             $menu['options']['account']['links']['add'] = self::getFormURL(false);
         }
 
-        $menu['options']['hash']['title'] = Hash::getTypeName(2);
-        $menu['options']['hash']['page'] = Hash::getSearchURL(false);
-        $menu['options']['hash']['links']['search'] = Hash::getSearchURL(false);
-        $menu['options']['hash']['links'][$image] = Hash::getSearchURL(false);
-
+        if (Hash::canView()) {
+            $menu['options']['hash']['title'] = Hash::getTypeName(2);
+            $menu['options']['hash']['page'] = Hash::getSearchURL(false);
+            $menu['options']['hash']['links']['search'] = Hash::getSearchURL(false);
+            $menu['options']['hash']['links'][$image] = Hash::getSearchURL(false);
+        }
         if (Hash::canCreate()) {
             $menu['options']['hash']['links']['add'] = Hash::getFormURL(false);
         }
