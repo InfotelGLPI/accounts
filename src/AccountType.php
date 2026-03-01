@@ -53,7 +53,7 @@ class AccountType extends CommonDropdown
    /**
     * @param $ID
     * @param $entity
-    * @return ID|int|the
+    * @return $newID
     */
     public static function transfer($ID, $entity)
     {

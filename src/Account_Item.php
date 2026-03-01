@@ -37,8 +37,6 @@ use DbUtils;
 use Dropdown;
 use Entity;
 use Glpi\Application\View\TemplateRenderer;
-use Html;
-use KnowbaseItem;
 use Session;
 
 final class Account_Item extends CommonDBRelation
@@ -421,40 +419,6 @@ final class Account_Item extends CommonDBRelation
         }
         $iterator_list = $DB->request($criteria);
 
-
-        //hash
-//        $hashclass = new Hash();
-//        $hash_id   = 0;
-//        $hash      = 0;
-//        $restrict  = getEntitiesRestrictCriteria(
-//            "glpi_plugin_accounts_hashes",
-//            '',
-//            $item->getEntityID(),
-//            $hashclass->maybeRecursive()
-//        );
-//
-//        $hashes    = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
-//        if (!empty($hashes)) {
-//            foreach ($hashes as $hashe) {
-//                $hash    = $hashe["hash"];
-//                $hash_id = $hashe["id"];
-//            }
-//        } else {
-//            $alert = __s('There is no encryption key for this entity', 'accounts');
-//            echo "<div class='alert alert-warning d-flex'>";
-//            echo $alert;
-//            echo "</div>";
-//            return false;
-//        }
-
-//        else {
-//            $alert = __s('There is no encryption key for this entity', 'accounts');
-//            echo "<div class='alert alert-warning d-flex'>";
-//            echo $alert;
-//            echo "</div>";
-//            return false;
-//        }
-
         foreach ($iterator_list as $value) {
             $used[] = $value['id'];
             $account = new Account();
@@ -494,6 +458,8 @@ final class Account_Item extends CommonDBRelation
                     'good_hash' => $hash,
                     'rand' => $rand,
                     'accountID' => $accountID,
+                    'items_id' => $item->getID(),
+                    'itemtype' => $item->getType(),
                     'button-onclick' => "decryptCheckbtn$rand()",
                     'hidden-value' => $account->fields["encrypted_password"],
                     'hidden-id' => "encrypted_password",
@@ -515,9 +481,6 @@ final class Account_Item extends CommonDBRelation
                 "name" => __('Name'),
                 "entities_id" => __s('Entity'),
                 "login" => __s('Login'),
-//                'aeskey' => __s('Encryption key', 'accounts'),
-//                "good_hash" => __s(''),
-//                "encrypted_password" => __s(''),
                 "decrypt_password" => __s('Password'),
                 "users_id" => __s('Affected User', 'accounts'),
                 "plugin_accounts_accounttypes_id" => __s('Type'),
@@ -528,10 +491,7 @@ final class Account_Item extends CommonDBRelation
                 'name' => 'raw_html',
                 'entities_id' => 'raw_html',
                 'login' => 'raw_html',
-//                'aeskey' => 'password',
-//                'good_hash' => 'hidden',
                 'decrypt_password' => 'button',
-//                'encrypted_password' => 'hidden',
                 'users_id' => 'raw_html',
                 'plugin_accounts_accounttypes_id' => 'raw_html',
                 'date_creation' => 'date',
@@ -566,55 +526,5 @@ final class Account_Item extends CommonDBRelation
         ]);
 
         return true;
-    }
-    /**
-     * Return visibility SQL restriction to add
-     *
-     * @return string restrict to add
-     **/
-    public static function addVisibilityRestrict()
-    {
-        //not deprecated because used in Search
-
-        //get and clean criteria
-        $criteria = KnowbaseItem::getVisibilityCriteria();
-        unset($criteria['LEFT JOIN']);
-        $criteria['FROM'] = self::getTable();
-
-        $it = new \DBmysqlIterator(null);
-        $it->buildQuery($criteria);
-        $sql = $it->getSql();
-        $sql = preg_replace('/.*WHERE /', '', $sql);
-
-        return $sql;
-    }
-
-    /**
-     * Return visibility joins to add to SQL
-     *
-     * @param $forceall force all joins (false by default)
-     *
-     * @return string joins to add
-     **/
-    public static function addVisibilityJoins($forceall = false)
-    {
-        //not deprecated because used in Search
-        /** @var \DBmysql $DB */
-        global $DB;
-
-        //get and clean criteria
-        $criteria = self::getVisibilityCriteria();
-        unset($criteria['WHERE']);
-        $criteria['FROM'] = self::getTable();
-
-        $it = new \DBmysqlIterator(null);
-        $it->buildQuery($criteria);
-        $sql = $it->getSql();
-        $sql = trim(str_replace(
-            'SELECT * FROM ' . $DB->quoteName(self::getTable()),
-            '',
-            $sql
-        ));
-        return $sql;
     }
 }

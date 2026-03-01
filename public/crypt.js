@@ -40,7 +40,9 @@ var decrypt_password = function (root_accounts_doc, suffix) {
 
     var aeskey = $("#aeskey" + suffix).val();
     var encrypted_password = $("#encrypted_password" + suffix).val();
-
+    var accounts_id = $("#accounts_id" + suffix).val();
+    var items_id = $("#items_id" + suffix).val();
+    var itemtype = $("#itemtype" + suffix).val();
     var decrypted_password = AESDecryptCtr(
         encrypted_password,
         SHA256(aeskey),
@@ -50,19 +52,20 @@ var decrypt_password = function (root_accounts_doc, suffix) {
     if ($("#hidden_password" + suffix).length) { //isset ?
         $("#hidden_password" + suffix).val(decrypted_password);
     }
+    var url = root_accounts_doc + '/ajax/log_decrypt.php';
 
     if (document.location.pathname.indexOf('accounts') > 0) {
         var idcrypt = $('form#account_form input[name=id]').val();
-        var url = '../ajax/log_decrypt.php'
+        var from = 'account';
     } else {
-        var idcrypt = suffix;
-        var url = root_accounts_doc + '/ajax/log_decrypt.php';
+        var idcrypt = accounts_id;
+        var from = 'item';
     }
 
     $.ajax({
         'url': url,
         'type': 'POST',
-        'data': {'idcrypt': idcrypt}
+        'data': {'idcrypt': idcrypt, 'from': from, 'items_id': items_id, 'itemtype': itemtype},
     });
 
     return decrypted_password;

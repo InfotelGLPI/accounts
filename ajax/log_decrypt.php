@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -35,17 +36,31 @@ $AJAX_INCLUDE = 1;
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkLoginUser();
-
 Session::checkRight("plugin_accounts", READ);
 
+Toolbox::logInfo($_POST);
+
 if (isset($_POST['idcrypt'])) {
-   //History log
-   $changes[0] = 15;
-   $changes[1] = "";
-   $changes[2] = __s('Uncrypted', 'accounts');
-   Log::history(intval($_POST['idcrypt']), Account::class, $changes, 0,
-      Log::HISTORY_LOG_SIMPLE_MESSAGE);
+    //History log
+    $changes[0] = 15;
+    $changes[1] = "";
+    if (isset($_POST['from']) && $_POST['from'] == 'account') {
+        $changes[2] = __s('Uncrypted from account', 'accounts');
+    } else {
+        $changes[2] = __s('Uncrypted from item', 'accounts');
+        if (isset($_POST['items_id']) && isset($_POST['itemtype'])) {
+            $item = new $_POST['itemtype']();
+            $item->getFromDB($_POST['items_id']);
+            $changes[2] .= " " . $item->getName();
+        }
+    }
+
+    Log::history(
+        intval($_POST['idcrypt']),
+        Account::class,
+        $changes,
+        0,
+        Log::HISTORY_LOG_SIMPLE_MESSAGE
+    );
 
 }
-

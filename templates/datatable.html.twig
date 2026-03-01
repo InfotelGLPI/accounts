@@ -310,6 +310,12 @@
                                             {% set content = entry_data['content'] %}
                                             {% if content is not empty %}
                                                 <div class="btn-group btn-group-sm d-flex" id='check{{ entry_data['rand'] }}' >
+                                                    <input type='hidden' id='accounts_id{{ entry_data['rand'] }}'
+                                                           name='accounts_id{{ entry_data['rand'] }}' value="{{ entry_data['accountID'] }}">
+                                                    <input type='hidden' id='items_id{{ entry_data['rand'] }}'
+                                                           name='items_id{{ entry_data['rand'] }}' value="{{ entry_data['items_id'] }}">
+                                                    <input type='hidden'  id='itemtype{{ entry_data['rand'] }}'
+                                                           name='itemtype{{ entry_data['rand'] }}' value="{{ entry_data['itemtype'] }}">
                                                         <input type='password' id='aeskey{{ entry_data['rand'] }}'
                                                                name='aeskey{{ entry_data['rand'] }}' value="{{ entry_data['aeskey_uncrypted'] }}">
                                                         <input type='hidden' id='good_hash{{ entry_data['rand'] }}'
@@ -334,7 +340,7 @@
                                                         } else {
                                                             var decrypted_password = decrypt_password(root_accounts_doc, rand);
                                                             $('#check{{ entry_data['rand'] }}')
-                                                                .after(decrypted_password)
+                                                                .after(decrypted_password + '<br>')
                                                                 // .remove()
                                                             ;
                                                         }
