@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-01 09:57+0000\n"
+"POT-Creation-Date: 2026-03-01 10:03+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
@@ -417,9 +417,10 @@ msgid "You have not filled the password and encryption key"
 msgstr "Veuillez renseigner le mot de passe et/ou la clé de chiffrement"
 
 #: src/Hash.php:282
-msgid "You must generate the hash for your encryption key"
-msgstr "Vous devez générer le hachage de votre clé de chiffrement"
+msgid "You must generate the fingerprint for your encryption key"
+msgstr "Vous devez générer l'empreinte de votre clé de chiffrement"
 
 #: src/Account.php:528
-msgid "Your encryption key is malformed, please generate the hash"
-msgstr "Votre clé de chiffrement est malformée, veuillez générer le hash"
+msgid "Your encryption key is malformed, please regenerate the fingerprint"
+msgstr ""
+"Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
