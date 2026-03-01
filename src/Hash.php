@@ -279,7 +279,7 @@ class Hash extends CommonDBTM
     {
 
         if (isset($input['hash']) && empty($input['hash'])) {
-            $message = __s('You must generate the hash for your encryption key', 'accounts');
+            $message = __s('You must generate the fingerprint for your encryption key', 'accounts');
             Session::addMessageAfterRedirect($message, false, ERROR);
             return false;
         }

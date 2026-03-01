@@ -525,7 +525,7 @@ class Account extends CommonDBTM
         if (!empty($hashes)) {
             foreach ($hashes as $hash) {
                 if (empty($hash['hash'])) {
-                    $alert = __s('Your encryption key is malformed, please generate the hash', 'accounts');
+                    $alert = __s('Your encryption key is malformed, please regenerate the fingerprint', 'accounts');
                     echo "<div class='alert alert-warning d-flex'>";
                     echo $alert;
                     echo "</div>";
