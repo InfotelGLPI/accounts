@@ -117,11 +117,8 @@ function plugin_init_accounts()
 
         // Add specific files to add to the header : javascript or css
         $PLUGIN_HOOKS[Hooks::ADD_CSS]['accounts'] = ['accounts.css'];
-        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "getparameter.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "crypt.js";
-        if (strpos($_SERVER['REQUEST_URI'], "front/account.form.php") !== false) {
-            $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "account.form.js.php";
-        }
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "account.form.js.php";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/lightcrypt.js";
 
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
