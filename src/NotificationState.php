@@ -50,7 +50,7 @@ class NotificationState extends CommonDBTM
     public function findStates()
     {
 
-        $state = new NotificationState();
+        $state = new self();
         $states = $state->find();
         $data = [];
         foreach ($states as $dataChilds) {

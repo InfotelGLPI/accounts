@@ -48,7 +48,7 @@ class Config extends CommonDBTM
     /**
      * @param CommonGLPI $item
      * @param int $withtemplate
-     * @return string|translated
+     * @return string
      */
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
@@ -116,5 +116,6 @@ class Config extends CommonDBTM
                 ],
             );
         }
+        return true;
     }
 }

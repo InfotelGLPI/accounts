@@ -38,8 +38,6 @@ Html::header_nocache();
 
 Session::checkRight("plugin_accounts", READ);
 
-Toolbox::logInfo($_POST);
-
 if (isset($_POST['idcrypt'])) {
     //History log
     $changes[0] = 15;
