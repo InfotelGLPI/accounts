@@ -141,16 +141,18 @@
                                     }
                                 ]) %}
                             {% else %}
-                                <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
-                                    <label class="col-form-label col-xxl-5 text-xxl-end ">
-                                        {{ _n('Fingerprint', 'Fingerprints', 1,'accounts') }}
-                                    </label>
-                                    <div class="col-xxl-7 field-container">
+                                {% if not (item.isNewItem()) %}
+                                    <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                                        <label class="col-form-label col-xxl-5 text-xxl-end ">
+                                            {{ _n('Fingerprint', 'Fingerprints', 1,'accounts') }}
+                                        </label>
+                                        <div class="col-xxl-7 field-container">
                                     <span class="default_encryption_key">
                                     {{ call('Dropdown::getDropdownName', ["glpi_plugin_accounts_hashes", item.fields['plugin_accounts_hashes_id']]) }}
                                     </span>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             {% endif %}
 
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
