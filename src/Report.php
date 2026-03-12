@@ -274,7 +274,7 @@ class Report extends CommonDBTM
                                     pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
                                 } else {
                                     if (\"$encrypted\".startsWith(\"$v2$\")) {
-                                        // Nouveau format $v2$
+                                        // Nouveau format v2
                                         pass = decryptV2(\"$encrypted\", \"$aeskey\");
                                     } else {
                                         // Ancien format
