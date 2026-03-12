@@ -356,31 +356,6 @@ final class Account_Item extends CommonDBRelation
 
         $used = $entries = [];
 
-        $who          = Session::getLoginUserID();
-        if (count($_SESSION["glpigroups"])
-            && Session::haveRight("plugin_accounts_my_groups", 1)
-        ) {
-            $first_groups = true;
-            $groups       = "";
-            foreach ($_SESSION['glpigroups'] as $val) {
-                if (!$first_groups) {
-                    $groups .= ",";
-                } else {
-                    $first_groups = false;
-                }
-                $groups .= "'" . $val . "'";
-            }
-
-            $ASSIGN = ['OR' => [
-                'groups_id'  => $groups,
-                'users_id'    => $who,
-            ],
-            ];
-
-        } else { // Only personal ones
-            $ASSIGN = ['users_id' => $who];
-        }
-
         $criteria = [
             'SELECT' => ['glpi_plugin_accounts_accounts_items.id AS assocID',
                 'glpi_entities.id AS entity',
@@ -407,6 +382,12 @@ final class Account_Item extends CommonDBRelation
             ],
             'ORDERBY'   => 'assocName',
         ];
+
+        $visibility = Account::getVisibilityCriteria();
+        if (!empty($visibility)) {
+            $criteria['WHERE'] = array_merge($criteria['WHERE'], $visibility);
+        }
+
         $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
             'glpi_plugin_accounts_accounts',
             '',
@@ -414,9 +395,7 @@ final class Account_Item extends CommonDBRelation
             true
         );
 
-        if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
-            $criteria['WHERE'] = $criteria['WHERE'] + $ASSIGN;
-        }
+
         $iterator_list = $DB->request($criteria);
 
         foreach ($iterator_list as $value) {

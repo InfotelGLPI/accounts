@@ -160,6 +160,13 @@ class Profile extends \Profile
                 READ  => __s('Read'),
             ],];
 
+        $rights[] = [
+            'itemtype' => Account::class,
+            'label'    => __s('See accounts of my technician groups', 'accounts'),
+            'field'    => 'plugin_accounts_my_tech_groups',
+            'rights'   => [READ => __s('Read')],
+        ];
+
         $rights[] = ['itemtype' => Account::class,
             'label'    => __s('See all accounts', 'accounts'),
             'field'    => 'plugin_accounts_see_all_users',

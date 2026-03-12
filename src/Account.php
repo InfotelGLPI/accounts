@@ -494,7 +494,7 @@ class Account extends CommonDBTM
             $aeskey = new AesKey();
             if ($hash_id) {
                 if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
-                && !empty($aeskey->fields['name'])) {
+                    && !empty($aeskey->fields['name'])) {
                     $fingerprint = $aeskey->fields['name'];
                     $old_hash = hash('sha256', $fingerprint);
                     // Decrypt v1
@@ -1525,5 +1525,72 @@ class Account extends CommonDBTM
                 }
             }
         }
+    }
+
+    /**
+     * Build WHERE criteria for account visibility based on current user rights.
+     *
+     * - plugin_accounts_see_all_users = 1 → no restriction (admin)
+     * - plugin_accounts_my_groups = 1     → own groups + own user
+     * - default                           → own user only
+     *
+     * @return array GLPI DBUtils criteria array, empty if no restriction needed
+     */
+    public static function getVisibilityCriteria(): array
+    {
+        // Super-admin: see everything
+        if (Session::haveRight('plugin_accounts_see_all_users', READ)) {
+            return [];
+        }
+        $who = Session::getLoginUserID();
+
+        // Group-based visibility
+        if (Session::haveRight('plugin_accounts_my_groups', READ)
+            && !empty($_SESSION['glpigroups'])) {
+            $or = [
+                'users_id' => $who,
+                'groups_id' => $_SESSION['glpigroups'],
+            ];
+            if (Session::haveRight('plugin_accounts_my_tech_groups', READ)) {
+                $or['users_id_tech']  = $who;
+                $or['groups_id_tech'] = $_SESSION['glpigroups'];
+            }
+            return ['OR' => $or];
+        }
+
+        // Personal only
+        return [
+            'OR' => [
+                'users_id' => $who,
+                'users_id_tech' => $who,
+            ],
+        ];
+    }
+
+    /**
+     * Override to inject group-based visibility filtering into the search engine.
+     * This affects front/account.php list and all search-based views.
+     */
+    public static function getDefaultWhere(): string
+    {
+        global $DB;
+        $criteria = self::getVisibilityCriteria();
+        if (empty($criteria)) {
+            return '';
+        }
+
+// Convert the criteria array to a SQL WHERE clause fragment
+        $iterator = new \DBmysqlIterator($DB);
+        $where = $iterator->analyseCrit($criteria);
+
+        if (empty($where)) {
+            return '';
+        }
+
+        $table = self::getTable();
+// Prefix unqualified column references with the table name
+        $where = preg_replace('/\b(users_id|users_id_tech|groups_id|groups_id_tech)\b/', "`$table`.`$1`", $where);
+
+        return " AND ($where)";
     }
 }
