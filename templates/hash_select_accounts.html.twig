@@ -1,0 +1,73 @@
+{#
+# -------------------------------------------------------------------------
+# Accounts plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of Accounts.
+#
+# Accounts is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Accounts is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Accounts. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2026-2026 by Accounts plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/InfotelGLPI/Accounts
+# -------------------------------------------------------------------------
+#}
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="ti ti-list-search me-1"></i>
+            {{ __('Linked accounts list', 'accounts') }}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="key_{{ rand }}">
+                    {{ __('Please fill the encryption key', 'accounts') }}
+                </label>
+                <input type="password"
+                       id="key_{{ rand }}"
+                       name="key"
+                       class="form-control"
+                       autocomplete="off"
+                       size="40">
+            </div>
+            <div class="col-12 col-md-auto">
+                <button type="button"
+                        id="showAccountsList{{ rand }}"
+                        class="btn btn-primary">
+                    <i class="ti ti-search me-1"></i>
+                    {{ __('Display report') }}
+                </button>
+            </div>
+        </div>
+        <div id="viewaccountslist{{ rand }}" class="mt-3"></div>
+    </div>
+</div>
+<script>
+    $(document).on('click', '#showAccountsList{{ rand }}', function () {
+        var key = $('#key_{{ rand }}').val();
+        if (key === '') {
+            alert('{{ __('Please fill the encryption key', 'accounts')|escape('js') }}');
+        } else {
+            $('#viewaccountslist{{ rand }}').load(
+                '{{ root_accounts_doc }}/ajax/viewaccountslist.php',
+                { id: {{ hash_id }}, key: key }
+            );
+        }
+    });
+</script>

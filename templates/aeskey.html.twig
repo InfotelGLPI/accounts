@@ -68,7 +68,10 @@
                             },
                         }) }}
 
-                        {{ fields.hiddenField('plugin_accounts_hashes_id', params['plugin_accounts_hashes_id']) }}
+                        {{ fields.hiddenField('plugin_accounts_hashes_id',
+                            params['plugin_accounts_hashes_id'] is not empty
+                            ? params['plugin_accounts_hashes_id']
+                            : item.fields['plugin_accounts_hashes_id']) }}
 
 
                     </div> {# .row #}

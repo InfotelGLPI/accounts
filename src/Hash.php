@@ -294,34 +294,12 @@ class Hash extends CommonDBTM
     {
 
         $rand = mt_rand();
+        TemplateRenderer::getInstance()->display('@accounts/hash_select_accounts.html.twig', [
+            'hash_id'           => $ID,
+            'rand'              => $rand,
+            'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
+        ]);
 
-        echo "<div class='center'>";
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr><th colspan='3'>";
-        echo __s('Linked accounts list', 'accounts') . "</th></tr>";
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>";
-        echo __s('Please fill the encryption key', 'accounts') . "</td>";
-        echo "<td class='center'>";
-        echo Html::input('key', ['id' => 'key', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-        echo "</td>";
-        echo "<td>";
-        $id = "showAccountsList$rand";
-        echo Html::submit(__s('Display report'), ['name' => 'select', 'form' => '', 'id' => $id, 'class' => 'btn btn-primary']);
-        echo "</td>";
-        echo "</tr>";
-        echo "</table></div>";
-
-        $url = PLUGIN_ACCOUNTS_WEBDIR . "/ajax/viewaccountslist.php";
-        echo "<div id='viewaccountslist$rand'></div>";
-        echo Html::scriptBlock("$(document).on('click', '#showAccountsList$rand', function(){
-         var key = $('#key').val();
-         if (key == '') {
-            alert('" . __s('Please fill the encryption key', 'accounts') . "');
-         } else {
-            $('#viewaccountslist$rand').load('$url', {'id': $ID, 'key': key});
-         }
-      });");
     }
 
     /**
@@ -330,35 +308,19 @@ class Hash extends CommonDBTM
     public static function showHashChangeForm($hash_id)
     {
 
-        echo "<div class='alert alert-danger d-flex'>";
-        echo "<b>" . __s('WARNING : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') . "</b></div><br>";
-        echo "<form method='post' action='./hash.form.php'>";
-        echo "<table class='tab_cadre_fixe'><tr><th colspan='2'>";
-        echo __s('Old encryption key', 'accounts') . "</th></tr>";
-        echo "<tr class='tab_bg_1 center'><td>";
-        $aesKey = new AesKey();
-        $key    = "";
-        if ($aesKey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id]) && isset($aesKey->fields["name"])) {
-            $key = $aesKey->fields["name"];
+        $aesKey      = new AesKey();
+        $current_key = '';
+
+        if ($aesKey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
+            && isset($aesKey->fields['name'])) {
+            $current_key = $aesKey->fields['name'];
         }
-        echo Html::input('aeskey', ['id' => 'aeskey', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off', 'value' => $key]);
 
-        echo "</td></tr>";
-        echo "<tr><th>";
-        echo __s('New encryption key', 'accounts') . "</th></tr>";
-        echo "<tr class='tab_bg_1 center'><td>";
-        echo Html::input('aeskeynew', ['id' => 'aeskeynew', 'type' => 'password', 'size' => 40, 'autocomplete' => 'off']);
-
-        echo "</td></tr>";
-        echo "<tr class='tab_bg_1 center'><td>";
-
-        echo Html::hidden('id', ['value' => $hash_id]);
-        echo Html::submit(_sx('button', 'Update'), ['name' => 'updatehash',  'class' => 'btn btn-primary']);
-
-        echo "</td></tr>";
-        echo "</table>";
-        Html::closeForm();
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@accounts/hash_change_key.html.twig', [
+            'hash_id'        => $hash_id,
+            'current_aeskey' => $current_key,
+            'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
+        ]);
     }
 
     /**

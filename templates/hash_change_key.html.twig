@@ -1,0 +1,90 @@
+{#
+# -------------------------------------------------------------------------
+# Accounts plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of Accounts.
+#
+# Accounts is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Accounts is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Accounts. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2026-2026 by Accounts plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/InfotelGLPI/Accounts
+# -------------------------------------------------------------------------
+#}
+
+<div class="alert alert-danger d-flex align-items-start mb-3">
+    <i class="ti ti-alert-triangle flex-shrink-0 me-2 mt-1"></i>
+    <div>
+        <strong>
+            {{ __('WARNING : if you make a mistake in entering the old or the new key, you could no longer decrypt your passwords. It is STRONGLY recommended that you make a backup of the database before.', 'accounts') }}
+        </strong>
+    </div>
+</div>
+<form method="post" action="{{ 'GlpiPlugin\\Accounts\\Hash'|itemtype_form_path }}">
+    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="id" value="{{ hash_id }}">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="ti ti-key me-1"></i>
+                {{ __('Old encryption key', 'accounts') }}
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-12 col-md-6">
+                    <input type="password"
+                           name="aeskey"
+                           id="aeskey"
+                           class="form-control"
+                           autocomplete="off"
+                           size="40"
+                           value="{{ current_aeskey }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="ti ti-key me-1"></i>
+                {{ __('New encryption key', 'accounts') }}
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-12 col-md-6">
+                    <input type="password"
+                           name="aeskeynew"
+                           id="aeskeynew"
+                           class="form-control"
+                           autocomplete="off"
+                           size="40">
+                </div>
+            </div>
+            <div class="mt-3">
+                <button type="submit"
+                        name="updatehash"
+                        class="btn btn-warning">
+                    <i class="ti ti-refresh me-1"></i>
+                    {{ __('Update') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
