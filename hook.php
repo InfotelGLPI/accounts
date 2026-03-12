@@ -34,6 +34,8 @@ use GlpiPlugin\Accounts\Account_Item;
 use GlpiPlugin\Accounts\AccountInjection;
 use GlpiPlugin\Accounts\AccountState;
 use GlpiPlugin\Accounts\AccountType;
+use GlpiPlugin\Accounts\AesKey;
+use GlpiPlugin\Accounts\Hash;
 use GlpiPlugin\Accounts\Profile;
 
 /**
@@ -313,6 +315,24 @@ function plugin_accounts_install()
         if ($field_info && $field_info['CHARACTER_MAXIMUM_LENGTH'] !== null) {
             $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.1.sql');
         }
+
+        // NEW: migrate glpi_logs itemtype references
+        $log_classes = [
+            'PluginAccountsAccount'     => Account::class,
+            'PluginAccountsHash'        => Hash::class,
+            'PluginAccountsAccountType' => AccountType::class,
+            'PluginAccountsAesKey'      => AesKey::class,
+        ];
+        foreach ($log_classes as $old_itemtype => $new_itemtype) {
+            if (countElementsInTable('glpi_logs', ['itemtype' => $old_itemtype]) > 0) {
+                $DB->update('glpi_logs', ['itemtype' => $new_itemtype], ['itemtype' => $old_itemtype]);
+            }
+        }
+        $DB->update(
+            'glpi_logs',
+            ['linked_action_itemtype' => Account::class],
+            ['linked_action_itemtype' => 'PluginAccountsAccount']
+        );
     }
 
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
