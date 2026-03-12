@@ -48,11 +48,11 @@
                 <div class="row flex-row align-items-start flex-grow-1">
                     <div class="row flex-row">
 
-{#                        {% if item.isNewItem() and nbhashes == 0 %}#}
-{#                            <div class='alert alert-warning d-flex'>#}
-{#                                {{ __('WARNING : a encryption key already exist for this entity', 'accounts') }}#}
-{#                            </div>#}
-{#                        {% endif %}#}
+                        {#                        {% if item.isNewItem() and nbhashes == 0 %} #}
+                        {#                            <div class='alert alert-warning d-flex'> #}
+                        {#                                {{ __('WARNING : a encryption key already exist for this entity', 'accounts') }} #}
+                        {#                            </div> #}
+                        {#                        {% endif %} #}
 
                         {% if item.isField('name') %}
                             {{ fields.autoNameField(
@@ -166,11 +166,11 @@
                                 <label class="col-form-label col-xxl-5 text-xxl-end ">
                                     {{ _n('Fingerprint', 'Fingerprints', 1,'accounts') }}
                                 </label>
-                                    <div class="col-xxl-7 field-container">
+                                <div class="col-xxl-7 field-container">
                                     <span class="default_encryption_key">
                                     {{ call('Dropdown::getDropdownName', ["glpi_plugin_accounts_hashes", item.fields['plugin_accounts_hashes_id']]) }}
                                     </span>
-                                    </div>
+                                </div>
                             </div>
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
@@ -183,7 +183,7 @@
                         <div id="alertfootprint" class="alert alert-warning">
                             {{ __('WARNING: If you change the associated fingerprint, you will no longer be able to correctly decrypt the password. You will also need to update the password.', 'accounts') }}
                         </div>
-                        <input type="hidden" id="change_good_hash" />
+                        <input type="hidden" id="change_good_hash"/>
                         {% if aeskey_uncrypted is not defined or aeskey_uncrypted == false %}
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
@@ -233,8 +233,9 @@
 
                                     </div>
                                     {% if get_current_interface() == 'central' %}
-                                    <span class="d-inline-flex">
-                                        <input type="checkbox" name="_blank_account_passwd" id="__blank_account_passwd" class="ms-1">
+                                        <span class="d-inline-flex">
+                                        <input type="checkbox" name="_blank_account_passwd" id="__blank_account_passwd"
+                                               class="ms-1">
                                         <label for="__blank_account_passwd" class="ms-1">
                                             {{ __('Clear') }}
                                         </label>
@@ -462,8 +463,8 @@
     {% if item.isNewItem() %}
         <script type="text/javascript">
             $('#account_form').submit(function (event) {
-                let hiddenPassword    = $('input[name="hidden_password"]').val();
-                let aeskey            = $('input[name="aeskey"]').val();
+                let hiddenPassword = $('input[name="hidden_password"]').val();
+                let aeskey = $('input[name="aeskey"]').val();
                 if (hiddenPassword == '' || aeskey == '') {
                     alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
                     return false;
@@ -479,8 +480,8 @@
     {% else %}
         <script type="text/javascript">
             $('#account_form').submit(function (event) {
-                let hiddenPassword    = $('input[name="hidden_password"]').val();
-                let aeskey            = $('input[name="aeskey"]').val();
+                let hiddenPassword = $('input[name="hidden_password"]').val();
+                let aeskey = $('input[name="aeskey"]').val();
                 if ((hiddenPassword == '' || aeskey == '')) {
                     alert('{{ __('Password will not be modified', 'accounts') }}');
                 } else if (!check_hash()) {
@@ -502,6 +503,7 @@
         </div>
     {% endif %}
 </div>
+
 <script type="text/javascript">
     $(document).on('click', '#generate_hash', function (event) {
         if ($('input[name="aeskey"]').val() == '' || $('input[name="aeskey"]').val() == undefined) {
@@ -513,3 +515,88 @@
     });
 
 </script>
+
+
+{# Password Generator — Bootstrap 5 card, shown for both new and existing items #}
+{% if show_password_generator %}
+    <div class="row flex-row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="ti ti-key me-1"></i>
+                        {{ __('Generate password', 'accounts') }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2 align-items-center">
+                        {# Character set checkboxes #}
+                        <div class="col-12 col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked id="char-0">
+                                <label class="form-check-label" for="char-0">
+                                    {{ __('Numbers', 'accounts') }}
+                                    <small class="text-muted">(0123456789)</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked id="char-1">
+                                <label class="form-check-label" for="char-1">
+                                    {{ __('Lowercase', 'accounts') }}
+                                    <small class="text-muted">(abcdefghijklmnopqrstuvwxyz)</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked id="char-2">
+                                <label class="form-check-label" for="char-2">
+                                    {{ __('Uppercase', 'accounts') }}
+                                    <small class="text-muted">(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="char-3">
+                                <label class="form-check-label" for="char-3">
+                                    {{ __('Special characters', 'accounts') }}
+                                    <small class="text-muted">(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small>
+                                </label>
+                            </div>
+                        </div>
+
+                        {# Length + Generate button #}
+                        <div class="col-12 col-md-6">
+                            <div class="input-group mb-2" style="max-width: 220px;">
+                                <label class="input-group-text" for="length">
+                                    {{ __('Length', 'accounts') }}
+                                </label>
+                                <input type="number" min="1" max="512" value="16" step="1"
+                                       id="length" class="form-control" style="max-width: 80px;">
+                                <span class="input-group-text">
+                    {{ __('characters', 'accounts') }}
+                    </span>
+                            </div>
+                            <div id="fakeupdate"></div>
+                            <button type="button"
+                                    id="generatePass"
+                                    name="generatePass"
+                                    class="btn btn-primary">
+                                <i class="ti ti-refresh me-1"></i>
+                                {{ __('Generate', 'accounts') }}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {# Wire up the AJAX event (keep existing behaviour) #}
+    {% do call('Ajax::updateItemOnEvent', [
+        'generatePass',
+        'fakeupdate',
+        root_accounts_doc ~ '/ajax/generatepassword.php',
+        {'password': 1},
+        ['click']
+    ]) %}
+{% endif %}

@@ -568,51 +568,8 @@ class Account extends CommonDBTM
             'aeskey_uncrypted' => $aeskey_uncrypted,
             'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
             'params' => $options,
+            'show_password_generator' => empty($ID) ? true : false,
         ]);
-
-        if (empty($ID)) {
-            echo "<br><table class='tab_cadre'>
-               <tbody>
-               <tr class='tab_bg_1 center'><th colspan ='2'>" . __s('Generate password', 'accounts') . "</th></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-0\" /></td><td><label for=\"char-0\"> " . __s(
-                "Numbers",
-                "accounts"
-            ) . " <small>(0123456789)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-1\" /></td><td><label for=\"char-1\"> " . __s(
-                "Lowercase",
-                "accounts"
-            ) . " <small>(abcdefghijklmnopqrstuvwxyz)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" checked id=\"char-2\" /></td><td><label for=\"char-2\"> " . __s(
-                "Uppercase",
-                "accounts"
-            ) . " <small>(ABCDEFGHIJKLMNOPQRSTUVWXYZ)</small></label></td></tr>
-               <tr class='tab_bg_1'><td><input type=\"checkbox\" id=\"char-3\" /></td><td><label for=\"char-3\"> " . __s(
-                "Special characters",
-                "accounts"
-            ) . " <small>(!\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</small></label></td></tr>
-               <tr class='tab_bg_1'>
-                        <td><label for='length'>" . __s("Length", "accounts") . "</label></td>
-                        <td><input type='number' min='1' value='8' step='1' id='length' style='width:4em'  /> " . __s(
-                " characters",
-                "accounts"
-            ) . "</td>
-                     </tr>
-               <tr id='fakeupdate'></tr>
-               <tr class='tab_bg_2 center'><td colspan='2'>&nbsp
-               <button type='button' id='generatePass' name='generatePass' class='submit btn btn-primary' value='" . __s(
-                'Generate',
-                'accounts'
-            ) . "'>" . __s('Generate', 'accounts') . "</button></td></tr>
-               </tbody>
-               </table>";
-            Ajax::updateItemOnEvent(
-                "generatePass",
-                "fakeupdate",
-                PLUGIN_ACCOUNTS_WEBDIR . "/ajax/generatepassword.php",
-                ["password" => 1],
-                ["click"]
-            );
-        }
 
         return true;
     }
