@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 16:24+0000\n"
+"POT-Creation-Date: 2026-03-12 17:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:911
+#: src/Account.php:922
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Accounts expired for more than"
 msgstr ""
 
-#: src/Account.php:1009 src/Account.php:1124
+#: src/Account.php:1020 src/Account.php:1135
 #: src/NotificationTargetAccount.php:320
 msgid "Accounts expired or accounts which expires"
 msgstr ""
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:1327
+#: src/Account.php:1342
 msgid "Don't expire"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgid "Empty for infinite"
 msgstr ""
 
 #: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: src/Account.php:1433 src/Account.php:1437 templates/hash.html.twig:64
+#: src/Account.php:1445 src/Account.php:1449 templates/hash.html.twig:64
 #: templates/account.html.twig:192 templates/account.html.twig:252
 #: templates/aeskey.html.twig:61
 msgid "Encryption key"
@@ -296,7 +296,7 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
-#: src/Account.php:1214
+#: src/Account.php:1225
 msgid "Select the wanted account type"
 msgstr ""
 
@@ -318,13 +318,13 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
-#: src/Account.php:587
+#: src/Account.php:598
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:554 src/Account.php:592
+#: src/Account.php:565 src/Account.php:603
 msgid "There is no encryption key for this entity"
 msgstr ""
 
@@ -392,7 +392,7 @@ msgid ""
 "password."
 msgstr ""
 
-#: src/Account.php:441
+#: src/Account.php:452
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -408,7 +408,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:1520
+#: src/Account.php:1532
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -422,7 +422,7 @@ msgstr ""
 msgid "You must generate the fingerprint for your encryption key"
 msgstr ""
 
-#: src/Account.php:574
+#: src/Account.php:585
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 
