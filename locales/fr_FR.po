@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 11:12+0000\n"
+"POT-Creation-Date: 2026-03-12 15:58+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
@@ -21,14 +21,14 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: src/Account.php:94 setup.php:138
+#: src/Account.php:94 setup.php:139
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Compte"
 msgstr[1] "Comptes"
 msgstr[2] "Comptes"
 
-#: src/Account.php:879
+#: src/Account.php:912
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -46,7 +46,7 @@ msgstr "Comptes expirés"
 msgid "Accounts expired for more than"
 msgstr "Comptes expirés depuis plus de"
 
-#: src/Account.php:977 src/Account.php:1092
+#: src/Account.php:1010 src/Account.php:1125
 #: src/NotificationTargetAccount.php:320
 msgid "Accounts expired or accounts which expires"
 msgstr "Comptes expirés ou comptes qui vont expirer"
@@ -70,14 +70,14 @@ msgstr "Statuts non utilisés dans l'envoi des emails d'expiration"
 
 #: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:189
 #: src/NotificationTargetAccount.php:241 src/NotificationTargetAccount.php:302
-#: templates/account.html.twig:333 templates/account.html.twig:343
+#: templates/account.html.twig:335 templates/account.html.twig:345
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: src/Account_Item.php:485 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:464 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
-#: templates/account.html.twig:307 templates/account.html.twig:316
+#: templates/account.html.twig:309 templates/account.html.twig:318
 msgid "Affected User"
 msgstr "Utilisateur concerné"
 
@@ -89,7 +89,7 @@ msgstr "Tous"
 msgid "An account has been created"
 msgstr "Un nouveau compte a été créé"
 
-#: templates/account.html.twig:452
+#: templates/account.html.twig:454
 msgid "Associable to a ticket"
 msgstr "Associable à un ticket"
 
@@ -101,18 +101,18 @@ msgstr "Associer au compte"
 msgid "Check all"
 msgstr "Tout cocher"
 
-#: templates/account.html.twig:240
+#: templates/account.html.twig:242
 msgid "Clear"
 msgstr "Effacer"
 
-#: templates/hash.html.twig:90 templates/account.html.twig:444
+#: templates/hash.html.twig:90 templates/account.html.twig:446
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Commentaire"
 msgstr[1] "Commentaires"
 msgstr[2] "Commentaires"
 
-#: templates/account.html.twig:356
+#: templates/account.html.twig:358
 msgid "Creation date"
 msgstr "Date de création"
 
@@ -131,17 +131,17 @@ msgstr "Lien direct vers le compte créé"
 msgid "Display report"
 msgstr "Afficher le rapport"
 
-#: src/Account.php:1295
+#: src/Account.php:1328
 msgid "Don't expire"
 msgstr "N'expire pas"
 
-#: templates/account.html.twig:389
+#: templates/account.html.twig:391
 msgid "Empty for infinite"
 msgstr "Vide pour infini"
 
 #: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: src/Account.php:1401 src/Account.php:1405 templates/hash.html.twig:64
-#: templates/account.html.twig:190 templates/account.html.twig:250
+#: src/Account.php:1434 src/Account.php:1438 templates/hash.html.twig:64
+#: templates/account.html.twig:192 templates/account.html.twig:252
 #: templates/aeskey.html.twig:61
 msgid "Encryption key"
 msgid_plural "Encryption key"
@@ -161,7 +161,7 @@ msgstr "Clé de chiffrement sauvegardée"
 msgid "Entries to show:"
 msgstr "Entrées à afficher :"
 
-#: templates/account.html.twig:388
+#: templates/account.html.twig:390
 msgid "Expiration date"
 msgstr "Date d'expiration"
 
@@ -174,14 +174,14 @@ msgid "Filter"
 msgstr "Flitre"
 
 #: src/AesKey.php:206 src/Account.php:315 src/Hash.php:61 src/Hash.php:174
-#: templates/account.html.twig:146 templates/account.html.twig:167
+#: templates/account.html.twig:147 templates/account.html.twig:169
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
 msgstr[0] "Empreinte"
 msgstr[1] "Empreintes"
 msgstr[2] "Empreintes"
 
-#: templates/account.html.twig:583
+#: templates/account.html.twig:585
 msgid "Generate"
 msgstr "Générer"
 
@@ -189,19 +189,19 @@ msgstr "Générer"
 msgid "Generate finger print with this encryption key"
 msgstr "Générer l'empreinte à partir de cette clé de chiffrement"
 
-#: templates/account.html.twig:528
+#: templates/account.html.twig:530
 msgid "Generate password"
 msgstr "Générer un mot de passe"
 
-#: templates/account.html.twig:400 templates/account.html.twig:410
+#: templates/account.html.twig:402 templates/account.html.twig:412
 msgid "Group in charge"
 msgstr "Groupe responsable"
 
-#: templates/account.html.twig:569
+#: templates/account.html.twig:571
 msgid "Length"
 msgstr "Longueur"
 
-#: src/Report.php:295 src/Hash.php:99
+#: src/Report.php:305 src/Hash.php:99
 #: templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr "Liste des comptes liés"
@@ -210,7 +210,7 @@ msgstr "Liste des comptes liés"
 msgid "Login"
 msgstr "Identifiant"
 
-#: templates/account.html.twig:545
+#: templates/account.html.twig:547
 msgid "Lowercase"
 msgstr "Minuscule"
 
@@ -238,7 +238,7 @@ msgstr "Non"
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
 
-#: templates/account.html.twig:538
+#: templates/account.html.twig:540
 msgid "Numbers"
 msgstr "Nombres"
 
@@ -246,15 +246,15 @@ msgstr "Nombres"
 msgid "Old encryption key"
 msgstr "Ancienne clé de chiffrement"
 
-#: templates/account.html.twig:424
+#: templates/account.html.twig:426
 msgid "Others"
 msgstr "Autres"
 
-#: templates/account.html.twig:210 templates/account.html.twig:273
+#: templates/account.html.twig:212 templates/account.html.twig:275
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/account.html.twig:486
+#: templates/account.html.twig:488
 msgid "Password will not be modified"
 msgstr "Le mot de passe ne sera pas modifié"
 
@@ -267,7 +267,7 @@ msgstr ""
 "esperluette dans les clés de chiffrement, sinon vous risquez de ne pas "
 "pouvoir les modifier ultérieurement"
 
-#: templates/hash.html.twig:120 templates/account.html.twig:510
+#: templates/hash.html.twig:120 templates/account.html.twig:512
 #: templates/hash_select_accounts.html.twig:40
 #: templates/hash_select_accounts.html.twig:65
 msgid "Please fill the encryption key"
@@ -290,7 +290,11 @@ msgstr "Enregistrer la clé de chiffrement"
 msgid "See accounts of my groups"
 msgstr "Voir les comptes de mes groupes"
 
-#: src/Profile.php:164
+#: src/Profile.php:165
+msgid "See accounts of my technician groups"
+msgstr "Voir les comptes de mes groupes de techniciens"
+
+#: src/Profile.php:171
 msgid "See all accounts"
 msgstr "Voir les comptes de tous"
 
@@ -306,11 +310,11 @@ msgstr "Sélectionner au moins une case à cocher"
 msgid "Select item"
 msgstr "Sélectionner un objet"
 
-#: src/Account.php:1182
+#: src/Account.php:1215
 msgid "Select the wanted account type"
 msgstr "Sélectionnez le type de compte souhaité"
 
-#: templates/account.html.twig:559
+#: templates/account.html.twig:561
 msgid "Special characters"
 msgstr "Caractères spéciaux"
 
@@ -321,7 +325,7 @@ msgstr[0] "Statut"
 msgstr[1] "Statuts"
 msgstr[2] "Statuts"
 
-#: templates/account.html.twig:367 templates/account.html.twig:376
+#: templates/account.html.twig:369 templates/account.html.twig:378
 msgid "Technician in charge"
 msgstr "Technicien responsable"
 
@@ -330,7 +334,7 @@ msgid "The old or the new encryption key can not be empty"
 msgstr ""
 "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
-#: src/Account.php:554
+#: src/Account.php:587
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
@@ -338,7 +342,7 @@ msgstr ""
 "Aucune clé de chiffrement n'est associée à ce compte. Veuillez en "
 "sélectionner une ci-dessus."
 
-#: src/Account.php:521 src/Account.php:559
+#: src/Account.php:554 src/Account.php:592
 msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
@@ -361,7 +365,7 @@ msgstr[2] "Types de compte"
 msgid "Type view"
 msgstr "Vue par type"
 
-#: src/Account_Item.php:455
+#: src/Account_Item.php:434
 msgid "Uncrypt"
 msgstr "Déchiffrer"
 
@@ -381,7 +385,7 @@ msgstr "Mot de passe déchiffré"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: templates/account.html.twig:552
+#: templates/account.html.twig:554
 msgid "Uppercase"
 msgstr "Majuscule"
 
@@ -404,7 +408,7 @@ msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
 "ATTENTION : enregistrer la clé de chiffrement est une faille de sécurité"
 
-#: templates/account.html.twig:184
+#: templates/account.html.twig:186
 msgid ""
 "WARNING: If you change the associated fingerprint, you will no longer be "
 "able to correctly decrypt the password. You will also need to update the "
@@ -422,9 +426,9 @@ msgstr ""
 "Attention : le mot de passe chiffré est très long et peut indiquer un "
 "problème avec la clé de chiffrement."
 
-#: src/Account_Item.php:519 src/Report.php:272 front/hash.form.php:65
-#: templates/account.html.twig:215 templates/account.html.twig:278
-#: templates/account.html.twig:473 templates/account.html.twig:488
+#: src/Account_Item.php:498 src/Report.php:275 front/hash.form.php:65
+#: templates/account.html.twig:217 templates/account.html.twig:280
+#: templates/account.html.twig:475 templates/account.html.twig:490
 msgid "Wrong encryption key"
 msgstr "Mauvaise clé de chiffrement"
 
@@ -432,7 +436,7 @@ msgstr "Mauvaise clé de chiffrement"
 msgid "Yes"
 msgstr "Oui"
 
-#: src/Account.php:1488
+#: src/Account.php:1521
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -440,7 +444,7 @@ msgstr ""
 "Vous avez des comptes sans empreinte liée ; veuillez l'ajouter via une "
 "action massive ou dans les formulaires."
 
-#: templates/account.html.twig:469
+#: templates/account.html.twig:471
 msgid "You have not filled the password and encryption key"
 msgstr "Veuillez renseigner le mot de passe et/ou la clé de chiffrement"
 
@@ -448,11 +452,11 @@ msgstr "Veuillez renseigner le mot de passe et/ou la clé de chiffrement"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "Vous devez générer l'empreinte de votre clé de chiffrement"
 
-#: src/Account.php:541
+#: src/Account.php:574
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 "Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
 
-#: templates/account.html.twig:574
+#: templates/account.html.twig:576
 msgid "characters"
 msgstr "caractères"
