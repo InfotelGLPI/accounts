@@ -97,7 +97,7 @@ class Report extends CommonDBTM
                     'glpi_plugin_accounts_accounts.is_deleted'  => 0,
                     'glpi_plugin_accounts_hashes.id'  => $ID,
                 ],
-                'ORDERBY'   => 'typename, glpi_plugin_accounts_accounts.name',
+                'ORDERBY'   => 'glpi_plugin_accounts_accounts.name',
             ];
 
             $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
@@ -173,7 +173,8 @@ class Report extends CommonDBTM
         $headers = [];
         $rows = [];
         $numrows = count($list);
-        $end_display = $start + $_SESSION['glpilist_limit'];
+//        $end_display = $start + $_SESSION['glpilist_limit'];
+        $end_display = $numrows;
         if (isset($_GET['export_all'])) {
             $start       = 0;
             $end_display = $numrows;

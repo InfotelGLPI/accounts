@@ -870,10 +870,9 @@ class Account extends CommonDBTM
                                 $src_hash_value = hash('sha256', $src_aes_key_value);
 
                                 // Decrypt with source key
-                                $plaintext = AesCtr::decrypt(
+                                $plaintext = AccountCrypto::decrypt(
                                     $item->fields['encrypted_password'],
-                                    $src_hash_value,
-                                    256
+                                    $src_hash_value
                                 );
 
                                 // Find destination entity's fingerprint
@@ -899,7 +898,7 @@ class Account extends CommonDBTM
 
                                         // Re-encrypt with destination key
                                         $reencrypted_password = addslashes(
-                                            AesCtr::encrypt($plaintext, $dest_hash_value, 256)
+                                            AccountCrypto::encrypt($plaintext, $dest_hash_value)
                                         );
                                     }
                                 }
