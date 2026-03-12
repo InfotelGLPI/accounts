@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 14:38+0000\n"
+"POT-Creation-Date: 2026-03-12 15:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account_Item.php:485 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:464 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
 #: templates/account.html.twig:309 templates/account.html.twig:318
@@ -276,7 +276,11 @@ msgstr ""
 msgid "See accounts of my groups"
 msgstr ""
 
-#: src/Profile.php:164
+#: src/Profile.php:165
+msgid "See accounts of my technician groups"
+msgstr ""
+
+#: src/Profile.php:171
 msgid "See all accounts"
 msgstr ""
 
@@ -342,7 +346,7 @@ msgstr[1] ""
 msgid "Type view"
 msgstr ""
 
-#: src/Account_Item.php:455
+#: src/Account_Item.php:434
 msgid "Uncrypt"
 msgstr ""
 
@@ -394,7 +398,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:519 src/Report.php:274 front/hash.form.php:65
+#: src/Account_Item.php:498 src/Report.php:274 front/hash.form.php:65
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:475 templates/account.html.twig:490
 msgid "Wrong encryption key"
