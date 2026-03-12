@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 17:57+0000\n"
+"POT-Creation-Date: 2026-03-12 19:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,7 +139,7 @@ msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 
-#: front/hash.form.php:70 templates/aeskey.html.twig:53
+#: front/hash.form.php:81 templates/aeskey.html.twig:53
 msgid "Encryption key modified"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgid_plural "Fingerprints"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/account.html.twig:595
+#: templates/account.html.twig:582
 msgid "Generate"
 msgstr ""
 
@@ -178,7 +178,7 @@ msgstr ""
 msgid "Generate finger print with this encryption key"
 msgstr ""
 
-#: templates/account.html.twig:540
+#: templates/account.html.twig:527
 msgid "Generate password"
 msgstr ""
 
@@ -186,11 +186,11 @@ msgstr ""
 msgid "Group in charge"
 msgstr ""
 
-#: templates/account.html.twig:581
+#: templates/account.html.twig:568
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:306 src/Hash.php:99
+#: src/Report.php:317 src/Hash.php:99
 #: templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr ""
@@ -199,7 +199,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: templates/account.html.twig:557
+#: templates/account.html.twig:544
 msgid "Lowercase"
 msgstr ""
 
@@ -227,7 +227,7 @@ msgstr ""
 msgid "No results found"
 msgstr ""
 
-#: templates/account.html.twig:550
+#: templates/account.html.twig:537
 msgid "Numbers"
 msgstr ""
 
@@ -243,7 +243,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: templates/account.html.twig:494
+#: templates/account.html.twig:496
 msgid "Password will not be modified"
 msgstr ""
 
@@ -253,8 +253,7 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:120 templates/account.html.twig:522
-#: templates/hash_select_accounts.html.twig:40
+#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40
 #: templates/hash_select_accounts.html.twig:65
 msgid "Please fill the encryption key"
 msgstr ""
@@ -300,7 +299,7 @@ msgstr ""
 msgid "Select the wanted account type"
 msgstr ""
 
-#: templates/account.html.twig:571
+#: templates/account.html.twig:558
 msgid "Special characters"
 msgstr ""
 
@@ -314,7 +313,7 @@ msgstr[1] ""
 msgid "Technician in charge"
 msgstr ""
 
-#: front/hash.form.php:75
+#: front/hash.form.php:89
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
@@ -366,7 +365,7 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: templates/account.html.twig:564
+#: templates/account.html.twig:551
 msgid "Uppercase"
 msgstr ""
 
@@ -398,9 +397,9 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:498 src/Report.php:276 front/hash.form.php:65
+#: src/Account_Item.php:498 src/Report.php:294 front/hash.form.php:72
 #: templates/account.html.twig:217 templates/account.html.twig:280
-#: templates/account.html.twig:478 templates/account.html.twig:499
+#: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
 msgstr ""
 
@@ -426,6 +425,6 @@ msgstr ""
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 
-#: templates/account.html.twig:586
+#: templates/account.html.twig:573
 msgid "characters"
 msgstr ""
