@@ -265,6 +265,7 @@ class Report extends CommonDBTM
                     $encrypted = $list[$i]["password"];
                     echo Html::hidden("password[$IDc]");
                     $pass = "<p name='show_password' id='show_password$$IDc'></p>";
+                    $prefix = AccountCrypto::V2_PREFIX;
                     $pass .= Html::scriptBlock("
                                 var good_hash=\"$hashvalue\";
                                 var hash=SHA256(SHA256(\"$aeskey\"));
@@ -273,7 +274,7 @@ class Report extends CommonDBTM
                                 if (hash != good_hash) {
                                     pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
                                 } else {
-                                    if (\"$encrypted\".startsWith(\"$v2$\")) {
+                                    if (\"$encrypted\".startsWith(\"$prefix\")) {
                                         // Nouveau format v2
                                         pass = decryptV2(\"$encrypted\", \"$aeskey\");
                                     } else {

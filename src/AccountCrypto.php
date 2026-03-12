@@ -45,7 +45,7 @@ base64-encoded string without '$v2$' prefix — handled by AesCtr::decrypt()
 class AccountCrypto
 {
     private const CIPHER    = 'AES-256-CTR';
-    private const V2_PREFIX = '$v2$';
+    public const V2_PREFIX = '$v2$';
 
     /**
      * Encrypt plaintext using AES-256-CTR with a random IV.
