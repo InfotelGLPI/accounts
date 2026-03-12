@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-01 13:16+0000\n"
+"POT-Creation-Date: 2026-03-09 14:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -337,11 +337,11 @@ msgstr ""
 msgid "Uncrypt"
 msgstr ""
 
-#: ajax/log_decrypt.php:48
+#: ajax/log_decrypt.php:46
 msgid "Uncrypted from account"
 msgstr ""
 
-#: ajax/log_decrypt.php:50
+#: ajax/log_decrypt.php:48
 msgid "Uncrypted from item"
 msgstr ""
 
