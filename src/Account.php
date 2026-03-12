@@ -433,6 +433,16 @@ class Account extends CommonDBTM
             $input['date_expiration'] = 'NULL';
         }
 
+        // Guard: warn if plaintext password is suspiciously long before encryption
+        // The JS client encrypts the password, but this checks the stored ciphertext length
+        if (isset($input['encrypted_password']) && strlen($input['encrypted_password']) > 4000) {
+            Session::addMessageAfterRedirect(
+                __s('Warning: the encrypted password is very long and may indicate an issue with the encryption key.', 'accounts'),
+                false,
+                WARNING
+            );
+        }
+
         return $input;
     }
 

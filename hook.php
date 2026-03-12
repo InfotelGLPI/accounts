@@ -291,11 +291,29 @@ function plugin_accounts_install()
         && !$DB->fieldExists("glpi_plugin_accounts_accounts", "plugin_accounts_hashes_id")) {
 
         $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.2.0.sql");
-
-
     }
 //    include_once(PLUGIN_ACCOUNTS_DIR . "/install/update_320_migrateMultiHashEntities.php");
 //    update_320_migrateMultiHashEntities();
+
+    // from 3.2.0: expand encrypted_password to TEXT (was VARCHAR(255), truncated long ciphertexts)
+    if ($DB->tableExists('glpi_plugin_accounts_accounts')
+        && $DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_password')) {
+
+        $field_info = $DB->request([
+            'SELECT' => ['CHARACTER_MAXIMUM_LENGTH'],
+            'FROM'   => 'information_schema.COLUMNS',
+            'WHERE'  => [
+                'TABLE_SCHEMA' => $DB->dbdefault,
+                'TABLE_NAME'   => 'glpi_plugin_accounts_accounts',
+                'COLUMN_NAME'  => 'encrypted_password',
+            ],
+        ])->current();
+
+        // Only migrate if still VARCHAR (CHARACTER_MAXIMUM_LENGTH is NULL for TEXT types)
+        if ($field_info && $field_info['CHARACTER_MAXIMUM_LENGTH'] !== null) {
+            $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.1.sql');
+        }
+    }
 
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
 
