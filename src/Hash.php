@@ -346,18 +346,15 @@ class Hash extends CommonDBTM
         $criteria = [
             'SELECT' => '*',
             'FROM' => 'glpi_plugin_accounts_accounts',
-            'WHERE' => ['plugin_accounts_hashes_id' => $hash_id,
-            'id' => 1325],
+            'WHERE' => ['plugin_accounts_hashes_id' => $hash_id],
         ];
 
         $iterator = $DB->request($criteria);
 
         if (count($iterator) > 0) {
             foreach ($iterator as $data) {
-                $oldpassword = addslashes(AesCtr::decrypt($data['encrypted_password'], $oldhash, 256));
-
-                $newpassword = addslashes(AesCtr::encrypt($oldpassword, $newhash, 256));
-
+                $oldpassword = AccountCrypto::decrypt($data['encrypted_password'], $oldaeskey);
+                $newpassword = addslashes(AccountCrypto::encrypt($oldpassword, $newaeskey));
                 $account->update([
                     'id'                 => $data["id"],
                     'encrypted_password' => $newpassword]);

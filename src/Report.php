@@ -268,14 +268,23 @@ class Report extends CommonDBTM
                     $pass .= Html::scriptBlock("
                                 var good_hash=\"$hashvalue\";
                                 var hash=SHA256(SHA256(\"$aeskey\"));
+                                var pass = '';
+
                                 if (hash != good_hash) {
                                     pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
                                 } else {
-                                    pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
+                                    if (\"$encrypted\".startsWith(\"$v2$\")) {
+                                        // Nouveau format $v2$
+                                        pass = decryptV2(\"$encrypted\", \"$aeskey\");
+                                    } else {
+                                        // Ancien format
+                                        pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
+                                    }
                                 }
 
                                 document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
                                 document.getElementById(\"show_password$$IDc\").innerHTML = pass;
+
                                 ");
 
                     $html_output .= $output::showItem($pass, $item_num, $row_num);

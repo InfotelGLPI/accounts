@@ -120,6 +120,7 @@ function plugin_init_accounts()
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "crypt.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "account.form.js.php";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/lightcrypt.js";
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/crypto-js.min.js";
 
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 

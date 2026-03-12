@@ -18,14 +18,14 @@ var auto_decrypt = function (suffix) {
    }
 };
 
-var uncryptpassword = function (suffix) {
+var uncryptpassword = async function(suffix) {
 
     if (!check_hash()) {
         var value = document.getElementById('wrong_key_locale').value;
         document.getElementById('wrong_key_locale_div').innerHTML = value;
     } else {
         document.getElementById('wrong_key_locale_div').innerHTML = '';
-        decrypt_password(root_accounts_doc);
+        await decrypt_password(root_accounts_doc, suffix);
     }
 };
 
@@ -34,3 +34,4 @@ var checkInputIfNewEncryptionKey  = function (newValue, currentValue) {
         $('#alertfootprint').show();
     }
 };
+

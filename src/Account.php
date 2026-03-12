@@ -483,6 +483,39 @@ class Account extends CommonDBTM
             && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
             unset($input['plugin_accounts_hashes_id']);
         }
+        // Transparent v1 → v2 re-encryption on save
+        // Only possible if the AES key is available (stored in AesKeys table)
+        if (isset($input['encrypted_password']) && !empty($input['encrypted_password'])
+            && AccountCrypto::isLegacyFormat($input['encrypted_password'])
+        ) {
+            $hash_id = $this->fields['plugin_accounts_hashes_id']
+                ?? ($input['plugin_accounts_hashes_id'] ?? 0);
+
+            $aeskey = new AesKey();
+            if ($hash_id) {
+                if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
+                && !empty($aeskey->fields['name'])) {
+                    $fingerprint = $aeskey->fields['name'];
+                    $old_hash = hash('sha256', $fingerprint);
+                    // Decrypt v1
+                    $plaintext = AesCtr::decrypt($input['encrypted_password'], $old_hash, 256);
+                    if (!empty($plaintext)) {
+                        // Re-encrypt as v2
+                        $input['encrypted_password'] = AccountCrypto::encrypt($plaintext, $fingerprint);
+                    }
+                } else {
+                    $fingerprint = $input['aeskey'];
+                    $old_hash = hash('sha256', $fingerprint);
+                    // Decrypt v1
+                    $plaintext = AesCtr::decrypt($input['encrypted_password'], $old_hash, 256);
+                    if (!empty($plaintext)) {
+                        // Re-encrypt as v2
+                        $input['encrypted_password'] = AccountCrypto::encrypt($plaintext, $fingerprint);
+                    }
+                }
+            }
+        }
+
 
         return $input;
     }
@@ -810,7 +843,7 @@ class Account extends CommonDBTM
                 }
 
                 break;
-                
+
             case "transfer":
                 $input = $ma->getInput();
                 if ($item->getType() == Account::class) {
