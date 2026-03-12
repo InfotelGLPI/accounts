@@ -102,27 +102,64 @@ function decrypt_password(root_accounts_doc, suffix) {
     return decrypted_password;
 }
 
-var encrypt_password = function (suffix) {
+function encryptV2(plaintext, fingerprint) {
+    // Générer un IV aléatoire de 16 octets
+    var iv = CryptoJS.lib.WordArray.random(16);
+
+    // Clé SHA256
+    var key = CryptoJS.SHA256(fingerprint);
+
+    // Chiffrement AES-256-CTR
+    var encrypted = CryptoJS.AES.encrypt(
+        CryptoJS.enc.Latin1.parse(plaintext),
+        CryptoJS.enc.Hex.parse(key.toString()),
+        {
+            iv: iv,
+            mode: CryptoJS.mode.CTR,
+            padding: CryptoJS.pad.NoPadding
+        }
+    );
+
+    // Retourner au format $v2$<iv_b64>$<ct_b64>
+    var iv_b64 = CryptoJS.enc.Base64.stringify(iv);
+    var ct_b64 = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+
+    return `$v2$${iv_b64}$${ct_b64}`;
+}
+
+// var encrypt_password = function (suffix) {
+//     suffix = suffix || "";
+//     var aeskey = $("#aeskey").val();
+//     // var checkAeskey           = $("#checkaeskey").val();
+//     var select_encryption_key = false;
+//     var encrypted_password = '';
+//
+//     // if (checkAeskey != '') {
+//     //     select_encryption_key = true;
+//     // }
+//
+//     // if (select_encryption_key) {
+//     //     encrypted_password = AESEncryptCtr($('#hidden_password' + suffix).val(),
+//     //         SHA256(checkAeskey),
+//     //         256);
+//     // } else {
+//     encrypted_password = AESEncryptCtr($('#hidden_password' + suffix).val(),
+//         SHA256(aeskey),
+//         256);
+//     // }
+//
+//     $('#encrypted_password').val(encrypted_password);
+//     $('#account_form').submit();
+// };
+
+var encrypt_password = function(suffix) {
+
     suffix = suffix || "";
-    var aeskey = $("#aeskey").val();
-    // var checkAeskey           = $("#checkaeskey").val();
-    var select_encryption_key = false;
-    var encrypted_password = '';
 
-    // if (checkAeskey != '') {
-    //     select_encryption_key = true;
-    // }
+    var aeskey = $("#aeskey" + suffix).val();
+    var plaintext = $("#hidden_password" + suffix).val();
 
-    // if (select_encryption_key) {
-    //     encrypted_password = AESEncryptCtr($('#hidden_password' + suffix).val(),
-    //         SHA256(checkAeskey),
-    //         256);
-    // } else {
-    encrypted_password = AESEncryptCtr($('#hidden_password' + suffix).val(),
-        SHA256(aeskey),
-        256);
-    // }
+    var encrypted_password = encryptV2(plaintext, aeskey);
 
-    $('#encrypted_password').val(encrypted_password);
-    $('#account_form').submit();
+    $("#encrypted_password" + suffix).val(encrypted_password);
 };

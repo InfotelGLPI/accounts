@@ -464,34 +464,44 @@
     </div> {# .card-body #}
     {% if item.isNewItem() %}
         <script type="text/javascript">
-            $('#account_form').submit(function (event) {
-                let hiddenPassword = $('input[name="hidden_password"]').val();
-                let aeskey = $('input[name="aeskey"]').val();
-                if (hiddenPassword == '' || aeskey == '') {
+            $(document).on('submit', '#account_form', function () {
+
+                let hiddenPassword = $('#hidden_password').val();
+                let aeskey = $('#aeskey').val();
+
+                if (!hiddenPassword || !aeskey) {
                     alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
                     return false;
                 }
+
                 if (!check_hash()) {
                     alert('{{ __('Wrong encryption key', 'accounts') }}');
                     return false;
-                } else {
-                    encrypt_password();
                 }
+
+                encrypt_password();
+
             });
         </script>
     {% else %}
         <script type="text/javascript">
-            $('#account_form').submit(function (event) {
+            $(document).on('submit', '#account_form', function(event) {
+
                 let hiddenPassword = $('input[name="hidden_password"]').val();
                 let aeskey = $('input[name="aeskey"]').val();
+
                 if ((hiddenPassword == '' || aeskey == '')) {
                     alert('{{ __('Password will not be modified', 'accounts') }}');
-                } else if (!check_hash()) {
+                    return false;
+                }
+
+                if (!check_hash()) {
                     alert('{{ __('Wrong encryption key', 'accounts') }}');
                     return false;
-                } else {
-                    encrypt_password();
                 }
+
+                encrypt_password();
+
             });
         </script>
     {% endif %}
