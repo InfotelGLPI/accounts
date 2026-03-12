@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 15:16+0000\n"
+"POT-Creation-Date: 2026-03-12 15:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,7 +190,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:304 src/Hash.php:99
+#: src/Report.php:305 src/Hash.php:99
 #: templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr ""
@@ -398,7 +398,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:498 src/Report.php:274 front/hash.form.php:65
+#: src/Account_Item.php:498 src/Report.php:275 front/hash.form.php:65
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:475 templates/account.html.twig:490
 msgid "Wrong encryption key"
