@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 10:18+0000\n"
+"POT-Creation-Date: 2026-03-12 10:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,6 +115,10 @@ msgstr[1] ""
 msgid "Direct link to created account"
 msgstr ""
 
+#: templates/hash_select_accounts.html.twig:54
+msgid "Display report"
+msgstr ""
+
 #: src/Account.php:1256
 msgid "Don't expire"
 msgstr ""
@@ -183,7 +187,8 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:295 src/Hash.php:99 src/Hash.php:301
+#: src/Report.php:295 src/Hash.php:99
+#: templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr ""
 
@@ -207,7 +212,7 @@ msgstr ""
 msgid "New account"
 msgstr ""
 
-#: src/Hash.php:348
+#: templates/hash_change_key.html.twig:66
 msgid "New encryption key"
 msgstr ""
 
@@ -223,7 +228,7 @@ msgstr ""
 msgid "Numbers"
 msgstr ""
 
-#: src/Hash.php:337
+#: templates/hash_change_key.html.twig:44
 msgid "Old encryption key"
 msgstr ""
 
@@ -245,8 +250,9 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: src/Hash.php:304 src/Hash.php:320 templates/hash.html.twig:120
-#: templates/account.html.twig:508
+#: templates/hash.html.twig:120 templates/account.html.twig:508
+#: templates/hash_select_accounts.html.twig:40
+#: templates/hash_select_accounts.html.twig:65
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -349,6 +355,10 @@ msgstr ""
 msgid "Uncrypted password"
 msgstr ""
 
+#: templates/hash_change_key.html.twig:85
+msgid "Update"
+msgstr ""
+
 #: src/Account.php:586
 msgid "Uppercase"
 msgstr ""
@@ -357,7 +367,7 @@ msgstr ""
 msgid "WARNING : a encryption key already exist for this entity"
 msgstr ""
 
-#: src/Hash.php:334
+#: templates/hash_change_key.html.twig:33
 msgid ""
 "WARNING : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
