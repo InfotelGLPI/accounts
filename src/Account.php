@@ -437,7 +437,10 @@ class Account extends CommonDBTM
         // The JS client encrypts the password, but this checks the stored ciphertext length
         if (isset($input['encrypted_password']) && strlen($input['encrypted_password']) > 4000) {
             Session::addMessageAfterRedirect(
-                __s('Warning: the encrypted password is very long and may indicate an issue with the encryption key.', 'accounts'),
+                __s(
+                    'Warning: the encrypted password is very long and may indicate an issue with the encryption key.',
+                    'accounts'
+                ),
                 false,
                 WARNING
             );
@@ -620,15 +623,14 @@ class Account extends CommonDBTM
             'WHERE' => ['glpi_plugin_accounts_accounts.is_deleted' => 0],
         ];
         $subquery['WHERE'] = $subquery['WHERE'] + getEntitiesRestrictCriteria(
-            'glpi_plugin_accounts_accounts',
-            '',
-            $p['entity'],
-            true
-        );
+                'glpi_plugin_accounts_accounts',
+                '',
+                $p['entity'],
+                true
+            );
 
         if (count($p['used'])) {
-            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN', array_filter($p['used'])]];
-            ;
+            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN', array_filter($p['used'])]];;
         }
 
         $criteria = [
@@ -808,25 +810,96 @@ class Account extends CommonDBTM
                 }
 
                 break;
-
+                
             case "transfer":
                 $input = $ma->getInput();
                 if ($item->getType() == Account::class) {
                     foreach ($ids as $key) {
                         $item->getFromDB($key);
+                        // --- Step 1: Resolve account type in destination entity ---
                         $type = AccountType::transfer(
                             $item->fields["plugin_accounts_accounttypes_id"],
                             $input['entities_id']
                         );
-                        if ($type > 0) {
-                            $values["id"] = $key;
-                            $values["plugin_accounts_accounttypes_id"] = $type;
-                            $item->update($values);
+
+                        // --- Step 2: Re-encrypt password with destination fingerprint ---
+                        $reencrypted_password = null;
+                        $new_hash_id = 0;
+
+                        if (!empty($item->fields['encrypted_password'])) {
+                            // Get the AES key for the SOURCE fingerprint
+                            $src_aeskey = new AesKey();
+                            $src_hash_id = $item->fields['plugin_accounts_hashes_id'];
+
+                            if ($src_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $src_hash_id])
+                                && !empty($src_aeskey->fields['name'])) {
+                                $src_aes_key_value = $src_aeskey->fields['name'];
+                                $src_hash_value = hash('sha256', $src_aes_key_value);
+
+                                // Decrypt with source key
+                                $plaintext = AesCtr::decrypt(
+                                    $item->fields['encrypted_password'],
+                                    $src_hash_value,
+                                    256
+                                );
+
+                                // Find destination entity's fingerprint
+                                $dest_hash = new Hash();
+                                $restrict = getEntitiesRestrictCriteria(
+                                    'glpi_plugin_accounts_hashes',
+                                    '',
+                                    $input['entities_id'],
+                                    $dest_hash->maybeRecursive()
+                                );
+                                $dest_hashes = getAllDataFromTable('glpi_plugin_accounts_hashes', $restrict);
+
+                                if (count($dest_hashes) > 0) {
+                                    // Use first available fingerprint in destination entity
+                                    $dest_hash_row = reset($dest_hashes);
+                                    $new_hash_id = $dest_hash_row['id'];
+
+                                    $dest_aeskey = new AesKey();
+                                    if ($dest_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $new_hash_id])
+                                        && !empty($dest_aeskey->fields['name'])) {
+                                        $dest_aes_key_value = $dest_aeskey->fields['name'];
+                                        $dest_hash_value = hash('sha256', $dest_aes_key_value);
+
+                                        // Re-encrypt with destination key
+                                        $reencrypted_password = addslashes(
+                                            AesCtr::encrypt($plaintext, $dest_hash_value, 256)
+                                        );
+                                    }
+                                }
+
+                                // If no destination fingerprint found — warn and skip re-encryption
+                                if ($reencrypted_password === null) {
+                                    Session::addMessageAfterRedirect(
+                                        sprintf(
+                                            __s(
+                                                'Account "%s" transferred but no fingerprint found in destination entity. Password was cleared for security.',
+                                                'accounts'
+                                            ),
+                                            $item->fields['name']
+                                        ),
+                                        false,
+                                        WARNING
+                                    );
+                                    // Clear password rather than leave it encrypted with wrong key
+                                    $reencrypted_password = '';
+                                }
+                            }
                         }
 
-                        unset($values);
-                        $values["id"] = $key;
-                        $values["entities_id"] = $input['entities_id'];
+                        // --- Step 3: Build update values ---
+                        $values = ['id' => $key, 'entities_id' => $input['entities_id']];
+
+                        if ($type > 0) {
+                            $values['plugin_accounts_accounttypes_id'] = $type;
+                        }
+                        if ($reencrypted_password !== null) {
+                            $values['encrypted_password'] = $reencrypted_password;
+                            $values['plugin_accounts_hashes_id'] = $new_hash_id;
+                        }
 
                         if ($item->update($values)) {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
@@ -836,7 +909,6 @@ class Account extends CommonDBTM
                     }
                 }
                 break;
-
             case 'install':
                 $input = $ma->getInput();
 
@@ -1017,9 +1089,9 @@ class Account extends CommonDBTM
 
                     if (!isset($account_messages[$type][$entity])) {
                         $account_messages[$type][$entity] = __s(
-                            'Accounts expired or accounts which expires',
-                            'accounts'
-                        ) . "<br />";
+                                'Accounts expired or accounts which expires',
+                                'accounts'
+                            ) . "<br />";
                     }
                     $account_messages[$type][$entity] .= $message;
                 }
@@ -1107,9 +1179,9 @@ class Account extends CommonDBTM
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/themes/default/style.min.css");
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/jstree-glpi.css");
         echo "<div class='alert alert-info d-flex'>" . __s(
-            'Select the wanted account type',
-            'accounts'
-        ) . "</div><br>";
+                'Select the wanted account type',
+                'accounts'
+            ) . "</div><br>";
         echo "<a href='" . $target . "?reset=reset' target='_blank' title=\""
             . __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __s('Show all')) . "</a>";
         $root = PLUGIN_ACCOUNTS_WEBDIR;
@@ -1326,11 +1398,11 @@ class Account extends CommonDBTM
     public static function getMenuContent()
     {
         $image = "<i class='ti ti-lock-open' title='" . _n(
-            'Encryption key',
-            'Encryption keys',
-            2,
-            'accounts'
-        ) . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
+                'Encryption key',
+                'Encryption keys',
+                2,
+                'accounts'
+            ) . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
 
         $menu = [];
         $menu['title'] = self::getMenuName();
@@ -1395,13 +1467,13 @@ class Account extends CommonDBTM
         global $DB;
 
         $criteria = [
-            'SELECT'    => [
+            'SELECT' => [
                 'COUNT' => 'id AS cpt'
             ],
-            'FROM'      => 'glpi_plugin_accounts_accounts',
-            'WHERE'     => [
-                'plugin_accounts_hashes_id'  => 0,
-                'is_deleted'  => 0,
+            'FROM' => 'glpi_plugin_accounts_accounts',
+            'WHERE' => [
+                'plugin_accounts_hashes_id' => 0,
+                'is_deleted' => 0,
             ],
         ];
 
@@ -1412,7 +1484,10 @@ class Account extends CommonDBTM
                 $cpt = $data['cpt'];
                 if ($cpt > 0) {
                     echo "<div class='alert alert-warning d-flex'>";
-                    echo __s('You have accounts without linked fingerprint, please add it with massive action or into forms', 'accounts');
+                    echo __s(
+                        'You have accounts without linked fingerprint, please add it with massive action or into forms',
+                        'accounts'
+                    );
                     echo "</div>";
                 }
             }
