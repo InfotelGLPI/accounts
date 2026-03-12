@@ -360,6 +360,17 @@ class Account extends CommonDBTM
             'name' => __s('ID'),
             'datatype' => 'number',
         ];
+        if (Session::getCurrentInterface() == 'central') {
+            $tab[] = [
+                'id' => '50',
+                'table' => 'glpi_plugin_accounts_accounts_items',
+                'field' => 'itemtype',
+                'name'               => __('Item type'),
+                'massiveaction'      => false,
+                'datatype'           => 'itemtypename',
+                'types'              => Account::getTypes(true)
+            ];
+        }
 
         $tab[] = [
             'id' => '81',
@@ -1321,17 +1332,18 @@ class Account extends CommonDBTM
         if (!is_array($values)) {
             $values = [$field => $values];
         }
+
         switch ($field) {
             case 'date_expiration':
-                if (empty($values[$field])) {
-                    return __s('Don\'t expire', 'accounts');
-                } else {
+            case 'date_creation':
+                if (!empty($values[$field]) && $values[$field] !== 'NULL') {
                     return Html::convDate($values[$field]);
                 }
-                break;
+            return __s('Don\'t expire', 'accounts');
         }
         return '';
     }
+
 
     /**
      * @param string $interface
