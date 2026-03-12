@@ -20,18 +20,45 @@ var check_hash = function (suffix) {
 };
 
 var generic_check_hash = function (good_hash, aeskey) {
-
-    if (aeskey == '' || aeskey == undefined) {
+    if (!aeskey) { // couvre '' et undefined
         return false;
     }
 
-    var hash = SHA256(SHA256(aeskey));
-
-    if (hash != good_hash) {
-        return false;
+    // Première méthode : CryptoJS
+    var hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(aeskey)).toString();
+    if (hashCryptoJS === good_hash) {
+        return true;
     }
-    return true;
+
+    // Deuxième méthode : SHA256() classique (ancienne)
+    if (typeof SHA256 === 'function') {
+        var hashOld = SHA256(SHA256(aeskey));
+        if (hashOld === good_hash) {
+            return true;
+        }
+    }
+
+    // Aucun ne correspond
+    return false;
 };
+
+// var generic_check_hash = function (good_hash, aeskey) {
+//
+//     if (aeskey == '' || aeskey == undefined) {
+//         return false;
+//     }
+//
+//     var hash = SHA256(SHA256(aeskey));
+//     //Prepare Hash migration - for drop lightcrypt
+//     // var hash = CryptoJS.SHA256(
+//     //     CryptoJS.SHA256(aeskey)
+//     // ).toString();
+//
+//     if (hash != good_hash) {
+//         return false;
+//     }
+//     return true;
+// };
 
 function decryptV2(ciphertext, fingerprint) {
     var parts = ciphertext.replace(/^\$/, '').split('$');

@@ -61,18 +61,35 @@ if (isset($_POST["add"])) {
 
     if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
         if ($hashClass->getFromDB($_POST["id"])) {
-            if ($hashClass->fields['hash'] <> hash("sha256", hash("sha256", $_POST["aeskey"]))) {
-                Session::addMessageAfterRedirect(__s('Wrong encryption key', 'accounts'), true, ERROR);
+            $oldAeskey = $_POST["aeskey"];
+            $storedHash = $hashClass->fields['hash'];
+
+            // Calcul double SHA256 côté PHP (compatible avec SHA256 JS classique)
+            $hashCheck = hash("sha256", hash("sha256", $oldAeskey));
+
+            if ($storedHash !== $hashCheck) {
+                Session::addMessageAfterRedirect(
+                    __s('Wrong encryption key', 'accounts'),
+                    true,
+                    ERROR
+                );
                 Html::back();
             } else {
-//                require_once(PLUGIN_ACCOUNTS_DIR . '/src/Aes.function.php');
+                // Clé correcte, mise à jour avec la nouvelle clé
                 Hash::updateHash($_POST["aeskey"], $_POST["aeskeynew"], $_POST["id"]);
-                Session::addMessageAfterRedirect(__s('Encryption key modified', 'accounts'), true);
+                Session::addMessageAfterRedirect(
+                    __s('Encryption key modified', 'accounts'),
+                    true
+                );
                 Html::back();
             }
         }
     } else {
-        Session::addMessageAfterRedirect(__s('The old or the new encryption key can not be empty', 'accounts'), true, ERROR);
+        Session::addMessageAfterRedirect(
+            __s('The old or the new encryption key can not be empty', 'accounts'),
+            true,
+            ERROR
+        );
         Html::back();
     }
 } else {

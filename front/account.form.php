@@ -71,7 +71,7 @@ if (isset($_POST["add"])) {
     if (!empty($_POST['itemtype'])
         && $_POST['items_id'] > 0
         && $_POST['plugin_accounts_accounts_id'] > 0) {
-        $account_item->check(-1, UPDATE, $_POST);
+//        $account_item->check(-1, UPDATE, $_POST);
         $account_item->addItem($_POST);
     }
     Html::back();

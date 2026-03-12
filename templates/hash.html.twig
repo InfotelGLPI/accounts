@@ -113,15 +113,31 @@
     {% endif %}
 </div>
 <script type="text/javascript">
-
     $(document).on('click', '#generate_hash', function(event) {
+        var aeskey = $('input[name="aeskey"]').val();
 
-        if ($('input[name="aeskey"]').val() == '' || $('input[name="aeskey"]').val() == undefined) {
+        if (!aeskey) {
             alert('{{ __('Please fill the encryption key', 'accounts') }}');
             $('input[name="hash"]').val('');
-        } else {
-            $('input[name="hash"]').val(SHA256(SHA256($('input[name="aeskey"]').val())));
+            return;
         }
-    });
 
+        // Hash double SHA256 avec CryptoJS (nouveau)
+        var hashCryptoJS = "";
+        if (CryptoJS && CryptoJS.SHA256) {
+            hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(aeskey)).toString();
+        }
+
+        // Hash double SHA256 avec l'ancien SHA256() si disponible
+        var hashOld = "";
+        if (typeof SHA256 === "function") {
+            hashOld = SHA256(SHA256(aeskey));
+        }
+
+        // On choisit par défaut CryptoJS si présent, sinon l'ancien SHA256
+        var hashToUse = hashCryptoJS || hashOld;
+
+        $('input[name="hash"]').val(hashToUse);
+
+    });
 </script>

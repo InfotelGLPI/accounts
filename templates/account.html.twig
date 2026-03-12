@@ -471,11 +471,13 @@
 
                 if (!hiddenPassword || !aeskey) {
                     alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
+                    event.preventDefault();
                     return false;
                 }
 
                 if (!check_hash()) {
                     alert('{{ __('Wrong encryption key', 'accounts') }}');
+                    event.preventDefault();
                     return false;
                 }
 
@@ -491,17 +493,15 @@
                 let aeskey = $('input[name="aeskey"]').val();
 
                 if ((hiddenPassword == '' || aeskey == '')) {
-                    alert('{{ __('Password will not be modified', 'accounts') }}');
-                    return false;
-                }
-
-                if (!check_hash()) {
+                    {#alert('{{ __('Password will not be modified', 'accounts') }}');#}
+                    {#return false;#}
+                } else if (!check_hash()) {
                     alert('{{ __('Wrong encryption key', 'accounts') }}');
+                    event.preventDefault();
                     return false;
+                } else {
+                    encrypt_password();
                 }
-
-                encrypt_password();
-
             });
         </script>
     {% endif %}
@@ -515,19 +515,6 @@
         </div>
     {% endif %}
 </div>
-
-<script type="text/javascript">
-    $(document).on('click', '#generate_hash', function (event) {
-        if ($('input[name="aeskey"]').val() == '' || $('input[name="aeskey"]').val() == undefined) {
-            alert('{{ __('Please fill the encryption key', 'accounts') }}');
-            $('input[name="hash"]').val('');
-        } else {
-            $('input[name="hash"]').val(SHA256(SHA256($('input[name="aeskey"]').val())));
-        }
-    });
-
-</script>
-
 
 {# Password Generator — Bootstrap 5 card, shown for both new and existing items #}
 {% if show_password_generator %}

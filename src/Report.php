@@ -269,21 +269,32 @@ class Report extends CommonDBTM
                     $prefix = AccountCrypto::V2_PREFIX;
                     $pass .= Html::scriptBlock("
                                 var good_hash=\"$hashvalue\";
-                                var hash=SHA256(SHA256(\"$aeskey\"));
-                                var pass = '';
-
-                                if (hash != good_hash) {
-                                    pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
-                                } else {
-                                    if (\"$encrypted\".startsWith(\"$prefix\")) {
-                                        // Nouveau format v2
-                                        pass = decryptV2(\"$encrypted\", \"$aeskey\");
-                                    } else {
-                                        // Ancien format
-                                        pass = AESDecryptCtr(\"$encrypted\",SHA256(\"$aeskey\"), 256);
-                                    }
+                                var hashCryptoJS = '';
+                                if (CryptoJS && CryptoJS.SHA256) {
+                                    hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(\"$aeskey\")).toString();
                                 }
 
+                                var hashOld = '';
+                                if (typeof SHA256 === 'function') {
+                                    hashOld = SHA256(SHA256(\"$aeskey\"));
+                                }
+
+                                if (hashCryptoJS === good_hash || hashOld === good_hash) {
+                                    // Hash valide
+                                    // Déchiffrement avec le nouveau format v2
+                                    pass = decryptV2(\"$encrypted\", \"$aeskey\");
+
+                                    // Si tu veux gérer aussi l'ancien format AES, tu peux décommenter ceci :
+                                     if (!\"$encrypted\".startsWith(\"$prefix\")) {
+                                         pass = AESDecryptCtr(\"$encrypted\", SHA256(\"$aeskey\"), 256);
+                                     }
+
+                                } else {
+                                    // Clé incorrecte
+                                    pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
+                                }
+
+                                // On injecte le mot de passe dans le formulaire et l'affichage
                                 document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
                                 document.getElementById(\"show_password$$IDc\").innerHTML = pass;
 
