@@ -328,11 +328,13 @@ function plugin_accounts_install()
                 $DB->update('glpi_logs', ['itemtype' => $new_itemtype], ['itemtype' => $old_itemtype]);
             }
         }
-        $DB->update(
-            'glpi_logs',
-            ['linked_action_itemtype' => Account::class],
-            ['linked_action_itemtype' => 'PluginAccountsAccount']
-        );
+        if ($DB->fieldExists('glpi_logs', 'linked_action_itemtype')) {
+            $DB->update(
+                'glpi_logs',
+                ['linked_action_itemtype' => Account::class],
+                ['linked_action_itemtype' => 'PluginAccountsAccount']
+            );
+        }
     }
 
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
