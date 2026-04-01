@@ -397,7 +397,7 @@ final class Account_Item extends CommonDBRelation
 
 
         $iterator_list = $DB->request($criteria);
-
+        $mtrand = mt_rand();
         foreach ($iterator_list as $value) {
             $used[] = $value['id'];
             $account = new Account();
@@ -498,7 +498,7 @@ final class Account_Item extends CommonDBRelation
                 'alert_encryption' => __s('Wrong encryption key', 'accounts'),
                 'showmassiveactions' => $item->canEdit($item->getID()),
                 'massiveactionparams' => [
-                    'container' => 'massiveactioncontainer' . $rand,
+                    'container' => 'massiveactioncontainer' . $mtrand,
                     'itemtype'  => self::class,
                 ],
             ],
