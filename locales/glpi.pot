@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 19:22+0000\n"
+"POT-Creation-Date: 2026-04-01 13:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Accounts which expires"
 msgstr ""
 
-#: templates/status_cron.html.twig:63 templates/item_account.html.twig:59
+#: templates/item_account.html.twig:59 templates/status_cron.html.twig:63
 msgctxt "button"
 msgid "Add"
 msgstr ""
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: templates/hash.html.twig:90 templates/account.html.twig:446
+#: templates/account.html.twig:446 templates/hash.html.twig:90
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] ""
@@ -130,12 +130,12 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: src/Account.php:1445 src/Account.php:1449 templates/hash.html.twig:64
+#: src/Account.php:1445 src/Account.php:1449 src/AesKey.php:68
+#: src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
 #: templates/account.html.twig:192 templates/account.html.twig:252
-#: templates/aeskey.html.twig:61
+#: templates/hash.html.twig:64 templates/aeskey.html.twig:61
 msgid "Encryption key"
-msgid_plural "Encryption key"
+msgid_plural "Encryption keys"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/AesKey.php:206 src/Account.php:315 src/Hash.php:61 src/Hash.php:174
+#: src/Account.php:315 src/AesKey.php:206 src/Hash.php:61 src/Hash.php:174
 #: templates/account.html.twig:147 templates/account.html.twig:169
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -207,7 +207,7 @@ msgstr ""
 msgid "Modification of the encryption key for all password"
 msgstr ""
 
-#: templates/hash.html.twig:55 templates/account.html.twig:61
+#: templates/account.html.twig:61 templates/hash.html.twig:55
 msgid "Name"
 msgstr ""
 
@@ -253,8 +253,8 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40
-#: templates/hash_select_accounts.html.twig:65
+#: templates/hash_select_accounts.html.twig:40
+#: templates/hash_select_accounts.html.twig:65 templates/hash.html.twig:120
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Plugin Setup"
 msgstr ""
 
-#: templates/config.html.twig:67 templates/profile.html.twig:35
+#: templates/profile.html.twig:35 templates/config.html.twig:67
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -397,7 +397,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:498 src/Report.php:294 front/hash.form.php:72
+#: front/hash.form.php:72 src/Account_Item.php:498 src/Report.php:294
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
