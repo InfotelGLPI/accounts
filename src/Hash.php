@@ -355,9 +355,16 @@ class Hash extends CommonDBTM
             foreach ($iterator as $data) {
                 $oldpassword = AccountCrypto::decrypt($data['encrypted_password'], $oldaeskey);
                 $newpassword = addslashes(AccountCrypto::encrypt($oldpassword, $newaeskey));
-                $account->update([
+                $update = [
                     'id'                 => $data["id"],
-                    'encrypted_password' => $newpassword]);
+                    'encrypted_password' => $newpassword,
+                ];
+                // Re-encrypt TOTP secret if present
+                if (!empty($data['encrypted_totp_secret'])) {
+                    $oldtotp = AccountCrypto::decrypt($data['encrypted_totp_secret'], $oldaeskey);
+                    $update['encrypted_totp_secret'] = addslashes(AccountCrypto::encrypt($oldtotp, $newaeskey));
+                }
+                $account->update($update);
             }
         }
         $Hash->update(['id' => $hash_id, 'hash' => $newhashstore]);
