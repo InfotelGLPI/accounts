@@ -86,7 +86,7 @@ msgstr ""
 msgid "Associable to a ticket"
 msgstr ""
 
-#: hook.php:975
+#: hook.php:977
 msgid "Associate to account"
 msgstr ""
 
