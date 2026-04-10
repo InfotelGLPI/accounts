@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 13:32+0000\n"
+"POT-Creation-Date: 2026-04-10 08:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:922
+#: src/Account.php:932
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Accounts expired for more than"
 msgstr ""
 
-#: src/Account.php:1020 src/Account.php:1135
+#: src/Account.php:1030 src/Account.php:1145
 #: src/NotificationTargetAccount.php:320
 msgid "Accounts expired or accounts which expires"
 msgstr ""
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Accounts which expires"
 msgstr ""
 
-#: templates/item_account.html.twig:59 templates/status_cron.html.twig:63
+#: templates/status_cron.html.twig:63 templates/item_account.html.twig:59
 msgctxt "button"
 msgid "Add"
 msgstr ""
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:1342
+#: src/Account.php:1352
 msgid "Don't expire"
 msgstr ""
 
@@ -130,10 +130,10 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/Account.php:1445 src/Account.php:1449 src/AesKey.php:68
+#: src/Account.php:1455 src/Account.php:1459 src/AesKey.php:68
 #: src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
 #: templates/account.html.twig:192 templates/account.html.twig:252
-#: templates/hash.html.twig:64 templates/aeskey.html.twig:61
+#: templates/aeskey.html.twig:61 templates/hash.html.twig:64
 msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] ""
@@ -190,8 +190,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:317 src/Hash.php:99
-#: templates/hash_select_accounts.html.twig:33
+#: src/Report.php:317 src/Hash.php:99 templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr ""
 
@@ -253,8 +252,7 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash_select_accounts.html.twig:40
-#: templates/hash_select_accounts.html.twig:65 templates/hash.html.twig:120
+#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40 templates/hash_select_accounts.html.twig:65
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -295,7 +293,7 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
-#: src/Account.php:1225
+#: src/Account.php:1235
 msgid "Select the wanted account type"
 msgstr ""
 
@@ -317,13 +315,13 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
-#: src/Account.php:598
+#: src/Account.php:608
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:565 src/Account.php:603
+#: src/Account.php:565 src/Account.php:613
 msgid "There is no encryption key for this entity"
 msgstr ""
 
@@ -397,7 +395,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: front/hash.form.php:72 src/Account_Item.php:498 src/Report.php:294
+#: src/Account_Item.php:498 src/Report.php:294 front/hash.form.php:72
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
@@ -407,7 +405,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:1532
+#: src/Account.php:1542
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
