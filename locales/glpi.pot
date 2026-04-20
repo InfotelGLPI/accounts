@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 08:34+0000\n"
+"POT-Creation-Date: 2026-04-20 17:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account_Item.php:464 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:466 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
 #: templates/account.html.twig:309 templates/account.html.twig:318
@@ -343,7 +343,7 @@ msgstr[1] ""
 msgid "Type view"
 msgstr ""
 
-#: src/Account_Item.php:434
+#: src/Account_Item.php:436
 msgid "Uncrypt"
 msgstr ""
 
@@ -395,7 +395,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:498 src/Report.php:294 front/hash.form.php:72
+#: src/Account_Item.php:500 src/Report.php:294 front/hash.form.php:72
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
