@@ -51,9 +51,9 @@ function plugin_init_accounts()
 {
     global $PLUGIN_HOOKS, $CFG_GLPI;
 
-    $PLUGIN_HOOKS['csrf_compliant']['accounts']   = true;
-    $PLUGIN_HOOKS['assign_to_ticket']['accounts'] = true;
-    $PLUGIN_HOOKS['change_profile']['accounts']   = [Profile::class, 'initProfile'];
+    $PLUGIN_HOOKS[Hooks::CSRF_COMPLIANT]['accounts']   = true;
+    $PLUGIN_HOOKS[Hooks::ASSIGN_TO_TICKET]['accounts'] = true;
+    $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['accounts']   = [Profile::class, 'initProfile'];
 
     if (Session::getLoginUserID() && Plugin::isPluginActive('accounts')) {
         // Params : plugin name - string type - number - attributes
@@ -83,14 +83,14 @@ function plugin_init_accounts()
         Account::registerType('DatabaseInstance');
 
         if (Session::haveRight("plugin_accounts", READ)) {
-            $PLUGIN_HOOKS["menu_toadd"]['accounts'] = ['admin' => Account::class];
+            $PLUGIN_HOOKS[Hooks::MENU_TOADD]['accounts'] = ['admin' => Account::class];
         }
 
         if (Session::haveRight("plugin_accounts", READ)
             && !Plugin::isPluginActive('servicecatalog')
         ) {
-            $PLUGIN_HOOKS['helpdesk_menu_entry']['accounts']      = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.php';
-            $PLUGIN_HOOKS['helpdesk_menu_entry_icon']['accounts'] = Account::getIcon();
+            $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY]['accounts']      = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.php';
+            $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY_ICON]['accounts'] = Account::getIcon();
         }
 
         if (Plugin::isPluginActive('servicecatalog')) {
@@ -104,7 +104,7 @@ function plugin_init_accounts()
         }
 
         if (Session::haveRight("plugin_accounts", UPDATE)) {
-            $PLUGIN_HOOKS['use_massive_action']['accounts'] = 1;
+            $PLUGIN_HOOKS[Hooks::USE_MASSIVE_ACTION]['accounts'] = 1;
         }
 
         $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.form.php';
@@ -125,7 +125,7 @@ function plugin_init_accounts()
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 
         // End init, when all types are registered
-        $PLUGIN_HOOKS['post_init']['accounts'] = 'plugin_accounts_postinit';
+        $PLUGIN_HOOKS[Hooks::POST_INIT]['accounts'] = 'plugin_accounts_postinit';
     }
 }
 

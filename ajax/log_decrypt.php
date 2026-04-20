@@ -47,9 +47,11 @@ if (isset($_POST['idcrypt'])) {
     } else {
         $changes[2] = __s('Uncrypted from item', 'accounts');
         if (isset($_POST['items_id']) && isset($_POST['itemtype'])) {
-            $item = new $_POST['itemtype']();
-            $item->getFromDB($_POST['items_id']);
-            $changes[2] .= " " . $item->getName();
+            $item = getItemForItemtype($_POST['itemtype']);
+            if ($item !== false) {
+                $item->getFromDB((int) $_POST['items_id']);
+                $changes[2] .= " " . $item->getName();
+            }
         }
     }
 

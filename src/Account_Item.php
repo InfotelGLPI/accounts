@@ -208,11 +208,13 @@ final class Account_Item extends CommonDBRelation
      */
     public function addItem($values)
     {
+        if (getItemForItemtype($values['itemtype']) === false) {
+            return false;
+        }
 
         $this->add(['plugin_accounts_accounts_id' => $values['plugin_accounts_accounts_id'],
-            'items_id'                    => $values['items_id'],
+            'items_id'                    => (int) $values['items_id'],
             'itemtype'                    => $values['itemtype']]);
-
     }
 
     /**

@@ -67,7 +67,7 @@ if (isset($_POST["add"])) {
             // Calcul double SHA256 côté PHP (compatible avec SHA256 JS classique)
             $hashCheck = hash("sha256", hash("sha256", $oldAeskey));
 
-            if ($storedHash !== $hashCheck) {
+            if (!hash_equals($storedHash, $hashCheck)) {
                 Session::addMessageAfterRedirect(
                     __s('Wrong encryption key', 'accounts'),
                     true,
