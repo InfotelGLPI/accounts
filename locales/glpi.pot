@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-21 08:03+0000\n"
+"POT-Creation-Date: 2026-04-21 08:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/Account.php:94 setup.php:139
+#: src/Account.php:94 setup.php:143
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] ""
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account_Item.php:498 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:497 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
 #: templates/account.html.twig:309 templates/account.html.twig:318
@@ -343,7 +343,7 @@ msgstr[1] ""
 msgid "Type view"
 msgstr ""
 
-#: src/Account_Item.php:468
+#: src/Account_Item.php:467
 msgid "Uncrypt"
 msgstr ""
 
@@ -395,7 +395,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:532 src/Report.php:294 front/hash.form.php:72
+#: src/Account_Item.php:531 src/Report.php:294 front/hash.form.php:72
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
