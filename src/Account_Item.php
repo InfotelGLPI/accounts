@@ -457,7 +457,6 @@ final class Account_Item extends CommonDBRelation
                 continue;
             }
 
-            $rand = mt_rand();
             $entries[] = [
                 'itemtype' => self::class,
                 'id' => $value['assocID'],
@@ -466,14 +465,14 @@ final class Account_Item extends CommonDBRelation
                 'login' => $value['login'],
                 'decrypt_password' => [
                     'content'        => __s('Uncrypt', 'accounts'),
-                    'button-id'      => "decrypt_link$accountID$rand",
+                    'button-id'      => "decrypt_link$accountID",
                     'button-name'    => 'decrypte',
                     'good_hash'      => $value['hash_value'] ?? '',
-                    'rand'           => $rand,
+                    'rand'           => $accountID,
                     'accountID'      => $accountID,
                     'items_id'       => $item->getID(),
                     'itemtype'       => $item->getType(),
-                    'button-onclick' => "decryptCheckbtn$rand()",
+                    'button-onclick' => "decryptCheckbtn$accountID()",
                     'hidden-value'   => $value['encrypted_password'],
                     'hidden-id'      => "encrypted_password",
                     'hidden-name'    => "encrypted_password",
