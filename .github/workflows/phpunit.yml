@@ -54,7 +54,7 @@ jobs:
         run: >
           php vendor/bin/phpunit
           --configuration marketplace/accounts/phpunit.xml
-          --testsuite Tests
+          --testsuite Unit
         working-directory: glpi
 
   # ── Job 2 : tests d'intégration (avec base de données GLPI) ────────────────
