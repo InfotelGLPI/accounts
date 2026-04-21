@@ -122,6 +122,12 @@ jobs:
           npm run-script build
         working-directory: glpi
 
+      - name: Compile GLPI locales
+        run: |
+          sudo apt-get install -y gettext
+          php bin/console tools:locales:compile --allow-superuser
+        working-directory: glpi
+
       - name: Install GLPI test database
         run: >
           php bin/console database:install
