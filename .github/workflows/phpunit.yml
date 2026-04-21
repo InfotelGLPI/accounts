@@ -30,7 +30,7 @@ jobs:
       - name: Checkout plugin
         uses: actions/checkout@v4
         with:
-          path: glpi/marketplace/accounts
+          path: glpi/plugins/accounts
 
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -53,7 +53,7 @@ jobs:
       - name: Run unit tests
         run: >
           php vendor/bin/phpunit
-          --configuration marketplace/accounts/phpunit.xml
+          --configuration plugins/accounts/phpunit.xml
           --testsuite Unit
         working-directory: glpi
 
@@ -96,7 +96,7 @@ jobs:
       - name: Checkout plugin
         uses: actions/checkout@v4
         with:
-          path: glpi/marketplace/accounts
+          path: glpi/plugins/accounts
 
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -148,6 +148,6 @@ jobs:
       - name: Run integration tests
         run: >
           php vendor/bin/phpunit
-          --configuration marketplace/accounts/phpunit.integration.xml
+          --configuration plugins/accounts/phpunit.integration.xml
           --testsuite Integration
         working-directory: glpi
