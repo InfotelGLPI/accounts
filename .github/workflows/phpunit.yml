@@ -4,11 +4,16 @@ on:
   push:
   pull_request:
 
-jobs:
-  unit-tests:
-    name: Unit tests (PHP ${{ matrix.php-version }})
-    runs-on: ubuntu-latest
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
 
+jobs:
+
+  # ── Job 1 : tests unitaires purs (pas de base de données) ──────────────────
+  unit-tests:
+    name: "Unit tests (PHP ${{ matrix.php-version }})"
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -34,6 +39,13 @@ jobs:
           extensions: mbstring, openssl
           coverage: none
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('glpi/composer.lock') }}
+          restore-keys: composer-${{ matrix.php-version }}-
+
       - name: Install GLPI Composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
         working-directory: glpi
@@ -43,5 +55,87 @@ jobs:
           php vendor/bin/phpunit
           --configuration marketplace/accounts/phpunit.xml
           --testsuite Tests
-          --filter AccountCryptoTest
+        working-directory: glpi
+
+  # ── Job 2 : tests d'intégration (avec base de données GLPI) ────────────────
+  integration-tests:
+    name: "Integration tests (PHP ${{ matrix.php-version }} / ${{ matrix.db-image }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: "8.3"
+            db-image: "mysql:8.0"
+          - php-version: "8.3"
+            db-image: "mariadb:10.11"
+
+    services:
+      db:
+        image: ${{ matrix.db-image }}
+        env:
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+          MYSQL_DATABASE: glpi_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -uroot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout GLPI core
+        uses: actions/checkout@v4
+        with:
+          repository: glpi-project/glpi
+          ref: 11.0/bugfixes
+          path: glpi
+
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+        with:
+          path: glpi/marketplace/accounts
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, openssl, mysqli, pdo_mysql
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('glpi/composer.lock') }}
+          restore-keys: composer-${{ matrix.php-version }}-
+
+      - name: Install GLPI Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+        working-directory: glpi
+
+      - name: Install GLPI test database
+        run: >
+          php bin/console database:install
+          --no-interaction --force
+          --env=testing
+          --db-host=127.0.0.1
+          --db-name=glpi_test
+          --db-user=root
+          --db-password=""
+        working-directory: glpi
+
+      - name: Install accounts plugin
+        run: |
+          php bin/console glpi:plugin:install  --no-interaction --env=testing accounts
+          php bin/console glpi:plugin:activate --no-interaction --env=testing accounts
+        working-directory: glpi
+
+      - name: Run integration tests
+        run: >
+          php vendor/bin/phpunit
+          --configuration marketplace/accounts/phpunit.integration.xml
+          --testsuite Integration
         working-directory: glpi
