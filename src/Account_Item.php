@@ -248,6 +248,8 @@ final class Account_Item extends CommonDBRelation
      **/
     public static function showForAccount(Account $account, int $withtemplate = 0): bool
     {
+        global $DB;
+
         $instID = $account->getID();
 
         if (!$account->can($instID, READ)) {
@@ -256,46 +258,75 @@ final class Account_Item extends CommonDBRelation
         $canedit = $account->canEdit($instID);
         $rand    = mt_rand();
 
-        $types_iterator = self::getDistinctTypes($instID);
+        // Une seule requête pour tous les liens — remplace getDistinctTypes + JOIN par type
+        $link_where = [self::getTable() . '.' . static::$items_id_1 => $instID];
+        if ($DB->fieldExists(self::getTable(), 'is_deleted')) {
+            $link_where[self::getTable() . '.is_deleted'] = 0;
+        }
+
+        $links_by_type = [];
+        foreach ($DB->request(['SELECT' => ['itemtype', 'items_id', 'id AS linkid'], 'FROM' => self::getTable(), 'WHERE' => $link_where]) as $link) {
+            $links_by_type[$link['itemtype']][$link['items_id']] = $link['linkid'];
+        }
 
         $totalnb = 0;
         $entity_names_cache = [];
         $entries = [];
         $used = [];
 
-        foreach ($types_iterator as $row) {
-            $itemtype = $row['itemtype'];
+        foreach ($links_by_type as $itemtype => $id_to_linkid) {
             if (!($item = getItemForItemtype($itemtype)) || !$item::canView()) {
                 continue;
             }
 
             $itemtype_name = $item::getTypeName(1);
-            $iterator = self::getTypeItems($instID, $itemtype);
-            $nb = count($iterator);
+            $nameField     = $item::getNameField();
 
-            foreach ($iterator as $data) {
-                $name = $data[$itemtype::getNameField()];
-                if (
-                    $_SESSION["glpiis_ids_visible"]
-                    || empty($data[$itemtype::getNameField()])
-                ) {
+            // Requête par type avec IN — plus de JOIN vers la table de lien
+            $type_criteria = [
+                'SELECT' => [$item->getTable() . '.*'],
+                'FROM'   => $item->getTable(),
+                'WHERE'  => [$item->getTable() . '.id' => array_keys($id_to_linkid)],
+                'ORDER'  => $item->getTable() . '.' . $nameField,
+            ];
+
+            if ($item->maybeTemplate()) {
+                $type_criteria['WHERE'][$item->getTable() . '.is_template'] = 0;
+            }
+
+            if ($item->isEntityAssign() && $itemtype !== Entity::getType()) {
+                $type_criteria['SELECT'][]                     = 'glpi_entities.id AS entity';
+                $type_criteria['LEFT JOIN']['glpi_entities']   = [
+                    'FKEY' => [$item->getTable() => 'entities_id', 'glpi_entities' => 'id'],
+                ];
+                $type_criteria['WHERE'] += getEntitiesRestrictCriteria($item->getTable(), '', '', $item->maybeRecursive());
+                $type_criteria['ORDER']  = ['glpi_entities.completename', $type_criteria['ORDER']];
+            }
+
+            $nb = 0;
+            foreach ($DB->request($type_criteria) as $data) {
+                $nb++;
+                $data['linkid'] = $id_to_linkid[$data['id']];
+
+                $name = $data[$nameField];
+                if ($_SESSION["glpiis_ids_visible"] || empty($name)) {
                     $name = sprintf(__('%1$s (%2$s)'), $name, $data["id"]);
                 }
-                $link     = $item::getFormURLWithID($data['id']);
-                $namelink = "<a href=\"" . htmlescape($link) . "\">" . htmlescape($name) . "</a>";
+                $namelink = "<a href=\"" . htmlescape($item::getFormURLWithID($data['id'])) . "\">" . htmlescape($name) . "</a>";
 
-                if (!isset($entity_names_cache[$data['entity']])) {
-                    $entity_names_cache[$data['entity']] = Dropdown::getDropdownName("glpi_entities", $data['entity']);
+                $entityId = $data['entity'] ?? 0;
+                if (!isset($entity_names_cache[$entityId])) {
+                    $entity_names_cache[$entityId] = Dropdown::getDropdownName("glpi_entities", $entityId);
                 }
 
                 $entries[] = [
-                    'itemtype' => self::class,
-                    'id' => $data['linkid'],
-                    'row_class' => (isset($data['is_deleted']) && $data['is_deleted']) ? 'table-deleted' : '',
-                    'type' => $itemtype_name,
-                    'name' => $namelink,
-                    'entity' => $entity_names_cache[$data['entity']],
-                    'serial' => $data["serial"] ?? '-',
+                    'itemtype'    => self::class,
+                    'id'          => $data['linkid'],
+                    'row_class'   => (isset($data['is_deleted']) && $data['is_deleted']) ? 'table-deleted' : '',
+                    'type'        => $itemtype_name,
+                    'name'        => $namelink,
+                    'entity'      => $entity_names_cache[$entityId],
+                    'serial'      => $data["serial"] ?? '-',
                     'otherserial' => $data["otherserial"] ?? '-',
                 ];
                 $used[$itemtype][$data['id']] = $data['id'];
@@ -359,22 +390,38 @@ final class Account_Item extends CommonDBRelation
         $used = $entries = [];
 
         $criteria = [
-            'SELECT' => ['glpi_plugin_accounts_accounts_items.id AS assocID',
+            'SELECT' => [
+                'glpi_plugin_accounts_accounts_items.id AS assocID',
                 'glpi_entities.id AS entity',
                 'glpi_plugin_accounts_accounts.name AS assocName',
-                'glpi_plugin_accounts_accounts.*'],
+                'glpi_plugin_accounts_accounts.*',
+                'glpi_plugin_accounts_hashes.hash AS hash_value',
+                'glpi_plugin_accounts_aeskeys.name AS aeskey_name',
+            ],
             'FROM' => 'glpi_plugin_accounts_accounts_items',
-            'LEFT JOIN'       => [
+            'LEFT JOIN' => [
                 'glpi_plugin_accounts_accounts' => [
                     'ON' => [
                         'glpi_plugin_accounts_accounts_items' => 'plugin_accounts_accounts_id',
-                        'glpi_plugin_accounts_accounts'          => 'id',
+                        'glpi_plugin_accounts_accounts'       => 'id',
                     ],
                 ],
                 'glpi_entities' => [
                     'ON' => [
                         'glpi_plugin_accounts_accounts' => 'entities_id',
-                        'glpi_entities'          => 'id',
+                        'glpi_entities'                 => 'id',
+                    ],
+                ],
+                'glpi_plugin_accounts_hashes' => [
+                    'ON' => [
+                        'glpi_plugin_accounts_accounts' => 'plugin_accounts_hashes_id',
+                        'glpi_plugin_accounts_hashes'   => 'id',
+                    ],
+                ],
+                'glpi_plugin_accounts_aeskeys' => [
+                    'ON' => [
+                        'glpi_plugin_accounts_aeskeys'  => 'plugin_accounts_hashes_id',
+                        'glpi_plugin_accounts_accounts' => 'plugin_accounts_hashes_id',
                     ],
                 ],
             ],
@@ -382,7 +429,7 @@ final class Account_Item extends CommonDBRelation
                 'glpi_plugin_accounts_accounts_items.items_id' => $item->getID(),
                 'glpi_plugin_accounts_accounts_items.itemtype' => $item->getType(),
             ],
-            'ORDERBY'   => 'assocName',
+            'ORDERBY' => 'assocName',
         ];
 
         $visibility = Account::getVisibilityCriteria();
@@ -397,32 +444,17 @@ final class Account_Item extends CommonDBRelation
             true
         );
 
-
         $iterator_list = $DB->request($criteria);
         $mtrand = mt_rand();
         foreach ($iterator_list as $value) {
             $used[] = $value['id'];
+
             $account = new Account();
-
+            $account->fields = $value; // hydraté depuis le JOIN — évite getFromDB()
             $accountID = $value['id'];
-            $result = $account->getFromDB($value['id']);
 
-            if ($result === false || !$account->can($account->getID(), READ)) {
+            if (!$account->can($accountID, READ)) {
                 continue;
-            }
-            $hash_id = $account->fields['plugin_accounts_hashes_id'];
-            $aeskey = new AesKey();
-            if ($hash_id) {
-                $aeskey_uncrypted = false;
-                if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id])
-                    && $aeskey->fields["name"]) {
-                    $aeskey_uncrypted = $aeskey->fields["name"];
-                }
-            }
-            $hash = "";
-            $hashclass= new Hash();
-            if ($hashclass->getFromDB($hash_id)) {
-                $hash = $hashclass->fields['hash'];
             }
 
             $rand = mt_rand();
@@ -430,30 +462,30 @@ final class Account_Item extends CommonDBRelation
                 'itemtype' => self::class,
                 'id' => $value['assocID'],
                 'name' => $account->getLink(),
-                'entities_id' => Dropdown::getDropdownName("glpi_entities", $account->fields['entities_id']),
-                'login' => $account->fields['login'],
+                'entities_id' => Dropdown::getDropdownName("glpi_entities", $value['entities_id']),
+                'login' => $value['login'],
                 'decrypt_password' => [
-                    'content' => __s('Uncrypt', 'accounts'),
-                    'button-id' => "decrypt_link$accountID$rand",
-                    'button-name' => 'decrypte',
-                    'good_hash' => $hash,
-                    'rand' => $rand,
-                    'accountID' => $accountID,
-                    'items_id' => $item->getID(),
-                    'itemtype' => $item->getType(),
+                    'content'        => __s('Uncrypt', 'accounts'),
+                    'button-id'      => "decrypt_link$accountID$rand",
+                    'button-name'    => 'decrypte',
+                    'good_hash'      => $value['hash_value'] ?? '',
+                    'rand'           => $rand,
+                    'accountID'      => $accountID,
+                    'items_id'       => $item->getID(),
+                    'itemtype'       => $item->getType(),
                     'button-onclick' => "decryptCheckbtn$rand()",
-                    'hidden-value' => $account->fields["encrypted_password"],
-                    'hidden-id' => "encrypted_password",
-                    'hidden-name' => "encrypted_password",
-                    'aeskey_uncrypted' => $aeskey_uncrypted,
+                    'hidden-value'   => $value['encrypted_password'],
+                    'hidden-id'      => "encrypted_password",
+                    'hidden-name'    => "encrypted_password",
+                    'aeskey_uncrypted' => $value['aeskey_name'] ?? false,
                 ],
-                'users_id' => getUserName($account->fields['users_id']),
+                'users_id' => getUserName($value['users_id']),
                 'plugin_accounts_accounttypes_id' => Dropdown::getDropdownName(
                     "glpi_plugin_accounts_accounttypes",
-                    $account->fields["plugin_accounts_accounttypes_id"]
+                    $value["plugin_accounts_accounttypes_id"]
                 ),
-                'date_creation' => $account->fields['date_creation'],
-                'date_expiration' => $account->fields['date_expiration'],
+                'date_creation'  => $value['date_creation'],
+                'date_expiration' => $value['date_expiration'],
             ];
         }
 
