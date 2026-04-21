@@ -1559,8 +1559,9 @@ class Account extends CommonDBTM
      */
     public static function getVisibilityCriteria(): array
     {
-        // Super-admin: see everything
-        if (Session::haveRight('plugin_accounts_see_all_users', READ)) {
+        // Super-admin (config right) or explicit "see all" right: no restriction
+        if (Session::haveRight('plugin_accounts_see_all_users', READ)
+            || Session::haveRight('config', READ)) {
             return [];
         }
         $who = Session::getLoginUserID();
