@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-21 14:56+0000\n"
+"POT-Creation-Date: 2026-04-21 15:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,7 +133,7 @@ msgstr ""
 #: src/Account.php:1455 src/Account.php:1459 src/AesKey.php:68
 #: src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
 #: templates/account.html.twig:192 templates/account.html.twig:252
-#: templates/aeskey.html.twig:61 templates/hash.html.twig:64
+#: templates/hash.html.twig:64 templates/aeskey.html.twig:61
 msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] ""
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:315 src/AesKey.php:206 src/Hash.php:61 src/Hash.php:174
+#: src/Account.php:315 src/Hash.php:61 src/Hash.php:174 src/AesKey.php:206
 #: templates/account.html.twig:147 templates/account.html.twig:169
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -190,7 +190,8 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:317 src/Hash.php:99 templates/hash_select_accounts.html.twig:33
+#: src/Report.php:317 src/Hash.php:99
+#: templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr ""
 
@@ -252,7 +253,8 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40 templates/hash_select_accounts.html.twig:65
+#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40
+#: templates/hash_select_accounts.html.twig:65
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -260,7 +262,7 @@ msgstr ""
 msgid "Plugin Setup"
 msgstr ""
 
-#: templates/profile.html.twig:35 templates/config.html.twig:67
+#: templates/config.html.twig:67 templates/profile.html.twig:35
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -395,7 +397,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:531 src/Report.php:294 front/hash.form.php:72
+#: front/hash.form.php:72 src/Account_Item.php:531 src/Report.php:294
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
