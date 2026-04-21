@@ -117,7 +117,9 @@ jobs:
         working-directory: glpi
 
       - name: Build GLPI frontend dependencies
-        run: php bin/console dependencies install
+        run: |
+          npm install --no-save
+          npm run-script build
         working-directory: glpi
 
       - name: Install GLPI test database
