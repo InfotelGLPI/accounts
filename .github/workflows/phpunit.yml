@@ -116,6 +116,10 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress
         working-directory: glpi
 
+      - name: Build GLPI frontend dependencies
+        run: php bin/console dependencies install
+        working-directory: glpi
+
       - name: Install GLPI test database
         run: >
           php bin/console database:install
