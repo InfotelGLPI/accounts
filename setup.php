@@ -51,7 +51,6 @@ function plugin_init_accounts()
 {
     global $PLUGIN_HOOKS, $CFG_GLPI;
 
-    $PLUGIN_HOOKS[Hooks::CSRF_COMPLIANT]['accounts']   = true;
     $PLUGIN_HOOKS[Hooks::ASSIGN_TO_TICKET]['accounts'] = true;
     $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['accounts']   = [Profile::class, 'initProfile'];
 

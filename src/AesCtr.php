@@ -67,10 +67,10 @@ class AesCtr extends Aes {
         // initialise 1st 8 bytes of counter block with nonce (NIST SP800-38A §B.2): [0-1] = millisec,
         // [2-3] = random, [4-7] = seconds, giving guaranteed sub-ms uniqueness up to Feb 2106
         $counterBlock = array();
-        $nonce = floor(microtime(true)*1000);   // timestamp: milliseconds since 1-Jan-1970
+        $nonce = (int) floor(microtime(true)*1000);   // timestamp: milliseconds since 1-Jan-1970
         $nonceMs = $nonce%1000;
-        $nonceSec = floor($nonce/1000);
-        $nonceRnd = floor(rand(0, 0xffff));
+        $nonceSec = (int) floor($nonce/1000);
+        $nonceRnd = rand(0, 0xffff);
 
         for ($i=0; $i<2; $i++) $counterBlock[$i]   = self::urs($nonceMs,  $i*8) & 0xff;
         for ($i=0; $i<2; $i++) $counterBlock[$i+2] = self::urs($nonceRnd, $i*8) & 0xff;
@@ -91,7 +91,7 @@ class AesCtr extends Aes {
             // set counter (block #) in last 8 bytes of counter block (leaving nonce in 1st 8 bytes)
             // done in two stages for 32-bit ops: using two words allows us to go past 2^32 blocks (68GB)
             for ($c=0; $c<4; $c++) $counterBlock[15-$c] = self::urs($b, $c*8) & 0xff;
-            for ($c=0; $c<4; $c++) $counterBlock[15-$c-4] = self::urs($b/0x100000000, $c*8);
+            for ($c=0; $c<4; $c++) $counterBlock[15-$c-4] = self::urs((int)($b/0x100000000), $c*8);
 
             $cipherCntr = Aes::cipher($counterBlock, $keySchedule);  // -- encrypt counter block --
 
@@ -153,7 +153,7 @@ class AesCtr extends Aes {
         for ($b=0; $b<$nBlocks; $b++) {
             // set counter (block #) in last 8 bytes of counter block (leaving nonce in 1st 8 bytes)
             for ($c=0; $c<4; $c++) $counterBlock[15-$c] = self::urs($b, $c*8) & 0xff;
-            for ($c=0; $c<4; $c++) $counterBlock[15-$c-4] = self::urs(($b+1)/0x100000000-1, $c*8) & 0xff;
+            for ($c=0; $c<4; $c++) $counterBlock[15-$c-4] = self::urs(intdiv($b, 0x100000000), $c*8) & 0xff;
 
             $cipherCntr = Aes::cipher($counterBlock, $keySchedule);  // encrypt counter block
 
