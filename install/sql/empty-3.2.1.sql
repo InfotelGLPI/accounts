@@ -6,6 +6,7 @@ CREATE TABLE `glpi_plugin_accounts_accounts` (
    `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `login` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `encrypted_password` text collate utf8mb4_unicode_ci default NULL,
+   `encrypted_totp_secret` text collate utf8mb4_unicode_ci default NULL,
    `plugin_accounts_hashes_id` int unsigned NOT NULL default '0',
    `others` varchar(255) collate utf8mb4_unicode_ci default NULL,
    `plugin_accounts_accounttypes_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accounttypes (id)',
