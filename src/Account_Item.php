@@ -212,7 +212,7 @@ final class Account_Item extends CommonDBRelation
             return false;
         }
 
-        $this->add(['plugin_accounts_accounts_id' => $values['plugin_accounts_accounts_id'],
+        return $this->add(['plugin_accounts_accounts_id' => $values['plugin_accounts_accounts_id'],
             'items_id'                    => (int) $values['items_id'],
             'itemtype'                    => $values['itemtype']]);
     }
@@ -275,7 +275,10 @@ final class Account_Item extends CommonDBRelation
         $used = [];
 
         foreach ($links_by_type as $itemtype => $id_to_linkid) {
-            if (!($item = getItemForItemtype($itemtype)) || !$item::canView()) {
+
+            $item = getItemForItemtype($itemtype);
+
+            if (!$item || !$item::canView()) {
                 continue;
             }
 
@@ -450,7 +453,7 @@ final class Account_Item extends CommonDBRelation
             $used[] = $value['id'];
 
             $account = new Account();
-            $account->fields = $value; // hydraté depuis le JOIN — évite getFromDB()
+            $account->fields = $value; //hydrated from the JOIN — avoids getFromDB()
             $accountID = $value['id'];
 
             if (!$account->can($accountID, READ)) {
