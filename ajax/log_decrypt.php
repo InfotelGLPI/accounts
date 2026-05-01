@@ -43,13 +43,15 @@ if (isset($_POST['idcrypt'])) {
     $changes[0] = 15;
     $changes[1] = "";
     if (isset($_POST['from']) && $_POST['from'] == 'account') {
-        $changes[2] = __s('Uncrypted from account', 'accounts');
+        $changes[2] = __s('Decrypted from account', 'accounts');
     } else {
-        $changes[2] = __s('Uncrypted from item', 'accounts');
+        $changes[2] = __s('Decrypted from item', 'accounts');
         if (isset($_POST['items_id']) && isset($_POST['itemtype'])) {
-            $item = new $_POST['itemtype']();
-            $item->getFromDB($_POST['items_id']);
-            $changes[2] .= " " . $item->getName();
+            $item = getItemForItemtype($_POST['itemtype']);
+            if ($item !== false) {
+                $item->getFromDB((int) $_POST['items_id']);
+                $changes[2] .= " " . $item->getName();
+            }
         }
     }
 

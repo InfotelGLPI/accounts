@@ -42,12 +42,11 @@
                 <input type="hidden" name="id" value="{{ id }}">
 
                 <h3 class="card-title">
-                    {{ __('Add a unused status for expiration mailing', 'accounts') }}
+                    {{ __('Add an unused status for expiration mailing', 'accounts') }}
                 </h3>
             </div>
             <div class="card-body">
                 <div class="row">
-                    {{ inputs.hidden('_glpi_csrf_token', csrf_token()) }}
                     {{ fields.dropdownField(
                         'GlpiPlugin\\Accounts\\AccountState',
                         'plugin_accounts_accountstates_id',

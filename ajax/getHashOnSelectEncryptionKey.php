@@ -30,12 +30,18 @@
 
 use GlpiPlugin\Accounts\Hash;
 
-header("Content-Type: text/html; charset=UTF-8");
+$AJAX_INCLUDE = 1;
 
-Session::checkRight("plugin_accounts", READ);
+header("Content-Type: text/plain; charset=UTF-8");
+Html::header_nocache();
+
+Session::checkRight("plugin_accounts_hash", READ);
 
 if (isset($_POST["plugin_accounts_hashes_id"])) {
     $hashKey = new Hash();
-    $hashKey->getFromDB($_POST["plugin_accounts_hashes_id"]);
-    echo $hashKey->fields['hash'];
+    $hash_id = (int) $_POST["plugin_accounts_hashes_id"];
+    if ($hashKey->getFromDB($hash_id)
+        && Session::haveAccessToEntity($hashKey->fields['entities_id'] ?? 0)) {
+        echo $hashKey->fields['hash'];
+    }
 }

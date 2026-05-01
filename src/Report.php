@@ -200,7 +200,7 @@ class Report extends CommonDBTM
             }
             $headers[] = __s('Type');
             $headers[] = __s('Login');
-            $headers[] = __s('Uncrypted password', 'accounts');
+            $headers[] = __s('Decrypted password', 'accounts');
         } else {
             $header_num    = 1;
             $html_output .= $output::showNewLine();
@@ -210,7 +210,7 @@ class Report extends CommonDBTM
             }
             $html_output .= $output::showHeaderItem(__s('Type'), $header_num);
             $html_output .= $output::showHeaderItem(__s('Login'), $header_num);
-            $html_output .= $output::showHeaderItem(__s('Uncrypted password', 'accounts'), $header_num);
+            $html_output .= $output::showHeaderItem(__s('Decrypted password', 'accounts'), $header_num);
             $html_output .= $output::showEndLine($output_type);
         }
         $row_num = 0;

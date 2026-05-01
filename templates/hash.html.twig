@@ -53,7 +53,7 @@
                                 "name",
                                 item,
                                 __('Name'),
-                            withtemplate
+                                withtemplate
                             ) }}
                         {% endif %}
 
@@ -67,10 +67,10 @@
                                     }
                                 }
                             ) }}
-                        <div class="center d-inline-block">
-                            <input type="button" id="generate_hash"
-                                   value="{{ __('Generate finger print with this encryption key', 'accounts')}}"
-                                   class="submit btn btn-primary">
+                            <div class="center d-inline-block">
+                                <input type="button" id="generate_hash"
+                                       value="{{ __('Generate fingerprint with this encryption key', 'accounts') }}"
+                                       class="submit btn btn-primary">
                             </div>
                         {% endif %}
 
@@ -103,7 +103,7 @@
 
     </div> {# .card-body #}
     {% include("components/form/buttons.html.twig") %}
-    {#    {% include("components/form/inventory_info.html.twig") %}#}
+    {#    {% include("components/form/inventory_info.html.twig") %} #}
 
 
     {% if params['formfooter'] == null %}
@@ -113,7 +113,7 @@
     {% endif %}
 </div>
 <script type="text/javascript">
-    $(document).on('click', '#generate_hash', function(event) {
+    $(document).on('click', '#generate_hash', function (event) {
         var aeskey = $('input[name="aeskey"]').val();
 
         if (!aeskey) {

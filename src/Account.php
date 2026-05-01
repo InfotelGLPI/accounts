@@ -647,7 +647,17 @@ class Account extends CommonDBTM
                 }
             }
 
-            $hashclass->getFromDBByCrit(['id' => $this->fields["plugin_accounts_hashes_id"]]);
+            // Auto-select the only available hash for new items, so users
+            // don't have to manually pick the fingerprint + encryption key
+            // every time they create an account (regression from 3.0.x).
+            $selected_hash_id = $this->fields["plugin_accounts_hashes_id"];
+            if (empty($selected_hash_id) && count($hashes) === 1) {
+                $only_hash = reset($hashes);
+                $selected_hash_id = $only_hash['id'];
+                $this->fields["plugin_accounts_hashes_id"] = $selected_hash_id;
+            }
+
+            $hashclass->getFromDBByCrit(['id' => $selected_hash_id]);
             if (count($hashclass->fields) > 0) {
                 $hash = $hashclass->fields["hash"];
             } else {
@@ -665,7 +675,7 @@ class Account extends CommonDBTM
         }
 
         $aeskey = new AesKey();
-        if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $this->fields["plugin_accounts_hashes_id"]])
+        if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $selected_hash_id])
             && $aeskey->fields["name"]) {
             $aeskey_uncrypted = $aeskey->fields["name"];
         }
@@ -1093,7 +1103,7 @@ class Account extends CommonDBTM
         switch ($name) {
             case 'AccountsAlert':
                 return [
-                    'description' => __s('Accounts expired or accounts which expires', 'accounts'),
+                    'description' => __s('Accounts expired or accounts which expire', 'accounts'),
                 ]; // Optional
                 break;
         }
@@ -1208,7 +1218,7 @@ class Account extends CommonDBTM
 
                     if (!isset($account_messages[$type][$entity])) {
                         $account_messages[$type][$entity] = __s(
-                                'Accounts expired or accounts which expires',
+                                'Accounts expired or accounts which expire',
                                 'accounts'
                             ) . "<br />";
                     }
@@ -1625,8 +1635,9 @@ class Account extends CommonDBTM
      */
     public static function getVisibilityCriteria(): array
     {
-        // Super-admin: see everything
-        if (Session::haveRight('plugin_accounts_see_all_users', READ)) {
+        // Super-admin (config right) or explicit "see all" right: no restriction
+        if (Session::haveRight('plugin_accounts_see_all_users', READ)
+            || Session::haveRight('config', READ)) {
             return [];
         }
         $who = Session::getLoginUserID();

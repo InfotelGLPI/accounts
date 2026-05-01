@@ -50,10 +50,10 @@ class Aes {
      */
     public static function cipher($input, $w) {    // main cipher function [§5.1]
         $Nb = 4;                 // block size (in words): no of columns in state (fixed at 4 for AES)
-        $Nr = count($w)/$Nb - 1; // no of rounds: 10/12/14 for 128/192/256-bit keys
+        $Nr = intdiv(count($w), $Nb) - 1; // no of rounds: 10/12/14 for 128/192/256-bit keys
 
         $state = array();  // initialise 4xNb byte-array 'state' with input [§3.4]
-        for ($i=0; $i<4*$Nb; $i++) $state[$i%4][floor($i/4)] = $input[$i];
+        for ($i=0; $i<4*$Nb; $i++) $state[$i%4][intdiv($i, 4)] = $input[$i];
 
         $state = self::addRoundKey($state, $w, 0, $Nb);
 
@@ -69,7 +69,7 @@ class Aes {
         $state = self::addRoundKey($state, $w, $Nr, $Nb);
 
         $output = array(4*$Nb);  // convert state to 1-d array before returning [§3.4]
-        for ($i=0; $i<4*$Nb; $i++) $output[$i] = $state[$i%4][floor($i/4)];
+        for ($i=0; $i<4*$Nb; $i++) $output[$i] = $state[$i%4][intdiv($i, 4)];
         return $output;
     }
 
@@ -122,8 +122,8 @@ class Aes {
      * @return    key schedule as 2D byte-array (Nr+1 x Nb bytes)
      */
     public static function keyExpansion($key) {  // generate Key Schedule from Cipher Key [§5.2]
-        $Nb = 4;              // block size (in words): no of columns in state (fixed at 4 for AES)
-        $Nk = count($key)/4;  // key length (in words): 4/6/8 for 128/192/256-bit keys
+        $Nb = 4;                    // block size (in words): no of columns in state (fixed at 4 for AES)
+        $Nk = intdiv(count($key), 4); // key length (in words): 4/6/8 for 128/192/256-bit keys
         $Nr = $Nk + 6;        // no of rounds: 10/12/14 for 128/192/256-bit keys
 
         $w = array();
@@ -139,7 +139,7 @@ class Aes {
             for ($t=0; $t<4; $t++) $temp[$t] = $w[$i-1][$t];
             if ($i % $Nk == 0) {
                 $temp = self::subWord(self::rotWord($temp));
-                for ($t=0; $t<4; $t++) $temp[$t] ^= self::$rCon[$i/$Nk][$t];
+                for ($t=0; $t<4; $t++) $temp[$t] ^= self::$rCon[intdiv($i, $Nk)][$t];
             } else if ($Nk > 6 && $i%$Nk == 4) {
                 $temp = self::subWord($temp);
             }
