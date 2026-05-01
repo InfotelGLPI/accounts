@@ -63,7 +63,7 @@ if (isset($_POST['password'])) {
             }
       });
       if(j==0){
-         alert('".__s("Select at least one checkbox","accounts")."');
+         alert(" . json_encode(__s("Select at least one checkbox","accounts")) . ");
       }
 
       length = parseInt(document.getElementById('length').value, 10);

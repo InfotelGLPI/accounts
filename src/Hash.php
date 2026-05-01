@@ -98,7 +98,7 @@ class Hash extends CommonDBTM
 
                     $ong[2] = self::createTabEntry(__s('Linked accounts list', 'accounts'));
                     if (Session::haveRight(static::$rightname, UPDATE)) {
-                        $ong[3] = self::createTabEntry(__s('Modification of the encryption key for all password', 'accounts'));
+                        $ong[3] = self::createTabEntry(__s('Modification of the encryption key for all passwords', 'accounts'));
                     }
 
                     return $ong;

@@ -1027,7 +1027,7 @@ class Account extends CommonDBTM
         switch ($name) {
             case 'AccountsAlert':
                 return [
-                    'description' => __s('Accounts expired or accounts which expires', 'accounts'),
+                    'description' => __s('Accounts expired or accounts which expire', 'accounts'),
                 ]; // Optional
                 break;
         }
@@ -1142,7 +1142,7 @@ class Account extends CommonDBTM
 
                     if (!isset($account_messages[$type][$entity])) {
                         $account_messages[$type][$entity] = __s(
-                                'Accounts expired or accounts which expires',
+                                'Accounts expired or accounts which expire',
                                 'accounts'
                             ) . "<br />";
                     }

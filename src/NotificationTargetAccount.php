@@ -57,7 +57,7 @@ class NotificationTargetAccount extends NotificationTarget
     {
         return ['new'                 => __s('New account', 'accounts'),
                    'ExpiredAccounts'     => __s('Accounts expired', 'accounts'),
-                   'AccountsWhichExpire' => __s('Accounts which expires', 'accounts')];
+                   'AccountsWhichExpire' => __s('Accounts which expire', 'accounts')];
     }
 
    /**
@@ -231,7 +231,7 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##lang.account.entity##'] = __s('Entity');
             $this->data['##lang.account.action##'] = __s('Action');
             $this->data['##account.action##']      = ($event == "ExpiredAccounts" ? __s('Accounts expired', 'accounts') :
-            __s('Accounts which expires', 'accounts'));
+            __s('Accounts which expire', 'accounts'));
 
             $this->data['##lang.account.name##']           = __s('Name');
             $this->data['##lang.account.type##']           = __s('Type');
@@ -317,7 +317,7 @@ class NotificationTargetAccount extends NotificationTarget
                                 'label' => __s('An account has been created', 'accounts')]);
 
         $this->addTagToList(['tag'     => 'accounts',
-                                'label'   => __s('Accounts expired or accounts which expires', 'accounts'),
+                                'label'   => __s('Accounts expired or accounts which expire', 'accounts'),
                                 'value'   => false,
                                 'foreach' => true,
                                 'events'  => ['AccountsWhichExpire', 'ExpiredAccounts']]);

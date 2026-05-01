@@ -47,7 +47,6 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    {{ inputs.hidden('_glpi_csrf_token', csrf_token()) }}
                     {{ fields.dropdownField(
                         'GlpiPlugin\\Accounts\\AccountState',
                         'plugin_accounts_accountstates_id',

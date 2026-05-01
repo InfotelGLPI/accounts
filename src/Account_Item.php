@@ -467,7 +467,7 @@ final class Account_Item extends CommonDBRelation
                 'entities_id' => Dropdown::getDropdownName("glpi_entities", $value['entities_id']),
                 'login' => $value['login'],
                 'decrypt_password' => [
-                    'content'        => __s('Uncrypt', 'accounts'),
+                    'content'        => __s('Decrypt', 'accounts'),
                     'button-id'      => "decrypt_link$accountID",
                     'button-name'    => 'decrypte',
                     'good_hash'      => $value['hash_value'] ?? '',
