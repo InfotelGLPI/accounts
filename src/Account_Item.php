@@ -383,7 +383,7 @@ final class Account_Item extends CommonDBRelation
     }
 
 
-    private static function showForAsset(CommonDBTM $item): bool
+    public static function showForAsset(CommonDBTM $item): bool
     {
         global $DB;
 
