@@ -300,12 +300,15 @@
                             </div>
                         {% endif %}
 
-                        {# TOTP Secret field - encrypted server-side, show/hide like password #}
+                        {# TOTP Secret field #}
                         {% if get_current_interface() == 'central' %}
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
                                     <i class="ti ti-shield-check me-1"></i>
                                     {{ __('TOTP Secret', 'accounts') }}
+                                    {% if has_totp is defined and has_totp %}
+                                        <small class="text-muted">({{ __('new value', 'accounts') }})</small>
+                                    {% endif %}
                                 </label>
                                 <div class="col-xxl-7 field-container">
                                     <div class="input-group input-group-sm">
@@ -319,15 +322,11 @@
                                         <button type="button"
                                                 class="btn btn-outline-secondary"
                                                 id="toggle_totp_visibility"
-                                                title="{{ __('Show/hide TOTP secret', 'accounts') }}">
+                                                title="{{ __('Show/hide', 'accounts') }}">
                                             <i class="ti ti-eye"></i>
                                         </button>
                                     </div>
                                     {% if has_totp is defined and has_totp %}
-                                        <small class="text-success mt-1">
-                                            <i class="ti ti-check me-1"></i>
-                                            {{ __('TOTP secret is stored (encrypted)', 'accounts') }}
-                                        </small>
                                         <span class="d-inline-flex mt-1">
                                             <input type="checkbox" name="_blank_totp_secret" id="__blank_totp_secret"
                                                    class="ms-1">
@@ -339,8 +338,32 @@
                                 </div>
                             </div>
                             <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
-                                <label class="col-form-label col-xxl-5 text-xxl-end"></label>
-                                <div class="col-xxl-7 field-container"></div>
+                                {% if has_totp is defined and has_totp %}
+                                    <label class="col-form-label col-xxl-5 text-xxl-end">
+                                        {{ __('Stored TOTP Secret', 'accounts') }}
+                                    </label>
+                                    <div class="col-xxl-7 field-container">
+                                        <input type="hidden" id="encrypted_totp_secret"
+                                               value="{{ item.fields['encrypted_totp_secret'] }}">
+                                        <div class="btn-group btn-group-sm d-flex">
+                                            <input type="password" id="hidden_totp_secret" class="form-control"
+                                                   size="30" readonly>
+                                            <div class="btn btn-outline-secondary btn-light"
+                                                 onmousedown="showDisclosablePasswordField('hidden_totp_secret')"
+                                                 onmouseup="hideDisclosablePasswordField('hidden_totp_secret')"
+                                                 onmouseout="hideDisclosablePasswordField('hidden_totp_secret')">
+                                                <i class="ti ti-eye disclose"></i>
+                                            </div>
+                                            <div class="btn btn-outline-secondary btn-light"
+                                                 onclick="copyDisclosablePasswordFieldToClipboard('hidden_totp_secret')">
+                                                <i class="ti ti-clipboard-copy disclose"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <label class="col-form-label col-xxl-5 text-xxl-end"></label>
+                                    <div class="col-xxl-7 field-container"></div>
+                                {% endif %}
                             </div>
                             <script>
                             (function() {

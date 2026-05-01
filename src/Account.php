@@ -238,7 +238,7 @@ class Account extends CommonDBTM
         ];
 
         $tab[] = [
-            'id'              => '30',
+            'id'              => '31',
             'table'           => $this->getTable(),
             'field'           => 'encrypted_totp_secret',
             'name'            => __s('TOTP Secret', 'accounts'),
@@ -577,6 +577,8 @@ class Account extends CommonDBTM
                 $input['totp_secret_plain'],
                 $fingerprint
             );
+        } else {
+            $input['encrypted_totp_secret'] = $input['totp_secret_plain'];
         }
         unset($input['totp_secret_plain']);
         return $input;
