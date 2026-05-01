@@ -573,12 +573,16 @@ class Account extends CommonDBTM
             && $aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
             && !empty($aeskey->fields['name'])) {
             $fingerprint = $aeskey->fields['name'];
-            $input['encrypted_totp_secret'] = AccountCrypto::encrypt(
+            $input['encrypted_totp_secret'] = addslashes(AccountCrypto::encrypt(
                 $input['totp_secret_plain'],
                 $fingerprint
-            );
+            ));
         } else {
-            $input['encrypted_totp_secret'] = $input['totp_secret_plain'];
+            Session::addMessageAfterRedirect(
+                __('TOTP secret not saved: no encryption key available. Please configure an encryption key first.', 'accounts'),
+                false,
+                ERROR
+            );
         }
         unset($input['totp_secret_plain']);
         return $input;
@@ -987,6 +991,21 @@ class Account extends CommonDBTM
                             }
                         }
 
+                        // --- Step 2b: Re-encrypt TOTP secret with destination fingerprint ---
+                        $reencrypted_totp = null;
+                        if (!empty($item->fields['encrypted_totp_secret'])
+                            && isset($src_aes_key_value, $dest_aes_key_value)) {
+                            $plain_totp = AccountCrypto::decrypt(
+                                $item->fields['encrypted_totp_secret'],
+                                hash('sha256', $src_aes_key_value)
+                            );
+                            $reencrypted_totp = addslashes(
+                                AccountCrypto::encrypt($plain_totp, hash('sha256', $dest_aes_key_value))
+                            );
+                        } elseif (!empty($item->fields['encrypted_totp_secret']) && $reencrypted_password === null) {
+                            $reencrypted_totp = '';
+                        }
+
                         // --- Step 3: Build update values ---
                         $values = ['id' => $key, 'entities_id' => $input['entities_id']];
 
@@ -996,6 +1015,9 @@ class Account extends CommonDBTM
                         if ($reencrypted_password !== null) {
                             $values['encrypted_password'] = $reencrypted_password;
                             $values['plugin_accounts_hashes_id'] = $new_hash_id;
+                        }
+                        if ($reencrypted_totp !== null) {
+                            $values['encrypted_totp_secret'] = $reencrypted_totp;
                         }
 
                         if ($item->update($values)) {
