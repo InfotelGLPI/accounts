@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-01 10:38+0000\n"
+"POT-Creation-Date: 2026-05-01 10:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgid "Add"
 msgstr ""
 
 #: templates/status_cron.html.twig:45
-msgid "Add a unused status for expiration mailing"
+msgid "Add an unused status for expiration mailing"
 msgstr ""
 
 #: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:189
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account_Item.php:497 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:500 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
 #: templates/account.html.twig:309 templates/account.html.twig:318
@@ -175,7 +175,7 @@ msgid "Generate"
 msgstr ""
 
 #: templates/hash.html.twig:72
-msgid "Generate finger print with this encryption key"
+msgid "Generate fingerprint with this encryption key"
 msgstr ""
 
 #: templates/account.html.twig:527
@@ -286,7 +286,7 @@ msgid "See your accounts"
 msgstr ""
 
 #: ajax/generatepassword.php:66
-msgid "Select at least on checkbox"
+msgid "Select at least one checkbox"
 msgstr ""
 
 #: templates/datatable.html.twig:239
@@ -326,7 +326,7 @@ msgid "There is no encryption key for this entity"
 msgstr ""
 
 #: templates/config.html.twig:42
-msgid "Time of checking of of expiration of accounts"
+msgid "Time of checking of expiration of accounts"
 msgstr ""
 
 #: templates/account.html.twig:92
@@ -343,7 +343,7 @@ msgstr[1] ""
 msgid "Type view"
 msgstr ""
 
-#: src/Account_Item.php:467
+#: src/Account_Item.php:470
 msgid "Uncrypt"
 msgstr ""
 
@@ -368,7 +368,7 @@ msgid "Uppercase"
 msgstr ""
 
 #: templates/account.html.twig:53
-msgid "WARNING : a encryption key already exist for this entity"
+msgid "WARNING : an encryption key already exists for this entity"
 msgstr ""
 
 #: templates/hash_change_key.html.twig:33
@@ -395,7 +395,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:531 src/Report.php:294 front/hash.form.php:72
+#: src/Account_Item.php:534 src/Report.php:294 front/hash.form.php:72
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
