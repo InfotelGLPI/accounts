@@ -80,7 +80,12 @@ function decryptV2(ciphertext, fingerprint) {
         }
     );
 
-    return decrypted.toString(CryptoJS.enc.Utf8);
+    try {
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    } catch (e) {
+        // Fallback pour les mots de passe chiffrés avec l'ancien encodage Latin1
+        return decrypted.toString(CryptoJS.enc.Latin1);
+    }
 }
 
 
@@ -138,7 +143,7 @@ function encryptV2(plaintext, fingerprint) {
 
     // Chiffrement AES-256-CTR
     var encrypted = CryptoJS.AES.encrypt(
-        CryptoJS.enc.Latin1.parse(plaintext),
+        CryptoJS.enc.Utf8.parse(plaintext),
         CryptoJS.enc.Hex.parse(key.toString()),
         {
             iv: iv,

@@ -237,6 +237,16 @@ class Account extends CommonDBTM
             'name' => __s('Others'),
         ];
 
+        $tab[] = [
+            'id'              => '31',
+            'table'           => $this->getTable(),
+            'field'           => 'encrypted_totp_secret',
+            'name'            => __s('TOTP Secret', 'accounts'),
+            'massiveaction'   => false,
+            'nosearch'        => true,
+            'nodisplay'       => true,
+        ];
+
         if (Session::getCurrentInterface() != 'central') {
             $tab[] = [
                 'id' => '10',
@@ -457,6 +467,9 @@ class Account extends CommonDBTM
             );
         }
 
+        // Encrypt TOTP secret server-side if provided
+        $input = self::encryptTotpSecret($input, $input['plugin_accounts_hashes_id'] ?? 0);
+
         return $input;
     }
 
@@ -490,6 +503,12 @@ class Account extends CommonDBTM
         if (isset($input["_blank_account_passwd"]) && $input["_blank_account_passwd"]) {
             $input['encrypted_password'] = '';
         }
+
+        // Clear TOTP secret if requested
+        if (isset($input["_blank_totp_secret"]) && $input["_blank_totp_secret"]) {
+            $input['encrypted_totp_secret'] = '';
+        }
+
         if (isset($input["plugin_accounts_hashes_id"])
             && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
             unset($input['plugin_accounts_hashes_id']);
@@ -527,10 +546,64 @@ class Account extends CommonDBTM
             }
         }
 
+        // Encrypt TOTP secret server-side if a new one was provided
+        $hash_id = $input['plugin_accounts_hashes_id']
+            ?? ($this->fields['plugin_accounts_hashes_id'] ?? 0);
+        $input = self::encryptTotpSecret($input, $hash_id);
 
         return $input;
     }
 
+    /**
+     * Encrypt the TOTP secret (submitted as plaintext via form POST) using
+     * the same fingerprint as the password. The plaintext field
+     * 'totp_secret_plain' is removed and replaced with 'encrypted_totp_secret'.
+     *
+     * @param array $input   Form input
+     * @param int   $hash_id The hash (fingerprint) ID to use for encryption
+     * @return array Modified input
+     */
+    private static function encryptTotpSecret(array $input, int $hash_id): array
+    {
+        if (!isset($input['totp_secret_plain']) || $input['totp_secret_plain'] === '') {
+            unset($input['totp_secret_plain']);
+            return $input;
+        }
+
+        $fingerprint = null;
+
+        $aeskey = new AesKey();
+        if ($hash_id
+            && $aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
+            && !empty($aeskey->fields['name'])) {
+            $fingerprint = $aeskey->fields['name'];
+        } elseif (!empty($input['aeskey']) && $hash_id) {
+            // La clé n'est pas en DB : vérifier la clé soumise contre le hash stocké
+            $hashRecord = new Hash();
+            if ($hashRecord->getFromDB($hash_id)
+                && hash_equals(
+                    $hashRecord->fields['hash'] ?? '',
+                    hash('sha256', hash('sha256', $input['aeskey']))
+                )) {
+                $fingerprint = $input['aeskey'];
+            }
+        }
+
+        if ($fingerprint !== null) {
+            $input['encrypted_totp_secret'] = addslashes(AccountCrypto::encrypt(
+                $input['totp_secret_plain'],
+                $fingerprint
+            ));
+        } else {
+            Session::addMessageAfterRedirect(
+                __('TOTP secret not saved: no encryption key available. Please configure an encryption key first.', 'accounts'),
+                false,
+                ERROR
+            );
+        }
+        unset($input['totp_secret_plain']);
+        return $input;
+    }
 
     /**
      * Print the acccount form
@@ -635,6 +708,7 @@ class Account extends CommonDBTM
             'aeskey_uncrypted' => $aeskey_uncrypted,
             'root_accounts_doc' => PLUGIN_ACCOUNTS_WEBDIR,
             'params' => $options,
+            'has_totp' => !empty($this->fields['encrypted_totp_secret']),
             'show_password_generator' => empty($ID) ? true : false,
         ]);
 
@@ -943,6 +1017,21 @@ class Account extends CommonDBTM
                             }
                         }
 
+                        // --- Step 2b: Re-encrypt TOTP secret with destination fingerprint ---
+                        $reencrypted_totp = null;
+                        if (!empty($item->fields['encrypted_totp_secret'])
+                            && isset($src_aes_key_value, $dest_aes_key_value)) {
+                            $plain_totp = AccountCrypto::decrypt(
+                                $item->fields['encrypted_totp_secret'],
+                                hash('sha256', $src_aes_key_value)
+                            );
+                            $reencrypted_totp = addslashes(
+                                AccountCrypto::encrypt($plain_totp, hash('sha256', $dest_aes_key_value))
+                            );
+                        } elseif (!empty($item->fields['encrypted_totp_secret']) && $reencrypted_password === null) {
+                            $reencrypted_totp = '';
+                        }
+
                         // --- Step 3: Build update values ---
                         $values = ['id' => $key, 'entities_id' => $input['entities_id']];
 
@@ -952,6 +1041,10 @@ class Account extends CommonDBTM
                         if ($reencrypted_password !== null) {
                             $values['encrypted_password'] = $reencrypted_password;
                             $values['plugin_accounts_hashes_id'] = $new_hash_id;
+                        }
+
+                        if ($reencrypted_totp !== null) {
+                            $values['encrypted_totp_secret'] = $reencrypted_totp;
                         }
 
                         if ($item->update($values)) {

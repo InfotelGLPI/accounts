@@ -337,6 +337,12 @@ function plugin_accounts_install()
         }
     }
 
+    // from 3.2.2: add encrypted TOTP secret field
+    if ($DB->tableExists('glpi_plugin_accounts_accounts')
+        && !$DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_totp_secret')) {
+        $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.2.sql');
+    }
+
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
 
     Profile::initProfile();

@@ -67,6 +67,11 @@ if (isset($_POST["add"])) {
         }
     }
     Html::back();
+} elseif (isset($_POST["purge"])) {
+    if ($aeskey->canCreate()) {
+        $aeskey->delete(["id" => $_POST["id"]], 1);
+    }
+    $aeskey->redirectToList();
 } else {
     $aeskey->display(['id' => $_GET['id'],
         'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]]);
