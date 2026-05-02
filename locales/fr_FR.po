@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-21 15:15+0000\n"
+"POT-Creation-Date: 2026-05-01 10:52+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
@@ -48,7 +48,7 @@ msgstr "Comptes expirés depuis plus de"
 
 #: src/Account.php:1030 src/Account.php:1145
 #: src/NotificationTargetAccount.php:320
-msgid "Accounts expired or accounts which expires"
+msgid "Accounts expired or accounts which expire"
 msgstr "Comptes expirés ou comptes qui vont expirer"
 
 #: templates/config.html.twig:54
@@ -56,17 +56,17 @@ msgid "Accounts expiring in less than"
 msgstr "Comptes qui vont expirer dans moins de"
 
 #: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:234
-msgid "Accounts which expires"
+msgid "Accounts which expire"
 msgstr "Comptes qui vont expirer"
 
-#: templates/status_cron.html.twig:63 templates/item_account.html.twig:59
+#: templates/status_cron.html.twig:62 templates/item_account.html.twig:59
 msgctxt "button"
 msgid "Add"
 msgstr "Ajouter"
 
 #: templates/status_cron.html.twig:45
-msgid "Add a unused status for expiration mailing"
-msgstr "Statuts non utilisés dans l'envoi des emails d'expiration"
+msgid "Add an unused status for expiration mailing"
+msgstr "Ajouter un statut non utilisé dans l'envoi des emails d'expiration"
 
 #: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:189
 #: src/NotificationTargetAccount.php:241 src/NotificationTargetAccount.php:302
@@ -74,7 +74,7 @@ msgstr "Statuts non utilisés dans l'envoi des emails d'expiration"
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: src/Account_Item.php:497 src/Account.php:324 src/Account.php:332
+#: src/Account_Item.php:500 src/Account.php:324 src/Account.php:332
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
 #: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
 #: templates/account.html.twig:309 templates/account.html.twig:318
@@ -122,6 +122,22 @@ msgid_plural "Days"
 msgstr[0] "Jour"
 msgstr[1] "jours"
 msgstr[2] "jours"
+
+#: src/Account_Item.php:470
+msgid "Decrypt"
+msgstr "Déchiffrer"
+
+#: ajax/log_decrypt.php:46
+msgid "Decrypted from account"
+msgstr "Déchiffré depuis le compte"
+
+#: ajax/log_decrypt.php:48
+msgid "Decrypted from item"
+msgstr "Déchiffré depuis l'objet"
+
+#: src/Report.php:203 src/Report.php:213
+msgid "Decrypted password"
+msgstr "Mot de passe déchiffré"
 
 #: src/NotificationTargetAccount.php:222 src/NotificationTargetAccount.php:296
 msgid "Direct link to created account"
@@ -186,7 +202,7 @@ msgid "Generate"
 msgstr "Générer"
 
 #: templates/hash.html.twig:72
-msgid "Generate finger print with this encryption key"
+msgid "Generate fingerprint with this encryption key"
 msgstr "Générer l'empreinte à partir de cette clé de chiffrement"
 
 #: templates/account.html.twig:527
@@ -215,7 +231,7 @@ msgid "Lowercase"
 msgstr "Minuscule"
 
 #: src/Hash.php:101
-msgid "Modification of the encryption key for all password"
+msgid "Modification of the encryption key for all passwords"
 msgstr "Modification de la clé de chiffrement"
 
 #: templates/account.html.twig:61 templates/hash.html.twig:55
@@ -302,7 +318,7 @@ msgid "See your accounts"
 msgstr "Voir vos comptes"
 
 #: ajax/generatepassword.php:66
-msgid "Select at least on checkbox"
+msgid "Select at least one checkbox"
 msgstr "Sélectionner au moins une case à cocher"
 
 #: templates/datatable.html.twig:239
@@ -346,7 +362,7 @@ msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
 #: templates/config.html.twig:42
-msgid "Time of checking of of expiration of accounts"
+msgid "Time of checking of expiration of accounts"
 msgstr "Délai de vérification d'expiration des comptes"
 
 #: templates/account.html.twig:92
@@ -364,22 +380,6 @@ msgstr[2] "Types de compte"
 msgid "Type view"
 msgstr "Vue par type"
 
-#: src/Account_Item.php:467
-msgid "Uncrypt"
-msgstr "Déchiffrer"
-
-#: ajax/log_decrypt.php:46
-msgid "Uncrypted from account"
-msgstr "Déchiffré depuis le compte"
-
-#: ajax/log_decrypt.php:48
-msgid "Uncrypted from item"
-msgstr "Déchiffré depuis l'objet"
-
-#: src/Report.php:203 src/Report.php:213
-msgid "Uncrypted password"
-msgstr "Mot de passe déchiffré"
-
 #: templates/hash_change_key.html.twig:85
 msgid "Update"
 msgstr "Mettre à jour"
@@ -389,7 +389,7 @@ msgid "Uppercase"
 msgstr "Majuscule"
 
 #: templates/account.html.twig:53
-msgid "WARNING : a encryption key already exist for this entity"
+msgid "WARNING : an encryption key already exists for this entity"
 msgstr "ATTENTION : Une clé de chiffrement existe déjà pour cette entité."
 
 #: templates/hash_change_key.html.twig:33
@@ -425,7 +425,7 @@ msgstr ""
 "Attention : le mot de passe chiffré est très long et peut indiquer un "
 "problème avec la clé de chiffrement."
 
-#: src/Account_Item.php:531 src/Report.php:294 front/hash.form.php:72
+#: src/Account_Item.php:534 src/Report.php:294 front/hash.form.php:72
 #: templates/account.html.twig:217 templates/account.html.twig:280
 #: templates/account.html.twig:479 templates/account.html.twig:499
 msgid "Wrong encryption key"
