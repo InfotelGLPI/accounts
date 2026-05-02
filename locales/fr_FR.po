@@ -350,11 +350,11 @@ msgstr[2] "Statuts"
 
 #: templates/account.html.twig:342
 msgid "Stored TOTP Secret"
-msgstr "Secret TOTP stocké"
+msgstr "Clé secrète TOTP stockée"
 
 #: src/Account.php:244 templates/account.html.twig:307
 msgid "TOTP Secret"
-msgstr "Secret TOTP"
+msgstr "Clé secrète TOTP"
 
 #: src/Account.php:599
 msgid ""
