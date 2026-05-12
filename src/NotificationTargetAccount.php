@@ -79,21 +79,28 @@ class NotificationTargetAccount extends NotificationTarget
     */
     public function addSpecificTargets($data, $options)
     {
+        // For expiration events the cron passes new Account() (empty) + $options['accounts']
+        // (array of full DB rows). For 'new' $this->obj is already loaded.
+        $accounts_fields = !empty($options['accounts'])
+            ? $options['accounts']
+            : [$this->obj->fields];
 
-       //Look for all targets whose type is Notification::ITEM_USER
-        switch ($data['items_id']) {
-            case self::ACCOUNT_USER:
-                $this->addUserByField("users_id");
-                break;
-            case self::ACCOUNT_GROUP:
-                $this->getGroupAddress();
-                break;
-            case self::ACCOUNT_TECHUSER:
-                $this->addUserByField("users_id_tech");
-                break;
-            case self::ACCOUNT_TECHGROUP:
-                $this->getGroupTechAddress();
-                break;
+        foreach ($accounts_fields as $account_fields) {
+            $this->obj->fields = $account_fields;
+            switch ($data['items_id']) {
+                case self::ACCOUNT_USER:
+                    $this->addUserByField("users_id");
+                    break;
+                case self::ACCOUNT_GROUP:
+                    $this->getGroupAddress();
+                    break;
+                case self::ACCOUNT_TECHUSER:
+                    $this->addUserByField("users_id_tech");
+                    break;
+                case self::ACCOUNT_TECHGROUP:
+                    $this->getGroupTechAddress();
+                    break;
+            }
         }
     }
 
@@ -193,7 +200,7 @@ class NotificationTargetAccount extends NotificationTarget
             );
 
             $this->data['##lang.account.userstech##'] = __s('Technician in charge');
-            $this->data['##account.userstech##']      = $dbu->getUserName($this->obj->getField("users_id_tech"));
+            $this->data['##account.userstech##']      = getUserName($this->obj->getField("users_id_tech"));
 
             $this->data['##lang.account.groupstech##'] = __s('Group in charge');
             $this->data['##account.groupstech##']      = Dropdown::getDropdownName(
