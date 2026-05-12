@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-02 14:01+0000\n"
+"POT-Creation-Date: 2026-05-12 13:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid ""
 "Password was cleared for security."
 msgstr ""
 
-#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:233
+#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:240
 msgid "Accounts expired"
 msgstr ""
 
@@ -40,7 +40,7 @@ msgid "Accounts expired for more than"
 msgstr ""
 
 #: src/Account.php:1123 src/Account.php:1238
-#: src/NotificationTargetAccount.php:320
+#: src/NotificationTargetAccount.php:327
 msgid "Accounts expired or accounts which expire"
 msgstr ""
 
@@ -48,7 +48,7 @@ msgstr ""
 msgid "Accounts expiring in less than"
 msgstr ""
 
-#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:234
+#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:241
 msgid "Accounts which expire"
 msgstr ""
 
@@ -61,15 +61,15 @@ msgstr ""
 msgid "Add an unused status for expiration mailing"
 msgstr ""
 
-#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:189
-#: src/NotificationTargetAccount.php:241 src/NotificationTargetAccount.php:302
+#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:196
+#: src/NotificationTargetAccount.php:248 src/NotificationTargetAccount.php:309
 #: templates/account.html.twig:414 templates/account.html.twig:424
 msgid "Affected Group"
 msgstr ""
 
 #: src/Account_Item.php:500 src/Account.php:334 src/Account.php:342
-#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
-#: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
+#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:193
+#: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
 #: templates/account.html.twig:388 templates/account.html.twig:397
 msgid "Affected User"
 msgstr ""
@@ -78,7 +78,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: src/NotificationTargetAccount.php:157 src/NotificationTargetAccount.php:317
+#: src/NotificationTargetAccount.php:164 src/NotificationTargetAccount.php:324
 msgid "An account has been created"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Decrypted password"
 msgstr ""
 
-#: src/NotificationTargetAccount.php:222 src/NotificationTargetAccount.php:296
+#: src/NotificationTargetAccount.php:229 src/NotificationTargetAccount.php:303
 msgid "Direct link to created account"
 msgstr ""
 
