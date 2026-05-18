@@ -108,7 +108,6 @@ function plugin_init_accounts()
 
         $PLUGIN_HOOKS['redirect_page']['accounts'] = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.form.php';
 
-        //Clean Plugin on Profile delete
         if (class_exists(Account_Item::class)) { // only if plugin activated
             $PLUGIN_HOOKS['plugin_datainjection_populate']['accounts']
                = 'plugin_datainjection_populate_accounts';
@@ -119,11 +118,7 @@ function plugin_init_accounts()
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "crypt.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/lightcrypt.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/crypto-js.min.js";
-
-        $uri = $_SERVER['REQUEST_URI'] ?? '';
-        if (str_contains($uri, '/plugins/accounts/front/account')) {
-            $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "account.form.js";
-        }
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "account.form.js";
 
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 
