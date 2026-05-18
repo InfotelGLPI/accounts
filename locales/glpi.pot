@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-12 13:45+0000\n"
+"POT-Creation-Date: 2026-05-18 09:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/Account.php:94 setup.php:142
+#: src/Account.php:94 setup.php:137
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] ""
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Accounts which expire"
 msgstr ""
 
-#: templates/status_cron.html.twig:62 templates/item_account.html.twig:59
+#: templates/item_account.html.twig:59 templates/status_cron.html.twig:62
 msgctxt "button"
 msgid "Add"
 msgstr ""
@@ -67,9 +67,9 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account_Item.php:500 src/Account.php:334 src/Account.php:342
-#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:193
-#: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
+#: src/Account.php:334 src/Account.php:342 src/NotificationTargetAccount.php:70
+#: src/NotificationTargetAccount.php:193 src/NotificationTargetAccount.php:247
+#: src/NotificationTargetAccount.php:308 src/Account_Item.php:500
 #: templates/account.html.twig:388 templates/account.html.twig:397
 msgid "Affected User"
 msgstr ""
@@ -146,12 +146,12 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/Account.php:1548 src/Account.php:1552 src/AesKey.php:68
-#: src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: templates/account.html.twig:192 templates/account.html.twig:252
-#: templates/aeskey.html.twig:61 templates/hash.html.twig:64
+#: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
+#: src/Account.php:1548 src/Account.php:1552 templates/account.html.twig:192
+#: templates/account.html.twig:252 templates/aeskey.html.twig:61
+#: templates/hash.html.twig:64
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:325 src/AesKey.php:206 src/Hash.php:61 src/Hash.php:174
+#: src/AesKey.php:206 src/Account.php:325 src/Hash.php:61 src/Hash.php:174
 #: templates/account.html.twig:147 templates/account.html.twig:169
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -210,7 +210,8 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:317 src/Hash.php:99 templates/hash_select_accounts.html.twig:33
+#: src/Report.php:317 src/Hash.php:99
+#: templates/hash_select_accounts.html.twig:33
 msgid "Linked accounts list"
 msgstr ""
 
@@ -272,7 +273,8 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40 templates/hash_select_accounts.html.twig:65
+#: templates/hash_select_accounts.html.twig:40
+#: templates/hash_select_accounts.html.twig:65 templates/hash.html.twig:120
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -280,7 +282,7 @@ msgstr ""
 msgid "Plugin Setup"
 msgstr ""
 
-#: templates/profile.html.twig:35 templates/config.html.twig:67
+#: templates/config.html.twig:67 templates/profile.html.twig:35
 msgctxt "button"
 msgid "Save"
 msgstr ""
