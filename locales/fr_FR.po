@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-02 14:01+0000\n"
+"POT-Creation-Date: 2026-05-18 09:30+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: src/Account.php:94 setup.php:142
+#: src/Account.php:94 setup.php:137
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Compte"
@@ -38,7 +38,7 @@ msgstr ""
 "trouvée sur le compte de destination. Le mot de passe a été effacé par "
 "mesure de sécurité."
 
-#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:233
+#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:240
 msgid "Accounts expired"
 msgstr "Comptes expirés"
 
@@ -47,7 +47,7 @@ msgid "Accounts expired for more than"
 msgstr "Comptes expirés depuis plus de"
 
 #: src/Account.php:1123 src/Account.php:1238
-#: src/NotificationTargetAccount.php:320
+#: src/NotificationTargetAccount.php:327
 msgid "Accounts expired or accounts which expire"
 msgstr "Comptes expirés ou comptes qui vont expirer"
 
@@ -55,11 +55,11 @@ msgstr "Comptes expirés ou comptes qui vont expirer"
 msgid "Accounts expiring in less than"
 msgstr "Comptes qui vont expirer dans moins de"
 
-#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:234
+#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:241
 msgid "Accounts which expire"
 msgstr "Comptes qui vont expirer"
 
-#: templates/status_cron.html.twig:62 templates/item_account.html.twig:59
+#: templates/item_account.html.twig:59 templates/status_cron.html.twig:62
 msgctxt "button"
 msgid "Add"
 msgstr "Ajouter"
@@ -68,16 +68,17 @@ msgstr "Ajouter"
 msgid "Add an unused status for expiration mailing"
 msgstr "Ajouter un statut non utilisé dans l'envoi des emails d'expiration"
 
-#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:189
-#: src/NotificationTargetAccount.php:241 src/NotificationTargetAccount.php:302
+#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:196
+#: src/NotificationTargetAccount.php:248 src/NotificationTargetAccount.php:309
 #: templates/account.html.twig:414 templates/account.html.twig:424
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: src/Account_Item.php:500 src/Account.php:334 src/Account.php:342
-#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
-#: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
-#: templates/account.html.twig:388 templates/account.html.twig:397
+#: src/Account.php:334 src/Account.php:342
+#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:193
+#: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
+#: src/Account_Item.php:500 templates/account.html.twig:388
+#: templates/account.html.twig:397
 msgid "Affected User"
 msgstr "Utilisateur concerné"
 
@@ -85,7 +86,7 @@ msgstr "Utilisateur concerné"
 msgid "All"
 msgstr "Tous"
 
-#: src/NotificationTargetAccount.php:157 src/NotificationTargetAccount.php:317
+#: src/NotificationTargetAccount.php:164 src/NotificationTargetAccount.php:324
 msgid "An account has been created"
 msgstr "Un nouveau compte a été créé"
 
@@ -139,7 +140,7 @@ msgstr "Déchiffré depuis l'objet"
 msgid "Decrypted password"
 msgstr "Mot de passe déchiffré"
 
-#: src/NotificationTargetAccount.php:222 src/NotificationTargetAccount.php:296
+#: src/NotificationTargetAccount.php:229 src/NotificationTargetAccount.php:303
 msgid "Direct link to created account"
 msgstr "Lien direct vers le compte créé"
 
@@ -155,12 +156,12 @@ msgstr "N'expire pas"
 msgid "Empty for infinite"
 msgstr "Vide pour infini"
 
-#: src/Account.php:1548 src/Account.php:1552 src/AesKey.php:68
-#: src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: templates/account.html.twig:192 templates/account.html.twig:252
-#: templates/aeskey.html.twig:61 templates/hash.html.twig:64
+#: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
+#: src/Account.php:1548 src/Account.php:1552 templates/account.html.twig:192
+#: templates/account.html.twig:252 templates/aeskey.html.twig:61
+#: templates/hash.html.twig:64
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] "Clé de chiffrement"
 msgstr[1] "Clés de chiffrement"
 msgstr[2] "Clés de chiffrement"
@@ -189,7 +190,7 @@ msgstr "Export"
 msgid "Filter"
 msgstr "Flitre"
 
-#: src/Account.php:325 src/AesKey.php:206 src/Hash.php:61 src/Hash.php:174
+#: src/AesKey.php:206 src/Account.php:325 src/Hash.php:61 src/Hash.php:174
 #: templates/account.html.twig:147 templates/account.html.twig:169
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -287,8 +288,8 @@ msgstr ""
 "esperluette dans les clés de chiffrement, sinon vous risquez de ne pas "
 "pouvoir les modifier ultérieurement"
 
-#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40
-#: templates/hash_select_accounts.html.twig:65
+#: templates/hash_select_accounts.html.twig:40
+#: templates/hash_select_accounts.html.twig:65 templates/hash.html.twig:120
 msgid "Please fill the encryption key"
 msgstr "Veuillez renseigner la clé de chiffrement"
 
@@ -296,7 +297,7 @@ msgstr "Veuillez renseigner la clé de chiffrement"
 msgid "Plugin Setup"
 msgstr "Configuration du plugin"
 
-#: templates/profile.html.twig:35 templates/config.html.twig:67
+#: templates/config.html.twig:67 templates/profile.html.twig:35
 msgctxt "button"
 msgid "Save"
 msgstr "Sauver"
