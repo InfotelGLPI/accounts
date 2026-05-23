@@ -1,10 +1,9 @@
 <?php
 
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  accounts plugin for GLPI
- Copyright (C) 2009-2022 by the accounts Development Team.
+ Copyright (C) 2015-2026 by the accounts Development Team.
 
  https://github.com/InfotelGLPI/accounts
  -------------------------------------------------------------------------
@@ -34,8 +33,10 @@ use GlpiPlugin\Accounts\Account_Item;
 use GlpiPlugin\Accounts\AccountInjection;
 use GlpiPlugin\Accounts\AccountState;
 use GlpiPlugin\Accounts\AccountType;
+use GlpiPlugin\Accounts\Config;
 use GlpiPlugin\Accounts\AesKey;
 use GlpiPlugin\Accounts\Hash;
+use GlpiPlugin\Accounts\NotificationState;
 use GlpiPlugin\Accounts\Profile;
 
 /**
@@ -49,12 +50,28 @@ function plugin_accounts_install()
     $update78  = false;
     $update171 = false;
     $update85 = false;
+
+    Profile::initProfile();
+
     if (!$DB->tableExists("glpi_plugin_compte")
         && !$DB->tableExists("glpi_plugin_comptes")
         && !$DB->tableExists("glpi_comptes")
         && !$DB->tableExists("glpi_plugin_accounts_accounts")) {
         $install = true;
-        $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/empty-3.2.0.sql");
+
+        $migration = new Migration(PLUGIN_ACCOUNTS_VERSION);
+
+        Account::install($migration);
+        AccountType::install($migration);
+        AccountState::install($migration);
+        Hash::install($migration);
+        AesKey::install($migration);
+        Account_Item::install($migration);
+        Config::install($migration);
+        NotificationState::install($migration);
+
+        $migration->executeMigration();
+
     } elseif ($DB->tableExists("glpi_comptes")
                && !$DB->fieldExists("glpi_comptes", "notes")) {
         $update78 = true;
@@ -142,392 +159,208 @@ function plugin_accounts_install()
         $update85 = true;
     }
 
-    $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.0.sql");
+    if ($install == false) {
+        $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.0.sql");
 
-    $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.3.sql");
+        $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.3.sql");
 
-    $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.4.sql");
+        $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.4.sql");
 
-    $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.6.sql");
-    //DisplayPreferences Migration
-    $classes = ['PluginAccountsAccount' => Account::class];
+        $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.1.6.sql");
+        //DisplayPreferences Migration
+        $classes = ['PluginAccountsAccount' => Account::class];
 
-    foreach ($classes as $old => $new) {
-        $displayusers = $DB->request([
-            'SELECT' => [
-                'users_id'
-            ],
-            'DISTINCT' => true,
-            'FROM' => 'glpi_displaypreferences',
-            'WHERE' => [
-                'itemtype' => $old,
-            ],
-        ]);
+        foreach ($classes as $old => $new) {
+            $displayusers = $DB->request([
+                'SELECT' => [
+                    'users_id'
+                ],
+                'DISTINCT' => true,
+                'FROM' => 'glpi_displaypreferences',
+                'WHERE' => [
+                    'itemtype' => $old,
+                ],
+            ]);
 
-        if (count($displayusers) > 0) {
-            foreach ($displayusers as $displayuser) {
-                $iterator = $DB->request([
-                    'SELECT' => [
-                        'num',
-                        'id'
-                    ],
-                    'FROM' => 'glpi_displaypreferences',
-                    'WHERE' => [
-                        'itemtype' => $old,
-                        'users_id' => $displayuser['users_id'],
-                        'interface' => 'central'
-                    ],
-                ]);
+            if (count($displayusers) > 0) {
+                foreach ($displayusers as $displayuser) {
+                    $iterator = $DB->request([
+                        'SELECT' => [
+                            'num',
+                            'id'
+                        ],
+                        'FROM' => 'glpi_displaypreferences',
+                        'WHERE' => [
+                            'itemtype' => $old,
+                            'users_id' => $displayuser['users_id'],
+                            'interface' => 'central'
+                        ],
+                    ]);
 
-                if (count($iterator) > 0) {
-                    foreach ($iterator as $data) {
-                        $iterator2 = $DB->request([
-                            'SELECT' => [
-                                'id'
-                            ],
-                            'FROM' => 'glpi_displaypreferences',
-                            'WHERE' => [
-                                'itemtype' => $new,
-                                'users_id' => $displayuser['users_id'],
-                                'num' => $data['num'],
-                                'interface' => 'central'
-                            ],
-                        ]);
-                        if (count($iterator2) > 0) {
-                            foreach ($iterator2 as $dataid) {
-                                $query = $DB->buildDelete(
+                    if (count($iterator) > 0) {
+                        foreach ($iterator as $data) {
+                            $iterator2 = $DB->request([
+                                'SELECT' => [
+                                    'id'
+                                ],
+                                'FROM' => 'glpi_displaypreferences',
+                                'WHERE' => [
+                                    'itemtype' => $new,
+                                    'users_id' => $displayuser['users_id'],
+                                    'num' => $data['num'],
+                                    'interface' => 'central'
+                                ],
+                            ]);
+                            if (count($iterator2) > 0) {
+                                foreach ($iterator2 as $dataid) {
+                                    $query = $DB->buildDelete(
+                                        'glpi_displaypreferences',
+                                        [
+                                            'id' => $dataid['id'],
+                                        ]
+                                    );
+                                    $DB->doQuery($query);
+                                }
+                            } else {
+                                $query = $DB->buildUpdate(
                                     'glpi_displaypreferences',
                                     [
-                                        'id' => $dataid['id'],
+                                        'itemtype' => $new,
+                                    ],
+                                    [
+                                        'id' => $data['id'],
                                     ]
                                 );
                                 $DB->doQuery($query);
                             }
-                        } else {
-                            $query = $DB->buildUpdate(
-                                'glpi_displaypreferences',
-                                [
-                                    'itemtype' => $new,
-                                ],
-                                [
-                                    'id' => $data['id'],
-                                ]
-                            );
-                            $DB->doQuery($query);
                         }
                     }
                 }
             }
         }
-    }
 
-    if ($install || $update78) {
-        install_notifications_accounts();
-    }
-    if ($update78) {
-        //Do One time on 0.78
-        $iterator = $DB->request([
-            'SELECT' => [
-                'id',
-            ],
-            'FROM' => 'glpi_plugin_accounts_profiles',
-        ]);
-        if (count($iterator) > 0) {
-            foreach ($iterator as $data) {
-                $query = "UPDATE `glpi_plugin_accounts_profiles`
+        if ($update78) {
+            //Do One time on 0.78
+            $iterator = $DB->request([
+                'SELECT' => [
+                    'id',
+                ],
+                'FROM' => 'glpi_plugin_accounts_profiles',
+            ]);
+            if (count($iterator) > 0) {
+                foreach ($iterator as $data) {
+                    $query = "UPDATE `glpi_plugin_accounts_profiles`
                      SET `profiles_id` = '" . $data["id"] . "'
                               WHERE `id` = '" . $data["id"] . "';";
+                    $DB->doQuery($query);
+                }
+            }
+
+            $query = "ALTER TABLE `glpi_plugin_accounts_profiles`
+               DROP `name` ;";
+            $DB->doQuery($query);
+        }
+
+        if ($update171) {
+            $query = "UPDATE `glpi_plugin_accounts_hashes`
+               SET `is_recursive` = '1'
+               WHERE `id` = '1';";
+            $DB->doQuery($query);
+
+            $query = "UPDATE `glpi_plugin_accounts_aeskeys`
+               SET `plugin_accounts_hashes_id` = '1'
+               WHERE `id` = '1';";
+            $DB->doQuery($query);
+        }
+        if ($update85) {
+            $notepad_tables = ['glpi_plugin_accounts_accounts'];
+            $dbu = new DbUtils();
+
+            foreach ($notepad_tables as $t) {
+                // Migrate data
+                $iterator = $DB->request([
+                    'SELECT' => [
+                        'notepad',
+                        'id',
+                    ],
+                    'FROM' => $t,
+                    'WHERE' => [
+                        'NOT' => ['notepad' => null],
+                        'notepad' => ['<>', ''],
+                    ],
+                ]);
+                if (count($iterator) > 0) {
+                    foreach ($iterator as $data) {
+                        $iq = "INSERT INTO `glpi_notepads`
+                          (`itemtype`, `items_id`, `content`, `date`, `date_mod`)
+                   VALUES ('" . $dbu->getItemTypeForTable($t) . "', '" . $data['id'] . "',
+                           '" . addslashes($data['notepad']) . "', NOW(), NOW())";
+                        $DB->doQuery($iq, "0.85 migrate notepad data");
+                    }
+                }
+                $query = "ALTER TABLE `glpi_plugin_accounts_accounts` DROP COLUMN `notepad`;";
                 $DB->doQuery($query);
             }
         }
 
-        $query = "ALTER TABLE `glpi_plugin_accounts_profiles`
-               DROP `name` ;";
-        $DB->doQuery($query);
-    }
-
-    if ($update171) {
-        $query = "UPDATE `glpi_plugin_accounts_hashes`
-               SET `is_recursive` = '1'
-               WHERE `id` = '1';";
-        $DB->doQuery($query);
-
-        $query = "UPDATE `glpi_plugin_accounts_aeskeys`
-               SET `plugin_accounts_hashes_id` = '1'
-               WHERE `id` = '1';";
-        $DB->doQuery($query);
-    }
-    if ($update85) {
-        $notepad_tables = ['glpi_plugin_accounts_accounts'];
-        $dbu = new DbUtils();
-
-        foreach ($notepad_tables as $t) {
-            // Migrate data
-            $iterator = $DB->request([
-                'SELECT' => [
-                    'notepad',
-                    'id',
-                ],
-                'FROM' => $t,
-                'WHERE' => [
-                    'NOT' => ['notepad' => null],
-                    'notepad' => ['<>', ''],
-                ],
-            ]);
-            if (count($iterator) > 0) {
-                foreach ($iterator as $data) {
-                    $iq = "INSERT INTO `glpi_notepads`
-                          (`itemtype`, `items_id`, `content`, `date`, `date_mod`)
-                   VALUES ('" . $dbu->getItemTypeForTable($t) . "', '" . $data['id'] . "',
-                           '" . addslashes($data['notepad']) . "', NOW(), NOW())";
-                    $DB->doQuery($iq, "0.85 migrate notepad data");
-                }
-            }
-            $query = "ALTER TABLE `glpi_plugin_accounts_accounts` DROP COLUMN `notepad`;";
-            $DB->doQuery($query);
+        //from 3.1.8 version
+        if ($DB->tableExists("glpi_plugin_accounts_accounts")
+            && !$DB->fieldExists("glpi_plugin_accounts_accounts", "plugin_accounts_hashes_id")) {
+            $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.2.0.sql");
         }
-    }
-
-    //from 3.1.8 version
-    if ($DB->tableExists("glpi_plugin_accounts_accounts")
-        && !$DB->fieldExists("glpi_plugin_accounts_accounts", "plugin_accounts_hashes_id")) {
-
-        $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.2.0.sql");
-    }
 //    include_once(PLUGIN_ACCOUNTS_DIR . "/install/update_320_migrateMultiHashEntities.php");
 //    update_320_migrateMultiHashEntities();
 
-    // from 3.2.0: expand encrypted_password to TEXT (was VARCHAR(255), truncated long ciphertexts)
-    if ($DB->tableExists('glpi_plugin_accounts_accounts')
-        && $DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_password')) {
+        // from 3.2.0: expand encrypted_password to TEXT (was VARCHAR(255), truncated long ciphertexts)
+        if ($DB->tableExists('glpi_plugin_accounts_accounts')
+            && $DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_password')) {
+            $field_info = $DB->request([
+                'SELECT' => ['CHARACTER_MAXIMUM_LENGTH'],
+                'FROM' => 'information_schema.COLUMNS',
+                'WHERE' => [
+                    'TABLE_SCHEMA' => $DB->dbdefault,
+                    'TABLE_NAME' => 'glpi_plugin_accounts_accounts',
+                    'COLUMN_NAME' => 'encrypted_password',
+                ],
+            ])->current();
 
-        $field_info = $DB->request([
-            'SELECT' => ['CHARACTER_MAXIMUM_LENGTH'],
-            'FROM'   => 'information_schema.COLUMNS',
-            'WHERE'  => [
-                'TABLE_SCHEMA' => $DB->dbdefault,
-                'TABLE_NAME'   => 'glpi_plugin_accounts_accounts',
-                'COLUMN_NAME'  => 'encrypted_password',
-            ],
-        ])->current();
+            // Only migrate if still VARCHAR (CHARACTER_MAXIMUM_LENGTH is NULL for TEXT types)
+            if ($field_info && $field_info['CHARACTER_MAXIMUM_LENGTH'] !== null) {
+                $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.1.sql');
+            }
 
-        // Only migrate if still VARCHAR (CHARACTER_MAXIMUM_LENGTH is NULL for TEXT types)
-        if ($field_info && $field_info['CHARACTER_MAXIMUM_LENGTH'] !== null) {
-            $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.1.sql');
-        }
-
-        // NEW: migrate glpi_logs itemtype references
-        $log_classes = [
-            'PluginAccountsAccount'     => Account::class,
-            'PluginAccountsHash'        => Hash::class,
-            'PluginAccountsAccountType' => AccountType::class,
-            'PluginAccountsAesKey'      => AesKey::class,
-        ];
-        foreach ($log_classes as $old_itemtype => $new_itemtype) {
-            if (countElementsInTable('glpi_logs', ['itemtype' => $old_itemtype]) > 0) {
-                $DB->update('glpi_logs', ['itemtype' => $new_itemtype], ['itemtype' => $old_itemtype]);
+            // NEW: migrate glpi_logs itemtype references
+            $log_classes = [
+                'PluginAccountsAccount' => Account::class,
+                'PluginAccountsHash' => Hash::class,
+                'PluginAccountsAccountType' => AccountType::class,
+                'PluginAccountsAesKey' => AesKey::class,
+            ];
+            foreach ($log_classes as $old_itemtype => $new_itemtype) {
+                if (countElementsInTable('glpi_logs', ['itemtype' => $old_itemtype]) > 0) {
+                    $DB->update('glpi_logs', ['itemtype' => $new_itemtype], ['itemtype' => $old_itemtype]);
+                }
+            }
+            if ($DB->fieldExists('glpi_logs', 'linked_action_itemtype')) {
+                $DB->update(
+                    'glpi_logs',
+                    ['linked_action_itemtype' => Account::class],
+                    ['linked_action_itemtype' => 'PluginAccountsAccount']
+                );
             }
         }
-        if ($DB->fieldExists('glpi_logs', 'linked_action_itemtype')) {
-            $DB->update(
-                'glpi_logs',
-                ['linked_action_itemtype' => Account::class],
-                ['linked_action_itemtype' => 'PluginAccountsAccount']
-            );
-        }
-    }
 
-    // from 3.2.2: add encrypted TOTP secret field
-    if ($DB->tableExists('glpi_plugin_accounts_accounts')
-        && !$DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_totp_secret')) {
-        $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.2.sql');
+        // from 3.2.2: add encrypted TOTP secret field
+        if ($DB->tableExists('glpi_plugin_accounts_accounts')
+            && !$DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_totp_secret')) {
+            $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.2.sql');
+        }
     }
 
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
 
-    Profile::initProfile();
     Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
-    $migration = new Migration("2.2.0");
-    $migration->dropTable('glpi_plugin_accounts_profiles');
-    return true;
-}
 
-
-function install_notifications_accounts()
-{
-
-    global $DB;
-
-    $migration = new Migration(1.0);
-
-    // Notification
-    // Request
-    $options_notif        = ['itemtype' => Account::class,
-        'name' => 'New Accounts'];
-    $DB->insert(
-        "glpi_notificationtemplates",
-        $options_notif
-    );
-
-    foreach ($DB->request([
-        'FROM' => 'glpi_notificationtemplates',
-        'WHERE' => $options_notif]) as $data) {
-        $templates_id = $data['id'];
-
-        if ($templates_id) {
-
-            $DB->insert(
-                "glpi_notificationtemplatetranslations",
-                [
-                    'notificationtemplates_id' => $templates_id,
-                    'subject' => '##lang.account.title##',
-                    'content_text' => '##lang.account.url## : ##account.url##\r\n\r\n
-                        ##lang.account.entity## : ##account.entity##\r\n
-                        ##IFaccount.name####lang.account.name## : ##account.name##\r\n##ENDIFaccount.name##
-                        ##IFaccount.type####lang.account.type## : ##account.type##\r\n##ENDIFaccount.type##
-                        ##IFaccount.state####lang.account.state## : ##account.state##\r\n##ENDIFaccount.state##
-                        ##IFaccount.login####lang.account.login## : ##account.login##\r\n##ENDIFaccount.login##
-                        ##IFaccount.users_id####lang.account.users_id## : ##account.users_id##\r\n##ENDIFaccount.users_id##
-                        ##IFaccount.groups_id####lang.account.groups_id## : ##account.groups_id##\r\n##ENDIFaccount.groups_id##
-                        ##IFaccount.others####lang.account.others## : ##account.others##\r\n##ENDIFaccount.others##
-                        ##IFaccount.datecreation####lang.account.datecreation## : ##account.datecreation##\r\n##ENDIFaccount.datecreation##
-                        ##IFaccount.dateexpiration####lang.account.dateexpiration## : ##account.dateexpiration##\r\n##ENDIFaccount.dateexpiration##
-                        ##IFaccount.comment####lang.account.comment## : ##account.comment##\r\n##ENDIFaccount.comment##',
-                    'content_html' => '&lt;p&gt;&lt;strong&gt;##lang.account.url##&lt;/strong&gt; : &lt;a href=\"##account.url##\"&gt;##account.url##&lt;/a&gt;&lt;/p&gt;
-                        &lt;p&gt;&lt;strong&gt;##lang.account.entity##&lt;/strong&gt; : ##account.entity##&lt;br /&gt; ##IFaccount.name##&lt;strong&gt;##lang.account.name##&lt;/strong&gt; : ##account.name##&lt;br /&gt;##ENDIFaccount.name##  ##IFaccount.type##&lt;strong&gt;##lang.account.type##&lt;/strong&gt; : ##account.type##&lt;br /&gt;##ENDIFaccount.type##  ##IFaccount.state##&lt;strong&gt;##lang.account.state##&lt;/strong&gt; : ##account.state##&lt;br /&gt;##ENDIFaccount.state##  ##IFaccount.login##&lt;strong&gt;##lang.account.login##&lt;/strong&gt; : ##account.login##&lt;br /&gt;##ENDIFaccount.login##  ##IFaccount.users##&lt;strong&gt;##lang.account.users##&lt;/strong&gt; : ##account.users##&lt;br /&gt;##ENDIFaccount.users##  ##IFaccount.groups##&lt;strong&gt;##lang.account.groups##&lt;/strong&gt; : ##account.groups##&lt;br /&gt;##ENDIFaccount.groups##  ##IFaccount.others##&lt;strong&gt;##lang.account.others##&lt;/strong&gt; : ##account.others##&lt;br /&gt;##ENDIFaccount.others##  ##IFaccount.datecreation##&lt;strong&gt;##lang.account.datecreation##&lt;/strong&gt; : ##account.datecreation##&lt;br /&gt;##ENDIFaccount.datecreation##  ##IFaccount.dateexpiration##&lt;strong&gt;##lang.account.dateexpiration##&lt;/strong&gt; : ##account.dateexpiration##&lt;br /&gt;##ENDIFaccount.dateexpiration##  ##IFaccount.comment##&lt;strong&gt;##lang.account.comment##&lt;/strong&gt; : ##account.comment####ENDIFaccount.comment##&lt;/p&gt;',
-                ]
-            );
-
-            $DB->insert(
-                "glpi_notifications",
-                [
-                    'name' => 'New Accounts',
-                    'entities_id' => 0,
-                    'itemtype' => Account::class,
-                    'event' => 'new',
-                    'is_recursive' => 1,
-                ]
-            );
-
-            $options_notif        = ['itemtype' => Account::class,
-                'name' => 'New Accounts',
-                'event' => 'new'];
-
-            foreach ($DB->request([
-                'FROM' => 'glpi_notifications',
-                'WHERE' => $options_notif]) as $data_notif) {
-                $notification = $data_notif['id'];
-                if ($notification) {
-                    $DB->insert(
-                        "glpi_notifications_notificationtemplates",
-                        [
-                            'notifications_id' => $notification,
-                            'mode' => 'mailing',
-                            'notificationtemplates_id' => $templates_id,
-                        ]
-                    );
-                }
-            }
-        }
-    }
-
-    // Alert Expired
-    $options_notif        = ['itemtype' => Account::class,
-        'name' => 'Alert Accounts'];
-    // Request
-    $DB->insert(
-        "glpi_notificationtemplates",
-        $options_notif
-    );
-
-    foreach ($DB->request([
-        'FROM' => 'glpi_notificationtemplates',
-        'WHERE' => $options_notif]) as $data) {
-        $templates_id = $data['id'];
-
-        if ($templates_id) {
-
-            $DB->insert(
-                "glpi_notificationtemplatetranslations",
-                [
-                    'notificationtemplates_id' => $templates_id,
-                    'subject' => '##account.action## : ##account.entity##',
-                    'content_text' => '##lang.account.entity## :##account.entity##
-                        ##FOREACHaccounts##
-                        ##lang.account.name## : ##account.name## - ##lang.account.dateexpiration## : ##account.dateexpiration##
-                        ##ENDFOREACHaccounts##',
-                    'content_html' => '&lt;p&gt;##lang.account.entity## :##account.entity##&lt;br /&gt; &lt;br /&gt;
-                        ##FOREACHaccounts##&lt;br /&gt;
-                        ##lang.account.name##  : ##account.name## - ##lang.account.dateexpiration## :  ##account.dateexpiration##&lt;br /&gt;
-                        ##ENDFOREACHaccounts##&lt;/p&gt;',
-                ]
-            );
-
-            $DB->insert(
-                "glpi_notifications",
-                [
-                    'name' => 'Alert Expired Accounts',
-                    'entities_id' => 0,
-                    'itemtype' => Account::class,
-                    'event' => 'ExpiredAccounts',
-                    'is_recursive' => 1,
-                ]
-            );
-
-            $options_notif        = ['itemtype' => Account::class,
-                'name' => 'Alert Expired Accounts',
-                'event' => 'ExpiredAccounts'];
-
-            foreach ($DB->request([
-                'FROM' => 'glpi_notifications',
-                'WHERE' => $options_notif]) as $data_notif) {
-                $notification = $data_notif['id'];
-                if ($notification) {
-                    $DB->insert(
-                        "glpi_notifications_notificationtemplates",
-                        [
-                            'notifications_id' => $notification,
-                            'mode' => 'mailing',
-                            'notificationtemplates_id' => $templates_id,
-                        ]
-                    );
-                }
-            }
-
-            $DB->insert(
-                "glpi_notifications",
-                [
-                    'name' => 'Alert Accounts Which Expire',
-                    'entities_id' => 0,
-                    'itemtype' => Account::class,
-                    'event' => 'AccountsWhichExpire',
-                    'is_recursive' => 1,
-                ]
-            );
-
-            $options_notif        = ['itemtype' => Account::class,
-                'name' => 'Alert Accounts Which Expire',
-                'event' => 'AccountsWhichExpire'];
-
-            foreach ($DB->request([
-                'FROM' => 'glpi_notifications',
-                'WHERE' => $options_notif]) as $data_notif) {
-                $notification = $data_notif['id'];
-                if ($notification) {
-                    $DB->insert(
-                        "glpi_notifications_notificationtemplates",
-                        [
-                            'notifications_id' => $notification,
-                            'mode' => 'mailing',
-                            'notificationtemplates_id' => $templates_id,
-                        ]
-                    );
-                }
-            }
-        }
-    }
-
-    $migration->executeMigration();
     return true;
 }
 
@@ -644,6 +477,8 @@ function plugin_accounts_uninstall()
     Profile::removeRightsFromSession();
 
     Account::removeRightsFromSession();
+
+    CronTask::unregister("Accounts");
 
     return true;
 }

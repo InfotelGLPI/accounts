@@ -1,10 +1,9 @@
 <?php
 
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  accounts plugin for GLPI
- Copyright (C) 2009-2022 by the accounts Development Team.
+ Copyright (C) 2015-2026 by the accounts Development Team.
 
  https://github.com/InfotelGLPI/accounts
  -------------------------------------------------------------------------
@@ -31,8 +30,10 @@
 namespace GlpiPlugin\Accounts;
 
 use CommonDBTM;
+use DBConnection;
 use Dropdown;
 use Glpi\Application\View\TemplateRenderer;
+use Migration;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
@@ -149,5 +150,32 @@ class NotificationState extends CommonDBTM
         $forbidden[] = 'delete';
         $forbidden[] = 'restore';
         return $forbidden;
+    }
+
+    public static function install(Migration $migration)
+    {
+        global $DB;
+
+        $default_charset   = DBConnection::getDefaultCharset();
+        $default_collation = DBConnection::getDefaultCollation();
+        $default_key_sign  = DBConnection::getDefaultPrimaryKeySignOption();
+        $table  = self::getTable();
+
+        if (!$DB->tableExists($table)) {
+            $query = "CREATE TABLE `$table` (
+                        `id` int {$default_key_sign} NOT NULL auto_increment,
+                        `plugin_accounts_accountstates_id` int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_plugin_accounts_accountstates (id)',
+                         PRIMARY KEY  (`id`)
+               ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation} ROW_FORMAT=DYNAMIC;";
+
+            $DB->doQuery($query);
+
+            $DB->insert(
+                $table,
+                ['id' => 1,
+                    'delay_expired' => 30,
+                    'delay_whichexpire' => 30]
+            );
+        }
     }
 }

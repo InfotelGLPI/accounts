@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  accounts plugin for GLPI
- Copyright (C) 2009-2022 by the accounts Development Team.
+ Copyright (C) 2015-2026 by the accounts Development Team.
 
  https://github.com/InfotelGLPI/accounts
  -------------------------------------------------------------------------
@@ -26,7 +26,6 @@
  along with accounts. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-
 
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Hash;
