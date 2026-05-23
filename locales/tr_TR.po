@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-02 14:01+0000\n"
+"POT-Creation-Date: 2026-05-18 09:30+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
 "Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Language: tr_TR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/Account.php:94 setup.php:142
+#: src/Account.php:94 setup.php:137
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Hesap"
@@ -37,7 +37,7 @@ msgstr ""
 "\"%s\" hesabı aktarıldı ancak hedef kuruluşta parmak izi bulunamadı. "
 "Güvenlik nedeniyle parola temizlendi."
 
-#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:233
+#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:240
 msgid "Accounts expired"
 msgstr "Süresi dolmuş hesaplar"
 
@@ -46,7 +46,7 @@ msgid "Accounts expired for more than"
 msgstr "Şu zamandan önce süresi dolmuş hesaplar"
 
 #: src/Account.php:1123 src/Account.php:1238
-#: src/NotificationTargetAccount.php:320
+#: src/NotificationTargetAccount.php:327
 msgid "Accounts expired or accounts which expire"
 msgstr "Süresi dolmuş ya da dolan hesaplar"
 
@@ -54,11 +54,11 @@ msgstr "Süresi dolmuş ya da dolan hesaplar"
 msgid "Accounts expiring in less than"
 msgstr "Şu zaman içinde süresi dolacak hesaplar"
 
-#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:234
+#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:241
 msgid "Accounts which expire"
 msgstr "Süresi dolan hesaplar"
 
-#: templates/status_cron.html.twig:62 templates/item_account.html.twig:59
+#: templates/item_account.html.twig:59 templates/status_cron.html.twig:62
 msgctxt "button"
 msgid "Add"
 msgstr "Ekle"
@@ -67,16 +67,17 @@ msgstr "Ekle"
 msgid "Add an unused status for expiration mailing"
 msgstr "Süre dolma e-postasına kullanılmıyor durumu eklensin"
 
-#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:189
-#: src/NotificationTargetAccount.php:241 src/NotificationTargetAccount.php:302
+#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:196
+#: src/NotificationTargetAccount.php:248 src/NotificationTargetAccount.php:309
 #: templates/account.html.twig:414 templates/account.html.twig:424
 msgid "Affected Group"
 msgstr "Etkilenen grup"
 
-#: src/Account_Item.php:500 src/Account.php:334 src/Account.php:342
-#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:186
-#: src/NotificationTargetAccount.php:240 src/NotificationTargetAccount.php:301
-#: templates/account.html.twig:388 templates/account.html.twig:397
+#: src/Account.php:334 src/Account.php:342
+#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:193
+#: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
+#: src/Account_Item.php:500 templates/account.html.twig:388
+#: templates/account.html.twig:397
 msgid "Affected User"
 msgstr "Etkilenen kullanıcı"
 
@@ -84,7 +85,7 @@ msgstr "Etkilenen kullanıcı"
 msgid "All"
 msgstr "Tümü"
 
-#: src/NotificationTargetAccount.php:157 src/NotificationTargetAccount.php:317
+#: src/NotificationTargetAccount.php:164 src/NotificationTargetAccount.php:324
 msgid "An account has been created"
 msgstr "Bir hesap oluşturuldu"
 
@@ -136,7 +137,7 @@ msgstr "Ögeden çözülmüş şifre"
 msgid "Decrypted password"
 msgstr "Şifresi çözülmüş parola"
 
-#: src/NotificationTargetAccount.php:222 src/NotificationTargetAccount.php:296
+#: src/NotificationTargetAccount.php:229 src/NotificationTargetAccount.php:303
 msgid "Direct link to created account"
 msgstr "Oluşturulan hesaba doğrudan bağlantı"
 
@@ -152,14 +153,14 @@ msgstr "Süresi dolmaz"
 msgid "Empty for infinite"
 msgstr "Sonsuz olması için boş bırakın"
 
-#: src/Account.php:1548 src/Account.php:1552 src/AesKey.php:68
-#: src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: templates/account.html.twig:192 templates/account.html.twig:252
-#: templates/aeskey.html.twig:61 templates/hash.html.twig:64
+#: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
+#: src/Account.php:1548 src/Account.php:1552 templates/account.html.twig:192
+#: templates/account.html.twig:252 templates/aeskey.html.twig:61
+#: templates/hash.html.twig:64
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] "Şifreleme anahtarı"
-msgstr[1] "Şifreleme anahtarları"
+msgstr[1] "Şifreleme anahtarı"
 
 #: front/hash.form.php:81 templates/aeskey.html.twig:53
 msgid "Encryption key modified"
@@ -185,7 +186,7 @@ msgstr "Dışa aktar"
 msgid "Filter"
 msgstr "Süz"
 
-#: src/Account.php:325 src/AesKey.php:206 src/Hash.php:61 src/Hash.php:174
+#: src/AesKey.php:206 src/Account.php:325 src/Hash.php:61 src/Hash.php:174
 #: templates/account.html.twig:147 templates/account.html.twig:169
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -281,8 +282,8 @@ msgstr ""
 "Lütfen şifreleme anahtarlarında, / \\ ' \" & gibi özel karakterler "
 "kullanmayın. Yoksa daha sonra değiştiremezsiniz."
 
-#: templates/hash.html.twig:120 templates/hash_select_accounts.html.twig:40
-#: templates/hash_select_accounts.html.twig:65
+#: templates/hash_select_accounts.html.twig:40
+#: templates/hash_select_accounts.html.twig:65 templates/hash.html.twig:120
 msgid "Please fill the encryption key"
 msgstr "Lütfen şifreleme anahtarını yazın"
 
@@ -290,7 +291,7 @@ msgstr "Lütfen şifreleme anahtarını yazın"
 msgid "Plugin Setup"
 msgstr "Eklenti ayarları"
 
-#: templates/profile.html.twig:35 templates/config.html.twig:67
+#: templates/config.html.twig:67 templates/profile.html.twig:35
 msgctxt "button"
 msgid "Save"
 msgstr "Kaydet"
