@@ -169,13 +169,6 @@ class NotificationState extends CommonDBTM
                ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation} ROW_FORMAT=DYNAMIC;";
 
             $DB->doQuery($query);
-
-            $DB->insert(
-                $table,
-                ['id' => 1,
-                    'delay_expired' => 30,
-                    'delay_whichexpire' => 30]
-            );
         }
     }
 }
