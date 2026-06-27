@@ -1,6 +1,6 @@
 # Documentation — Plugin Accounts pour GLPI
  
-**Licence :** GNU GPL v2+  
+**Licence :** GNU GPL v3+  
 **Auteur :** Infotel (Xavier CAILLAUD, Franck WAECHTER)  
 **Dépôt :** https://github.com/InfotelGLPI/accounts
 
