@@ -39,68 +39,18 @@ if (isset($_POST["display_type"])) {
         $_POST["export_all"] = 1;
     }
 
-    $post = $_POST;
+    // Re-query from the database using the hash ID and AES key already present
+    // in the pager form. The previous approach passed all account data through
+    // per-row hidden inputs, hitting PHP's max_input_vars=1000 limit and
+    // silently truncating the list at ~142 rows in multi-entities mode.
+    $parm = [
+        "display_type" => $_POST["display_type"],
+        "id"           => $_POST["hash_id"],
+        "aeskey"       => $_POST["aeskey"],
+        "itemtype"     => $_POST["itemtype"],
+    ];
 
-    $parm["display_type"] = $post["display_type"];
-    $parm["id"] = $post["hash_id"];
-    $parm["aeskey"] = $post["aeskey"];
-    $parm["itemtype"] = $post["itemtype"];
-
-    $accounts = [];
-    foreach ($post["id"] as $k => $v) {
-        $accounts[$k]["id"] = $v;
-    }
-    $accounts[$k]["name"] = "";
-    if (isset($post["name"]) && is_array($post["name"])) {
-        foreach ($post["name"] as $k => $v) {
-            if (!empty($v)) {
-                $accounts[$k]["name"] = $v;
-            } else {
-                $accounts[$k]["name"] = "";
-            }
-        }
-    }
-    $accounts[$k]["entities_id"] = 0;
-    if (isset($post["entities_id"]) && is_array($post["entities_id"])) {
-        foreach ($post["entities_id"] as $k => $v) {
-            if (!empty($v) && !is_array($v)) {
-                $accounts[$k]["entities_id"] = $v;
-            } else {
-                $accounts[$k]["entities_id"] = 0;
-            }
-        }
-    }
-    $accounts[$k]["type"] = 0;
-    if (isset($post["type"]) && is_array($post["type"])) {
-        foreach ($post["type"] as $k => $v) {
-            if (!empty($v)) {
-                $accounts[$k]["type"] = $v;
-            } else {
-                $accounts[$k]["type"] = 0;
-            }
-        }
-    }
-    $accounts[$k]["login"] = "";
-    if (isset($post["login"]) && is_array($post["login"])) {
-        foreach ($post["login"] as $k => $v) {
-            if (!empty($v)) {
-                $accounts[$k]["login"] = $v;
-            } else {
-                $accounts[$k]["login"] = "";
-            }
-        }
-    }
-    $accounts[$k]["password"] = "";
-    if (isset($post["password"]) && is_array($post["password"])) {
-        foreach ($post["password"] as $k => $v) {
-            if (!empty($v)) {
-                $accounts[$k]["password"] = $v;
-            } else {
-                $accounts[$k]["password"] = "";
-            }
-        }
-    }
-    $reindexed = array_values($accounts);
+    $reindexed = Report::queryAccountsList($parm);
 
     Report::showAccountsList($parm, $reindexed);
 }

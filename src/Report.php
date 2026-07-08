@@ -223,10 +223,6 @@ class Report extends CommonDBTM
                     $html_output .= $output::showNewLine($i % 2 === 1);
                 }
                 $IDc = $list[$i]["id"];
-                if ($is_html_output) {
-                    echo Html::hidden('hash_id', ['value' => $ID]);
-                    echo Html::hidden("id[$IDc]", ['value' => $IDc]);
-                }
 
                 $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . $IDc . "'>" . $list[$i]["name"];
                 if ($_SESSION["glpiis_ids_visible"]) {
@@ -235,28 +231,24 @@ class Report extends CommonDBTM
                 $name .= "</a>";
                 if ($is_html_output) {
                     $html_output .= $output::showItem($name, $item_num, $row_num);
-                    echo Html::hidden("name[$IDc]", ['value' => $list[$i]["name"]]);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $name];
                 }
                 if (Session::isMultiEntitiesMode()) {
                     if ($is_html_output) {
                         $html_output .= $output::showItem($list[$i]['entities_id'], $item_num, $row_num);
-                        echo Html::hidden("entities_id[$IDc]", ['value' => $list[$i]["entities_id"]]);
                     } else {
                         $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]['entities_id']];
                     }
                 }
                 if ($is_html_output) {
                     $html_output .= $output::showItem($list[$i]["type"] ?? "", $item_num, $row_num);
-                    echo Html::hidden("type[$IDc]", ['value' => $list[$i]["type"]]);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["type"] ?? ""];
                 }
 
                 if ($is_html_output) {
                     $html_output .= $output::showItem($list[$i]["login"] ?? "", $item_num, $row_num);
-                    echo Html::hidden("login[$IDc]", ['value' => $list[$i]["login"]]);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["login"] ?? ""];
                 }
