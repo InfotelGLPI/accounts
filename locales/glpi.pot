@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-08 14:16+0000\n"
+"POT-Creation-Date: 2026-07-17 13:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,12 +146,12 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/AesKey.php:69 src/AesKey.php:78 src/AesKey.php:231 src/AesKey.php:252
-#: src/Account.php:1549 src/Account.php:1553 templates/hash.html.twig:63
+#: src/Account.php:1549 src/Account.php:1553 src/AesKey.php:69
+#: src/AesKey.php:78 src/AesKey.php:231 src/AesKey.php:252
+#: templates/aeskey.html.twig:60 templates/hash.html.twig:63
 #: templates/account.html.twig:191 templates/account.html.twig:251
-#: templates/aeskey.html.twig:60
 msgid "Encryption key"
-msgid_plural "Encryption key"
+msgid_plural "Encryption keys"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/AesKey.php:207 src/Account.php:326 src/Hash.php:62 src/Hash.php:175
+#: src/Account.php:326 src/AesKey.php:207 src/Hash.php:62 src/Hash.php:175
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -273,8 +273,8 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:119 templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64
+#: templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:119
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: front/hash.form.php:71 src/Report.php:285 src/Account_Item.php:535
+#: src/Account_Item.php:535 src/Report.php:285 front/hash.form.php:71
 #: templates/account.html.twig:216 templates/account.html.twig:279
 #: templates/account.html.twig:557 templates/account.html.twig:577
 msgid "Wrong encryption key"
