@@ -355,6 +355,50 @@ function plugin_accounts_install()
             && !$DB->fieldExists('glpi_plugin_accounts_accounts', 'encrypted_totp_secret')) {
             $DB->runFile(PLUGIN_ACCOUNTS_DIR . '/install/sql/update-3.2.2.sql');
         }
+
+        // from 3.2.2: encrypt the master AES key at rest (aeskeys.name) with GLPIKey.
+        // The column is widened to TEXT (ciphertext exceeds VARCHAR(255)) and every
+        // plaintext value is encrypted in place. Idempotent: already-encrypted rows
+        // decrypt to a non-empty value and are skipped.
+        if ($DB->tableExists('glpi_plugin_accounts_aeskeys')
+            && $DB->fieldExists('glpi_plugin_accounts_aeskeys', 'name')) {
+            $field_info = $DB->request([
+                'SELECT' => ['CHARACTER_MAXIMUM_LENGTH'],
+                'FROM' => 'information_schema.COLUMNS',
+                'WHERE' => [
+                    'TABLE_SCHEMA' => $DB->dbdefault,
+                    'TABLE_NAME' => 'glpi_plugin_accounts_aeskeys',
+                    'COLUMN_NAME' => 'name',
+                ],
+            ])->current();
+
+            // Only widen if still VARCHAR (CHARACTER_MAXIMUM_LENGTH is NULL for TEXT types)
+            if ($field_info && $field_info['CHARACTER_MAXIMUM_LENGTH'] !== null) {
+                $DB->doQuery(
+                    "ALTER TABLE `glpi_plugin_accounts_aeskeys`
+                     MODIFY `name` TEXT COLLATE utf8mb4_unicode_ci DEFAULT NULL"
+                );
+
+                // Encrypt every existing plaintext key in place
+                $glpikey = new \GLPIKey();
+                $rows = $DB->request([
+                    'SELECT' => ['id', 'name'],
+                    'FROM' => 'glpi_plugin_accounts_aeskeys',
+                ]);
+                foreach ($rows as $row) {
+                    $stored = (string) ($row['name'] ?? '');
+                    if ($stored === '') {
+                        continue;
+                    }
+                    // Raw update to bypass the object layer and avoid double encryption
+                    $DB->update(
+                        'glpi_plugin_accounts_aeskeys',
+                        ['name' => $glpikey->encrypt($stored)],
+                        ['id' => $row['id']]
+                    );
+                }
+            }
+        }
     }
 
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
@@ -724,77 +768,87 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
         case Account::class:
             switch ($table . '.' . $field) {
                 case "glpi_plugin_accounts_accounts_items.items_id":
-                    $query_device  = "SELECT DISTINCT `itemtype`
-                        FROM `glpi_plugin_accounts_accounts_items`
-                        WHERE `plugin_accounts_accounts_id` = '" . $data['id'] . "'
-                                 ORDER BY `itemtype`
-                                 LIMIT " . count(Account::getTypes(true));
-                    $result_device = $DB->doQuery($query_device);
-                    $number_device = $DB->numrows($result_device);
-                    $out           = '';
-                    $accounts      = $data['id'];
-                    if ($number_device > 0) {
-                        for ($i = 0; $i < $number_device; $i++) {
-                            $column   = "name";
-                            $itemtype = $DB->result($result_device, $i, "itemtype");
+                    $out      = '';
+                    $accounts = (int) $data['id'];
 
-                            if (!class_exists($itemtype)) {
-                                continue;
-                            }
-                            $item = new $itemtype();
-                            if ($item->canView()) {
-                                $table_item = $dbu->getTableForItemType($itemtype);
-                                if ($itemtype != 'Entity') {
-                                    $query = "SELECT `" . $table_item . "`.*,
-                                    `glpi_plugin_accounts_accounts_items`.`id` AS items_id,
-                                    `glpi_entities`.`id` AS entity "
-                                             . " FROM `glpi_plugin_accounts_accounts_items`, `" . $table_item
-                                             . "` LEFT JOIN `glpi_entities` ON (`glpi_entities`.`id` = `" . $table_item . "`.`entities_id`) "
-                                             . " WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
-                                             AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
-                                             AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '" . $accounts . "' ";
+                    $device_iterator = $DB->request([
+                        'SELECT'   => 'itemtype',
+                        'DISTINCT' => true,
+                        'FROM'     => 'glpi_plugin_accounts_accounts_items',
+                        'WHERE'    => ['plugin_accounts_accounts_id' => $accounts],
+                        'ORDER'    => 'itemtype',
+                        'LIMIT'    => count(Account::getTypes(true)),
+                    ]);
 
-                                    $query .= $dbu->getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
+                    foreach ($device_iterator as $device) {
+                        $itemtype = $device['itemtype'];
 
-                                    if ($item->maybeTemplate()) {
-                                        $query .= " AND " . $table_item . ".is_template='0'";
-                                    }
-                                    $query .= " ORDER BY `glpi_entities`.`completename`, `" . $table_item . "`.`$column` ";
-                                } else {
-                                    $query = "SELECT `" . $table_item . "`.*,
-                                    `glpi_plugin_accounts_accounts_items`.`id` AS items_id,
-                                    `glpi_entities`.`id` AS entity "
-                                             . " FROM `glpi_plugin_accounts_accounts_items`, `" . $table_item
-                                             . "` WHERE `" . $table_item . "`.`id` = `glpi_plugin_accounts_accounts_items`.`items_id`
-                                    AND `glpi_plugin_accounts_accounts_items`.`itemtype` = '$itemtype'
-                                    AND `glpi_plugin_accounts_accounts_items`.`plugin_accounts_accounts_id` = '" . $accounts . "' "
-                                             . $dbu->getEntitiesRestrictRequest(" AND ", $table_item, '', '', $item->maybeRecursive());
+                        if (!class_exists($itemtype)) {
+                            continue;
+                        }
+                        $item = new $itemtype();
+                        if (!$item->canView()) {
+                            $out .= ' ';
+                            continue;
+                        }
 
-                                    if ($item->maybeTemplate()) {
-                                        $query .= " AND " . $table_item . ".is_template='0'";
-                                    }
-                                    $query .= " ORDER BY `glpi_entities`.`completename`, `" . $table_item . "`.`$column` ";
-                                }
+                        $table_item = $dbu->getTableForItemType($itemtype);
 
-                                if ($result_linked = $DB->doQuery($query)) {
-                                    if ($DB->numrows($result_linked)) {
-                                        $item = new $itemtype();
-                                        while ($data = $DB->fetchAssoc($result_linked)) {
-                                            if ($item->getFromDB($data['id'])) {
-                                                $out .= $item::getTypeName() . " - " . $item->getLink() . "<br>";
-                                            }
-                                        }
-                                    } else {
-                                        $out .= ' ';
-                                    }
-                                }
-                            } else {
-                                $out .= ' ';
+                        $criteria = [
+                            'SELECT'     => "$table_item.id",
+                            'FROM'       => 'glpi_plugin_accounts_accounts_items',
+                            'INNER JOIN' => [
+                                $table_item => [
+                                    'ON' => [
+                                        'glpi_plugin_accounts_accounts_items' => 'items_id',
+                                        $table_item                           => 'id',
+                                    ],
+                                ],
+                            ],
+                            'WHERE'      => [
+                                'glpi_plugin_accounts_accounts_items.itemtype'                    => $itemtype,
+                                'glpi_plugin_accounts_accounts_items.plugin_accounts_accounts_id' => $accounts,
+                            ],
+                        ];
+
+                        // Entity itemtype has no entities_id foreign key to join on
+                        if ($itemtype != 'Entity') {
+                            $criteria['LEFT JOIN'] = [
+                                'glpi_entities' => [
+                                    'ON' => [
+                                        'glpi_entities' => 'id',
+                                        $table_item     => 'entities_id',
+                                    ],
+                                ],
+                            ];
+                            $criteria['ORDERBY'] = ['glpi_entities.completename', "$table_item.name"];
+                        } else {
+                            $criteria['ORDERBY'] = ["$table_item.completename", "$table_item.name"];
+                        }
+
+                        $criteria['WHERE'] += getEntitiesRestrictCriteria(
+                            $table_item,
+                            '',
+                            '',
+                            $item->maybeRecursive()
+                        );
+
+                        if ($item->maybeTemplate()) {
+                            $criteria['WHERE']["$table_item.is_template"] = 0;
+                        }
+
+                        $linked_iterator = $DB->request($criteria);
+                        if (count($linked_iterator) === 0) {
+                            $out .= ' ';
+                            continue;
+                        }
+                        foreach ($linked_iterator as $linked) {
+                            if ($item->getFromDB($linked['id'])) {
+                                $out .= $item::getTypeName() . " - " . $item->getLink() . "<br>";
                             }
                         }
                     }
                     return $out;
-                    break;
             }
             break;
     }

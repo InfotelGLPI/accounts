@@ -314,7 +314,7 @@ class Hash extends CommonDBTM
 
         if ($aesKey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
             && isset($aesKey->fields['name'])) {
-            $current_key = $aesKey->fields['name'];
+            $current_key = $aesKey->getDecryptedName();
         }
 
         TemplateRenderer::getInstance()->display('@accounts/hash_change_key.html.twig', [

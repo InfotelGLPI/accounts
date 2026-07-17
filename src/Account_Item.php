@@ -387,7 +387,7 @@ final class Account_Item extends CommonDBRelation
     }
 
 
-    public static function showForAsset(CommonDBTM $item): bool
+    public static function showForAsset(CommonDBTM $item, bool $readonly = false): bool
     {
         global $DB;
 
@@ -518,9 +518,15 @@ final class Account_Item extends CommonDBRelation
 
         $footers = [];
 
+        $can_edit = !$readonly && $item->canEdit($item->getID());
+
+        if ($readonly && empty($entries)) {
+            return true;
+        }
+
         TemplateRenderer::getInstance()->display('@accounts/item_account.html.twig', [
             'item' => $item,
-            'can_edit' => $item->canEdit($item->getID()),
+            'can_edit' => $can_edit,
             'used' => $used,
             'datatable_params' => [
                 'is_tab' => true,
@@ -533,7 +539,7 @@ final class Account_Item extends CommonDBRelation
                 'total_number' => count($entries),
                 'filtered_number' => count($entries),
                 'alert_encryption' => __s('Wrong encryption key', 'accounts'),
-                'showmassiveactions' => $item->canEdit($item->getID()),
+                'showmassiveactions' => $can_edit,
                 'massiveactionparams' => [
                     'container' => 'massiveactioncontainer' . $mtrand,
                     'itemtype'  => self::class,

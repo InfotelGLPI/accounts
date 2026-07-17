@@ -84,7 +84,7 @@ foreach ($hashes as $hash_row) {
     $aeskey  = new AesKey();
     if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
         && !empty($aeskey->fields['name'])) {
-        $fingerprint_map[$hash_id] = $aeskey->fields['name'];
+        $fingerprint_map[$hash_id] = $aeskey->getDecryptedName();
     } else {
         log_line("WARNING: fingerprint ID $hash_id ({$hash_row['name']}) has no stored AES key — accounts using this fingerprint will be SKIPPED.");
     }

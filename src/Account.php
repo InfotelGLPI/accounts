@@ -526,7 +526,7 @@ class Account extends CommonDBTM
             if ($hash_id) {
                 if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
                     && !empty($aeskey->fields['name'])) {
-                    $fingerprint = $aeskey->fields['name'];
+                    $fingerprint = $aeskey->getDecryptedName();
                     $old_hash = hash('sha256', $fingerprint);
                     // Decrypt v1
                     $plaintext = AesCtr::decrypt($input['encrypted_password'], $old_hash, 256);
@@ -577,7 +577,7 @@ class Account extends CommonDBTM
         if ($hash_id
             && $aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
             && !empty($aeskey->fields['name'])) {
-            $fingerprint = $aeskey->fields['name'];
+            $fingerprint = $aeskey->getDecryptedName();
         } elseif (!empty($input['aeskey']) && $hash_id) {
             // La clé n'est pas en DB : vérifier la clé soumise contre le hash stocké
             $hashRecord = new Hash();
@@ -694,7 +694,7 @@ class Account extends CommonDBTM
         $aeskey = new AesKey();
         if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $selected_hash_id])
             && $aeskey->fields["name"]) {
-            $aeskey_uncrypted = $aeskey->fields["name"];
+            $aeskey_uncrypted = $aeskey->getDecryptedName();
         }
 
         $canupdateHash = Session::haveRight('plugin_accounts_hash', UPDATE);
@@ -962,7 +962,7 @@ class Account extends CommonDBTM
 
                             if ($src_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $src_hash_id])
                                 && !empty($src_aeskey->fields['name'])) {
-                                $src_aes_key_value = $src_aeskey->fields['name'];
+                                $src_aes_key_value = $src_aeskey->getDecryptedName();
                                 $src_hash_value = hash('sha256', $src_aes_key_value);
 
                                 // Decrypt with source key
@@ -989,7 +989,7 @@ class Account extends CommonDBTM
                                     $dest_aeskey = new AesKey();
                                     if ($dest_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $new_hash_id])
                                         && !empty($dest_aeskey->fields['name'])) {
-                                        $dest_aes_key_value = $dest_aeskey->fields['name'];
+                                        $dest_aes_key_value = $dest_aeskey->getDecryptedName();
                                         $dest_hash_value = hash('sha256', $dest_aes_key_value);
 
                                         // Re-encrypt with destination key

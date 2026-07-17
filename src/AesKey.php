@@ -47,6 +47,13 @@ class AesKey extends CommonDBTM
     public static $rightname = "plugin_accounts_hash";
 
     /**
+     * The master AES key is stored encrypted at rest with GLPIKey and must never
+     * be disclosed in logs, history or exports.
+     * @var string[]
+     */
+    public static $undisclosedFields = ['name'];
+
+    /**
      * @var hash
      */
     private $h;
@@ -144,7 +151,8 @@ class AesKey extends CommonDBTM
             );
             if (!empty($devices)) {
                 foreach ($devices as $device) {
-                    $aeskey = $device["name"];
+                    // Stored encrypted at rest -> return the decrypted master key
+                    $aeskey = (new \GLPIKey())->decrypt($device["name"]);
                     return $aeskey;
                 }
             } else {
@@ -192,7 +200,34 @@ class AesKey extends CommonDBTM
         if (!isset($input['plugin_accounts_hashes_id']) || $input['plugin_accounts_hashes_id'] <= 0) {
             return false;
         }
+        // Encrypt the master key at rest (stored as GLPIKey ciphertext)
+        if (isset($input['name']) && $input['name'] !== '') {
+            $input['name'] = (new \GLPIKey())->encrypt($input['name']);
+        }
         return $input;
+    }
+
+    /**
+     * @param  $input
+     * @return mixed[]
+     */
+    public function prepareInputForUpdate($input)
+    {
+        // Encrypt the master key at rest (stored as GLPIKey ciphertext)
+        if (isset($input['name']) && $input['name'] !== '') {
+            $input['name'] = (new \GLPIKey())->encrypt($input['name']);
+        }
+        return $input;
+    }
+
+    /**
+     * Return the decrypted master AES key value.
+     *
+     * @return string
+     */
+    public function getDecryptedName()
+    {
+        return (new \GLPIKey())->decrypt($this->fields['name'] ?? '');
     }
 
     /**
@@ -293,7 +328,7 @@ class AesKey extends CommonDBTM
         if (!$DB->tableExists($table)) {
             $query = "CREATE TABLE `$table` (
                         `id` int {$default_key_sign} NOT NULL auto_increment,
-                        `name` varchar(255) collate utf8mb4_unicode_ci default NULL,
+                        `name` text collate utf8mb4_unicode_ci default NULL,
                          `plugin_accounts_hashes_id` int unsigned NOT NULL default '0',
                          PRIMARY KEY  (`id`),
                          KEY `plugin_accounts_hashes_id` (`plugin_accounts_hashes_id`)

@@ -257,32 +257,40 @@ class Report extends CommonDBTM
                     $encrypted = $list[$i]["password"];
                     echo Html::hidden("password[$IDc]");
                     $pass = "<p name='show_password' id='show_password$$IDc'></p>";
-                    $prefix = AccountCrypto::V2_PREFIX;
+                    // Encode all dynamic values as JS literals to prevent script injection
+                    $js_aeskey    = json_encode($aeskey);
+                    $js_encrypted = json_encode($encrypted);
+                    $js_hashvalue = json_encode($hashvalue);
+                    $js_prefix    = json_encode(AccountCrypto::V2_PREFIX);
+                    $js_wrongkey  = json_encode(__('Wrong encryption key', 'accounts'));
                     $pass .= Html::scriptBlock("
-                                var good_hash=\"$hashvalue\";
+                                var good_hash = $js_hashvalue;
+                                var aeskey = $js_aeskey;
+                                var encrypted = $js_encrypted;
+                                var prefix = $js_prefix;
                                 var hashCryptoJS = '';
                                 if (CryptoJS && CryptoJS.SHA256) {
-                                    hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(\"$aeskey\")).toString();
+                                    hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(aeskey)).toString();
                                 }
 
                                 var hashOld = '';
                                 if (typeof SHA256 === 'function') {
-                                    hashOld = SHA256(SHA256(\"$aeskey\"));
+                                    hashOld = SHA256(SHA256(aeskey));
                                 }
 
                                 if (hashCryptoJS === good_hash || hashOld === good_hash) {
                                     // Hash valide
                                     // Déchiffrement avec le nouveau format v2
-                                    pass = decryptV2(\"$encrypted\", \"$aeskey\");
+                                    pass = decryptV2(encrypted, aeskey);
 
                                     // Si tu veux gérer aussi l'ancien format AES, tu peux décommenter ceci :
-                                     if (!\"$encrypted\".startsWith(\"$prefix\")) {
-                                         pass = AESDecryptCtr(\"$encrypted\", SHA256(\"$aeskey\"), 256);
+                                     if (!encrypted.startsWith(prefix)) {
+                                         pass = AESDecryptCtr(encrypted, SHA256(aeskey), 256);
                                      }
 
                                 } else {
                                     // Clé incorrecte
-                                    pass = \"" . __s('Wrong encryption key', 'accounts') . "\";
+                                    pass = $js_wrongkey;
                                 }
 
                                 // On injecte le mot de passe dans le formulaire et l'affichage
