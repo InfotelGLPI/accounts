@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-17 13:50+0000\n"
+"POT-Creation-Date: 2026-07-17 14:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Associable to a ticket"
 msgstr ""
 
-#: hook.php:818
+#: hook.php:872
 msgid "Associate to account"
 msgstr ""
 
@@ -146,8 +146,8 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/Account.php:1549 src/Account.php:1553 src/AesKey.php:69
-#: src/AesKey.php:78 src/AesKey.php:231 src/AesKey.php:252
+#: src/Account.php:1549 src/Account.php:1553 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
 #: templates/aeskey.html.twig:60 templates/hash.html.twig:63
 #: templates/account.html.twig:191 templates/account.html.twig:251
 msgid "Encryption key"
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:326 src/AesKey.php:207 src/Hash.php:62 src/Hash.php:175
+#: src/Account.php:326 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:175
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -210,7 +210,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:308 src/Hash.php:100
+#: src/Report.php:316 src/Hash.php:100
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr ""
@@ -287,7 +287,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/AesKey.php:93
+#: src/AesKey.php:100
 msgid "Save the encryption key"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: src/Account_Item.php:535 src/Report.php:285 front/hash.form.php:71
+#: src/Account_Item.php:541 src/Report.php:265 front/hash.form.php:71
 #: templates/account.html.twig:216 templates/account.html.twig:279
 #: templates/account.html.twig:557 templates/account.html.twig:577
 msgid "Wrong encryption key"
