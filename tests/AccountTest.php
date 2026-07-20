@@ -122,10 +122,12 @@ class AccountTest extends DbTestCase
             'is_recursive' => 1,
         ]);
 
+        // AesKey stores its master key ('name') encrypted at rest via GLPIKey, so the
+        // persisted value never equals the plaintext fingerprint: skip it in the check.
         $this->createItem(AesKey::class, [
             'plugin_accounts_hashes_id' => $hash->getID(),
             'name'                      => $fingerprint,
-        ]);
+        ], ['name']);
 
         $plaintext = 'my-plain-password';
         $v1        = \GlpiPlugin\Accounts\AesCtr::encrypt($plaintext, $hash_value, 256);
