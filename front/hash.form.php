@@ -58,6 +58,10 @@ if (isset($_POST["add"])) {
     $hashClass->redirectToList();
 } elseif (isset($_POST['updatehash'])) {
 
+    // Mass re-encryption of every password/TOTP secret of the entity: require the UPDATE right,
+    // like the other write branches (the READ header check alone is not enough for a write operation).
+    Session::checkRight("plugin_accounts_hash", UPDATE);
+
     if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
         if ($hashClass->getFromDB($_POST["id"])) {
             $oldAeskey = $_POST["aeskey"];

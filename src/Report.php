@@ -224,9 +224,11 @@ class Report extends CommonDBTM
                 }
                 $IDc = $list[$i]["id"];
 
-                $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . $IDc . "'>" . $list[$i]["name"];
+                // Values come from the database and are stored raw since GLPI 10+: escape before HTML output (stored XSS)
+                $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . (int) $IDc . "'>"
+                    . htmlspecialchars((string) $list[$i]["name"], ENT_QUOTES, 'UTF-8');
                 if ($_SESSION["glpiis_ids_visible"]) {
-                    $name .= " (" . $IDc . ")";
+                    $name .= " (" . (int) $IDc . ")";
                 }
                 $name .= "</a>";
                 if ($is_html_output) {
@@ -242,13 +244,15 @@ class Report extends CommonDBTM
                     }
                 }
                 if ($is_html_output) {
-                    $html_output .= $output::showItem($list[$i]["type"] ?? "", $item_num, $row_num);
+                    // Escape DB-stored value before HTML output (stored XSS)
+                    $html_output .= $output::showItem(htmlspecialchars((string) ($list[$i]["type"] ?? ""), ENT_QUOTES, 'UTF-8'), $item_num, $row_num);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["type"] ?? ""];
                 }
 
                 if ($is_html_output) {
-                    $html_output .= $output::showItem($list[$i]["login"] ?? "", $item_num, $row_num);
+                    // Escape DB-stored value before HTML output (stored XSS)
+                    $html_output .= $output::showItem(htmlspecialchars((string) ($list[$i]["login"] ?? ""), ENT_QUOTES, 'UTF-8'), $item_num, $row_num);
                 } else {
                     $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["login"] ?? ""];
                 }

@@ -31,12 +31,16 @@ namespace GlpiPlugin\Accounts;
 
 /**
 Cryptographic helpers for the Accounts plugin.
-Format v2 (new default):
-$v2$<base64(iv)>$<base64(ciphertext)>
+Format v2 (new default), authenticated (encrypt-then-MAC):
+$v2$<base64(iv)>$<base64(ciphertext)>$<base64(mac)>
 Where:
-iv          = 16 random bytes (openssl_random_pseudo_bytes)
-key         = SHA-256 of the user-supplied fingerprint key (32 bytes)
-ciphertext  = openssl_encrypt(plaintext, 'AES-256-CTR', key, OPENSSL_RAW_DATA, iv)
+iv          = 16 random bytes (random_bytes)
+enc_key     = SHA-256 of the user-supplied fingerprint key (32 bytes)
+ciphertext  = openssl_encrypt(plaintext, 'AES-256-CTR', enc_key, OPENSSL_RAW_DATA, iv)
+mac_key     = SHA-256 of (fingerprint . '|mac') (32 bytes, distinct from enc_key)
+mac         = HMAC-SHA256(mac_key, iv . ciphertext) — detects tampering of the ciphertext
+Older v2 ciphertexts without the trailing MAC segment are still accepted for reading
+(they are re-encrypted with a MAC the next time the record is saved).
 Legacy format (v1, read-only):
 
 base64-encoded string without '$v2$' prefix — handled by AesCtr::decrypt()
@@ -45,6 +49,9 @@ class AccountCrypto
 {
     private const CIPHER    = 'AES-256-CTR';
     public const V2_PREFIX = '$v2$';
+    // Domain-separation suffix used to derive the MAC key from the fingerprint.
+    // Must stay in sync with the JavaScript implementation (public/crypt.js).
+    private const MAC_KEY_SUFFIX = '|mac';
 
     /**
      * Encrypt plaintext using AES-256-CTR with a random IV.
@@ -71,7 +78,14 @@ class AccountCrypto
             throw new \RuntimeException('AccountCrypto: openssl_encrypt failed: ' . openssl_error_string());
         }
 
-        return self::V2_PREFIX . base64_encode($iv) . '$' . base64_encode($ciphertext);
+        // Encrypt-then-MAC: authenticate IV + ciphertext with a distinct MAC key.
+        $mac_key = hash('sha256', $fingerprint . self::MAC_KEY_SUFFIX, true);
+        $mac     = hash_hmac('sha256', $iv . $ciphertext, $mac_key, true);
+
+        return self::V2_PREFIX
+            . base64_encode($iv) . '$'
+            . base64_encode($ciphertext) . '$'
+            . base64_encode($mac);
     }
 
     /**
@@ -101,6 +115,22 @@ class AccountCrypto
         return !str_starts_with($ciphertext, self::V2_PREFIX);
     }
 
+    /**
+     * Tell whether a stored ciphertext should be transparently re-encrypted on save.
+     * True for legacy v1 records (no versioning) and for early v2 records that still
+     * lack the trailing HMAC segment, so they gain integrity protection over time.
+     */
+    public static function needsReencryption(string $ciphertext): bool
+    {
+        if (self::isLegacyFormat($ciphertext)) {
+            return true;
+        }
+
+        // v2 without a (non-empty) MAC segment: upgrade to authenticated v2.
+        $parts = explode('$', ltrim($ciphertext, '$'));
+        return !isset($parts[3]) || $parts[3] === '';
+    }
+
     // -----------------------------------------------------------------------
 
     private static function decryptV2(string $ciphertext, string $fingerprint): string
@@ -115,6 +145,18 @@ class AccountCrypto
         $iv         = base64_decode($parts[1]);
         $ct         = base64_decode($parts[2]);
         $key        = hash('sha256', $fingerprint, true);
+
+        // Verify the MAC when present (encrypt-then-MAC). Older v2 ciphertexts have no
+        // MAC segment and are still readable so existing vaults keep working; they gain
+        // a MAC on the next save. A present-but-invalid MAC means tampering: reject.
+        if (isset($parts[3]) && $parts[3] !== '') {
+            $mac_key  = hash('sha256', $fingerprint . self::MAC_KEY_SUFFIX, true);
+            $expected = hash_hmac('sha256', $iv . $ct, $mac_key, true);
+            $given    = base64_decode($parts[3], true);
+            if ($given === false || !hash_equals($expected, $given)) {
+                return '';
+            }
+        }
 
         $plaintext = openssl_decrypt(
             $ct,

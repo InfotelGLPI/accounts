@@ -1,0 +1,682 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to static method showDefaultHeaderHelpdesk\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/account.form.php
+
+		-
+			message: '#^Call to static method showNavBarFooter\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/account.form.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/account.form.php
+
+		-
+			message: '#^Call to static method showDefaultHeaderHelpdesk\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/account.php
+
+		-
+			message: '#^Call to static method showNavBarFooter\(\) on an unknown class GlpiPlugin\\Servicecatalog\\Main\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/account.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: front/aeskey.form.php
+
+		-
+			message: '#^Variable \$newID might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: front/aeskey.form.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: front/aeskey.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''glpi_plugin_accounts_accounts'' \("glpi_plugin_accounts_accounts", "glpi_plugin_accounts_accounts"\)\.$#'
+			identifier: array.duplicateKey
+			count: 2
+			path: hook.php
+
+		-
+			message: '#^Function plugin_accounts_addDefaultWhere\(\) should return string but returns array\<string, array\<int, array\<string, mixed\>\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Function plugin_accounts_addDefaultWhere\(\) should return string but returns array\<string, int\|string\|false\>\.$#'
+			identifier: return.type
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
+			identifier: glpi.forbidDynamicInstantiation
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Method DBmysql\:\:doQuery\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Missing PHPDoc tag @var for global variable \$INJECTABLE_TYPES$#'
+			identifier: glpi.missingGlobalVarType
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Parameter \#2 \$right of static method Session\:\:haveRight\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Access to offset ''_blank_account…'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''_blank_totp_secret'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''aeskey'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''date_creation'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''date_expiration'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''encrypted_password'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 8
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''encrypted_totp…'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Access to offset ''plugin_accounts…'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 4
+			path: src/Account.php
+
+		-
+			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
+			identifier: glpi.forbidDynamicInstantiation
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:dropdownAccount\(\) has invalid return type GlpiPlugin\\Accounts\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:dropdownAccount\(\) should return GlpiPlugin\\Accounts\\nothing but returns int\<0, max\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:dropdownAccount\(\) should return GlpiPlugin\\Accounts\\nothing but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getForbiddenStandardMassiveAction\(\) has invalid return type GlpiPlugin\\Accounts\\an\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getRights\(\) should return array but returns true\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getSpecificMassiveActions\(\) has invalid return type GlpiPlugin\\Accounts\\an\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getSpecificMassiveActions\(\) should return GlpiPlugin\\Accounts\\an but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getSpecificValueToDisplay\(\) has invalid return type GlpiPlugin\\Accounts\\date\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getSpecificValueToDisplay\(\) has invalid return type GlpiPlugin\\Accounts\\return\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:getSpecificValueToDisplay\(\) has invalid return type GlpiPlugin\\Accounts\\translated\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:prepareInputForUpdate\(\) has invalid return type GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:prepareInputForUpdate\(\) should return GlpiPlugin\\Accounts\\datas but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:processMassiveActionsForOneItemtype\(\) has invalid return type GlpiPlugin\\Accounts\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account\:\:showDates\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\$input\)\: Unexpected token "\$input", expected type at offset 107 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \*", expected type at offset 90 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Parameter \#1 \$input \(GlpiPlugin\\Accounts\\datas\) of method GlpiPlugin\\Accounts\\Account\:\:prepareInputForUpdate\(\) should be compatible with parameter \$input \(array\<string, mixed\>\) of method CommonDBTM\:\:prepareInputForUpdate\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Parameter \#1 \$input of static method GlpiPlugin\\Accounts\\Account\:\:encryptTotpSecret\(\) expects array, GlpiPlugin\\Accounts\\datas given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Parameter \#1 \$plaintext of static method GlpiPlugin\\Accounts\\AccountCrypto\:\:encrypt\(\) expects string, GlpiPlugin\\Accounts\\decrypted given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Account.php
+
+		-
+			message: '#^Parameter \#4 \$toobserve of static method Ajax\:\:updateItem\(\) expects string, false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Parameter \$input of method GlpiPlugin\\Accounts\\Account\:\:prepareInputForUpdate\(\) has invalid type GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Accounts\\an\) of method GlpiPlugin\\Accounts\\Account\:\:getSpecificMassiveActions\(\) should be compatible with return type \(array\) of method CommonDBTM\:\:getSpecificMassiveActions\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Accounts\\datas\) of method GlpiPlugin\\Accounts\\Account\:\:prepareInputForUpdate\(\) should be compatible with return type \(array\<string, mixed\>\|false\) of method CommonDBTM\:\:prepareInputForUpdate\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 3
+			path: src/Account.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Account.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AccountCrypto\:\:decrypt\(\) should return string but returns GlpiPlugin\\Accounts\\decrypted\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AccountCrypto.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array\| \$options\)\: Unexpected token "\$options", expected type at offset 152 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AccountInjection.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array\| \$values\)\: Unexpected token "\$values", expected type at offset 123 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AccountInjection.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/AccountState.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\$newID\)\: Unexpected token "\$newID", expected type at offset 56 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AccountType.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account_Item\:\:displayTabContentForItem\(\) should return true but returns bool\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Account_Item.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Account_Item\:\:displayTabContentForItem\(\) should return true but returns false\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Account_Item.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$item with type object is not subtype of native type CommonDBTM\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/Account_Item.php
+
+		-
+			message: '#^Parameter \#1 \$item of static method GlpiPlugin\\Accounts\\Account_Item\:\:countForAccount\(\) expects GlpiPlugin\\Accounts\\Account, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Account_Item.php
+
+		-
+			message: '#^Parameter \#1 \$item of static method GlpiPlugin\\Accounts\\Account_Item\:\:countForItem\(\) expects CommonDBTM, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Account_Item.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Aes\:\:cipher\(\) has invalid return type GlpiPlugin\\Accounts\\ciphertext\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Aes\:\:cipher\(\) should return GlpiPlugin\\Accounts\\ciphertext but returns array\<int, mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Aes\:\:keyExpansion\(\) has invalid return type GlpiPlugin\\Accounts\\key\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Aes\:\:keyExpansion\(\) should return GlpiPlugin\\Accounts\\key but returns array\<int, array\<int, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(input message as byte\-array \(16 bytes\)\)\: Unexpected token "message", expected variable at offset 99 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(key cipher key byte\-array \(16 bytes\)\)\: Unexpected token "cipher", expected variable at offset 144 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '''
+				#^PHPDoc tag @param has invalid value \(w     key schedule as 2D byte\-array \(Nr\+1 x Nb bytes\) \-
+				             generated from the cipher key by keyExpansion\(\)\)\: Unexpected token "key", expected variable at offset 152 on line 5$#
+			'''
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Aes.php
+
+		-
+			message: '#^Access to offset int\<0, 15\> on an unknown class GlpiPlugin\\Accounts\\ciphertext\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^Access to offset int\<0, max\> on an unknown class GlpiPlugin\\Accounts\\ciphertext\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesCtr\:\:decrypt\(\) has invalid return type GlpiPlugin\\Accounts\\decrypted\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesCtr\:\:decrypt\(\) should return GlpiPlugin\\Accounts\\decrypted but returns string\.$#'
+			identifier: return.type
+			count: 2
+			path: src/AesCtr.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesCtr\:\:encrypt\(\) has invalid return type GlpiPlugin\\Accounts\\encrypted\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesCtr\:\:encrypt\(\) should return GlpiPlugin\\Accounts\\encrypted but returns string\.$#'
+			identifier: return.type
+			count: 2
+			path: src/AesCtr.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(ciphertext source text to be decrypted\)\: Unexpected token "source", expected variable at offset 104 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(nBits      number of bits to be used in the key \(128, 192, or 256\)\)\: Unexpected token "number", expected variable at offset 220 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(nBits     number of bits to be used in the key \(128, 192, or 256\)\)\: Unexpected token "number", expected variable at offset 348 on line 9$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(password   the password to use to generate a key\)\: Unexpected token "the", expected variable at offset 157 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(password  the password to use to generate a key\)\: Unexpected token "the", expected variable at offset 286 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(plaintext source text to be encrypted\)\: Unexpected token "source", expected variable at offset 234 on line 7$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/AesCtr.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_slice expects array, GlpiPlugin\\Accounts\\ciphertext given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AesCtr.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, GlpiPlugin\\Accounts\\ciphertext given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AesCtr.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/AesKey.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:showForm\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Class GlpiPlugin\\Accounts\\Hash referenced with incorrect case\: GlpiPlugin\\Accounts\\hash\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Comparison operation "\>" between int\<1, max\> and 0 is always true\.$#'
+			identifier: greater.alwaysTrue
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesKey\:\:checkIfAesKeyExists\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesKey\:\:checkIfAesKeyExists\(\) should return bool but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesKey\:\:prepareInputForAdd\(\) should return array\<mixed\> but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\AesKey\:\:showForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Parameter \#1 \$ID of method GlpiPlugin\\Accounts\\AesKey\:\:showForm\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/AesKey.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getField\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Config.php
+
+		-
+			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Config.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Access to offset ''hash'' on an unknown class GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Hash.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Hash.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Hash\:\:prepareInputForAdd\(\) should return false but returns GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Hash.php
+
+		-
+			message: '#^Parameter \#1 \$input \(GlpiPlugin\\Accounts\\datas\) of method GlpiPlugin\\Accounts\\Hash\:\:prepareInputForAdd\(\) should be compatible with parameter \$input \(array\<string, mixed\>\) of method CommonDBTM\:\:prepareInputForAdd\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: src/Hash.php
+
+		-
+			message: '#^Parameter \$input of method GlpiPlugin\\Accounts\\Hash\:\:prepareInputForAdd\(\) has invalid type GlpiPlugin\\Accounts\\datas\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Hash.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Hash.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/NotificationState.php
+
+		-
+			message: '#^Access to an undefined property CommonGLPI\:\:\$fields\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/NotificationTargetAccount.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getField\(\)\.$#'
+			identifier: method.notFound
+			count: 16
+			path: src/NotificationTargetAccount.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/NotificationTargetAccount.php
+
+		-
+			message: '#^Method GlpiPlugin\\Accounts\\Profile\:\:migrateOneProfile\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$all$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Parameter \#5 \$item_type_output of static method GlpiPlugin\\Accounts\\Report\:\:printPager\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Report.php
+
+		-
+			message: '#^Static method Glpi\\Search\\Output\\HTMLSearchOutput\:\:showEndLine\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: src/Report.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Report.php
+
+		-
+			message: '#^PHPDoc tag @throws with type GlpitestSQLError is not subtype of Throwable$#'
+			identifier: throws.notThrowable
+			count: 1
+			path: src/Servicecatalog.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Servicecatalog.php

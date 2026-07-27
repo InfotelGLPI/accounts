@@ -27,6 +27,7 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Report;
 
 header("Content-Type: text/html; charset=UTF-8");
@@ -44,5 +45,5 @@ if (isset($_POST["key"])) {
 
     Report::showAccountsList($options, $accounts);
 } else {
-    echo __s('Access denied');
+    throw new AccessDeniedHttpException();
 }

@@ -514,35 +514,27 @@ class Account extends CommonDBTM
             && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
             unset($input['plugin_accounts_hashes_id']);
         }
-        // Transparent v1 → v2 re-encryption on save
-        // Only possible if the AES key is available (stored in AesKeys table)
+        // Transparent re-encryption on save: upgrade legacy v1 records to v2, and early
+        // v2 records that still lack the HMAC segment to authenticated v2. Only possible
+        // when the fingerprint is available (AesKey table for the entity, or POSTed key).
         if (isset($input['encrypted_password']) && !empty($input['encrypted_password'])
-            && AccountCrypto::isLegacyFormat($input['encrypted_password'])
+            && AccountCrypto::needsReencryption($input['encrypted_password'])
         ) {
-            $hash_id = $this->fields['plugin_accounts_hashes_id']
-                ?? ($input['plugin_accounts_hashes_id'] ?? 0);
+            $hash_id = (int) ($this->fields['plugin_accounts_hashes_id']
+                ?? ($input['plugin_accounts_hashes_id'] ?? 0));
 
-            $aeskey = new AesKey();
-            if ($hash_id) {
-                if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
-                    && !empty($aeskey->fields['name'])) {
-                    $fingerprint = $aeskey->getDecryptedName();
-                    $old_hash = hash('sha256', $fingerprint);
-                    // Decrypt v1
-                    $plaintext = AesCtr::decrypt($input['encrypted_password'], $old_hash, 256);
-                    if (!empty($plaintext)) {
-                        // Re-encrypt as v2
-                        $input['encrypted_password'] = AccountCrypto::encrypt($plaintext, $fingerprint);
-                    }
-                } else {
-                    $fingerprint = $input['aeskey'];
-                    $old_hash = hash('sha256', $fingerprint);
-                    // Decrypt v1
-                    $plaintext = AesCtr::decrypt($input['encrypted_password'], $old_hash, 256);
-                    if (!empty($plaintext)) {
-                        // Re-encrypt as v2
-                        $input['encrypted_password'] = AccountCrypto::encrypt($plaintext, $fingerprint);
-                    }
+            // Resolve the fingerprint via the shared helper, which validates a POSTed key
+            // against the stored hash. Never re-encrypt under an unverified key: legacy v1
+            // (AesCtr, no MAC) can decrypt to non-empty garbage with a wrong key, which
+            // would then be re-encrypted as v2 and silently corrupt the original password.
+            $fingerprint = self::resolveFingerprint($hash_id, $input['aeskey'] ?? null);
+
+            if ($fingerprint !== null) {
+                // decrypt() transparently reads both v1 and v2 (with/without MAC).
+                $plaintext = AccountCrypto::decrypt($input['encrypted_password'], $fingerprint);
+                if ($plaintext !== '') {
+                    // Re-encrypt as authenticated v2 (encrypt-then-MAC).
+                    $input['encrypted_password'] = AccountCrypto::encrypt($plaintext, $fingerprint);
                 }
             }
         }
@@ -553,6 +545,47 @@ class Account extends CommonDBTM
         $input = self::encryptTotpSecret($input, $hash_id);
 
         return $input;
+    }
+
+    /**
+     * Resolve the encryption fingerprint (AES key) for a given hash record.
+     *
+     * Prefers the AesKey stored in DB for that hash. Otherwise falls back to a key
+     * posted with the form, but ONLY after verifying it against the stored hash
+     * (double SHA-256) with hash_equals(). This prevents a wrong key from being used
+     * to (re-)encrypt a secret: legacy v1 (AesCtr, no MAC) can decrypt to non-empty
+     * garbage under a wrong key, so the plaintext non-emptiness check alone is not a
+     * safe guard. Returns null when no valid fingerprint is available.
+     *
+     * @param int         $hash_id The hash (fingerprint) ID
+     * @param string|null $posted  The key posted with the form ($input['aeskey']), if any
+     * @return string|null The validated fingerprint, or null
+     */
+    private static function resolveFingerprint(int $hash_id, ?string $posted): ?string
+    {
+        if (!$hash_id) {
+            return null;
+        }
+
+        $aeskey = new AesKey();
+        if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
+            && !empty($aeskey->fields['name'])) {
+            return $aeskey->getDecryptedName();
+        }
+
+        // Key not stored in DB: accept the posted key only if it matches the stored hash.
+        if (!empty($posted)) {
+            $hashRecord = new Hash();
+            if ($hashRecord->getFromDB($hash_id)
+                && hash_equals(
+                    $hashRecord->fields['hash'] ?? '',
+                    hash('sha256', hash('sha256', $posted))
+                )) {
+                return $posted;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -571,24 +604,7 @@ class Account extends CommonDBTM
             return $input;
         }
 
-        $fingerprint = null;
-
-        $aeskey = new AesKey();
-        if ($hash_id
-            && $aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
-            && !empty($aeskey->fields['name'])) {
-            $fingerprint = $aeskey->getDecryptedName();
-        } elseif (!empty($input['aeskey']) && $hash_id) {
-            // La clé n'est pas en DB : vérifier la clé soumise contre le hash stocké
-            $hashRecord = new Hash();
-            if ($hashRecord->getFromDB($hash_id)
-                && hash_equals(
-                    $hashRecord->fields['hash'] ?? '',
-                    hash('sha256', hash('sha256', $input['aeskey']))
-                )) {
-                $fingerprint = $input['aeskey'];
-            }
-        }
+        $fingerprint = self::resolveFingerprint($hash_id, $input['aeskey'] ?? null);
 
         if ($fingerprint !== null) {
             $input['encrypted_totp_secret'] = addslashes(AccountCrypto::encrypt(

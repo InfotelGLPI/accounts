@@ -67,6 +67,18 @@ function decryptV2(ciphertext, fingerprint) {
     var iv = atob(parts[1]);
     var ct = atob(parts[2]);
 
+    // Verify the MAC when present (encrypt-then-MAC, mirror of AccountCrypto.php).
+    // Older v2 ciphertexts have no MAC segment and stay readable; a present-but-invalid
+    // MAC means the ciphertext was tampered with, so reject it.
+    if (parts.length >= 4 && parts[3] !== '') {
+        var macKey = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(fingerprint + '|mac').toString());
+        var msg = CryptoJS.enc.Latin1.parse(iv + ct);
+        var expectedMac = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(msg, macKey));
+        if (expectedMac !== parts[3]) {
+            return '';
+        }
+    }
+
     // SHA256 comme en PHP
     var key = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(fingerprint).toString());
 
@@ -152,11 +164,16 @@ function encryptV2(plaintext, fingerprint) {
         }
     );
 
-    // Retourner au format $v2$<iv_b64>$<ct_b64>
     var iv_b64 = CryptoJS.enc.Base64.stringify(iv);
     var ct_b64 = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
 
-    return `$v2$${iv_b64}$${ct_b64}`;
+    // Encrypt-then-MAC over IV + ciphertext with a distinct MAC key (mirror of AccountCrypto.php)
+    var macKey = CryptoJS.enc.Hex.parse(CryptoJS.SHA256(fingerprint + '|mac').toString());
+    var msg = iv.clone().concat(encrypted.ciphertext);
+    var mac_b64 = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(msg, macKey));
+
+    // Format $v2$<iv_b64>$<ct_b64>$<mac_b64>
+    return `$v2$${iv_b64}$${ct_b64}$${mac_b64}`;
 }
 
 // var encrypt_password = function (suffix) {
