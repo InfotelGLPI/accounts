@@ -64,6 +64,11 @@ if (isset($_POST["add"])) {
 
     if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
         if ($hashClass->getFromDB($_POST["id"])) {
+            // The UPDATE right can be recursive/global: restrict the targeted hash to an
+            // entity the user actually has access to, so it can't rotate another entity's key.
+            if (!Session::haveAccessToEntity($hashClass->fields['entities_id'])) {
+                throw new \Glpi\Exception\Http\AccessDeniedHttpException();
+            }
             $oldAeskey = $_POST["aeskey"];
             $storedHash = $hashClass->fields['hash'];
 

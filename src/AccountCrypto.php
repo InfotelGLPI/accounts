@@ -53,6 +53,17 @@ class AccountCrypto
     // Must stay in sync with the JavaScript implementation (public/crypt.js).
     private const MAC_KEY_SUFFIX = '|mac';
 
+    // Fingerprint verifier hardening. The stored verifier (glpi_plugin_accounts_hashes.hash)
+    // used to be a bare double SHA-256 of the encryption key, which is trivially brute-forced
+    // offline once disclosed to a user (it is shipped to the browser to check the typed key).
+    // New verifiers use a salted, slow PBKDF2 in this self-describing format:
+    //   $pbkdf2$<iterations>$<base64(salt)>$<hex(derived)>
+    // Legacy 64-hex verifiers keep working (see crypt.js generic_check_hash). This mirrors the
+    // JavaScript implementation exactly (public/crypt.js) — keep both sides in sync.
+    public const VERIFIER_PREFIX = '$pbkdf2$';
+    private const VERIFIER_ITERATIONS = 100000;
+    private const VERIFIER_SALT_BYTES = 16;
+
     /**
      * Encrypt plaintext using AES-256-CTR with a random IV.
      * Returns a v2-format string: $v2$<iv_b64>$<ct_b64>
@@ -104,6 +115,27 @@ class AccountCrypto
         // Legacy v1 format — delegate to old implementation
         $hash = hash('sha256', $fingerprint);
         return AesCtr::decrypt($ciphertext, $hash, 256);
+    }
+
+    /**
+     * Build a salted, slow verifier for an encryption key (fingerprint).
+     * Stored in glpi_plugin_accounts_hashes.hash and used only to check that a typed key
+     * is the right one — it is NOT the encryption key. Format:
+     *   $pbkdf2$<iterations>$<base64(salt)>$<hex(derived)>
+     * Must produce a value verifiable by crypt.js generic_check_hash().
+     *
+     * @param string $key The raw encryption key (fingerprint)
+     * @return string      Self-describing PBKDF2 verifier
+     */
+    public static function makeVerifier(string $key): string
+    {
+        $salt    = random_bytes(self::VERIFIER_SALT_BYTES);
+        $derived = hash_pbkdf2('sha256', $key, $salt, self::VERIFIER_ITERATIONS, 0, false);
+
+        return self::VERIFIER_PREFIX
+            . self::VERIFIER_ITERATIONS . '$'
+            . base64_encode($salt) . '$'
+            . $derived;
     }
 
     /**

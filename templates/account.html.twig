@@ -261,11 +261,16 @@
                                         <input type="hidden" name="encrypted_password" id="encrypted_password" size="40"
                                                autocomplete="off"
                                                value="{{ item.fields['encrypted_password'] }}"/>
+                                        {# Only auto-decrypt when the key was actually prefilled
+                                           (users with plugin_accounts_hash UPDATE); other readers
+                                           enter the key manually. #}
+                                        {% if aeskey_uncrypted %}
                                         <script type="text/javascript">
                                             $(document).ready(function () {
                                                 auto_decrypt();
                                             });
                                         </script>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

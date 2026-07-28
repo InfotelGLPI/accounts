@@ -400,7 +400,6 @@ final class Account_Item extends CommonDBRelation
                 'glpi_plugin_accounts_accounts.name AS assocName',
                 'glpi_plugin_accounts_accounts.*',
                 'glpi_plugin_accounts_hashes.hash AS hash_value',
-                'glpi_plugin_accounts_aeskeys.name AS aeskey_name',
             ],
             'FROM' => 'glpi_plugin_accounts_accounts_items',
             'LEFT JOIN' => [
@@ -420,12 +419,6 @@ final class Account_Item extends CommonDBRelation
                     'ON' => [
                         'glpi_plugin_accounts_accounts' => 'plugin_accounts_hashes_id',
                         'glpi_plugin_accounts_hashes'   => 'id',
-                    ],
-                ],
-                'glpi_plugin_accounts_aeskeys' => [
-                    'ON' => [
-                        'glpi_plugin_accounts_aeskeys'  => 'plugin_accounts_hashes_id',
-                        'glpi_plugin_accounts_accounts' => 'plugin_accounts_hashes_id',
                     ],
                 ],
             ],
@@ -480,7 +473,9 @@ final class Account_Item extends CommonDBRelation
                     'hidden-value'   => $value['encrypted_password'],
                     'hidden-id'      => "encrypted_password",
                     'hidden-name'    => "encrypted_password",
-                    'aeskey_uncrypted' => $value['aeskey_name'] ?? false,
+                    // Never ship the (GLPIKey-encrypted, and thus unusable client-side) master-key
+                    // blob to the browser here: the user enters the key to decrypt, as elsewhere.
+                    'aeskey_uncrypted' => false,
                 ],
                 'users_id' => getUserName($value['users_id']),
                 'plugin_accounts_accounttypes_id' => Dropdown::getDropdownName(
@@ -504,12 +499,11 @@ final class Account_Item extends CommonDBRelation
                 "date_expiration" => __('Expiration date'),
             ],
             'formatters' => [
+                // Only 'name' is real HTML ($account->getLink()); every other column is plain text
+                // (login is free user input, the rest are resolved names). Rendering them with the
+                // default escaping formatter — not raw_html — prevents stored XSS via the login field.
                 'name' => 'raw_html',
-                'entities_id' => 'raw_html',
-                'login' => 'raw_html',
                 'decrypt_password' => 'button',
-                'users_id' => 'raw_html',
-                'plugin_accounts_accounttypes_id' => 'raw_html',
                 'date_creation' => 'date',
                 'date_expiration' => 'date',
             ],

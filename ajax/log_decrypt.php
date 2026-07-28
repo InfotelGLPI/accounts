@@ -37,6 +37,13 @@ Html::header_nocache();
 Session::checkRight("plugin_accounts", READ);
 
 if (isset($_POST['idcrypt'])) {
+    // Object-level check: only log (and thus acknowledge decryption of) an account the
+    // caller may actually read — prevents writing history against an arbitrary account id.
+    $account = new Account();
+    if (!$account->can((int) $_POST['idcrypt'], READ)) {
+        throw new \Glpi\Exception\Http\AccessDeniedHttpException();
+    }
+
     //History log
     $changes[0] = 15;
     $changes[1] = "";
@@ -46,8 +53,8 @@ if (isset($_POST['idcrypt'])) {
         $changes[2] = __s('Decrypted from item', 'accounts');
         if (isset($_POST['items_id']) && isset($_POST['itemtype'])) {
             $item = getItemForItemtype($_POST['itemtype']);
-            if ($item !== false) {
-                $item->getFromDB((int) $_POST['items_id']);
+            // Only disclose the linked item's name when the caller can read that item too.
+            if ($item !== false && $item->can((int) $_POST['items_id'], READ)) {
                 $changes[2] .= " " . $item->getName();
             }
         }

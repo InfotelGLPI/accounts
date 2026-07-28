@@ -339,9 +339,9 @@ class Hash extends CommonDBTM
         $account = new Account();
         $aeskey  = new AesKey();
 
-        $oldhash      = hash("sha256", $oldaeskey);
-        $newhash      = hash("sha256", $newaeskey);
-        $newhashstore = hash("sha256", $newhash);
+        // Salted, slow verifier for the new key (mirror of crypt.js). Replaces the former
+        // fast double SHA-256, which was brute-forceable offline once disclosed to a user.
+        $newhashstore = AccountCrypto::makeVerifier($newaeskey);
         // uncrypt passwords for update
 
         $criteria = [

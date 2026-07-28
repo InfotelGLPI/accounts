@@ -707,13 +707,20 @@ class Account extends CommonDBTM
             return false;
         }
 
-        $aeskey = new AesKey();
-        if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $selected_hash_id])
-            && $aeskey->fields["name"]) {
-            $aeskey_uncrypted = $aeskey->getDecryptedName();
-        }
-
         $canupdateHash = Session::haveRight('plugin_accounts_hash', UPDATE);
+
+        // Serve the remembered master key in cleartext (and trigger auto-decrypt) only to users
+        // allowed to manage the encryption key (plugin_accounts_hash UPDATE). A plain READ user
+        // must enter the key manually, preserving the zero-knowledge model for lower-privileged
+        // readers: otherwise anyone with READ could read the key from the page source and decrypt
+        // every account of the entity offline.
+        if ($canupdateHash) {
+            $aeskey = new AesKey();
+            if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $selected_hash_id])
+                && $aeskey->fields["name"]) {
+                $aeskey_uncrypted = $aeskey->getDecryptedName();
+            }
+        }
 
         $this->initForm($ID, $options);
         TemplateRenderer::getInstance()->display('@accounts/account.html.twig', [
@@ -979,12 +986,14 @@ class Account extends CommonDBTM
                             if ($src_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $src_hash_id])
                                 && !empty($src_aeskey->fields['name'])) {
                                 $src_aes_key_value = $src_aeskey->getDecryptedName();
-                                $src_hash_value = hash('sha256', $src_aes_key_value);
 
-                                // Decrypt with source key
+                                // Decrypt with source key. AccountCrypto hashes the fingerprint
+                                // internally, so pass the raw AES key (as resolveFingerprint does),
+                                // never a pre-hashed value: double hashing breaks decryption and
+                                // would silently clear the transferred secret.
                                 $plaintext = AccountCrypto::decrypt(
                                     $item->fields['encrypted_password'],
-                                    $src_hash_value
+                                    $src_aes_key_value
                                 );
 
                                 // Find destination entity's fingerprint
@@ -1006,11 +1015,10 @@ class Account extends CommonDBTM
                                     if ($dest_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $new_hash_id])
                                         && !empty($dest_aeskey->fields['name'])) {
                                         $dest_aes_key_value = $dest_aeskey->getDecryptedName();
-                                        $dest_hash_value = hash('sha256', $dest_aes_key_value);
 
-                                        // Re-encrypt with destination key
+                                        // Re-encrypt with destination key (raw AES key as fingerprint).
                                         $reencrypted_password = addslashes(
-                                            AccountCrypto::encrypt($plaintext, $dest_hash_value)
+                                            AccountCrypto::encrypt($plaintext, $dest_aes_key_value)
                                         );
                                     }
                                 }
@@ -1040,10 +1048,10 @@ class Account extends CommonDBTM
                             && isset($src_aes_key_value, $dest_aes_key_value)) {
                             $plain_totp = AccountCrypto::decrypt(
                                 $item->fields['encrypted_totp_secret'],
-                                hash('sha256', $src_aes_key_value)
+                                $src_aes_key_value
                             );
                             $reencrypted_totp = addslashes(
-                                AccountCrypto::encrypt($plain_totp, hash('sha256', $dest_aes_key_value))
+                                AccountCrypto::encrypt($plain_totp, $dest_aes_key_value)
                             );
                         } elseif (!empty($item->fields['encrypted_totp_secret']) && $reencrypted_password === null) {
                             $reencrypted_totp = '';
@@ -1345,7 +1353,7 @@ class Account extends CommonDBTM
                 'Select the wanted account type',
                 'accounts'
             ) . "</div><br>";
-        echo "<a href='" . $target . "?reset=reset' target='_blank' title=\""
+        echo "<a href='" . htmlspecialchars($target, ENT_QUOTES, 'UTF-8') . "?reset=reset' target='_blank' title=\""
             . __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __s('Show all')) . "</a>";
         $root = PLUGIN_ACCOUNTS_WEBDIR;
         $js = "   $(function() {
@@ -1549,7 +1557,8 @@ class Account extends CommonDBTM
         if ((!isset($options['withtemplate']) || ($options['withtemplate'] == 0))
             && !empty($this->fields['template_name'])) {
             echo "<th colspan='" . ($colspan * 2) . "'>";
-            printf(__s('Created from the template %s'), $this->fields['template_name']);
+            // Stored raw since GLPI 10+: escape before output like the other columns (name/login/type).
+            printf(__s('Created from the template %s'), htmlspecialchars((string) $this->fields['template_name'], ENT_QUOTES, 'UTF-8'));
             echo "</th>";
         }
 

@@ -121,22 +121,16 @@
             return;
         }
 
-        // Hash double SHA256 avec CryptoJS (nouveau)
-        var hashCryptoJS = "";
-        if (CryptoJS && CryptoJS.SHA256) {
-            hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(aeskey)).toString();
-        }
-
-        // Hash double SHA256 avec l'ancien SHA256() si disponible
-        var hashOld = "";
-        if (typeof SHA256 === "function") {
-            hashOld = SHA256(SHA256(aeskey));
-        }
-
-        // On choisit par défaut CryptoJS si présent, sinon l'ancien SHA256
-        var hashToUse = hashCryptoJS || hashOld;
-
-        $('input[name="hash"]').val(hashToUse);
-
+        // Salted, slow PBKDF2 verifier (see generate_hash_verifier in crypt.js). Replaces the
+        // former fast double SHA-256, which was brute-forceable offline once disclosed.
+        var $btn = $(this).prop('disabled', true);
+        // Defer so the disabled state paints before the (deliberately slow) derivation runs.
+        window.setTimeout(function () {
+            try {
+                $('input[name="hash"]').val(generate_hash_verifier(aeskey));
+            } finally {
+                $btn.prop('disabled', false);
+            }
+        }, 0);
     });
 </script>

@@ -41,10 +41,17 @@ if (isset($_POST['password'])) {
   echo Html::scriptBlock("
 
          function randomInt(n) {
-            var x = Math.floor(Math.random() * n);
-            if (x < 0 || x >= n)
+            if (n <= 0)
                throw \"Arithmetic exception\";
-            return x;
+            // Cryptographically secure, unbiased index in [0, n) via rejection sampling.
+            var limit = Math.floor(0x100000000 / n) * n;
+            var buf = new Uint32Array(1);
+            var x;
+            do {
+               window.crypto.getRandomValues(buf);
+               x = buf[0];
+            } while (x >= limit);
+            return x % n;
          }
 
 
