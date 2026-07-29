@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-28 08:30+0000\n"
+"POT-Creation-Date: 2026-07-29 15:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Account.php:1031
+#: src/Account.php:1030
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Accounts expired for more than"
 msgstr ""
 
-#: src/Account.php:1148 src/Account.php:1263
+#: src/Account.php:1147 src/Account.php:1262
 #: src/NotificationTargetAccount.php:327
 msgid "Accounts expired or accounts which expire"
 msgstr ""
@@ -138,7 +138,7 @@ msgstr ""
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:1470
+#: src/Account.php:1469
 msgid "Don't expire"
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/Account.php:1574 src/Account.php:1578 src/AesKey.php:76
+#: src/Account.php:1573 src/Account.php:1577 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
 #: templates/account.html.twig:191 templates/account.html.twig:251
 #: templates/hash.html.twig:63 templates/aeskey.html.twig:60
@@ -159,7 +159,7 @@ msgstr[1] ""
 msgid "Encryption key modified"
 msgstr ""
 
-#: front/aeskey.form.php:50
+#: front/aeskey.form.php:78
 msgid "Encryption key saved"
 msgstr ""
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Hash.php:62 src/Hash.php:175 src/Account.php:326 src/AesKey.php:242
+#: src/Hash.php:62 src/Hash.php:180 src/Account.php:326 src/AesKey.php:242
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -210,7 +210,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Hash.php:100 src/Report.php:320
+#: src/Hash.php:100 src/Report.php:310
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr ""
@@ -267,7 +267,7 @@ msgstr ""
 msgid "Password will not be modified"
 msgstr ""
 
-#: src/Hash.php:260
+#: src/Hash.php:265
 msgid ""
 "Please do not use special characters like / \\ apostrophe ampersand in "
 "encryption keys, or you cannot change it after."
@@ -315,7 +315,7 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
-#: src/Account.php:1353
+#: src/Account.php:1352
 msgid "Select the wanted account type"
 msgstr ""
 
@@ -341,7 +341,7 @@ msgstr ""
 msgid "TOTP Secret"
 msgstr ""
 
-#: src/Account.php:616
+#: src/Account.php:615
 msgid ""
 "TOTP secret not saved: no encryption key available. Please configure an "
 "encryption key first."
@@ -355,13 +355,13 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr ""
 
-#: src/Account.php:698
+#: src/Account.php:697
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:655 src/Account.php:703
+#: src/Account.php:654 src/Account.php:702
 msgid "There is no encryption key for this entity"
 msgstr ""
 
@@ -429,7 +429,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:1661
+#: src/Account.php:1660
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -439,11 +439,11 @@ msgstr ""
 msgid "You have not filled the password and encryption key"
 msgstr ""
 
-#: src/Hash.php:283
+#: src/Hash.php:288
 msgid "You must generate the fingerprint for your encryption key"
 msgstr ""
 
-#: src/Account.php:675
+#: src/Account.php:674
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 
