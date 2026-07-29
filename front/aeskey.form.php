@@ -27,8 +27,10 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\AesKey;
+use GlpiPlugin\Accounts\Hash;
 
 if (!isset($_GET["id"])) {
     $_GET["id"] = "";
@@ -41,10 +43,36 @@ Session::checkRight("plugin_accounts_hash", UPDATE);
 
 $aeskey = new AesKey();
 
+// AesKey rows carry no entities_id of their own: they are scoped through the parent Hash
+// (plugin_accounts_hashes_id). The plugin_accounts_hash UPDATE right can be recursive/global,
+// so relying only on Session::checkRight()/canCreate() lets a user in entity A target an AesKey
+// id (or a hash id) belonging to entity B by tampering with the POST (IDOR). Every write must be
+// pinned to the entity of the parent hash — same guard as front/hash.form.php:69 and
+// ajax/getHashOnSelectEncryptionKey.php.
+$assertHashEntityAccess = static function (int $hashes_id): void {
+    $hash = new Hash();
+    if (
+        $hashes_id <= 0
+        || !$hash->getFromDB($hashes_id)
+        || !Session::haveAccessToEntity($hash->fields['entities_id'])
+    ) {
+        throw new AccessDeniedHttpException();
+    }
+};
+$assertAesKeyEntityAccess = static function (int $aeskeys_id) use ($assertHashEntityAccess): void {
+    $target = new AesKey();
+    if ($aeskeys_id <= 0 || !$target->getFromDB($aeskeys_id)) {
+        throw new AccessDeniedHttpException();
+    }
+    $assertHashEntityAccess((int) $target->fields['plugin_accounts_hashes_id']);
+};
+
 Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
 
 if (isset($_POST["add"])) {
     if ($aeskey->canCreate()) {
+        // Bind the new key to an entity the caller can reach (target hash's entity).
+        $assertHashEntityAccess((int) ($_POST["plugin_accounts_hashes_id"] ?? 0));
         $newID = $aeskey->add($_POST);
         unset($_SESSION['MESSAGE_AFTER_REDIRECT']);
         Session::addMessageAfterRedirect(__s('Encryption key saved', 'accounts'), true);
@@ -55,19 +83,27 @@ if (isset($_POST["add"])) {
     Html::back();
 } elseif (isset($_POST["update"])) {
     if ($aeskey->canCreate()) {
+        // Existing row must belong to a reachable entity...
+        $assertAesKeyEntityAccess((int) ($_POST["id"] ?? 0));
+        // ...and so must the target hash if the update tries to move the key to another hash.
+        if (isset($_POST["plugin_accounts_hashes_id"])) {
+            $assertHashEntityAccess((int) $_POST["plugin_accounts_hashes_id"]);
+        }
         $aeskey->update($_POST);
     }
     Html::back();
 } elseif (isset($_POST["delete"])) {
     if ($aeskey->canCreate()) {
         foreach ($_POST["check"] as $ID => $value) {
-            $aeskey->delete(["id" => $ID], 1);
+            $assertAesKeyEntityAccess((int) $ID);
+            $aeskey->delete(["id" => (int) $ID], 1);
         }
     }
     Html::back();
 } elseif (isset($_POST["purge"])) {
     if ($aeskey->canCreate()) {
-        $aeskey->delete(["id" => $_POST["id"]], 1);
+        $assertAesKeyEntityAccess((int) ($_POST["id"] ?? 0));
+        $aeskey->delete(["id" => (int) $_POST["id"]], 1);
     }
     $aeskey->redirectToList();
 } else {

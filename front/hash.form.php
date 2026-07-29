@@ -28,6 +28,7 @@
  */
 
 use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Accounts\AccountCrypto;
 use GlpiPlugin\Accounts\Hash;
 
 if (!isset($_GET["id"])) {
@@ -72,10 +73,9 @@ if (isset($_POST["add"])) {
             $oldAeskey = $_POST["aeskey"];
             $storedHash = $hashClass->fields['hash'];
 
-            // Calcul double SHA256 côté PHP (compatible avec SHA256 JS classique)
-            $hashCheck = hash("sha256", hash("sha256", $oldAeskey));
-
-            if (!hash_equals($storedHash, $hashCheck)) {
+            // Verify the typed old key against the stored verifier. Handles both the new
+            // salted PBKDF2 format and legacy double SHA-256 (see AccountCrypto::verify).
+            if (!AccountCrypto::verify($oldAeskey, (string) $storedHash)) {
                 Session::addMessageAfterRedirect(
                     __s('Wrong encryption key', 'accounts'),
                     true,

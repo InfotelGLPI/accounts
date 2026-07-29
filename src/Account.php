@@ -573,14 +573,13 @@ class Account extends CommonDBTM
             return $aeskey->getDecryptedName();
         }
 
-        // Key not stored in DB: accept the posted key only if it matches the stored hash.
+        // Key not stored in DB: accept the posted key only if it matches the stored
+        // verifier. AccountCrypto::verify handles both the new salted PBKDF2 format and
+        // legacy double SHA-256.
         if (!empty($posted)) {
             $hashRecord = new Hash();
             if ($hashRecord->getFromDB($hash_id)
-                && hash_equals(
-                    $hashRecord->fields['hash'] ?? '',
-                    hash('sha256', hash('sha256', $posted))
-                )) {
+                && AccountCrypto::verify($posted, (string) ($hashRecord->fields['hash'] ?? ''))) {
                 return $posted;
             }
         }

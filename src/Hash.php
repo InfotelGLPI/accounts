@@ -122,7 +122,12 @@ class Hash extends CommonDBTM
             $key = AesKey::checkIfAesKeyExists($item->getID());
             switch ($tabnum) {
                 case 2:
-                    if (!$key) {
+                    // Serve the stored master key (auto-decrypt of every password) only to users
+                    // allowed to manage the encryption key (plugin_accounts_hash UPDATE), mirroring
+                    // Account::showForm. A plain READ user must type the key manually via
+                    // showSelectAccountsList: otherwise they could read the master key from the page
+                    // source and decrypt every account of the entity offline.
+                    if (!$key || !Session::haveRight(static::$rightname, UPDATE)) {
                         self::showSelectAccountsList($item->getID());
                     } else {
                         $parm     = ["id" => $item->getID(),

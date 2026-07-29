@@ -272,34 +272,24 @@ class Report extends CommonDBTM
                                 var aeskey = $js_aeskey;
                                 var encrypted = $js_encrypted;
                                 var prefix = $js_prefix;
-                                var hashCryptoJS = '';
-                                if (CryptoJS && CryptoJS.SHA256) {
-                                    hashCryptoJS = CryptoJS.SHA256(CryptoJS.SHA256(aeskey)).toString();
-                                }
 
-                                var hashOld = '';
-                                if (typeof SHA256 === 'function') {
-                                    hashOld = SHA256(SHA256(aeskey));
-                                }
-
-                                if (hashCryptoJS === good_hash || hashOld === good_hash) {
-                                    // Hash valide
-                                    // Déchiffrement avec le nouveau format v2
+                                // Verify the typed key against the stored verifier. generic_check_hash
+                                // (crypt.js) handles both the salted PBKDF2 format and legacy double SHA-256.
+                                if (generic_check_hash(good_hash, aeskey)) {
+                                    // v2 authenticated format
                                     pass = decryptV2(encrypted, aeskey);
 
-                                    // Si tu veux gérer aussi l'ancien format AES, tu peux décommenter ceci :
-                                     if (!encrypted.startsWith(prefix)) {
-                                         pass = AESDecryptCtr(encrypted, SHA256(aeskey), 256);
-                                     }
-
+                                    // Legacy AES-CTR ciphertexts (no v2 prefix)
+                                    if (!encrypted.startsWith(prefix)) {
+                                        pass = AESDecryptCtr(encrypted, SHA256(aeskey), 256);
+                                    }
                                 } else {
-                                    // Clé incorrecte
                                     pass = $js_wrongkey;
                                 }
 
-                                // On injecte le mot de passe dans le formulaire et l'affichage
+                                // Inject the password into the form field and the display cell
                                 document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
-                                document.getElementById(\"show_password$$IDc\").innerHTML = pass;
+                                document.getElementById(\"show_password$$IDc\").textContent = pass;
 
                                 ");
 

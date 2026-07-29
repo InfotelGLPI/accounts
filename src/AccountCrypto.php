@@ -139,6 +139,43 @@ class AccountCrypto
     }
 
     /**
+     * Check a typed encryption key against a stored verifier.
+     * PHP mirror of crypt.js generic_check_hash(): accepts both the new salted PBKDF2
+     * verifier ($pbkdf2$<iterations>$<base64(salt)>$<hex(derived)>) and legacy bare
+     * double SHA-256 verifiers, so existing keys keep working during the transition.
+     * Comparisons use hash_equals() to stay constant-time.
+     *
+     * @param string $key    The raw encryption key (fingerprint) typed by the user
+     * @param string $stored The stored verifier (glpi_plugin_accounts_hashes.hash)
+     * @return bool           True when the key matches the verifier
+     */
+    public static function verify(string $key, string $stored): bool
+    {
+        if ($key === '' || $stored === '') {
+            return false;
+        }
+
+        // New salted, slow verifier.
+        if (str_starts_with($stored, self::VERIFIER_PREFIX)) {
+            // ltrim the leading '$' then split: ['pbkdf2', iterations, salt_b64, hex]
+            $parts = explode('$', ltrim($stored, '$'));
+            if (count($parts) < 4) {
+                return false;
+            }
+            $iterations = (int) $parts[1];
+            $salt       = base64_decode($parts[2], true);
+            if ($iterations <= 0 || $salt === false) {
+                return false;
+            }
+            $derived = hash_pbkdf2('sha256', $key, $salt, $iterations, 0, false);
+            return hash_equals($parts[3], $derived);
+        }
+
+        // Legacy verifier: bare double SHA-256.
+        return hash_equals($stored, hash('sha256', hash('sha256', $key)));
+    }
+
+    /**
      * Check if a stored ciphertext uses the legacy (v1) format.
      * Useful for migration scripts and re-encryption on save.
      */
