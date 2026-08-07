@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-18 09:30+0000\n"
+"POT-Creation-Date: 2026-08-01 08:00+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
 "Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
@@ -22,13 +22,13 @@ msgstr ""
 "Language: tr_TR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/Account.php:94 setup.php:137
+#: src/Account.php:95 setup.php:136
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Hesap"
 msgstr[1] "Hesaplar"
 
-#: src/Account.php:1006
+#: src/Account.php:1030
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -41,16 +41,16 @@ msgstr ""
 msgid "Accounts expired"
 msgstr "Süresi dolmuş hesaplar"
 
-#: templates/config.html.twig:47
+#: templates/config.html.twig:46
 msgid "Accounts expired for more than"
 msgstr "Şu zamandan önce süresi dolmuş hesaplar"
 
-#: src/Account.php:1123 src/Account.php:1238
+#: src/Account.php:1147 src/Account.php:1262
 #: src/NotificationTargetAccount.php:327
 msgid "Accounts expired or accounts which expire"
 msgstr "Süresi dolmuş ya da dolan hesaplar"
 
-#: templates/config.html.twig:54
+#: templates/config.html.twig:53
 msgid "Accounts expiring in less than"
 msgstr "Şu zaman içinde süresi dolacak hesaplar"
 
@@ -58,30 +58,29 @@ msgstr "Şu zaman içinde süresi dolacak hesaplar"
 msgid "Accounts which expire"
 msgstr "Süresi dolan hesaplar"
 
-#: templates/item_account.html.twig:59 templates/status_cron.html.twig:62
+#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
 msgctxt "button"
 msgid "Add"
 msgstr "Ekle"
 
-#: templates/status_cron.html.twig:45
+#: templates/status_cron.html.twig:44
 msgid "Add an unused status for expiration mailing"
 msgstr "Süre dolma e-postasına kullanılmıyor durumu eklensin"
 
 #: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:196
 #: src/NotificationTargetAccount.php:248 src/NotificationTargetAccount.php:309
-#: templates/account.html.twig:414 templates/account.html.twig:424
+#: templates/account.html.twig:418 templates/account.html.twig:428
 msgid "Affected Group"
 msgstr "Etkilenen grup"
 
-#: src/Account.php:334 src/Account.php:342
+#: src/Account_Item.php:496 src/Account.php:335 src/Account.php:343
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:193
 #: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
-#: src/Account_Item.php:500 templates/account.html.twig:388
-#: templates/account.html.twig:397
+#: templates/account.html.twig:392 templates/account.html.twig:401
 msgid "Affected User"
 msgstr "Etkilenen kullanıcı"
 
-#: templates/datatable.html.twig:200
+#: templates/datatable.html.twig:199
 msgid "All"
 msgstr "Tümü"
 
@@ -89,51 +88,51 @@ msgstr "Tümü"
 msgid "An account has been created"
 msgstr "Bir hesap oluşturuldu"
 
-#: templates/account.html.twig:533
+#: templates/account.html.twig:537
 msgid "Associable to a ticket"
 msgstr "Destek kaydı ile ilişkilendirilebilir"
 
-#: hook.php:983
+#: hook.php:872
 msgid "Associate to account"
 msgstr "Hesapla ilişkilendir"
 
-#: templates/datatable.html.twig:103
+#: templates/datatable.html.twig:102
 msgid "Check all"
 msgstr "Tümünü seç"
 
-#: templates/account.html.twig:242 templates/account.html.twig:333
+#: templates/account.html.twig:241 templates/account.html.twig:337
 msgid "Clear"
 msgstr "Temizle"
 
-#: templates/account.html.twig:525 templates/hash.html.twig:90
+#: templates/account.html.twig:529 templates/hash.html.twig:89
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Yorum"
 msgstr[1] "Yorumlar"
 
-#: templates/account.html.twig:437
+#: templates/account.html.twig:441
 msgid "Creation date"
 msgstr "Oluşturulma tarihi"
 
-#: templates/config.html.twig:51 templates/config.html.twig:59
+#: templates/config.html.twig:50 templates/config.html.twig:58
 msgid "Day"
 msgid_plural "Days"
 msgstr[0] "Gün"
 msgstr[1] "Günler"
 
-#: src/Account_Item.php:470
+#: src/Account_Item.php:464
 msgid "Decrypt"
 msgstr "Şifreyi çöz"
 
-#: ajax/log_decrypt.php:46
+#: ajax/log_decrypt.php:51
 msgid "Decrypted from account"
 msgstr "Hesaptan çözülmüş şifre"
 
-#: ajax/log_decrypt.php:48
+#: ajax/log_decrypt.php:53
 msgid "Decrypted from item"
 msgstr "Ögeden çözülmüş şifre"
 
-#: src/Report.php:203 src/Report.php:213
+#: src/Report.php:202 src/Report.php:212
 msgid "Decrypted password"
 msgstr "Şifresi çözülmüş parola"
 
@@ -141,100 +140,100 @@ msgstr "Şifresi çözülmüş parola"
 msgid "Direct link to created account"
 msgstr "Oluşturulan hesaba doğrudan bağlantı"
 
-#: templates/hash_select_accounts.html.twig:54
+#: templates/hash_select_accounts.html.twig:53
 msgid "Display report"
 msgstr "Raporu görüntüle"
 
-#: src/Account.php:1445
+#: src/Account.php:1469
 msgid "Don't expire"
 msgstr "Süresi dolmaz"
 
-#: templates/account.html.twig:470
+#: templates/account.html.twig:474
 msgid "Empty for infinite"
 msgstr "Sonsuz olması için boş bırakın"
 
-#: src/AesKey.php:68 src/AesKey.php:77 src/AesKey.php:230 src/AesKey.php:251
-#: src/Account.php:1548 src/Account.php:1552 templates/account.html.twig:192
-#: templates/account.html.twig:252 templates/aeskey.html.twig:61
-#: templates/hash.html.twig:64
+#: src/Account.php:1573 src/Account.php:1577 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
+#: templates/account.html.twig:191 templates/account.html.twig:251
+#: templates/hash.html.twig:63 templates/aeskey.html.twig:60
 msgid "Encryption key"
-msgid_plural "Encryption key"
+msgid_plural "Encryption keys"
 msgstr[0] "Şifreleme anahtarı"
-msgstr[1] "Şifreleme anahtarı"
+msgstr[1] "Şifreleme anahtarları"
 
-#: front/hash.form.php:81 templates/aeskey.html.twig:53
+#: front/hash.form.php:89 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "Şifreleme anahtarı değiştirildi"
 
-#: front/aeskey.form.php:52
+#: front/aeskey.form.php:78
 msgid "Encryption key saved"
 msgstr "Şifreleme anahtarı kaydedildi"
 
-#: templates/datatable.html.twig:411
+#: templates/datatable.html.twig:410
 msgid "Entries to show:"
 msgstr "Görüntülenecek kayıtlar:"
 
-#: templates/account.html.twig:469
+#: templates/account.html.twig:473
 msgid "Expiration date"
 msgstr "Geçerlilik sonu tarihi"
 
-#: templates/datatable.html.twig:144
+#: templates/datatable.html.twig:143
 msgid "Export"
 msgstr "Dışa aktar"
 
-#: templates/datatable.html.twig:138
+#: templates/datatable.html.twig:137
 msgid "Filter"
 msgstr "Süz"
 
-#: src/AesKey.php:206 src/Account.php:325 src/Hash.php:61 src/Hash.php:174
-#: templates/account.html.twig:147 templates/account.html.twig:169
+#: src/Hash.php:62 src/Hash.php:180 src/Account.php:326 src/AesKey.php:242
+#: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
 msgstr[0] "Parmak izi"
 msgstr[1] "Parmak izleri"
 
-#: templates/account.html.twig:661
+#: templates/account.html.twig:665
 msgid "Generate"
 msgstr "Oluştur"
 
-#: templates/hash.html.twig:72
+#: templates/hash.html.twig:71
 msgid "Generate fingerprint with this encryption key"
 msgstr "Bu şifreleme anahtarı ile parmak izi oluştur"
 
-#: templates/account.html.twig:606
+#: templates/account.html.twig:610
 msgid "Generate password"
 msgstr "Parola oluştur"
 
-#: templates/account.html.twig:481 templates/account.html.twig:491
+#: templates/account.html.twig:485 templates/account.html.twig:495
 msgid "Group in charge"
 msgstr "Sorumlu grup"
 
-#: templates/account.html.twig:319
+#: templates/account.html.twig:323
 msgid "Leave blank to keep current"
 msgstr "Geçerli parolayı korumak için boş bırakın"
 
-#: templates/account.html.twig:647
+#: templates/account.html.twig:651
 msgid "Length"
 msgstr "Uzunluk"
 
-#: src/Report.php:317 src/Hash.php:99
-#: templates/hash_select_accounts.html.twig:33
+#: src/Hash.php:100 src/Report.php:310
+#: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Bağlantılı hesap listesi"
 
-#: templates/account.html.twig:82
+#: templates/account.html.twig:81
 msgid "Login"
 msgstr "Oturum aç"
 
-#: templates/account.html.twig:623
+#: templates/account.html.twig:627
 msgid "Lowercase"
 msgstr "Küçük harfler"
 
-#: src/Hash.php:101
+#: src/Hash.php:102
 msgid "Modification of the encryption key for all passwords"
 msgstr "Tüm parolalar için şifreleme anahtarının değiştirilmesi"
 
-#: templates/account.html.twig:61 templates/hash.html.twig:55
+#: templates/account.html.twig:60 templates/hash.html.twig:54
 msgid "Name"
 msgstr "Ad"
 
@@ -242,39 +241,39 @@ msgstr "Ad"
 msgid "New account"
 msgstr "Yeni hesap"
 
-#: templates/hash_change_key.html.twig:66
+#: templates/hash_change_key.html.twig:65
 msgid "New encryption key"
 msgstr "Yeni şifreleme anahtarı"
 
-#: templates/datatable.html.twig:205 templates/datatable.html.twig:368
+#: templates/datatable.html.twig:204 templates/datatable.html.twig:367
 msgid "No"
 msgstr "Hayır"
 
-#: templates/datatable.html.twig:65 templates/datatable.html.twig:384
+#: templates/datatable.html.twig:64 templates/datatable.html.twig:383
 msgid "No results found"
 msgstr "Herhangi bir sonuç bulunamadı"
 
-#: templates/account.html.twig:616
+#: templates/account.html.twig:620
 msgid "Numbers"
 msgstr "Sayılar"
 
-#: templates/hash_change_key.html.twig:44
+#: templates/hash_change_key.html.twig:43
 msgid "Old encryption key"
 msgstr "Eski şifreleme anahtarı"
 
-#: templates/account.html.twig:505
+#: templates/account.html.twig:509
 msgid "Others"
 msgstr "Diğerleri"
 
-#: templates/account.html.twig:212 templates/account.html.twig:275
+#: templates/account.html.twig:211 templates/account.html.twig:279
 msgid "Password"
 msgstr "Parola"
 
-#: templates/account.html.twig:575
+#: templates/account.html.twig:579
 msgid "Password will not be modified"
 msgstr "Parola değiştirilmeyecek"
 
-#: src/Hash.php:259
+#: src/Hash.php:265
 msgid ""
 "Please do not use special characters like / \\ apostrophe ampersand in "
 "encryption keys, or you cannot change it after."
@@ -282,75 +281,75 @@ msgstr ""
 "Lütfen şifreleme anahtarlarında, / \\ ' \" & gibi özel karakterler "
 "kullanmayın. Yoksa daha sonra değiştiremezsiniz."
 
-#: templates/hash_select_accounts.html.twig:40
-#: templates/hash_select_accounts.html.twig:65 templates/hash.html.twig:120
+#: templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:119
 msgid "Please fill the encryption key"
 msgstr "Lütfen şifreleme anahtarını yazın"
 
-#: src/Config.php:58
+#: src/Config.php:59
 msgid "Plugin Setup"
 msgstr "Eklenti ayarları"
 
-#: templates/config.html.twig:67 templates/profile.html.twig:35
+#: templates/config.html.twig:66 templates/profile.html.twig:34
 msgctxt "button"
 msgid "Save"
 msgstr "Kaydet"
 
-#: src/AesKey.php:92
+#: src/AesKey.php:100
 msgid "Save the encryption key"
 msgstr "Şifreleme anahtarını kaydet"
 
-#: src/Profile.php:157
+#: src/Profile.php:156
 msgid "See accounts of my groups"
 msgstr "Gruplarımın hesaplarını görüntüle"
 
-#: src/Profile.php:165
+#: src/Profile.php:164
 msgid "See accounts of my technician groups"
 msgstr "Teknisyen gruplarımın hesaplarını görüntüle"
 
-#: src/Profile.php:171
+#: src/Profile.php:170
 msgid "See all accounts"
 msgstr "Tüm hesapları görüntüle"
 
-#: src/Servicecatalog.php:90 src/Servicecatalog.php:97
+#: src/Servicecatalog.php:89 src/Servicecatalog.php:96
 msgid "See your accounts"
 msgstr "Hesaplarımı görüntüle"
 
-#: ajax/generatepassword.php:66
+#: ajax/generatepassword.php:73
 msgid "Select at least one checkbox"
 msgstr "En az bir işaret kutusunu seçin"
 
-#: templates/datatable.html.twig:239
+#: templates/datatable.html.twig:238
 msgid "Select item"
 msgstr "Ögeyi seçin"
 
-#: src/Account.php:1328
+#: src/Account.php:1352
 msgid "Select the wanted account type"
 msgstr "İstenilen hesap türünü seçin"
 
-#: templates/account.html.twig:324
+#: templates/account.html.twig:328
 msgid "Show/hide"
 msgstr "Görüntüle/Gizle"
 
-#: templates/account.html.twig:637
+#: templates/account.html.twig:641
 msgid "Special characters"
 msgstr "Özel karakterler"
 
-#: src/AccountState.php:54 templates/account.html.twig:71
+#: src/AccountState.php:56 templates/account.html.twig:70
 msgid "Status"
 msgid_plural "Statuses"
 msgstr[0] "Durum"
 msgstr[1] "Durumlar"
 
-#: templates/account.html.twig:342
+#: templates/account.html.twig:346
 msgid "Stored TOTP Secret"
 msgstr "Kaydedilmiş tek kullanımlık parola"
 
-#: src/Account.php:244 templates/account.html.twig:307
+#: src/Account.php:245 templates/account.html.twig:311
 msgid "TOTP Secret"
 msgstr "Tek kullanımlık parola"
 
-#: src/Account.php:599
+#: src/Account.php:615
 msgid ""
 "TOTP secret not saved: no encryption key available. Please configure an "
 "encryption key first."
@@ -358,15 +357,15 @@ msgstr ""
 "Tek kullanımlık parola kaydedilmedi. Kullanılabilecek bir şifreleme anahtarı"
 " yok. Lütfen önce bir şifreleme anahtarı yapılandırın."
 
-#: templates/account.html.twig:448 templates/account.html.twig:457
+#: templates/account.html.twig:452 templates/account.html.twig:461
 msgid "Technician in charge"
 msgstr "Sorumlu teknisyen"
 
-#: front/hash.form.php:89
+#: front/hash.form.php:97
 msgid "The old or the new encryption key can not be empty"
 msgstr "Eski ya da yeni şifreleme anahtarı boş olamaz"
 
-#: src/Account.php:681
+#: src/Account.php:697
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
@@ -374,41 +373,41 @@ msgstr ""
 "Bu hesapla ilişkilendirilmiş bir şifreleme anahtarı yok. Lütfen yukarıdan "
 "birini seçin"
 
-#: src/Account.php:638 src/Account.php:686
+#: src/Account.php:654 src/Account.php:702
 msgid "There is no encryption key for this entity"
 msgstr "Bu birim için bir şifreleme anahtarı yok"
 
-#: templates/config.html.twig:42
+#: templates/config.html.twig:41
 msgid "Time of checking of expiration of accounts"
 msgstr "Hesapların süresinin dolma denetiminin zamanı"
 
-#: templates/account.html.twig:92
+#: templates/account.html.twig:91
 msgid "Type"
 msgstr "Tür"
 
-#: src/AccountType.php:50
+#: src/AccountType.php:52
 msgid "Type of account"
 msgid_plural "Types of account"
 msgstr[0] "Hesap türü"
 msgstr[1] "Hesap türleri"
 
-#: front/account.php:58 front/account.php:59 front/account.php:65
+#: front/account.php:57 front/account.php:58 front/account.php:64
 msgid "Type view"
 msgstr "Tür görünümü"
 
-#: templates/hash_change_key.html.twig:85
+#: templates/hash_change_key.html.twig:84
 msgid "Update"
 msgstr "Güncelle"
 
-#: templates/account.html.twig:630
+#: templates/account.html.twig:634
 msgid "Uppercase"
 msgstr "Büyük harfler"
 
-#: templates/account.html.twig:53
+#: templates/account.html.twig:52
 msgid "WARNING : an encryption key already exists for this entity"
 msgstr "UYARI: Bu birim için bir şifreleme anahtarı zaten var"
 
-#: templates/hash_change_key.html.twig:33
+#: templates/hash_change_key.html.twig:32
 msgid ""
 "WARNING : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
@@ -418,12 +417,12 @@ msgstr ""
 "parolalarınızın şifresini bir daha çözemezsiniz. Bu nedenle işlemi yapmadan "
 "önce veri tabanınızın yedeğini almanız ÖNEMLE önerilir."
 
-#: templates/aeskey.html.twig:58
+#: templates/aeskey.html.twig:57
 msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
 "DİKKAT: Şifreleme anahtarının kaydedilmesi bir güvenlik açığı oluşturur"
 
-#: templates/account.html.twig:186
+#: templates/account.html.twig:185
 msgid ""
 "WARNING: If you change the associated fingerprint, you will no longer be "
 "able to correctly decrypt the password. You will also need to update the "
@@ -432,7 +431,7 @@ msgstr ""
 "DİKKAT: İlişkilendirilmiş parmak izini değiştirirseniz, parolanın şifresini "
 "doğru şekilde çözemezsiniz. Ayrıca parolayı güncellemeniz gerekecek."
 
-#: src/Account.php:462
+#: src/Account.php:463
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -440,17 +439,17 @@ msgstr ""
 "Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun"
 " olduğunu gösterebilir."
 
-#: src/Account_Item.php:534 src/Report.php:294 front/hash.form.php:72
-#: templates/account.html.twig:217 templates/account.html.twig:280
-#: templates/account.html.twig:558 templates/account.html.twig:578
+#: front/hash.form.php:80 src/Account_Item.php:535 src/Report.php:269
+#: templates/account.html.twig:216 templates/account.html.twig:284
+#: templates/account.html.twig:562 templates/account.html.twig:582
 msgid "Wrong encryption key"
 msgstr "Şifreleme anahtarı yanlış"
 
-#: templates/datatable.html.twig:202 templates/datatable.html.twig:366
+#: templates/datatable.html.twig:201 templates/datatable.html.twig:365
 msgid "Yes"
 msgstr "Evet"
 
-#: src/Account.php:1635
+#: src/Account.php:1660
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -458,22 +457,22 @@ msgstr ""
 "İlişkilendirilmiş parmak izi olmayan hesaplarınız var. Lütfen bir toplu "
 "işlemle veya formlar içine ekleyin"
 
-#: templates/account.html.twig:552
+#: templates/account.html.twig:556
 msgid "You have not filled the password and encryption key"
 msgstr "Parola ve şifreleme anahtarını yazmadınız"
 
-#: src/Hash.php:282
+#: src/Hash.php:288
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "Şifreleme anahtarınız için bir parmak izi oluşturmalısınız"
 
-#: src/Account.php:658
+#: src/Account.php:674
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr "Şifreleme anahtarınız bozulmuş. Lütfen bir parmak izi oluşturun"
 
-#: templates/account.html.twig:652
+#: templates/account.html.twig:656
 msgid "characters"
 msgstr "karakter"
 
-#: templates/account.html.twig:309
+#: templates/account.html.twig:313
 msgid "new value"
 msgstr "yeni değer"
