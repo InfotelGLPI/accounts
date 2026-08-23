@@ -1,5 +1,5 @@
 includes:
-    - vendor/glpi-project/phpstan-glpi/extension.neon
+    - ../../vendor/glpi-project/phpstan-glpi/extension.neon
     - phpstan-baseline.neon
 
 parameters:
@@ -23,3 +23,8 @@ parameters:
         - ../../vendor/autoload.php
         - setup.php
     treatPhpDocTypesAsCertain: false
+    # The CI runner analyzes a pristine GLPI 11.0.x core while the local tree may
+    # carry core modifications, so PHPStan's type narrowing (and baseline hit counts)
+    # can differ between the two. Tolerate baseline entries that do not reproduce on
+    # the runner instead of failing on the drift.
+    reportUnmatchedIgnoredErrors: false

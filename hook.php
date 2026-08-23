@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 use Glpi\Search\SearchOption;
@@ -173,7 +173,7 @@ function plugin_accounts_install()
         foreach ($classes as $old => $new) {
             $displayusers = $DB->request([
                 'SELECT' => [
-                    'users_id'
+                    'users_id',
                 ],
                 'DISTINCT' => true,
                 'FROM' => 'glpi_displaypreferences',
@@ -187,13 +187,13 @@ function plugin_accounts_install()
                     $iterator = $DB->request([
                         'SELECT' => [
                             'num',
-                            'id'
+                            'id',
                         ],
                         'FROM' => 'glpi_displaypreferences',
                         'WHERE' => [
                             'itemtype' => $old,
                             'users_id' => $displayuser['users_id'],
-                            'interface' => 'central'
+                            'interface' => 'central',
                         ],
                     ]);
 
@@ -201,14 +201,14 @@ function plugin_accounts_install()
                         foreach ($iterator as $data) {
                             $iterator2 = $DB->request([
                                 'SELECT' => [
-                                    'id'
+                                    'id',
                                 ],
                                 'FROM' => 'glpi_displaypreferences',
                                 'WHERE' => [
                                     'itemtype' => $new,
                                     'users_id' => $displayuser['users_id'],
                                     'num' => $data['num'],
-                                    'interface' => 'central'
+                                    'interface' => 'central',
                                 ],
                             ]);
                             if (count($iterator2) > 0) {
@@ -217,7 +217,7 @@ function plugin_accounts_install()
                                         'glpi_displaypreferences',
                                         [
                                             'id' => $dataid['id'],
-                                        ]
+                                        ],
                                     );
                                     $DB->doQuery($query);
                                 }
@@ -229,7 +229,7 @@ function plugin_accounts_install()
                                     ],
                                     [
                                         'id' => $data['id'],
-                                    ]
+                                    ],
                                 );
                                 $DB->doQuery($query);
                             }
@@ -308,8 +308,8 @@ function plugin_accounts_install()
             && !$DB->fieldExists("glpi_plugin_accounts_accounts", "plugin_accounts_hashes_id")) {
             $DB->runFile(PLUGIN_ACCOUNTS_DIR . "/install/sql/update-3.2.0.sql");
         }
-//    include_once(PLUGIN_ACCOUNTS_DIR . "/install/update_320_migrateMultiHashEntities.php");
-//    update_320_migrateMultiHashEntities();
+        //    include_once(PLUGIN_ACCOUNTS_DIR . "/install/update_320_migrateMultiHashEntities.php");
+        //    update_320_migrateMultiHashEntities();
 
         // from 3.2.0: expand encrypted_password to TEXT (was VARCHAR(255), truncated long ciphertexts)
         if ($DB->tableExists('glpi_plugin_accounts_accounts')
@@ -345,7 +345,7 @@ function plugin_accounts_install()
                 $DB->update(
                     'glpi_logs',
                     ['linked_action_itemtype' => Account::class],
-                    ['linked_action_itemtype' => 'PluginAccountsAccount']
+                    ['linked_action_itemtype' => 'PluginAccountsAccount'],
                 );
             }
         }
@@ -376,7 +376,7 @@ function plugin_accounts_install()
             if ($field_info && $field_info['CHARACTER_MAXIMUM_LENGTH'] !== null) {
                 $DB->doQuery(
                     "ALTER TABLE `glpi_plugin_accounts_aeskeys`
-                     MODIFY `name` TEXT COLLATE utf8mb4_unicode_ci DEFAULT NULL"
+                     MODIFY `name` TEXT COLLATE utf8mb4_unicode_ci DEFAULT NULL",
                 );
 
                 // Encrypt every existing plaintext key in place
@@ -394,7 +394,7 @@ function plugin_accounts_install()
                     $DB->update(
                         'glpi_plugin_accounts_aeskeys',
                         ['name' => $glpikey->encrypt($stored)],
-                        ['id' => $row['id']]
+                        ['id' => $row['id']],
                     );
                 }
             }
@@ -407,7 +407,6 @@ function plugin_accounts_install()
 
     return true;
 }
-
 
 /**
  * @return bool
@@ -691,13 +690,13 @@ function plugin_accounts_addDefaultWhere($type)
                         'OR' => [
                             ['glpi_plugin_accounts_accounts.groups_id' => $_SESSION['glpigroups']],
                             ['glpi_plugin_accounts_accounts.users_id' => $who],
-                            ]
+                        ],
                     ];
 
                     return $criteria;
 
                 } else { // Only personal ones
-//                    return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
+                    //                    return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
                     $criteria = ['glpi_plugin_accounts_accounts.users_id' => $who];
 
                     return $criteria;
@@ -830,7 +829,7 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
                             $table_item,
                             '',
                             '',
-                            $item->maybeRecursive()
+                            $item->maybeRecursive(),
                         );
 
                         if ($item->maybeTemplate()) {
@@ -866,10 +865,10 @@ function plugin_accounts_MassiveActions($type)
 {
     if (Plugin::isPluginActive('accounts')) {
         if (in_array($type, Account::getTypes(true))) {
-            $icon = "<i class='".Account::getIcon()."'></i>";
+            $icon = "<i class='" . Account::getIcon() . "'></i>";
             return [
                 Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . "add_item" =>
-                    $icon." ".__s('Associate to account', 'accounts'),
+                    $icon . " " . __s('Associate to account', 'accounts'),
             ];
         }
     }

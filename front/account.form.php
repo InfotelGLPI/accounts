@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
@@ -69,6 +69,13 @@ if (isset($_POST["add"])) {
     if (!empty($_POST['itemtype'])
         && $_POST['items_id'] > 0
         && $_POST['plugin_accounts_accounts_id'] > 0) {
+        // Object-level check: the caller must be able to READ the target account
+        // before linking it to an item. Without this, a forged POST could attach
+        // an account outside the caller's visibility (group/user scoping) — same
+        // guard as ajax/log_decrypt.php.
+        if (!$account->can((int) $_POST['plugin_accounts_accounts_id'], READ)) {
+            throw new AccessDeniedHttpException();
+        }
         $account_item->check(-1, CREATE, $_POST);
         $account_item->addItem($_POST);
     }

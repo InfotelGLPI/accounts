@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Accounts;
@@ -87,7 +87,7 @@ final class Account_Item extends CommonDBRelation
         $temp = new self();
         $temp->deleteByCriteria(
             ['itemtype' => $item->getType(),
-                'items_id' => $item->getField('id')]
+                'items_id' => $item->getField('id')],
         );
     }
 
@@ -114,7 +114,7 @@ final class Account_Item extends CommonDBRelation
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     return self::createTabEntry(
                         _n('Associated item', 'Associated items', 2),
-                        self::countForAccount($item)
+                        self::countForAccount($item),
                     );
                 }
                 return _n('Associated item', 'Associated items', 2);
@@ -125,7 +125,7 @@ final class Account_Item extends CommonDBRelation
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     return self::createTabEntry(
                         Account::getTypeName(2),
-                        self::countForItem($item)
+                        self::countForItem($item),
                     );
                 }
                 return Account::getTypeName(2);
@@ -183,7 +183,7 @@ final class Account_Item extends CommonDBRelation
             'glpi_plugin_accounts_accounts_items',
             ["plugin_accounts_accounts_id" => $item->getID(),
                 "itemtype"                    => $item->getTypes(),
-            ]
+            ],
         );
     }
 
@@ -199,7 +199,7 @@ final class Account_Item extends CommonDBRelation
         return $dbu->countElementsInTable(
             'glpi_plugin_accounts_accounts_items',
             ["itemtype" => $item->getType(),
-                "items_id" => $item->getID()]
+                "items_id" => $item->getID()],
         );
     }
 
@@ -438,7 +438,7 @@ final class Account_Item extends CommonDBRelation
             'glpi_plugin_accounts_accounts',
             '',
             '',
-            true
+            true,
         );
 
         $iterator_list = $DB->request($criteria);
@@ -480,7 +480,7 @@ final class Account_Item extends CommonDBRelation
                 'users_id' => getUserName($value['users_id']),
                 'plugin_accounts_accounttypes_id' => Dropdown::getDropdownName(
                     "glpi_plugin_accounts_accounttypes",
-                    $value["plugin_accounts_accounttypes_id"]
+                    $value["plugin_accounts_accounttypes_id"],
                 ),
                 'date_creation'  => $value['date_creation'],
                 'date_expiration' => $value['date_expiration'],

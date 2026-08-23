@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Accounts;
@@ -184,7 +184,6 @@ class Account extends CommonDBTM
             ];
         }
 
-
         $tab = array_merge($tab, Location::rawSearchOptionsToAdd());
 
         $tab[] = [
@@ -266,7 +265,6 @@ class Account extends CommonDBTM
             ];
         }
 
-
         if (Session::getCurrentInterface() == 'central') {
             $tab[] = [
                 'id' => 11,
@@ -297,7 +295,6 @@ class Account extends CommonDBTM
                 'condition' => ['`is_itemgroup`' => 1],
             ];
         }
-
 
         if (Session::getCurrentInterface() == 'central') {
             $tab[] = [
@@ -379,7 +376,7 @@ class Account extends CommonDBTM
                 'name'               => __('Item type'),
                 'massiveaction'      => false,
                 'datatype'           => 'itemtypename',
-                'types'              => Account::getTypes(true)
+                'types'              => Account::getTypes(true),
             ];
         }
 
@@ -461,10 +458,10 @@ class Account extends CommonDBTM
             Session::addMessageAfterRedirect(
                 __s(
                     'Warning: the encrypted password is very long and may indicate an issue with the encryption key.',
-                    'accounts'
+                    'accounts',
                 ),
                 false,
-                WARNING
+                WARNING,
             );
         }
 
@@ -608,13 +605,13 @@ class Account extends CommonDBTM
         if ($fingerprint !== null) {
             $input['encrypted_totp_secret'] = addslashes(AccountCrypto::encrypt(
                 $input['totp_secret_plain'],
-                $fingerprint
+                $fingerprint,
             ));
         } else {
             Session::addMessageAfterRedirect(
                 __('TOTP secret not saved: no encryption key available. Please configure an encryption key first.', 'accounts'),
                 false,
-                ERROR
+                ERROR,
             );
         }
         unset($input['totp_secret_plain']);
@@ -644,7 +641,7 @@ class Account extends CommonDBTM
             "glpi_plugin_accounts_hashes",
             '',
             '',
-            $hashclass->maybeRecursive()
+            $hashclass->maybeRecursive(),
         );
 
         $nbhashes = countElementsInTable("glpi_plugin_accounts_hashes", $restrict);
@@ -663,7 +660,7 @@ class Account extends CommonDBTM
             "glpi_plugin_accounts_hashes",
             '',
             $this->getEntityID(),
-            $hashclass->maybeRecursive()
+            $hashclass->maybeRecursive(),
         );
         $hashes = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
         $alerthash = "";
@@ -695,7 +692,7 @@ class Account extends CommonDBTM
             } else {
                 $alerthash = __(
                     'There is no encryption key associated to this account, please select one above',
-                    'accounts'
+                    'accounts',
                 );
             }
         } else {
@@ -738,7 +735,6 @@ class Account extends CommonDBTM
         return true;
     }
 
-
     /**
      * Make a select box for link accounts
      *
@@ -774,14 +770,15 @@ class Account extends CommonDBTM
             'WHERE' => ['glpi_plugin_accounts_accounts.is_deleted' => 0],
         ];
         $subquery['WHERE'] = $subquery['WHERE'] + getEntitiesRestrictCriteria(
-                'glpi_plugin_accounts_accounts',
-                '',
-                $p['entity'],
-                true
-            );
+            'glpi_plugin_accounts_accounts',
+            '',
+            $p['entity'],
+            true,
+        );
 
         if (count($p['used'])) {
-            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN', array_filter($p['used'])]];;
+            $subquery['WHERE'] = $subquery['WHERE'] + ['id' => ['NOT IN', array_filter($p['used'])]];
+            ;
         }
 
         $criteria = [
@@ -791,7 +788,6 @@ class Account extends CommonDBTM
             ],
             'GROUPBY' => 'name',
         ];
-
 
         $iterator = $DB->request($criteria);
 
@@ -821,7 +817,7 @@ class Account extends CommonDBTM
             "show_" . $p['name'] . $rand,
             PLUGIN_ACCOUNTS_WEBDIR . "/ajax/dropdownTypeAccounts.php",
             $params,
-            false
+            false,
         );
         $out .= "<span id='show_" . $p['name'] . "$rand'>";
         $out .= "</span>\n";
@@ -831,7 +827,7 @@ class Account extends CommonDBTM
             "show_" . $p['name'] . $rand,
             PLUGIN_ACCOUNTS_WEBDIR . "/ajax/dropdownTypeAccounts.php",
             $params,
-            false
+            false,
         );
         if ($p['display']) {
             echo $out;
@@ -839,7 +835,6 @@ class Account extends CommonDBTM
         }
         return $out;
     }
-
 
     /**
      * Get the specific massive actions
@@ -859,18 +854,18 @@ class Account extends CommonDBTM
             if ($isadmin) {
                 $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'install'] = _x(
                     'button',
-                    'Associate'
+                    'Associate',
                 );
                 $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'uninstall'] = _x(
                     'button',
-                    'Dissociate'
+                    'Dissociate',
                 );
 
                 if (Session::haveRight('transfer', READ)
                     && Session::isMultiEntitiesMode()
                 ) {
                     $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __s(
-                        'Transfer'
+                        'Transfer',
                     );
                 }
             }
@@ -938,6 +933,22 @@ class Account extends CommonDBTM
         switch ($ma->getAction()) {
             case "add_item":
                 $input = $ma->getInput();
+                // Object-level check: the caller must be able to READ the
+                // destination account before linking items to it. add() runs no
+                // guard on its own (Account_Item has no prepareInputForAdd), so
+                // without this a forged mass action could attach items to an
+                // account outside the caller's visibility — same guard as
+                // front/account.form.php.
+                $account = new self();
+                if (
+                    empty($input['plugin_accounts_accounts_id'])
+                    || !$account->can((int) $input['plugin_accounts_accounts_id'], READ)
+                ) {
+                    foreach ($ids as $key) {
+                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+                    }
+                    break;
+                }
                 foreach ($ids as $key) {
                     if (!$dbu->countElementsInTable(
                         'glpi_plugin_accounts_accounts_items',
@@ -945,7 +956,7 @@ class Account extends CommonDBTM
                             "itemtype" => $item->getType(),
                             "items_id" => $key,
                             "plugin_accounts_accounts_id" => $input['plugin_accounts_accounts_id'],
-                        ]
+                        ],
                     )) {
                         $myvalue['plugin_accounts_accounts_id'] = $input['plugin_accounts_accounts_id'];
                         $myvalue['itemtype'] = $item->getType();
@@ -970,7 +981,7 @@ class Account extends CommonDBTM
                         // --- Step 1: Resolve account type in destination entity ---
                         $type = AccountType::transfer(
                             $item->fields["plugin_accounts_accounttypes_id"],
-                            $input['entities_id']
+                            $input['entities_id'],
                         );
 
                         // --- Step 2: Re-encrypt password with destination fingerprint ---
@@ -992,7 +1003,7 @@ class Account extends CommonDBTM
                                 // would silently clear the transferred secret.
                                 $plaintext = AccountCrypto::decrypt(
                                     $item->fields['encrypted_password'],
-                                    $src_aes_key_value
+                                    $src_aes_key_value,
                                 );
 
                                 // Find destination entity's fingerprint
@@ -1001,7 +1012,7 @@ class Account extends CommonDBTM
                                     'glpi_plugin_accounts_hashes',
                                     '',
                                     $input['entities_id'],
-                                    $dest_hash->maybeRecursive()
+                                    $dest_hash->maybeRecursive(),
                                 );
                                 $dest_hashes = getAllDataFromTable('glpi_plugin_accounts_hashes', $restrict);
 
@@ -1017,7 +1028,7 @@ class Account extends CommonDBTM
 
                                         // Re-encrypt with destination key (raw AES key as fingerprint).
                                         $reencrypted_password = addslashes(
-                                            AccountCrypto::encrypt($plaintext, $dest_aes_key_value)
+                                            AccountCrypto::encrypt($plaintext, $dest_aes_key_value),
                                         );
                                     }
                                 }
@@ -1028,12 +1039,12 @@ class Account extends CommonDBTM
                                         sprintf(
                                             __s(
                                                 'Account "%s" transferred but no fingerprint found in destination entity. Password was cleared for security.',
-                                                'accounts'
+                                                'accounts',
                                             ),
-                                            $item->fields['name']
+                                            $item->fields['name'],
                                         ),
                                         false,
-                                        WARNING
+                                        WARNING,
                                     );
                                     // Clear password rather than leave it encrypted with wrong key
                                     $reencrypted_password = '';
@@ -1047,10 +1058,10 @@ class Account extends CommonDBTM
                             && isset($src_aes_key_value, $dest_aes_key_value)) {
                             $plain_totp = AccountCrypto::decrypt(
                                 $item->fields['encrypted_totp_secret'],
-                                $src_aes_key_value
+                                $src_aes_key_value,
                             );
                             $reencrypted_totp = addslashes(
-                                AccountCrypto::encrypt($plain_totp, $dest_aes_key_value)
+                                AccountCrypto::encrypt($plain_totp, $dest_aes_key_value),
                             );
                         } elseif (!empty($item->fields['encrypted_totp_secret']) && $reencrypted_password === null) {
                             $reencrypted_totp = '';
@@ -1130,7 +1141,6 @@ class Account extends CommonDBTM
         }
         return $forbidden;
     }
-
 
     /**
      * Cron Info
@@ -1259,9 +1269,9 @@ class Account extends CommonDBTM
 
                     if (!isset($account_messages[$type][$entity])) {
                         $account_messages[$type][$entity] = __s(
-                                'Accounts expired or accounts which expire',
-                                'accounts'
-                            ) . "<br />";
+                            'Accounts expired or accounts which expire',
+                            'accounts',
+                        ) . "<br />";
                     }
                     $account_messages[$type][$entity] .= $message;
                 }
@@ -1278,7 +1288,7 @@ class Account extends CommonDBTM
                     [
                         'entities_id' => $entity,
                         'accounts' => $accounts,
-                    ]
+                    ],
                 )) {
                     $message = $account_messages[$type][$entity];
                     $cron_status = 1;
@@ -1286,30 +1296,30 @@ class Account extends CommonDBTM
                         $task->log(
                             Dropdown::getDropdownName(
                                 "glpi_entities",
-                                $entity
-                            ) . ":  $message\n"
+                                $entity,
+                            ) . ":  $message\n",
                         );
                         $task->addVolume(1);
                     } else {
                         Session::addMessageAfterRedirect(
                             Dropdown::getDropdownName(
                                 "glpi_entities",
-                                $entity
-                            ) . ":  $message"
+                                $entity,
+                            ) . ":  $message",
                         );
                     }
                 } else {
                     if ($task) {
                         $task->log(
                             Dropdown::getDropdownName("glpi_entities", $entity)
-                            . ":  Send accounts alert failed\n"
+                            . ":  Send accounts alert failed\n",
                         );
                     } else {
                         Session::addMessageAfterRedirect(
                             Dropdown::getDropdownName("glpi_entities", $entity)
                             . ":  Send accounts alert failed",
                             false,
-                            ERROR
+                            ERROR,
                         );
                     }
                 }
@@ -1349,9 +1359,9 @@ class Account extends CommonDBTM
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/themes/default/style.min.css");
         echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/jstree-glpi.css");
         echo "<div class='alert alert-info d-flex'>" . __s(
-                'Select the wanted account type',
-                'accounts'
-            ) . "</div><br>";
+            'Select the wanted account type',
+            'accounts',
+        ) . "</div><br>";
         echo "<a href='" . htmlspecialchars($target, ENT_QUOTES, 'UTF-8') . "?reset=reset' target='_blank' title=\""
             . __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __s('Show all')) . "</a>";
         $root = PLUGIN_ACCOUNTS_WEBDIR;
@@ -1411,7 +1421,6 @@ class Account extends CommonDBTM
         }
     }
 
-
     /**
      * Type than could be linked to a Rack
      *
@@ -1466,11 +1475,10 @@ class Account extends CommonDBTM
                 if (!empty($values[$field]) && $values[$field] !== 'NULL') {
                     return Html::convDate($values[$field]);
                 }
-            return __s('Don\'t expire', 'accounts');
+                return __s('Don\'t expire', 'accounts');
         }
         return '';
     }
-
 
     /**
      * @param string $interface
@@ -1570,11 +1578,11 @@ class Account extends CommonDBTM
     public static function getMenuContent()
     {
         $image = "<i class='ti ti-lock-open' title='" . _n(
-                'Encryption key',
-                'Encryption keys',
-                2,
-                'accounts'
-            ) . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
+            'Encryption key',
+            'Encryption keys',
+            2,
+            'accounts',
+        ) . "'></i>" . _n('Encryption key', 'Encryption keys', 2, 'accounts');
 
         $menu = [];
         $menu['title'] = self::getMenuName();
@@ -1640,7 +1648,7 @@ class Account extends CommonDBTM
 
         $criteria = [
             'SELECT' => [
-                'COUNT' => 'id AS cpt'
+                'COUNT' => 'id AS cpt',
             ],
             'FROM' => 'glpi_plugin_accounts_accounts',
             'WHERE' => [
@@ -1658,7 +1666,7 @@ class Account extends CommonDBTM
                     echo "<div class='alert alert-warning d-flex'>";
                     echo __s(
                         'You have accounts without linked fingerprint, please add it with massive action or into forms',
-                        'accounts'
+                        'accounts',
                     );
                     echo "</div>";
                 }
@@ -1719,7 +1727,7 @@ class Account extends CommonDBTM
             return '';
         }
 
-// Convert the criteria array to a SQL WHERE clause fragment
+        // Convert the criteria array to a SQL WHERE clause fragment
         $iterator = new \DBmysqlIterator($DB);
         $where = $iterator->analyseCrit($criteria);
 
@@ -1728,7 +1736,7 @@ class Account extends CommonDBTM
         }
 
         $table = self::getTable();
-// Prefix unqualified column references with the table name
+        // Prefix unqualified column references with the table name
         $where = preg_replace('/\b(users_id|users_id_tech|groups_id|groups_id_tech)\b/', "`$table`.`$1`", $where);
 
         return " AND ($where)";
@@ -1790,7 +1798,7 @@ class Account extends CommonDBTM
                 4 => 2,
                 5 => 4,
                 6 => 5,
-                7 => 6
+                7 => 6,
             ];
             foreach ($prefs as $num => $rank) {
                 if (!countElementsInTable(
@@ -1799,7 +1807,7 @@ class Account extends CommonDBTM
                         'num' => $num,
                         'users_id' => 0,
                         'interface' => 'central',
-                    ]
+                    ],
                 )
                 ) {
                     $DB->insert(
@@ -1808,7 +1816,7 @@ class Account extends CommonDBTM
                             'num' => $num,
                             'rank' => $rank,
                             'users_id' => 0,
-                            'interface' => 'central']
+                            'interface' => 'central'],
                     );
                 }
             }
@@ -1820,7 +1828,7 @@ class Account extends CommonDBTM
                 4 => 2,
                 5 => 4,
                 6 => 5,
-                7 => 6
+                7 => 6,
             ];
             foreach ($prefs as $num => $rank) {
                 if (!countElementsInTable(
@@ -1829,7 +1837,7 @@ class Account extends CommonDBTM
                         'num' => $num,
                         'users_id' => 0,
                         'interface' => 'helpdesk',
-                    ]
+                    ],
                 )
                 ) {
                     $DB->insert(
@@ -1838,7 +1846,7 @@ class Account extends CommonDBTM
                             'num' => $num,
                             'rank' => $rank,
                             'users_id' => 0,
-                            'interface' => 'helpdesk']
+                            'interface' => 'helpdesk'],
                     );
                 }
             }
@@ -1850,7 +1858,7 @@ class Account extends CommonDBTM
             'name' => 'New Accounts'];
         $DB->insert(
             "glpi_notificationtemplates",
-            $options_notif
+            $options_notif,
         );
 
         foreach ($DB->request([
@@ -1879,7 +1887,7 @@ class Account extends CommonDBTM
                         ##IFaccount.comment####lang.account.comment## : ##account.comment##\r\n##ENDIFaccount.comment##',
                         'content_html' => '&lt;p&gt;&lt;strong&gt;##lang.account.url##&lt;/strong&gt; : &lt;a href=\"##account.url##\"&gt;##account.url##&lt;/a&gt;&lt;/p&gt;
                         &lt;p&gt;&lt;strong&gt;##lang.account.entity##&lt;/strong&gt; : ##account.entity##&lt;br /&gt; ##IFaccount.name##&lt;strong&gt;##lang.account.name##&lt;/strong&gt; : ##account.name##&lt;br /&gt;##ENDIFaccount.name##  ##IFaccount.type##&lt;strong&gt;##lang.account.type##&lt;/strong&gt; : ##account.type##&lt;br /&gt;##ENDIFaccount.type##  ##IFaccount.state##&lt;strong&gt;##lang.account.state##&lt;/strong&gt; : ##account.state##&lt;br /&gt;##ENDIFaccount.state##  ##IFaccount.login##&lt;strong&gt;##lang.account.login##&lt;/strong&gt; : ##account.login##&lt;br /&gt;##ENDIFaccount.login##  ##IFaccount.users##&lt;strong&gt;##lang.account.users##&lt;/strong&gt; : ##account.users##&lt;br /&gt;##ENDIFaccount.users##  ##IFaccount.groups##&lt;strong&gt;##lang.account.groups##&lt;/strong&gt; : ##account.groups##&lt;br /&gt;##ENDIFaccount.groups##  ##IFaccount.others##&lt;strong&gt;##lang.account.others##&lt;/strong&gt; : ##account.others##&lt;br /&gt;##ENDIFaccount.others##  ##IFaccount.datecreation##&lt;strong&gt;##lang.account.datecreation##&lt;/strong&gt; : ##account.datecreation##&lt;br /&gt;##ENDIFaccount.datecreation##  ##IFaccount.dateexpiration##&lt;strong&gt;##lang.account.dateexpiration##&lt;/strong&gt; : ##account.dateexpiration##&lt;br /&gt;##ENDIFaccount.dateexpiration##  ##IFaccount.comment##&lt;strong&gt;##lang.account.comment##&lt;/strong&gt; : ##account.comment####ENDIFaccount.comment##&lt;/p&gt;',
-                    ]
+                    ],
                 );
 
                 $DB->insert(
@@ -1890,7 +1898,7 @@ class Account extends CommonDBTM
                         'itemtype' => self::class,
                         'event' => 'new',
                         'is_recursive' => 1,
-                    ]
+                    ],
                 );
 
                 $options_notif        = ['itemtype' => self::class,
@@ -1908,7 +1916,7 @@ class Account extends CommonDBTM
                                 'notifications_id' => $notification,
                                 'mode' => 'mailing',
                                 'notificationtemplates_id' => $templates_id,
-                            ]
+                            ],
                         );
                     }
                 }
@@ -1921,7 +1929,7 @@ class Account extends CommonDBTM
         // Request
         $DB->insert(
             "glpi_notificationtemplates",
-            $options_notif
+            $options_notif,
         );
 
         foreach ($DB->request([
@@ -1944,7 +1952,7 @@ class Account extends CommonDBTM
                         ##FOREACHaccounts##&lt;br /&gt;
                         ##lang.account.name##  : ##account.name## - ##lang.account.dateexpiration## :  ##account.dateexpiration##&lt;br /&gt;
                         ##ENDFOREACHaccounts##&lt;/p&gt;',
-                    ]
+                    ],
                 );
 
                 $DB->insert(
@@ -1955,7 +1963,7 @@ class Account extends CommonDBTM
                         'itemtype' => self::class,
                         'event' => 'ExpiredAccounts',
                         'is_recursive' => 1,
-                    ]
+                    ],
                 );
 
                 $options_notif        = ['itemtype' => self::class,
@@ -1973,7 +1981,7 @@ class Account extends CommonDBTM
                                 'notifications_id' => $notification,
                                 'mode' => 'mailing',
                                 'notificationtemplates_id' => $templates_id,
-                            ]
+                            ],
                         );
                     }
                 }
@@ -1986,7 +1994,7 @@ class Account extends CommonDBTM
                         'itemtype' => self::class,
                         'event' => 'AccountsWhichExpire',
                         'is_recursive' => 1,
-                    ]
+                    ],
                 );
 
                 $options_notif        = ['itemtype' => Account::class,
@@ -2004,7 +2012,7 @@ class Account extends CommonDBTM
                                 'notifications_id' => $notification,
                                 'mode' => 'mailing',
                                 'notificationtemplates_id' => $templates_id,
-                            ]
+                            ],
                         );
                     }
                 }

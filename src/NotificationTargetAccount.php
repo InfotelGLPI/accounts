@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Accounts;
@@ -44,27 +44,26 @@ if (!defined('GLPI_ROOT')) {
  */
 class NotificationTargetAccount extends NotificationTarget
 {
+    public const ACCOUNT_USER      = 1900;
+    public const ACCOUNT_GROUP     = 1901;
+    public const ACCOUNT_TECHUSER  = 1902;
+    public const ACCOUNT_TECHGROUP = 1903;
 
-    const ACCOUNT_USER      = 1900;
-    const ACCOUNT_GROUP     = 1901;
-    const ACCOUNT_TECHUSER  = 1902;
-    const ACCOUNT_TECHGROUP = 1903;
-
-   /**
-    * @return array
-    */
+    /**
+     * @return array
+     */
     public function getEvents()
     {
         return ['new'                 => __s('New account', 'accounts'),
-                   'ExpiredAccounts'     => __s('Accounts expired', 'accounts'),
-                   'AccountsWhichExpire' => __s('Accounts which expire', 'accounts')];
+            'ExpiredAccounts'     => __s('Accounts expired', 'accounts'),
+            'AccountsWhichExpire' => __s('Accounts which expire', 'accounts')];
     }
 
-   /**
-    * Get additionnals targets for Tickets
-    *
-    * @param string $event
-    */
+    /**
+     * Get additionnals targets for Tickets
+     *
+     * @param string $event
+     */
     public function addAdditionalTargets($event = '')
     {
         $this->addTarget(self::ACCOUNT_USER, __s('Affected User', 'accounts'));
@@ -73,10 +72,10 @@ class NotificationTargetAccount extends NotificationTarget
         $this->addTarget(self::ACCOUNT_TECHGROUP, __s('Group in charge'));
     }
 
-   /**
-    * @param $data
-    * @param $options
-    */
+    /**
+     * @param $data
+     * @param $options
+     */
     public function addSpecificTargets($data, $options)
     {
         // For expiration events the cron passes new Account() (empty) + $options['accounts']
@@ -116,12 +115,12 @@ class NotificationTargetAccount extends NotificationTarget
             $criteria = $this->getDistinctUserCriteria() + $this->getProfileJoinCriteria();
             $criteria['FROM'] = User::getTable();
             $criteria['LEFT JOIN'] = ['glpi_groups_users' => ['ON' => ['glpi_groups_users' => 'users_id',
-                                                                    'glpi_users'        => 'id']]];
+                'glpi_users'        => 'id']]];
             $criteria['WHERE']['glpi_groups_users.groups_id'] = $this->obj->fields[$group_field];
             $iterator = $DB->request($criteria);
 
             foreach ($iterator as $data) {
-               //Add the user email and language in the notified users list
+                //Add the user email and language in the notified users list
                 $this->addToRecipientsList($data);
             }
         }
@@ -139,21 +138,21 @@ class NotificationTargetAccount extends NotificationTarget
             $criteria = $this->getDistinctUserCriteria() + $this->getProfileJoinCriteria();
             $criteria['FROM'] = User::getTable();
             $criteria['LEFT JOIN'] = ['glpi_groups_users' => ['ON' => ['glpi_groups_users' => 'users_id',
-                                                                    'glpi_users'        => 'id']]];
+                'glpi_users'        => 'id']]];
             $criteria['WHERE']['glpi_groups_users.groups_id'] = $this->obj->fields[$group_field];
             $iterator = $DB->request($criteria);
 
             foreach ($iterator as $data) {
-               //Add the user email and language in the notified users list
+                //Add the user email and language in the notified users list
                 $this->addToRecipientsList($data);
             }
         }
     }
 
-   /**
-    * @param       $event
-    * @param array $options
-    */
+    /**
+     * @param       $event
+     * @param array $options
+     */
     public function addDataForTemplate($event, $options = [])
     {
         global $CFG_GLPI;
@@ -167,7 +166,7 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##account.entity##']      =
             Dropdown::getDropdownName(
                 'glpi_entities',
-                $this->obj->getField('entities_id')
+                $this->obj->getField('entities_id'),
             );
             $this->data['##lang.account.id##']     = __s('ID');
             $this->data['##account.id##']          = sprintf("%07d", $this->obj->getField("id"));
@@ -178,13 +177,13 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##lang.account.type##'] = __s('Type');
             $this->data['##account.type##']      = Dropdown::getDropdownName(
                 'glpi_plugin_accounts_accounttypes',
-                $this->obj->getField('plugin_accounts_accounttypes_id')
+                $this->obj->getField('plugin_accounts_accounttypes_id'),
             );
 
             $this->data['##lang.account.state##'] = __s('Status');
             $this->data['##account.state##']      = Dropdown::getDropdownName(
                 'glpi_plugin_accounts_accountstates',
-                $this->obj->getField('plugin_accounts_accountstates_id')
+                $this->obj->getField('plugin_accounts_accountstates_id'),
             );
 
             $this->data['##lang.account.login##'] = __s('Login');
@@ -196,7 +195,7 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##lang.account.groups##'] = __s('Affected Group', 'accounts');
             $this->data['##account.groups##']      = Dropdown::getDropdownName(
                 'glpi_groups',
-                $this->obj->getField('groups_id')
+                $this->obj->getField('groups_id'),
             );
 
             $this->data['##lang.account.userstech##'] = __s('Technician in charge');
@@ -205,13 +204,13 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##lang.account.groupstech##'] = __s('Group in charge');
             $this->data['##account.groupstech##']      = Dropdown::getDropdownName(
                 'glpi_groups',
-                $this->obj->getField('groups_id_tech')
+                $this->obj->getField('groups_id_tech'),
             );
 
             $this->data['##lang.account.location##'] = __s('Location');
             $this->data['##account.location##']      = Dropdown::getDropdownName(
                 'glpi_locations',
-                $this->obj->getField('locations_id')
+                $this->obj->getField('locations_id'),
             );
 
             $this->data['##lang.account.others##'] = __s('Others');
@@ -227,13 +226,13 @@ class NotificationTargetAccount extends NotificationTarget
             $this->data['##account.comment##']      = $this->obj->getField("comment");
 
             $this->data['##lang.account.url##'] = __s('Direct link to created account', 'accounts');
-            $this->data['##account.url##']      = urldecode($CFG_GLPI["url_base"] . "/index.php?redirect=".Account::class."_" .
+            $this->data['##account.url##']      = urldecode($CFG_GLPI["url_base"] . "/index.php?redirect=" . Account::class . "_" .
                                                           $this->obj->getField("id"));
         } else {
             $this->data['##account.entity##']      =
             Dropdown::getDropdownName(
                 'glpi_entities',
-                $options['entities_id']
+                $options['entities_id'],
             );
             $this->data['##lang.account.entity##'] = __s('Entity');
             $this->data['##lang.account.action##'] = __s('Action');
@@ -260,26 +259,26 @@ class NotificationTargetAccount extends NotificationTarget
                 $tmp['##account.name##']           = $account['name'];
                 $tmp['##account.type##']           = Dropdown::getDropdownName(
                     'glpi_plugin_accounts_accounttypes',
-                    $account['plugin_accounts_accounttypes_id']
+                    $account['plugin_accounts_accounttypes_id'],
                 );
                 $tmp['##account.state##']          = Dropdown::getDropdownName(
                     'glpi_plugin_accounts_accountstates',
-                    $account['plugin_accounts_accountstates_id']
+                    $account['plugin_accounts_accountstates_id'],
                 );
                 $tmp['##account.login##']          = $account['login'];
                 $tmp['##account.users##']          = $dbu->getUserName($account['users_id']);
                 $tmp['##account.groups##']         = Dropdown::getDropdownName(
                     'glpi_groups',
-                    $account['groups_id']
+                    $account['groups_id'],
                 );
                 $tmp['##account.userstech##']      = getUserName($account['users_id_tech']);
                 $tmp['##account.groupstech##']     = Dropdown::getDropdownName(
                     'glpi_groups',
-                    $account['groups_id_tech']
+                    $account['groups_id_tech'],
                 );
                 $tmp['##account.location##']       = Dropdown::getDropdownName(
                     'glpi_locations',
-                    $account['locations_id']
+                    $account['locations_id'],
                 );
                 $tmp['##account.others##']         = $account['others'];
                 $tmp['##account.datecreation##']   = Html::convDate($account['date_creation']);
@@ -291,43 +290,43 @@ class NotificationTargetAccount extends NotificationTarget
         }
     }
 
-   /**
-    *
-    */
-    function getTags()
+    /**
+     *
+     */
+    public function getTags()
     {
 
         $tags = ['account.action'         => __s('Action'),
-                    'account.entity'         => __s('Entity'),
-                    'account.id'             => __s('ID'),
-                    'account.url'            => __s('Direct link to created account', 'accounts'),
-                    'account.name'           => __s('Name'),
-                    'account.type'           => __s('Type'),
-                    'account.state'          => __s('Status'),
-                    'account.login'          => __s('Login'),
-                    'account.users'          => __s('Affected User', 'accounts'),
-                    'account.groups'         => __s('Affected Group', 'accounts'),
-                    'account.userstech'      => __s('Technician in charge'),
-                    'account.groupstech'     => __s('Group in charge'),
-                    'account.location'       => __s('Location'),
-                    'account.others'         => __s('Others'),
-                    'account.datecreation'   => __s('Creation date'),
-                    'account.dateexpiration' => __s('Expiration date'),
-                    'account.comment'        => __s('Comments')];
+            'account.entity'         => __s('Entity'),
+            'account.id'             => __s('ID'),
+            'account.url'            => __s('Direct link to created account', 'accounts'),
+            'account.name'           => __s('Name'),
+            'account.type'           => __s('Type'),
+            'account.state'          => __s('Status'),
+            'account.login'          => __s('Login'),
+            'account.users'          => __s('Affected User', 'accounts'),
+            'account.groups'         => __s('Affected Group', 'accounts'),
+            'account.userstech'      => __s('Technician in charge'),
+            'account.groupstech'     => __s('Group in charge'),
+            'account.location'       => __s('Location'),
+            'account.others'         => __s('Others'),
+            'account.datecreation'   => __s('Creation date'),
+            'account.dateexpiration' => __s('Expiration date'),
+            'account.comment'        => __s('Comments')];
         foreach ($tags as $tag => $label) {
             $this->addTagToList(['tag'   => $tag, 'label' => $label,
-                                   'value' => true]);
+                'value' => true]);
         }
 
         $this->addTagToList(['tag'   => '##lang.account.title##',
-                                'value' => false,
-                                'label' => __s('An account has been created', 'accounts')]);
+            'value' => false,
+            'label' => __s('An account has been created', 'accounts')]);
 
         $this->addTagToList(['tag'     => 'accounts',
-                                'label'   => __s('Accounts expired or accounts which expire', 'accounts'),
-                                'value'   => false,
-                                'foreach' => true,
-                                'events'  => ['AccountsWhichExpire', 'ExpiredAccounts']]);
+            'label'   => __s('Accounts expired or accounts which expire', 'accounts'),
+            'value'   => false,
+            'foreach' => true,
+            'events'  => ['AccountsWhichExpire', 'ExpiredAccounts']]);
 
         asort($this->tag_descriptions);
     }

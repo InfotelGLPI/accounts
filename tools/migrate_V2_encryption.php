@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 // Bootstrap GLPI
@@ -36,15 +36,13 @@ include GLPI_DIR_ROOT . '/vendor/autoload.php';
 $kernel = new \Glpi\Kernel\Kernel($options['env'] ?? null);
 $application = new \Glpi\Console\Application($kernel);
 
-use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\AccountCrypto;
 use GlpiPlugin\Accounts\AesCtr;
 use GlpiPlugin\Accounts\AesKey;
-use GlpiPlugin\Accounts\Hash;
 
 // ── Auth guard (web only) ─────────────────────────────────────────────────────
 if (PHP_SAPI !== 'cli') {
-    Session::checkLoginUser();
+
     if (!Session::checkRight("plugin_accounts_hash", UPDATE)) {
         die('Right access error');
     }
@@ -60,7 +58,8 @@ function log_line(string $msg): void
         echo "[$ts] $msg\n";
     } else {
         echo "<pre>[$ts] " . htmlspecialchars($msg) . "</pre>\n";
-        ob_flush(); flush();
+        ob_flush();
+        flush();
     }
 }
 
@@ -159,7 +158,7 @@ foreach ($iterator as $row) {
         $DB->update(
             'glpi_plugin_accounts_accounts',
             ['encrypted_password' => $new_ciphertext],
-            ['id' => $id]
+            ['id' => $id],
         );
     }
 

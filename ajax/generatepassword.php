@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- accounts plugin for GLPI
- Copyright (C) 2015-2026 by the accounts Development Team.
-
- https://github.com/InfotelGLPI/accounts
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of accounts.
-
- accounts is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- accounts is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with accounts. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 $AJAX_INCLUDE = 1;
@@ -32,13 +32,11 @@ $AJAX_INCLUDE = 1;
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkLoginUser();
-
 Session::checkRight("plugin_accounts", READ);
 
 if (isset($_POST['password'])) {
 
-  echo Html::scriptBlock("
+    echo Html::scriptBlock("
 
          function randomInt(n) {
             if (n <= 0)
@@ -53,7 +51,6 @@ if (isset($_POST['password'])) {
             } while (x >= limit);
             return x % n;
          }
-
 
          var CHARACTERS = [
          [ 'Numbers', '0123456789'],
@@ -70,7 +67,7 @@ if (isset($_POST['password'])) {
             }
       });
       if(j==0){
-         alert(" . json_encode(__s("Select at least one checkbox","accounts")) . ");
+         alert(" . json_encode(__s("Select at least one checkbox", "accounts")) . ");
       }
 
       length = parseInt(document.getElementById('length').value, 10);
@@ -100,9 +97,7 @@ if (isset($_POST['password'])) {
          for (var i = 0; i < length; i++)
             result += chars[randomInt(chars.length)];
 
-
       $('input[name=\"hidden_password\"]').val(result);
 
    ");
 }
-
