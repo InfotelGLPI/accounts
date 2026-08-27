@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
 
 $AJAX_INCLUDE = 1;
@@ -41,7 +42,7 @@ if (isset($_POST['idcrypt'])) {
     // caller may actually read — prevents writing history against an arbitrary account id.
     $account = new Account();
     if (!$account->can((int) $_POST['idcrypt'], READ)) {
-        throw new \Glpi\Exception\Http\AccessDeniedHttpException();
+        throw new AccessDeniedHttpException();
     }
 
     //History log

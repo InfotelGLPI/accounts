@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\AccountCrypto;
 use GlpiPlugin\Accounts\Hash;
@@ -68,7 +69,7 @@ if (isset($_POST["add"])) {
             // The UPDATE right can be recursive/global: restrict the targeted hash to an
             // entity the user actually has access to, so it can't rotate another entity's key.
             if (!Session::haveAccessToEntity($hashClass->fields['entities_id'])) {
-                throw new \Glpi\Exception\Http\AccessDeniedHttpException();
+                throw new AccessDeniedHttpException();
             }
             $oldAeskey = $_POST["aeskey"];
             $storedHash = $hashClass->fields['hash'];
