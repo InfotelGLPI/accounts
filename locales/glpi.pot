@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-27 10:18+0000\n"
+"POT-Creation-Date: 2026-08-29 10:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,13 @@ msgid_plural "Accounts"
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/Account.php:1041
+#, php-format
+msgid ""
+"Account \"%s\" transferred but no fingerprint found in destination entity. "
+"Password was cleared for security."
+msgstr ""
+
 #: src/NotificationTargetAccount.php:58 src/NotificationTargetAccount.php:239
 msgid "Accounts expired"
 msgstr ""
@@ -32,7 +39,8 @@ msgstr ""
 msgid "Accounts expired for more than"
 msgstr ""
 
-#: src/Account.php:1157 src/NotificationTargetAccount.php:326
+#: src/Account.php:1157 src/Account.php:1272
+#: src/NotificationTargetAccount.php:326
 msgid "Accounts expired or accounts which expire"
 msgstr ""
 
@@ -148,10 +156,10 @@ msgstr ""
 msgid "Empty for infinite"
 msgstr ""
 
-#: src/Account.php:1585 src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:266
-#: src/AesKey.php:287 templates/account.html.twig:191
-#: templates/account.html.twig:251 templates/aeskey.html.twig:60
-#: templates/hash.html.twig:63
+#: src/Account.php:1581 src/Account.php:1585 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
+#: templates/account.html.twig:191 templates/account.html.twig:251
+#: templates/aeskey.html.twig:60 templates/hash.html.twig:63
 msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] ""
@@ -315,6 +323,10 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
+#: src/Account.php:1362
+msgid "Select the wanted account type"
+msgstr ""
+
 #: templates/account.html.twig:328
 msgid "Show/hide"
 msgstr ""
@@ -349,6 +361,12 @@ msgstr ""
 
 #: front/hash.form.php:98
 msgid "The old or the new encryption key can not be empty"
+msgstr ""
+
+#: src/Account.php:694
+msgid ""
+"There is no encryption key associated to this account, please select one "
+"above"
 msgstr ""
 
 #: src/Account.php:651 src/Account.php:699
@@ -407,6 +425,12 @@ msgid ""
 "password."
 msgstr ""
 
+#: src/Account.php:460
+msgid ""
+"Warning: the encrypted password is very long and may indicate an issue with "
+"the encryption key."
+msgstr ""
+
 #: front/hash.form.php:81 src/Account_Item.php:535 src/Report.php:269
 #: templates/account.html.twig:216 templates/account.html.twig:284
 #: templates/account.html.twig:562 templates/account.html.twig:582
@@ -415,6 +439,12 @@ msgstr ""
 
 #: templates/datatable.html.twig:201 templates/datatable.html.twig:365
 msgid "Yes"
+msgstr ""
+
+#: src/Account.php:1668
+msgid ""
+"You have accounts without linked fingerprint, please add it with massive "
+"action or into forms"
 msgstr ""
 
 #: templates/account.html.twig:556
