@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:45+0000\n"
+"POT-Creation-Date: 2026-09-01 16:18+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
 "Language-Team: Romanian (Romania) (https://app.transifex.com/infotelGLPI/"
@@ -23,14 +23,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
 "2:1));\n"
 
-#: src/Account.php:95 setup.php:136
+#: src/Account.php:96 setup.php:136
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Cont"
 msgstr[1] "Conturi"
 msgstr[2] "Conturi"
 
-#: src/Account.php:1041
+#: src/Account.php:1042
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -45,7 +45,7 @@ msgstr "Conturi expirate"
 msgid "Accounts expired for more than"
 msgstr "Conturi expirate de mai mult de"
 
-#: src/Account.php:1157 src/Account.php:1272
+#: src/Account.php:1158 src/Account.php:1273
 #: src/NotificationTargetAccount.php:326
 msgid "Accounts expired or accounts which expire"
 msgstr ""
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr "Grup afectat"
 
-#: src/Account_Item.php:496 src/Account.php:332 src/Account.php:340
+#: src/Account_Item.php:496 src/Account.php:333 src/Account.php:341
 #: src/NotificationTargetAccount.php:69 src/NotificationTargetAccount.php:192
 #: src/NotificationTargetAccount.php:246 src/NotificationTargetAccount.php:307
 #: templates/account.html.twig:392 templates/account.html.twig:401
@@ -92,7 +92,7 @@ msgstr "Un cont nou a fost creat"
 msgid "Associable to a ticket"
 msgstr ""
 
-#: src/Account.php:857
+#: src/Account.php:858
 msgctxt "button"
 msgid "Associate"
 msgstr ""
@@ -151,12 +151,12 @@ msgstr "Link direct către contul creat"
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:861
+#: src/Account.php:862
 msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:1478
+#: src/Account.php:1660
 msgid "Don't expire"
 msgstr "Nu expiră"
 
@@ -164,7 +164,7 @@ msgstr "Nu expiră"
 msgid "Empty for infinite"
 msgstr "Gol pentru infinit"
 
-#: src/Account.php:1581 src/Account.php:1585 src/AesKey.php:76
+#: src/Account.php:1763 src/Account.php:1767 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
 #: templates/account.html.twig:191 templates/account.html.twig:251
 #: templates/aeskey.html.twig:60 templates/hash.html.twig:63
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:323 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: src/Account.php:324 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -335,9 +335,13 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
-#: src/Account.php:1362
+#: templates/account_tree.html.twig:39
 msgid "Select the wanted account type"
 msgstr "Selectaţi tipul de cont dorit"
+
+#: templates/account_tree.html.twig:51 templates/account_tree.html.twig:52
+msgid "Show all"
+msgstr ""
 
 #: templates/account.html.twig:328
 msgid "Show/hide"
@@ -358,11 +362,11 @@ msgstr[2] ""
 msgid "Stored TOTP Secret"
 msgstr ""
 
-#: src/Account.php:244 templates/account.html.twig:311
+#: src/Account.php:245 templates/account.html.twig:311
 msgid "TOTP Secret"
 msgstr ""
 
-#: src/Account.php:612
+#: src/Account.php:613
 msgid ""
 "TOTP secret not saved: no encryption key available. Please configure an "
 "encryption key first."
@@ -376,13 +380,13 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "Vechea sau noua cheie de criptare nu poate fi goală"
 
-#: src/Account.php:694
+#: src/Account.php:695
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:651 src/Account.php:699
+#: src/Account.php:652 src/Account.php:700
 msgid "There is no encryption key for this entity"
 msgstr "Nu există cheie de criptare pentru această entitate"
 
@@ -390,7 +394,7 @@ msgstr "Nu există cheie de criptare pentru această entitate"
 msgid "Time of checking of expiration of accounts"
 msgstr ""
 
-#: src/Account.php:868
+#: src/Account.php:869
 msgid "Transfer"
 msgstr ""
 
@@ -405,7 +409,7 @@ msgstr[0] "Tip cont"
 msgstr[1] "Tipuri cont"
 msgstr[2] "Tipuri cont"
 
-#: front/account.php:57 front/account.php:58 front/account.php:64
+#: front/account.php:63 front/account.php:73 ajax/accounttree.php:53
 msgid "Type view"
 msgstr "Tip vizualizare"
 
@@ -439,7 +443,7 @@ msgid ""
 "password."
 msgstr ""
 
-#: src/Account.php:460
+#: src/Account.php:461
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -455,7 +459,7 @@ msgstr "Cheie criptare greşită"
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:1668
+#: src/Account.php:1850
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -469,7 +473,7 @@ msgstr "Nu a-ţi completat parola şi cheia de criptare"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr ""
 
-#: src/Account.php:671
+#: src/Account.php:672
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 

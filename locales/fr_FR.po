@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:45+0000\n"
+"POT-Creation-Date: 2026-09-01 16:18+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -23,14 +23,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
 "1000000 == 0 ? 1 : 2;\n"
 
-#: src/Account.php:95 setup.php:136
+#: src/Account.php:96 setup.php:136
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Compte"
 msgstr[1] "Comptes"
 msgstr[2] "Comptes"
 
-#: src/Account.php:1041
+#: src/Account.php:1042
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -48,7 +48,7 @@ msgstr "Comptes expirés"
 msgid "Accounts expired for more than"
 msgstr "Comptes expirés depuis plus de"
 
-#: src/Account.php:1157 src/Account.php:1272
+#: src/Account.php:1158 src/Account.php:1273
 #: src/NotificationTargetAccount.php:326
 msgid "Accounts expired or accounts which expire"
 msgstr "Comptes expirés ou comptes qui vont expirer"
@@ -76,7 +76,7 @@ msgstr "Ajouter un statut non utilisé dans l'envoi des emails d'expiration"
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: src/Account_Item.php:496 src/Account.php:332 src/Account.php:340
+#: src/Account_Item.php:496 src/Account.php:333 src/Account.php:341
 #: src/NotificationTargetAccount.php:69 src/NotificationTargetAccount.php:192
 #: src/NotificationTargetAccount.php:246 src/NotificationTargetAccount.php:307
 #: templates/account.html.twig:392 templates/account.html.twig:401
@@ -95,7 +95,7 @@ msgstr "Un nouveau compte a été créé"
 msgid "Associable to a ticket"
 msgstr "Associable à un ticket"
 
-#: src/Account.php:857
+#: src/Account.php:858
 msgctxt "button"
 msgid "Associate"
 msgstr "Associer"
@@ -154,12 +154,12 @@ msgstr "Lien direct vers le compte créé"
 msgid "Display report"
 msgstr "Afficher le rapport"
 
-#: src/Account.php:861
+#: src/Account.php:862
 msgctxt "button"
 msgid "Dissociate"
 msgstr "Dissocier"
 
-#: src/Account.php:1478
+#: src/Account.php:1660
 msgid "Don't expire"
 msgstr "N'expire pas"
 
@@ -167,7 +167,7 @@ msgstr "N'expire pas"
 msgid "Empty for infinite"
 msgstr "Vide pour infini"
 
-#: src/Account.php:1581 src/Account.php:1585 src/AesKey.php:76
+#: src/Account.php:1763 src/Account.php:1767 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
 #: templates/account.html.twig:191 templates/account.html.twig:251
 #: templates/aeskey.html.twig:60 templates/hash.html.twig:63
@@ -201,7 +201,7 @@ msgstr "Export"
 msgid "Filter"
 msgstr "Flitre"
 
-#: src/Account.php:323 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: src/Account.php:324 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -341,9 +341,13 @@ msgstr "Sélectionner au moins une case à cocher"
 msgid "Select item"
 msgstr "Sélectionner un objet"
 
-#: src/Account.php:1362
+#: templates/account_tree.html.twig:39
 msgid "Select the wanted account type"
 msgstr "Sélectionnez le type de compte souhaité"
+
+#: templates/account_tree.html.twig:51 templates/account_tree.html.twig:52
+msgid "Show all"
+msgstr ""
 
 #: templates/account.html.twig:328
 msgid "Show/hide"
@@ -364,11 +368,11 @@ msgstr[2] "Statuts"
 msgid "Stored TOTP Secret"
 msgstr "Clé secrète TOTP stockée"
 
-#: src/Account.php:244 templates/account.html.twig:311
+#: src/Account.php:245 templates/account.html.twig:311
 msgid "TOTP Secret"
 msgstr "Clé secrète TOTP"
 
-#: src/Account.php:612
+#: src/Account.php:613
 msgid ""
 "TOTP secret not saved: no encryption key available. Please configure an "
 "encryption key first."
@@ -384,7 +388,7 @@ msgstr "Technicien responsable"
 msgid "The old or the new encryption key can not be empty"
 msgstr "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
-#: src/Account.php:694
+#: src/Account.php:695
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
@@ -392,7 +396,7 @@ msgstr ""
 "Aucune clé de chiffrement n'est associée à ce compte. Veuillez en "
 "sélectionner une ci-dessus."
 
-#: src/Account.php:651 src/Account.php:699
+#: src/Account.php:652 src/Account.php:700
 msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
@@ -400,7 +404,7 @@ msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 msgid "Time of checking of expiration of accounts"
 msgstr "Délai de vérification d'expiration des comptes"
 
-#: src/Account.php:868
+#: src/Account.php:869
 msgid "Transfer"
 msgstr "Transférer"
 
@@ -415,7 +419,7 @@ msgstr[0] "Type de compte"
 msgstr[1] "Types de compte"
 msgstr[2] "Types de compte"
 
-#: front/account.php:57 front/account.php:58 front/account.php:64
+#: front/account.php:63 front/account.php:73 ajax/accounttree.php:53
 msgid "Type view"
 msgstr "Vue par type"
 
@@ -456,7 +460,7 @@ msgstr ""
 "déchiffrer correctement le mot de passe. Vous devrez également mettre à jour "
 "le mot de passe."
 
-#: src/Account.php:460
+#: src/Account.php:461
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -474,7 +478,7 @@ msgstr "Mauvaise clé de chiffrement"
 msgid "Yes"
 msgstr "Oui"
 
-#: src/Account.php:1668
+#: src/Account.php:1850
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -490,7 +494,7 @@ msgstr "Veuillez renseigner le mot de passe et/ou la clé de chiffrement"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "Vous devez générer l'empreinte de votre clé de chiffrement"
 
-#: src/Account.php:671
+#: src/Account.php:672
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr "Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
 

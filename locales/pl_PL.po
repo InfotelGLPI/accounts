@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:45+0000\n"
+"POT-Creation-Date: 2026-09-01 16:18+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Jacek Maciol <jmaciol@rabawyzna.pl>, 2022\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/infotelGLPI/"
@@ -25,7 +25,7 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: src/Account.php:95 setup.php:136
+#: src/Account.php:96 setup.php:136
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Konto"
@@ -33,7 +33,7 @@ msgstr[1] "Konta"
 msgstr[2] "Konta"
 msgstr[3] "Konta"
 
-#: src/Account.php:1041
+#: src/Account.php:1042
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -48,7 +48,7 @@ msgstr "Konta wygasły"
 msgid "Accounts expired for more than"
 msgstr "Konto wygaśnie za więcej niż"
 
-#: src/Account.php:1157 src/Account.php:1272
+#: src/Account.php:1158 src/Account.php:1273
 #: src/NotificationTargetAccount.php:326
 msgid "Accounts expired or accounts which expire"
 msgstr ""
@@ -76,7 +76,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr "Dotyczy grupy"
 
-#: src/Account_Item.php:496 src/Account.php:332 src/Account.php:340
+#: src/Account_Item.php:496 src/Account.php:333 src/Account.php:341
 #: src/NotificationTargetAccount.php:69 src/NotificationTargetAccount.php:192
 #: src/NotificationTargetAccount.php:246 src/NotificationTargetAccount.php:307
 #: templates/account.html.twig:392 templates/account.html.twig:401
@@ -95,7 +95,7 @@ msgstr "Konto zostało usunięte"
 msgid "Associable to a ticket"
 msgstr ""
 
-#: src/Account.php:857
+#: src/Account.php:858
 msgctxt "button"
 msgid "Associate"
 msgstr ""
@@ -156,12 +156,12 @@ msgstr "Bezpośredni odnośnik do utworzonego konta"
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:861
+#: src/Account.php:862
 msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:1478
+#: src/Account.php:1660
 msgid "Don't expire"
 msgstr "Nie wygasa"
 
@@ -169,7 +169,7 @@ msgstr "Nie wygasa"
 msgid "Empty for infinite"
 msgstr "Pusta data oznacza hasło niewygasające"
 
-#: src/Account.php:1581 src/Account.php:1585 src/AesKey.php:76
+#: src/Account.php:1763 src/Account.php:1767 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
 #: templates/account.html.twig:191 templates/account.html.twig:251
 #: templates/aeskey.html.twig:60 templates/hash.html.twig:63
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:323 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: src/Account.php:324 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -342,9 +342,13 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
-#: src/Account.php:1362
+#: templates/account_tree.html.twig:39
 msgid "Select the wanted account type"
 msgstr "Wybierz żądany typ konta"
+
+#: templates/account_tree.html.twig:51 templates/account_tree.html.twig:52
+msgid "Show all"
+msgstr ""
 
 #: templates/account.html.twig:328
 msgid "Show/hide"
@@ -366,11 +370,11 @@ msgstr[3] "Statusy"
 msgid "Stored TOTP Secret"
 msgstr ""
 
-#: src/Account.php:244 templates/account.html.twig:311
+#: src/Account.php:245 templates/account.html.twig:311
 msgid "TOTP Secret"
 msgstr ""
 
-#: src/Account.php:612
+#: src/Account.php:613
 msgid ""
 "TOTP secret not saved: no encryption key available. Please configure an "
 "encryption key first."
@@ -384,13 +388,13 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "Staty i nowy klucz szyfrujący nie może być pusty"
 
-#: src/Account.php:694
+#: src/Account.php:695
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:651 src/Account.php:699
+#: src/Account.php:652 src/Account.php:700
 msgid "There is no encryption key for this entity"
 msgstr "Brak klucza szyfrującego dla tej jednostki"
 
@@ -398,7 +402,7 @@ msgstr "Brak klucza szyfrującego dla tej jednostki"
 msgid "Time of checking of expiration of accounts"
 msgstr ""
 
-#: src/Account.php:868
+#: src/Account.php:869
 msgid "Transfer"
 msgstr ""
 
@@ -414,7 +418,7 @@ msgstr[1] "Typy kont"
 msgstr[2] "Typów kont"
 msgstr[3] "Typów kont"
 
-#: front/account.php:57 front/account.php:58 front/account.php:64
+#: front/account.php:63 front/account.php:73 ajax/accounttree.php:53
 msgid "Type view"
 msgstr "Widok typu"
 
@@ -448,7 +452,7 @@ msgid ""
 "password."
 msgstr ""
 
-#: src/Account.php:460
+#: src/Account.php:461
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -464,7 +468,7 @@ msgstr "Nieprawidłowy klucz szyfrujący"
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:1668
+#: src/Account.php:1850
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -478,7 +482,7 @@ msgstr "Hasło i klucz szyfrujący muszą być wypełnione"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr ""
 
-#: src/Account.php:671
+#: src/Account.php:672
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 
