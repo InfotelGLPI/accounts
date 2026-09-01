@@ -2,27 +2,29 @@
 # Copyright (C) YEAR Accounts Development Team
 # This file is distributed under the same license as the GLPI - Accounts plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # David Stepan <stepand@tiscali.cz>, 2025
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-14 17:25+0000\n"
+"POT-Creation-Date: 2026-08-31 14:45+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
-"Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/teams/12352/cs_CZ/)\n"
+"Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/"
+"teams/12352/cs_CZ/)\n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs_CZ\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
+"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: setup.php:142 src/Account.php:89 src/Profile.php:199 src/Profile.php:236
+#: src/Account.php:95 setup.php:136
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Účet"
@@ -30,73 +32,378 @@ msgstr[1] "Účty"
 msgstr[2] "Účtů"
 msgstr[3] "Účty"
 
-#: front/account.php:58 front/account.php:59 front/account.php:65
-msgid "Type view"
-msgstr "Typ pohledu"
+#: src/Account.php:1041
+#, php-format
+msgid ""
+"Account \"%s\" transferred but no fingerprint found in destination entity. "
+"Password was cleared for security."
+msgstr ""
 
-#: front/hash.form.php:79 src/Account.php:599 src/Account.php:688
-#: src/Account.php:837 src/Account.php:870 src/Report.php:264
-#: src/Account_Item.php:707 src/Account_Item.php:727
-msgid "Wrong encryption key"
-msgstr "Chybný šifrovací klíč"
-
-#: front/hash.form.php:83 src/AesKey.php:190
-msgid "Encryption key modified"
-msgstr "Šifrovací klíč změněn"
-
-#: front/hash.form.php:87
-msgid "The old or the new encryption key can not be empty"
-msgstr "Je třeba vyplnit jak původní, tak nový šifrovací klíč"
-
-#: hook.php:848
-msgid "Associate to account"
-msgstr "Přiřadit k účtu"
-
-#: ajax/generatepassword.php:64
-msgid "Select at least on checkbox"
-msgstr "Vyber alespoň jednu volbu"
-
-#: ajax/log_decrypt.php:44
-msgid "Uncrypted"
-msgstr "Dešifrované"
-
-#: src/NotificationTargetAccount.php:58
-msgid "New account"
-msgstr "Nový účet"
-
-#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:243
+#: src/NotificationTargetAccount.php:58 src/NotificationTargetAccount.php:239
 msgid "Accounts expired"
 msgstr "Účty kterým skončila platnost"
 
-#: src/NotificationTargetAccount.php:60 src/NotificationTargetAccount.php:244
-msgid "Accounts which expires"
-msgstr "Účty kterým končí platnost"
+#: templates/config.html.twig:46
+msgid "Accounts expired for more than"
+msgstr "Účty, kterým platnost skončila před více než"
 
-#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:196
-#: src/NotificationTargetAccount.php:251 src/NotificationTargetAccount.php:312
-#: src/Account.php:181 src/Account.php:189 src/Account.php:646
-#: src/Account.php:658 src/Account_Item.php:651
-msgid "Affected User"
-msgstr "Dotčený uživatel"
+#: src/Account.php:1157 src/Account.php:1272
+#: src/NotificationTargetAccount.php:326
+msgid "Accounts expired or accounts which expire"
+msgstr ""
 
-#: src/NotificationTargetAccount.php:71 src/NotificationTargetAccount.php:199
-#: src/NotificationTargetAccount.php:252 src/NotificationTargetAccount.php:313
-#: src/Account.php:720 src/Account.php:731
+#: templates/config.html.twig:53
+msgid "Accounts expiring in less than"
+msgstr "Účty, kterým platnost skončí za méně než"
+
+#: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:240
+msgid "Accounts which expire"
+msgstr ""
+
+#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
+msgctxt "button"
+msgid "Add"
+msgstr ""
+
+#: templates/status_cron.html.twig:44
+msgid "Add an unused status for expiration mailing"
+msgstr ""
+
+#: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:195
+#: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
+#: templates/account.html.twig:418 templates/account.html.twig:428
 msgid "Affected Group"
 msgstr "Dotčená skupina"
 
-#: src/NotificationTargetAccount.php:167 src/NotificationTargetAccount.php:328
+#: src/Account_Item.php:496 src/Account.php:332 src/Account.php:340
+#: src/NotificationTargetAccount.php:69 src/NotificationTargetAccount.php:192
+#: src/NotificationTargetAccount.php:246 src/NotificationTargetAccount.php:307
+#: templates/account.html.twig:392 templates/account.html.twig:401
+msgid "Affected User"
+msgstr "Dotčený uživatel"
+
+#: templates/datatable.html.twig:199
+msgid "All"
+msgstr ""
+
+#: src/NotificationTargetAccount.php:163 src/NotificationTargetAccount.php:323
 msgid "An account has been created"
 msgstr "Účet byl vytvořen"
 
-#: src/NotificationTargetAccount.php:232 src/NotificationTargetAccount.php:307
+#: templates/account.html.twig:537
+msgid "Associable to a ticket"
+msgstr ""
+
+#: src/Account.php:857
+msgctxt "button"
+msgid "Associate"
+msgstr ""
+
+#: hook.php:871
+msgid "Associate to account"
+msgstr "Přiřadit k účtu"
+
+#: templates/datatable.html.twig:102
+msgid "Check all"
+msgstr ""
+
+#: templates/account.html.twig:241 templates/account.html.twig:337
+msgid "Clear"
+msgstr ""
+
+#: templates/account.html.twig:529 templates/hash.html.twig:89
+msgid "Comment"
+msgid_plural "Comments"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: templates/account.html.twig:441
+msgid "Creation date"
+msgstr ""
+
+#: templates/config.html.twig:50 templates/config.html.twig:58
+msgid "Day"
+msgid_plural "Days"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/Account_Item.php:464
+msgid "Decrypt"
+msgstr ""
+
+#: ajax/log_decrypt.php:52
+msgid "Decrypted from account"
+msgstr ""
+
+#: ajax/log_decrypt.php:54
+msgid "Decrypted from item"
+msgstr ""
+
+#: src/Report.php:202 src/Report.php:212
+msgid "Decrypted password"
+msgstr ""
+
+#: src/NotificationTargetAccount.php:228 src/NotificationTargetAccount.php:302
 msgid "Direct link to created account"
 msgstr "Přímý odkaz na vytvořený účet"
 
-#: src/NotificationTargetAccount.php:331 src/Account.php:1264
-#: src/Account.php:1361
-msgid "Accounts expired or accounts which expires"
-msgstr "Účty kterým skončila nebo končí platnost"
+#: templates/hash_select_accounts.html.twig:53
+msgid "Display report"
+msgstr ""
+
+#: src/Account.php:861
+msgctxt "button"
+msgid "Dissociate"
+msgstr ""
+
+#: src/Account.php:1478
+msgid "Don't expire"
+msgstr "Platnost nikdy neskončí"
+
+#: templates/account.html.twig:474
+msgid "Empty for infinite"
+msgstr "Nevyplněné znamená nekonečno"
+
+#: src/Account.php:1581 src/Account.php:1585 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
+#: templates/account.html.twig:191 templates/account.html.twig:251
+#: templates/aeskey.html.twig:60 templates/hash.html.twig:63
+msgid "Encryption key"
+msgid_plural "Encryption keys"
+msgstr[0] "Šifrovací klíč"
+msgstr[1] "Šifrovacích klíčů"
+msgstr[2] "Šifrovacích klíčů"
+msgstr[3] "Šifrovací klíče"
+
+#: front/hash.form.php:90 templates/aeskey.html.twig:52
+msgid "Encryption key modified"
+msgstr "Šifrovací klíč změněn"
+
+#: front/aeskey.form.php:78
+msgid "Encryption key saved"
+msgstr ""
+
+#: templates/datatable.html.twig:410
+msgid "Entries to show:"
+msgstr ""
+
+#: templates/account.html.twig:473
+msgid "Expiration date"
+msgstr ""
+
+#: templates/datatable.html.twig:143
+msgid "Export"
+msgstr ""
+
+#: templates/datatable.html.twig:137
+msgid "Filter"
+msgstr ""
+
+#: src/Account.php:323 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: templates/account.html.twig:146 templates/account.html.twig:168
+msgid "Fingerprint"
+msgid_plural "Fingerprints"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: templates/account.html.twig:665
+msgid "Generate"
+msgstr "Generovat"
+
+#: templates/hash.html.twig:71
+msgid "Generate fingerprint with this encryption key"
+msgstr ""
+
+#: templates/account.html.twig:610
+msgid "Generate password"
+msgstr "Generovat heslo"
+
+#: templates/account.html.twig:485 templates/account.html.twig:495
+msgid "Group in charge"
+msgstr ""
+
+#: templates/account.html.twig:323
+msgid "Leave blank to keep current"
+msgstr ""
+
+#: templates/account.html.twig:651
+msgid "Length"
+msgstr "Délka"
+
+#: src/Report.php:310 src/Hash.php:100
+#: templates/hash_select_accounts.html.twig:32
+msgid "Linked accounts list"
+msgstr "Seznam souvisejících účtů"
+
+#: templates/account.html.twig:81
+msgid "Login"
+msgstr ""
+
+#: templates/account.html.twig:627
+msgid "Lowercase"
+msgstr "Malé znaky"
+
+#: src/Hash.php:102
+msgid "Modification of the encryption key for all passwords"
+msgstr ""
+
+#: templates/account.html.twig:60 templates/hash.html.twig:54
+msgid "Name"
+msgstr ""
+
+#: src/NotificationTargetAccount.php:57
+msgid "New account"
+msgstr "Nový účet"
+
+#: templates/hash_change_key.html.twig:65
+msgid "New encryption key"
+msgstr "Nový šifrovací klíč"
+
+#: templates/datatable.html.twig:204 templates/datatable.html.twig:367
+msgid "No"
+msgstr ""
+
+#: templates/datatable.html.twig:64 templates/datatable.html.twig:383
+msgid "No results found"
+msgstr ""
+
+#: templates/account.html.twig:620
+msgid "Numbers"
+msgstr "Čísla"
+
+#: templates/hash_change_key.html.twig:43
+msgid "Old encryption key"
+msgstr "Původní šifrovací klíč"
+
+#: templates/account.html.twig:509
+msgid "Others"
+msgstr ""
+
+#: templates/account.html.twig:211 templates/account.html.twig:279
+msgid "Password"
+msgstr ""
+
+#: templates/account.html.twig:579
+msgid "Password will not be modified"
+msgstr "Heslo nebude změněno"
+
+#: src/Hash.php:270
+msgid ""
+"Please do not use special characters like / \\ apostrophe ampersand in "
+"encryption keys, or you cannot change it after."
+msgstr ""
+
+#: templates/hash.html.twig:119 templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64
+msgid "Please fill the encryption key"
+msgstr "Vyplňte šifrovací klíč"
+
+#: src/Config.php:59
+msgid "Plugin Setup"
+msgstr "Nastavení zásuvného modulu"
+
+#: templates/config.html.twig:66 templates/profile.html.twig:34
+msgctxt "button"
+msgid "Save"
+msgstr ""
+
+#: src/AesKey.php:100
+msgid "Save the encryption key"
+msgstr "Uložit šifrovací klíč"
+
+#: src/Profile.php:156
+msgid "See accounts of my groups"
+msgstr "Zobrazit účty v mých skupinách"
+
+#: src/Profile.php:164
+msgid "See accounts of my technician groups"
+msgstr ""
+
+#: src/Profile.php:170
+msgid "See all accounts"
+msgstr "Zobrazit všechny účty"
+
+#: src/Servicecatalog.php:89 src/Servicecatalog.php:96
+msgid "See your accounts"
+msgstr "Zobrazit své účty"
+
+#: ajax/generatepassword.php:70
+msgid "Select at least one checkbox"
+msgstr ""
+
+#: templates/datatable.html.twig:238
+msgid "Select item"
+msgstr ""
+
+#: src/Account.php:1362
+msgid "Select the wanted account type"
+msgstr "Vyberte požadovaný typ účtu"
+
+#: templates/account.html.twig:328
+msgid "Show/hide"
+msgstr ""
+
+#: templates/account.html.twig:641
+msgid "Special characters"
+msgstr "Speciální znaky"
+
+#: src/AccountState.php:56 templates/account.html.twig:70
+msgid "Status"
+msgid_plural "Statuses"
+msgstr[0] "Stav"
+msgstr[1] "Stavů"
+msgstr[2] "Stavů"
+msgstr[3] "Stavy"
+
+#: templates/account.html.twig:346
+msgid "Stored TOTP Secret"
+msgstr ""
+
+#: src/Account.php:244 templates/account.html.twig:311
+msgid "TOTP Secret"
+msgstr ""
+
+#: src/Account.php:612
+msgid ""
+"TOTP secret not saved: no encryption key available. Please configure an "
+"encryption key first."
+msgstr ""
+
+#: templates/account.html.twig:452 templates/account.html.twig:461
+msgid "Technician in charge"
+msgstr ""
+
+#: front/hash.form.php:98
+msgid "The old or the new encryption key can not be empty"
+msgstr "Je třeba vyplnit jak původní, tak nový šifrovací klíč"
+
+#: src/Account.php:694
+msgid ""
+"There is no encryption key associated to this account, please select one "
+"above"
+msgstr ""
+
+#: src/Account.php:651 src/Account.php:699
+msgid "There is no encryption key for this entity"
+msgstr "Pro tuto entitu neexistuje žádný šifrovací klíč"
+
+#: templates/config.html.twig:41
+msgid "Time of checking of expiration of accounts"
+msgstr ""
+
+#: src/Account.php:868
+msgid "Transfer"
+msgstr ""
+
+#: templates/account.html.twig:91
+msgid "Type"
+msgstr ""
 
 #: src/AccountType.php:51
 msgid "Type of account"
@@ -106,199 +413,23 @@ msgstr[1] "Typy účtů"
 msgstr[2] "Typů účtů"
 msgstr[3] "Typy účtů"
 
-#: src/Account.php:489 src/Account.php:574 src/Account_Item.php:618
-msgid "There is no encryption key for this entity"
-msgstr "Pro tuto entitu neexistuje žádný šifrovací klíč"
+#: front/account.php:57 front/account.php:58 front/account.php:64
+msgid "Type view"
+msgstr "Typ pohledu"
 
-#: src/Account.php:551
-msgid ""
-"WARNING : there are multiple encryption keys for this entity. The encryption"
-" key of this entity will be used"
+#: templates/hash_change_key.html.twig:84
+msgid "Update"
 msgstr ""
-"VAROVÁNÍ: Pro tuto entitu existuje více šifrovacích klíčů. Bude použit "
-"šifrovací klíč této entity"
 
-#: src/Account.php:571
-msgid "Your encryption key is malformed, please generate the hash"
-msgstr "Váš šifrovací klíč je poškozený, vygenerujte prosím hash."
-
-#: src/Account.php:582 src/Account.php:640 src/Account.php:1670
-#: src/Account.php:1674 src/Profile.php:240 src/Account_Item.php:625
-#: src/Account_Item.php:635 src/AesKey.php:71 src/AesKey.php:208
-#: src/AesKey.php:261 src/AesKey.php:282 src/Hash.php:60 src/Hash.php:290
-msgid "Encryption key"
-msgid_plural "Encryption keys"
-msgstr[0] "Šifrovací klíč"
-msgstr[1] "Šifrovacích klíčů"
-msgstr[2] "Šifrovacích klíčů"
-msgstr[3] "Šifrovací klíče"
-
-#: src/Account.php:603
-msgid "Uncrypt and copy"
-msgstr "Dešifrovat a kopírova"
-
-#: src/Account.php:760
-msgid "Empty for infinite"
-msgstr "Nevyplněné znamená nekonečno"
-
-#: src/Account.php:833
-msgid "You have not filled the password and encryption key"
-msgstr "Nevyplnili jste heslo a šifrovací klíč"
-
-#: src/Account.php:868
-msgid "Password will not be modified"
-msgstr "Heslo nebude změněno"
-
-#: src/Account.php:915
-msgid "Generate password"
-msgstr "Generovat heslo"
-
-#: src/Account.php:917
-msgid "Numbers"
-msgstr "Čísla"
-
-#: src/Account.php:921
-msgid "Lowercase"
-msgstr "Malé znaky"
-
-#: src/Account.php:925
+#: templates/account.html.twig:634
 msgid "Uppercase"
 msgstr "Velké znaky"
 
-#: src/Account.php:929
-msgid "Special characters"
-msgstr "Speciální znaky"
-
-#: src/Account.php:933
-msgid "Length"
-msgstr "Délka"
-
-#: src/Account.php:935
-msgid " characters"
-msgstr "znaky"
-
-#: src/Account.php:942 src/Account.php:944
-msgid "Generate"
-msgstr "Generovat"
-
-#: src/Account.php:1453
-msgid "Select the wanted account type"
-msgstr "Vyberte požadovaný typ účtu"
-
-#: src/Account.php:1564 src/Account_Item.php:750
-msgid "Don't expire"
-msgstr "Platnost nikdy neskončí"
-
-#: src/Profile.php:153 src/Profile.php:206 src/Profile.php:247
-msgid "See accounts of my groups"
-msgstr "Zobrazit účty v mých skupinách"
-
-#: src/Profile.php:160 src/Profile.php:210 src/Profile.php:251
-msgid "See all accounts"
-msgstr "Zobrazit všechny účty"
-
-#: src/Report.php:195 src/Report.php:205
-msgid "Uncrypted password"
-msgstr "Dešifrované heslo"
-
-#: src/Report.php:285 src/Hash.php:97 src/Hash.php:390
-msgid "Linked accounts list"
-msgstr "Seznam souvisejících účtů"
-
-#: src/Account_Item.php:577
-msgctxt "button"
-msgid "Associate a account"
-msgstr "Přiřadit účet"
-
-#: src/Account_Item.php:716
-msgid "Uncrypt"
-msgstr "Dešifrovat"
-
-#: src/Config.php:54
-msgid "Plugin Setup"
-msgstr "Nastavení zásuvného modulu"
-
-#: src/Config.php:92
-msgid "Time of checking of of expiration of accounts"
-msgstr "Kdy kontrolovat konce platnosti účtů"
-
-#: src/Config.php:101
-msgid "Accounts expired for more than"
-msgstr "Účty, kterým platnost skončila před více než"
-
-#: src/Config.php:106
-msgid "Accounts expiring in less than"
-msgstr "Účty, kterým platnost skončí za méně než"
-
-#: src/AesKey.php:85
-msgid "Save the encryption key"
-msgstr "Uložit šifrovací klíč"
-
-#: src/AesKey.php:201
-msgid "WARNING : saving the encryption key is a security hole"
-msgstr "VAROVÁNÍ: uložení šifrovacího klíče je bezpečnostní díra"
-
-#: src/AesKey.php:239 src/Hash.php:310
-msgid "Hash"
-msgstr "Otisk"
-
-#: src/NotificationState.php:94
-msgid "Add a unused status for expiration mailing"
-msgstr "Přidat stav nepoužito pro zprávy o skončení platnosti"
-
-#: src/NotificationState.php:133
-msgid "Unused status for expiration mailing"
-msgstr "Stav nepoužito pro zprávy o skončení platnosti"
-
-#: src/Servicecatalog.php:90 src/Servicecatalog.php:97
-msgid "See your accounts"
-msgstr "Zobrazit své účty"
-
-#: src/AccountState.php:54
-msgid "Status"
-msgid_plural "Statuses"
-msgstr[0] "Stav"
-msgstr[1] "Stavů"
-msgstr[2] "Stavů"
-msgstr[3] "Stavy"
-
-#: src/Hash.php:98
-msgid "Modification of the encryption key for all password"
-msgstr "Změna šifrovacího klíče pro všechna hesla"
-
-#: src/Hash.php:257
-msgid "WARNING : a encryption key already exist for this entity"
-msgstr "VAROVÁNÍ: pro tuto entitu už existuje šifrovací klíč"
-
-#: src/Hash.php:272
-msgid ""
-"WARNING : if you change used hash, the old accounts will use the old "
-"encryption key"
+#: templates/account.html.twig:52
+msgid "WARNING : an encryption key already exists for this entity"
 msgstr ""
-"VAROVÁNÍ: Pokud změníte použitý hash, staré účty budou používat starý "
-"šifrovací klíč"
 
-#: src/Hash.php:295
-msgid "Generate hash with this encryption key"
-msgstr "Vytvořit otisk z tohoto šifrovacího klíče"
-
-#: src/Hash.php:299 src/Hash.php:393 src/Hash.php:409
-msgid "Please fill the encryption key"
-msgstr "Vyplňte šifrovací klíč"
-
-#: src/Hash.php:338
-msgid ""
-"Please do not use special characters like / \\ ' \" & in encryption keys, or"
-" you cannot change it after."
-msgstr ""
-"V šifrovacích klíčích nepoužívejte speciální znaky jako / \\ ' \" & jinak je"
-" nebudete moci později změnit."
-
-#: src/Hash.php:371
-msgid "You must generate the hash for your encryption key"
-msgstr "Musíte vygenerovat hash pro váš šifrovací klíč."
-
-#: src/Hash.php:423
+#: templates/hash_change_key.html.twig:32
 msgid ""
 "WARNING : if you make a mistake in entering the old or the new key, you "
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
@@ -308,18 +439,137 @@ msgstr ""
 "nebudete již moci svá hesla dešifrovat. DŮRAZNĚ doporučujeme, abyste si "
 "předtím vytvořili zálohu databáze."
 
-#: src/Hash.php:426
-msgid "Old encryption key"
-msgstr "Původní šifrovací klíč"
+#: templates/aeskey.html.twig:57
+msgid "WARNING : saving the encryption key is a security hole"
+msgstr "VAROVÁNÍ: uložení šifrovacího klíče je bezpečnostní díra"
 
-#: src/Hash.php:437
-msgid "New encryption key"
-msgstr "Nový šifrovací klíč"
+#: templates/account.html.twig:185
+msgid ""
+"WARNING: If you change the associated fingerprint, you will no longer be "
+"able to correctly decrypt the password. You will also need to update the "
+"password."
+msgstr ""
 
-#: src/Hash.php:443
-msgid "You want to change the key : "
-msgstr "Chcete vyměnit klíč:"
+#: src/Account.php:460
+msgid ""
+"Warning: the encrypted password is very long and may indicate an issue with "
+"the encryption key."
+msgstr ""
 
-#: src/Hash.php:444
-msgid " by the key : "
-msgstr "za klíč:"
+#: front/hash.form.php:81 src/Account_Item.php:535 src/Report.php:269
+#: templates/account.html.twig:216 templates/account.html.twig:284
+#: templates/account.html.twig:562 templates/account.html.twig:582
+msgid "Wrong encryption key"
+msgstr "Chybný šifrovací klíč"
+
+#: templates/datatable.html.twig:201 templates/datatable.html.twig:365
+msgid "Yes"
+msgstr ""
+
+#: src/Account.php:1668
+msgid ""
+"You have accounts without linked fingerprint, please add it with massive "
+"action or into forms"
+msgstr ""
+
+#: templates/account.html.twig:556
+msgid "You have not filled the password and encryption key"
+msgstr "Nevyplnili jste heslo a šifrovací klíč"
+
+#: src/Hash.php:293
+msgid "You must generate the fingerprint for your encryption key"
+msgstr ""
+
+#: src/Account.php:671
+msgid "Your encryption key is malformed, please regenerate the fingerprint"
+msgstr ""
+
+#: templates/account.html.twig:656
+msgid "characters"
+msgstr ""
+
+#: templates/account.html.twig:313
+msgid "new value"
+msgstr ""
+
+#~ msgid "Select at least on checkbox"
+#~ msgstr "Vyber alespoň jednu volbu"
+
+#~ msgid "Uncrypted"
+#~ msgstr "Dešifrované"
+
+#~ msgid "Accounts which expires"
+#~ msgstr "Účty kterým končí platnost"
+
+#~ msgid "Accounts expired or accounts which expires"
+#~ msgstr "Účty kterým skončila nebo končí platnost"
+
+#~ msgid ""
+#~ "WARNING : there are multiple encryption keys for this entity. The "
+#~ "encryption key of this entity will be used"
+#~ msgstr ""
+#~ "VAROVÁNÍ: Pro tuto entitu existuje více šifrovacích klíčů. Bude použit "
+#~ "šifrovací klíč této entity"
+
+#~ msgid "Your encryption key is malformed, please generate the hash"
+#~ msgstr "Váš šifrovací klíč je poškozený, vygenerujte prosím hash."
+
+#~ msgid "Uncrypt and copy"
+#~ msgstr "Dešifrovat a kopírova"
+
+#~ msgid " characters"
+#~ msgstr "znaky"
+
+#~ msgid "Uncrypted password"
+#~ msgstr "Dešifrované heslo"
+
+#~ msgctxt "button"
+#~ msgid "Associate a account"
+#~ msgstr "Přiřadit účet"
+
+#~ msgid "Uncrypt"
+#~ msgstr "Dešifrovat"
+
+#~ msgid "Time of checking of of expiration of accounts"
+#~ msgstr "Kdy kontrolovat konce platnosti účtů"
+
+#~ msgid "Hash"
+#~ msgstr "Otisk"
+
+#~ msgid "Add a unused status for expiration mailing"
+#~ msgstr "Přidat stav nepoužito pro zprávy o skončení platnosti"
+
+#~ msgid "Unused status for expiration mailing"
+#~ msgstr "Stav nepoužito pro zprávy o skončení platnosti"
+
+#~ msgid "Modification of the encryption key for all password"
+#~ msgstr "Změna šifrovacího klíče pro všechna hesla"
+
+#~ msgid "WARNING : a encryption key already exist for this entity"
+#~ msgstr "VAROVÁNÍ: pro tuto entitu už existuje šifrovací klíč"
+
+#~ msgid ""
+#~ "WARNING : if you change used hash, the old accounts will use the old "
+#~ "encryption key"
+#~ msgstr ""
+#~ "VAROVÁNÍ: Pokud změníte použitý hash, staré účty budou používat starý "
+#~ "šifrovací klíč"
+
+#~ msgid "Generate hash with this encryption key"
+#~ msgstr "Vytvořit otisk z tohoto šifrovacího klíče"
+
+#~ msgid ""
+#~ "Please do not use special characters like / \\ ' \" & in encryption keys, "
+#~ "or you cannot change it after."
+#~ msgstr ""
+#~ "V šifrovacích klíčích nepoužívejte speciální znaky jako / \\ ' \" & jinak "
+#~ "je nebudete moci později změnit."
+
+#~ msgid "You must generate the hash for your encryption key"
+#~ msgstr "Musíte vygenerovat hash pro váš šifrovací klíč."
+
+#~ msgid "You want to change the key : "
+#~ msgstr "Chcete vyměnit klíč:"
+
+#~ msgid " by the key : "
+#~ msgstr "za klíč:"
