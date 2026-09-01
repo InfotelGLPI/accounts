@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Application\View\TemplateRenderer;
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Servicecatalog\Main;
@@ -53,19 +54,25 @@ $account->checkGlobal(READ);
 
 if ($account->canView()) {
     if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
-        echo "<div class='center'>";
-        echo "<a href='#' data-bs-toggle='modal' data-bs-target='#seetypemodal' class='submit btn btn-primary' title='" . __s('Type view', 'accounts') . "' >";
-        echo __s('Type view', 'accounts');
-        echo "</a>";
-        echo "</div><br>";
-        echo Ajax::createIframeModalWindow(
+        // The modal markup and the script that opens it come from the core helper: ask for
+        // the string, so the template stays in charge of the layout.
+        $modal = (string) Ajax::createIframeModalWindow(
             'seetypemodal',
             PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttree.php",
-            ['title'   => __s('Type view', 'accounts'),
-                'display'       => false,
-                'width'         => 600,
-                'height'        => 500],
+            [
+                'title' => __('Type view', 'accounts'),
+                'display' => false,
+                // createIframeModalWindow() accepts width/height but never emits them: the
+                // iframe is hardcoded to height="400". Only the dialog class reaches the
+                // markup, the rest of the sizing is done in accounts.css.
+                'dialog_class' => 'modal-xl modal-dialog-centered plugin_accounts_tree_dialog',
+            ],
         );
+
+        TemplateRenderer::getInstance()->display('@accounts/account_tree_button.html.twig', [
+            'label' => __('Type view', 'accounts'),
+            'modal' => $modal,
+        ]);
     }
 
     Account::showAccountsWithoutHash();

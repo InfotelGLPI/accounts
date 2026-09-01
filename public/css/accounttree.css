@@ -1,0 +1,124 @@
+/*!
+ * -------------------------------------------------------------------------
+ * accounts plugin for GLPI
+ * Copyright (C) 2015-2026 by the accounts Development Team.
+ *
+ * https://github.com/InfotelGLPI/accounts
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of accounts.
+ *
+ * accounts is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * accounts is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
+ */
+
+/* ------------------------------------------------------------------------ *
+ * Account type tree
+ *
+ * Loaded by Account::showSelector() only, on the page served inside the modal
+ * iframe. The page goes through Html::popHeader(), so Tabler and the core
+ * bundle carrying fancytree are already there: what is left is the full-height
+ * layout of the panel and the adjustments the bundled fancytree skin needs to
+ * host Tabler webfont glyphs instead of its own sprite.
+ * ------------------------------------------------------------------------ */
+
+body.in_modal > #page {
+    /* The modal body has no padding of its own: the panel below owns it. */
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.plugin_accounts_tree_page {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    padding: 1rem;
+    gap: .75rem;
+}
+
+/* Header and filter row keep their size, the tree takes the rest. */
+.plugin_accounts_tree_page > .plugin_accounts_tree_head {
+    flex: 0 0 auto;
+}
+
+.plugin_accounts_tree {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    padding: .25rem .5rem;
+    border: 1px solid var(--tblr-border-color);
+    border-radius: var(--tblr-border-radius);
+    background-color: var(--tblr-bg-surface);
+}
+
+.plugin_accounts_tree .fancytree-container {
+    border: 0;
+    background: transparent;
+    outline: 0;
+}
+
+/* The bundled skin sizes its icon slots for a 10pt sprite; Tabler glyphs are a
+   webfont and need a real font-size and a matching box. */
+.plugin_accounts_tree span.fancytree-icon,
+.plugin_accounts_tree span.fancytree-expander,
+.plugin_accounts_tree span.fancytree-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    background-image: none;
+    font-size: 1.05rem;
+    line-height: 1.25rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.plugin_accounts_tree span.fancytree-expander { color: var(--tblr-secondary); }
+.plugin_accounts_tree span.fancytree-icon     { color: var(--tblr-primary); }
+
+.plugin_accounts_tree span.fancytree-node {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .1rem 0;
+}
+
+.plugin_accounts_tree span.fancytree-title {
+    padding: .2rem .45rem;
+    border: 0;
+    border-radius: var(--tblr-border-radius);
+    margin-left: 0;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.plugin_accounts_tree span.fancytree-node:hover span.fancytree-title,
+.plugin_accounts_tree span.fancytree-title:hover {
+    background-color: var(--tblr-bg-surface-secondary);
+}
+
+.plugin_accounts_tree .fancytree-active span.fancytree-title,
+.plugin_accounts_tree .fancytree-focused span.fancytree-title {
+    background-color: var(--tblr-primary-lt);
+    box-shadow: none;
+    color: inherit;
+}
+
+/* Matches of the filter extension: keep the emphasis readable on both themes. */
+.plugin_accounts_tree span.fancytree-title mark,
+.plugin_accounts_tree .fancytree-match span.fancytree-title {
+    background-color: transparent;
+    color: inherit;
+    font-weight: 600;
+}

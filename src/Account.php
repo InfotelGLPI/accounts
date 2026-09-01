@@ -38,6 +38,7 @@ use DbUtils;
 use Dropdown;
 use Glpi\Application\View\TemplateRenderer;
 use Glpi\DBAL\QueryExpression;
+use Glpi\DBAL\QueryFunction;
 use Glpi\DBAL\QuerySubQuery;
 use Glpi\Features\Clonable;
 use Html;
@@ -1346,64 +1347,245 @@ class Account extends CommonDBTM
     }
 
     /**
-     * Display types of used accounts
+     * Maximum number of accounts listed under an account type node.
      *
-     * @param $target
+     * The tree has no paging: past that count, the "Show all" node of the type links to
+     * the filtered search list, which is the way to reach the whole set.
+     */
+    public const TREE_CHILDREN_LIMIT = 50;
+
+    /**
+     * Search criteria restricting the account type tree to what the user may see.
+     *
+     * Mirrors plugin_accounts_addDefaultWhere() (hook.php) so the tree exposes exactly
+     * what the account list would: entity scope, plus the "own accounts only" restriction
+     * when the profile lacks the plugin_accounts_see_all_users right. The tree is opened
+     * from a page gated on that right, but its endpoint is reachable on its own.
+     *
+     * @return array
+     */
+    private static function getTreeVisibilityCriteria()
+    {
+        $table = self::getTable();
+
+        // Kept as an AND list rather than merged: getEntitiesRestrictCriteria() returns
+        // an 'OR' key of its own when the entity is recursive, which would collide with
+        // the ownership clause below.
+        $criteria = [
+            'AND' => [
+                ["$table.is_deleted" => 0],
+                getEntitiesRestrictCriteria($table, '', '', true),
+            ],
+        ];
+
+        if (!Session::haveRight('plugin_accounts_see_all_users', 1)) {
+            $who = Session::getLoginUserID();
+
+            if (
+                count($_SESSION['glpigroups'] ?? [])
+                && Session::haveRight('plugin_accounts_my_groups', 1)
+            ) {
+                $criteria['AND'][] = [
+                    'OR' => [
+                        "$table.groups_id" => $_SESSION['glpigroups'],
+                        "$table.users_id"  => $who,
+                    ],
+                ];
+            } else {
+                $criteria['AND'][] = ["$table.users_id" => $who];
+            }
+        }
+
+        return $criteria;
+    }
+
+    /**
+     * URL of the account list filtered on an account type.
+     *
+     * Search option 2 is a dropdown on glpi_plugin_accounts_accounttypes, so the "equals"
+     * search type matches on the identifier: no name is interpolated into the URL any
+     * more, which also makes the link exact instead of a "starts with" on the name.
+     *
+     * @param int $accounttypes_id
+     *
+     * @return string
+     */
+    private static function getTreeSearchUrl($accounttypes_id)
+    {
+        return PLUGIN_ACCOUNTS_WEBDIR . '/front/account.php?' . http_build_query([
+            'criteria' => [
+                [
+                    'field'      => 2,
+                    'searchtype' => 'equals',
+                    'value'      => (int) $accounttypes_id,
+                ],
+            ],
+            'start' => 0,
+        ]);
+    }
+
+    /**
+     * Build the fancytree nodes of the account type browser.
+     *
+     * The root level lists the account types holding at least one visible account;
+     * expanding one lazy-loads its accounts. Leaf nodes carry their target URL in
+     * data.url, which the script opens on activation, so no event handler is built
+     * server side any more.
+     *
+     * @param string $node fancytree key of the node being expanded, '-1' for the root
+     *
+     * @return array
+     */
+    public static function getTreeNodes($node)
+    {
+        if ((string) $node === '-1') {
+            return self::getAccountTypeTreeNodes();
+        }
+
+        // Child keys are built below as "accounttype-<id>"; nothing else has children.
+        if (preg_match('/^accounttype-(\d+)$/', (string) $node, $matches) !== 1) {
+            return [];
+        }
+
+        return self::getAccountTreeNodes((int) $matches[1]);
+    }
+
+    /**
+     * Root level of the tree: the account types holding at least one visible account.
+     *
+     * Account types carry no URL on purpose: activating one only unfolds it. The filtered
+     * list is reachable from the "Show all" child node built below.
+     *
+     * @return array
+     */
+    private static function getAccountTypeTreeNodes()
+    {
+        global $DB;
+
+        $table = self::getTable();
+        $types = AccountType::getTable();
+
+        $iterator = $DB->request([
+            'SELECT'     => [
+                "$types.id AS id",
+                "$types.name AS name",
+                QueryFunction::count("$table.id", false, 'nb'),
+            ],
+            'FROM'       => $types,
+            'INNER JOIN' => [
+                $table => [
+                    'FKEY' => [
+                        $types => 'id',
+                        $table => 'plugin_accounts_accounttypes_id',
+                    ],
+                ],
+            ],
+            'WHERE'      => self::getTreeVisibilityCriteria(),
+            'GROUPBY'    => ["$types.id", "$types.name"],
+            'ORDER'      => "$types.name",
+        ]);
+
+        $nodes = [];
+        foreach ($iterator as $type) {
+            $nodes[] = [
+                'key'     => 'accounttype-' . $type['id'],
+                'title'   => sprintf(__('%1$s (%2$s)'), $type['name'], $type['nb']),
+                'folder'  => true,
+                'lazy'    => true,
+                'tooltip' => AccountType::getTypeName(1) . ' - ' . $type['name'],
+            ];
+        }
+
+        return $nodes;
+    }
+
+    /**
+     * Second level of the tree: the accounts of an account type.
+     *
+     * The listing is capped by TREE_CHILDREN_LIMIT; the leading "Show all" node links to
+     * the filtered search list, which is both the way to reach the whole set and the way
+     * to reach the accounts the cap left out.
+     *
+     * @param int $accounttypes_id
+     *
+     * @return array
+     */
+    private static function getAccountTreeNodes($accounttypes_id)
+    {
+        global $DB;
+
+        $table = self::getTable();
+
+        $criteria = self::getTreeVisibilityCriteria();
+        $criteria['AND'][] = ["$table.plugin_accounts_accounttypes_id" => $accounttypes_id];
+
+        $total = countElementsInTable($table, $criteria);
+
+        $nodes = [
+            [
+                'key'   => 'accounttype-' . $accounttypes_id . '-all',
+                'title' => sprintf(__('%1$s (%2$s)'), __('Show all'), $total),
+                'icon'  => 'ti ti-list-search',
+                'data'  => ['url' => self::getTreeSearchUrl($accounttypes_id)],
+            ],
+        ];
+
+        $iterator = $DB->request([
+            'SELECT' => ["$table.id AS id", "$table.name AS name", "$table.login AS login"],
+            'FROM'   => $table,
+            'WHERE'  => $criteria,
+            'ORDER'  => ["$table.name", "$table.login"],
+            'LIMIT'  => self::TREE_CHILDREN_LIMIT,
+        ]);
+
+        foreach ($iterator as $account) {
+            $title = (string) $account['name'];
+            if (!empty($account['login'])) {
+                $title = sprintf(__('%1$s (%2$s)'), $title, $account['login']);
+            }
+
+            $nodes[] = [
+                'key'   => 'account-' . $account['id'],
+                'title' => $title,
+                'icon'  => 'ti ti-key',
+                'data'  => [
+                    'url' => PLUGIN_ACCOUNTS_WEBDIR . '/front/account.form.php?id=' . $account['id'],
+                ],
+            ];
+        }
+
+        return $nodes;
+    }
+
+    /**
+     * Show the account type tree used to filter the account list.
+     *
+     * Rendered inside the iframe of a modal, in a page emitted by Html::popHeader(): the
+     * GLPI stylesheet and the core bundles are already there, only the tree own assets are
+     * pulled here.
+     *
+     * @param string $target front page the "Show all" link points back to
+     *
+     * @return void
      */
     public static function showSelector($target)
     {
-        $rand = mt_rand();
         Plugin::loadLang('accounts');
-        echo Html::css("/lib/base.css");
-        echo Html::script("/lib/base.js");
-        echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/themes/default/style.min.css");
-        echo Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/lib/jstree/jstree-glpi.css");
-        echo "<div class='alert alert-info d-flex'>" . __s(
-            'Select the wanted account type',
-            'accounts',
-        ) . "</div><br>";
-        echo "<a href='" . htmlspecialchars($target, ENT_QUOTES, 'UTF-8') . "?reset=reset' target='_blank' title=\""
-            . __s('Show all') . "\">" . str_replace(" ", "&nbsp;", __s('Show all')) . "</a>";
-        $root = PLUGIN_ACCOUNTS_WEBDIR;
-        $js = "   $(function() {
-                  $.getScript('{$root}/lib/jstree/jstree.min.js', function(data, textStatus, jqxhr) {
-                     $('#tree_accounttypes$rand').jstree({
-                        // the `plugins` array allows you to configure the active plugins on this instance
-                        'plugins' : ['search', 'qload'],
-                        'search': {
-                           'case_insensitive': true,
-                           'show_only_matches': true,
-                           'ajax': {
-                              'type': 'POST',
-                              'url': '" . PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttreetypes.php'
-                           }
-                        },
-                        'qload': {
-                           'prevLimit': 50,
-                           'nextLimit': 30,
-                           'moreText': '" . __s('Load more...') . "'
-                        },
-                        'core': {
-//                           'themes': {
-//                              'name': 'default'
-//                           },
-                           'animation': 0,
-                           'data': {
-                              'url': function(node) {
-                                 return node.id === '#' ?
-                                    '" . PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttreetypes.php?node=-1' :
-                                    '" . PLUGIN_ACCOUNTS_WEBDIR . "/ajax/accounttreetypes.php?node='+node.id;
-                              }
-                           }
-                        }
-                     });
-                  });
-               });";
 
-        echo Html::scriptBlock($js);
-        echo "<div class='left' style='width:100%'>";
-        echo "<div id='tree_accounttypes$rand'></div>";
-        echo "</div>";
+        // The page goes through Html::popHeader(), which already brings the whole GLPI
+        // stylesheet and the core bundles carrying fancytree: only the tree own assets are
+        // left to pull.
+        $assets = Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/css/accounttree.css", [], false)
+            . Html::script(PLUGIN_ACCOUNTS_WEBDIR . "/scripts/accounttree.js", ['type' => 'module'], false);
+
+        TemplateRenderer::getInstance()->display('@accounts/account_tree.html.twig', [
+            'assets'       => $assets,
+            'rand'         => mt_rand(),
+            'target'       => $target,
+            'root_doc'     => PLUGIN_ACCOUNTS_WEBDIR,
+            'no_data_text' => __('No item found'),
+            'search_label' => __('Search'),
+        ]);
     }
 
     /**

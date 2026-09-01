@@ -28,3 +28,39 @@
 #alertfootprint {
     display: none;
 }
+
+/* ------------------------------------------------------------------------ *
+ * Account type tree modal
+ *
+ * The tree is served in an iframe by Ajax::createIframeModalWindow(), which
+ * ignores its own width/height options and hardcodes height="400" on the
+ * iframe: the whole sizing has to be reclaimed here. These rules only apply to
+ * the host page (the modal shell); the page inside the iframe carries its own
+ * stylesheet, css/accounttree.css.
+ * ------------------------------------------------------------------------ */
+
+.plugin_accounts_tree_dialog .modal-content {
+    /* Follow the viewport instead of the iframe content: the dialog keeps a
+       stable size while the tree grows on expand. */
+    height: 82vh;
+    max-height: 82vh;
+}
+
+.plugin_accounts_tree_dialog .modal-body {
+    padding: 0;
+    overflow: hidden;
+}
+
+.plugin_accounts_tree_dialog .modal-body iframe.iframe {
+    /* Overrides the height="400" attribute of the core markup. */
+    height: 100%;
+    min-height: 20rem;
+    display: block;
+}
+
+@media (max-height: 600px) {
+    .plugin_accounts_tree_dialog .modal-content {
+        height: 92vh;
+        max-height: 92vh;
+    }
+}

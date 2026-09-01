@@ -1,0 +1,63 @@
+{#
+ # -------------------------------------------------------------------------
+ # accounts plugin for GLPI
+ # Copyright (C) 2015-2026 by the accounts Development Team.
+ #
+ # https://github.com/InfotelGLPI/accounts
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of accounts.
+ #
+ # accounts is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # accounts is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with accounts. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Account type tree used to filter the account list. It is served inside the iframe of a
+ # modal through Html::popHeader(), so Tabler and the core bundles are already loaded: the
+ # assets below are only the tree own stylesheet and script. The tree itself is wired by
+ # scripts/accounttree.js from the data attributes of its container, fancytree comes from
+ # the core bundle. #}
+{{ assets|raw }}
+
+<div class="plugin_accounts_tree_page">
+    <div class="plugin_accounts_tree_head">
+        <div class="alert alert-info d-flex align-items-center mb-3 py-2">
+            <i class="ti ti-info-circle me-2"></i>
+            {{ __('Select the wanted account type', 'accounts') }}
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <div class="input-icon flex-fill">
+                <span class="input-icon-addon">
+                    <i class="ti ti-search"></i>
+                </span>
+                <input type="search" id="tree_accounttypes_search{{ rand }}" class="form-control"
+                       placeholder="{{ search_label }}" aria-label="{{ search_label }}">
+            </div>
+            <a href="{{ target }}?reset=reset" target="_blank"
+               class="btn btn-outline-primary text-nowrap" title="{{ __('Show all') }}">
+                <i class="ti ti-list me-1"></i>{{ __('Show all') }}
+            </a>
+        </div>
+    </div>
+
+    <div id="tree_accounttypes{{ rand }}"
+         class="plugin_accounts_tree"
+         data-plugin-accounts-tree
+         data-root-doc="{{ root_doc }}"
+         data-search-id="tree_accounttypes_search{{ rand }}"
+         data-no-data-text="{{ no_data_text }}"></div>
+</div>
