@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-01 16:18+0000\n"
+"POT-Creation-Date: 2026-09-02 07:38+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
 "Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/"
@@ -130,11 +130,11 @@ msgstr[1] "Günler"
 msgid "Decrypt"
 msgstr "Şifreyi çöz"
 
-#: ajax/log_decrypt.php:52
+#: ajax/log_decrypt.php:50
 msgid "Decrypted from account"
 msgstr "Hesaptan çözülmüş şifre"
 
-#: ajax/log_decrypt.php:54
+#: ajax/log_decrypt.php:52
 msgid "Decrypted from item"
 msgstr "Ögeden çözülmüş şifre"
 
@@ -326,7 +326,7 @@ msgstr "Tüm hesapları görüntüle"
 msgid "See your accounts"
 msgstr "Hesaplarımı görüntüle"
 
-#: ajax/generatepassword.php:70
+#: ajax/generatepassword.php:68
 msgid "Select at least one checkbox"
 msgstr "En az bir işaret kutusunu seçin"
 

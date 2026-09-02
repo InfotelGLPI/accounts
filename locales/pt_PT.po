@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-01 16:18+0000\n"
+"POT-Creation-Date: 2026-09-02 07:38+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Rui Melo <viper5000pt@gmail.com>, 2020\n"
 "Language-Team: Portuguese (Portugal) (https://app.transifex.com/infotelGLPI/"
@@ -132,11 +132,11 @@ msgstr[2] ""
 msgid "Decrypt"
 msgstr ""
 
-#: ajax/log_decrypt.php:52
+#: ajax/log_decrypt.php:50
 msgid "Decrypted from account"
 msgstr ""
 
-#: ajax/log_decrypt.php:54
+#: ajax/log_decrypt.php:52
 msgid "Decrypted from item"
 msgstr ""
 
@@ -328,7 +328,7 @@ msgstr "Ver todas as contas"
 msgid "See your accounts"
 msgstr ""
 
-#: ajax/generatepassword.php:70
+#: ajax/generatepassword.php:68
 msgid "Select at least one checkbox"
 msgstr ""
 

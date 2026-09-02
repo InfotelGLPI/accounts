@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-01 16:18+0000\n"
+"POT-Creation-Date: 2026-09-02 07:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,11 +123,11 @@ msgstr[1] ""
 msgid "Decrypt"
 msgstr ""
 
-#: ajax/log_decrypt.php:52
+#: ajax/log_decrypt.php:50
 msgid "Decrypted from account"
 msgstr ""
 
-#: ajax/log_decrypt.php:54
+#: ajax/log_decrypt.php:52
 msgid "Decrypted from item"
 msgstr ""
 
@@ -315,7 +315,7 @@ msgstr ""
 msgid "See your accounts"
 msgstr ""
 
-#: ajax/generatepassword.php:70
+#: ajax/generatepassword.php:68
 msgid "Select at least one checkbox"
 msgstr ""
 
