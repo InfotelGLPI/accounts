@@ -29,8 +29,6 @@
 
 use GlpiPlugin\Accounts\Hash;
 
-$AJAX_INCLUDE = 1;
-
 header("Content-Type: text/plain; charset=UTF-8");
 Html::header_nocache();
 
