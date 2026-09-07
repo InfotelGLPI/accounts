@@ -192,7 +192,13 @@
                                 </label>
                                 <div class="col-xxl-7 field-container">
                                     <div class="btn-group btn-group-sm d-flex">
-                                        <input type="password" name="aeskey" id="aeskey" size="30" autocomplete="off"/>
+                                        {# No name attribute on purpose, same rule as #hidden_password: the master key
+                                         # must not travel in the request body. Every consumer reads this field by id
+                                         # (crypt.js, account.form.js), and the server resolves the key from the AesKey
+                                         # table in Account::resolveFingerprint(). Posting it would hand a debug mode,
+                                         # an APM or a body-logging proxy the one secret that opens every account of
+                                         # the entity. #}
+                                        <input type="password" id="aeskey" size="30" autocomplete="off"/>
                                         <input type="hidden" name="good_hash" id="good_hash" size="40"
                                                autocomplete="off"
                                                value="{{ hash }}"/>
@@ -216,8 +222,12 @@
                                            value="{{ __('Wrong encryption key', 'accounts') }}"/>
                                     <div id="wrong_key_locale_div" style="color:red"></div>
                                     <div class="btn-group btn-group-sm d-flex">
+                                        {# No name attribute on purpose: the plaintext must never leave the browser.
+                                         # encrypt_password() reads this field by id, encrypts it client side and fills
+                                         # #encrypted_password, which is the only value the server reads. Giving this one
+                                         # a name would post the cleartext password in the request body, where a debug
+                                         # mode, an APM or a body-logging proxy would capture it. #}
                                         <input type="password" id="hidden_password" class="form-control "
-                                               name="hidden_password"
                                                size='30'>
 
                                         <div class="btn btn-outline-secondary btn-light"
@@ -252,7 +262,13 @@
                                 </label>
                                 <div class="col-xxl-7 field-container">
                                     <div class="btn-group btn-group-sm d-flex">
-                                        <input type="password" name="aeskey" id="aeskey" size="40"
+                                        {# No name attribute on purpose, same rule as #hidden_password: the master key
+                                         # must not travel in the request body. Every consumer reads this field by id
+                                         # (crypt.js, account.form.js), and the server resolves the key from the AesKey
+                                         # table in Account::resolveFingerprint(). Posting it would hand a debug mode,
+                                         # an APM or a body-logging proxy the one secret that opens every account of
+                                         # the entity. #}
+                                        <input type="password" id="aeskey" size="40"
                                                autocomplete="off"
                                                value="{{ aeskey_uncrypted }}"/>
                                         <input type="hidden" name="good_hash" id="good_hash" size="40"
@@ -284,8 +300,12 @@
                                            value="{{ __('Wrong encryption key', 'accounts') }}"/>
                                     <div id="wrong_key_locale_div" style="color:red"></div>
                                     <div class="btn-group btn-group-sm d-flex">
+                                        {# No name attribute on purpose: the plaintext must never leave the browser.
+                                         # encrypt_password() reads this field by id, encrypts it client side and fills
+                                         # #encrypted_password, which is the only value the server reads. Giving this one
+                                         # a name would post the cleartext password in the request body, where a debug
+                                         # mode, an APM or a body-logging proxy would capture it. #}
                                         <input type="password" id="hidden_password" class="form-control "
-                                               name="hidden_password"
                                                size='30'>
 
                                         <div class="btn btn-outline-secondary"
@@ -315,8 +335,12 @@
                                 </label>
                                 <div class="col-xxl-7 field-container">
                                     <div class="input-group input-group-sm">
+                                        {# No name attribute: encrypt_totp_secret() (crypt.js) reads this field by id,
+                                         # encrypts it with the key already in the page and fills #encrypted_totp_secret,
+                                         # which is the only value the server stores. The seed used to be posted here in
+                                         # cleartext and encrypted server side -- the very thing the password field was
+                                         # written to avoid. #}
                                         <input type="password"
-                                               name="totp_secret_plain"
                                                id="totp_secret_field"
                                                class="form-control"
                                                autocomplete="off"
@@ -329,6 +353,12 @@
                                             <i class="ti ti-eye"></i>
                                         </button>
                                     </div>
+                                    {# Prefilled with the stored cryptogram so that leaving the field above empty
+                                     # rewrites the record with the value it already held. encrypt_totp_secret()
+                                     # overwrites it on submit when a new seed was typed, and decrypt_totp_secret()
+                                     # reads it back to fill the read-only display below. #}
+                                    <input type="hidden" name="encrypted_totp_secret" id="encrypted_totp_secret"
+                                           value="{{ item.fields['encrypted_totp_secret']|default('') }}">
                                     {% if has_totp is defined and has_totp %}
                                         <span class="d-inline-flex mt-1">
                                             <input type="checkbox" name="_blank_totp_secret" id="__blank_totp_secret"
@@ -346,8 +376,6 @@
                                         {{ __('Stored TOTP Secret', 'accounts') }}
                                     </label>
                                     <div class="col-xxl-7 field-container">
-                                        <input type="hidden" id="encrypted_totp_secret"
-                                               value="{{ item.fields['encrypted_totp_secret'] }}">
                                         <div class="btn-group btn-group-sm d-flex">
                                             <input type="password" id="hidden_totp_secret" class="form-control"
                                                    size="30" readonly>
@@ -565,6 +593,7 @@
                 }
 
                 encrypt_password();
+                encrypt_totp_secret();
 
             });
         </script>
@@ -572,10 +601,20 @@
         <script type="text/javascript">
             $(document).on('submit', '#account_form', function(event) {
 
-                let hiddenPassword = $('input[name="hidden_password"]').val();
-                let aeskey = $('input[name="aeskey"]').val();
+                let hiddenPassword = $('#hidden_password').val();
+                let aeskey = $('#aeskey').val();
+                let totpPlain = $('#totp_secret_field').val();
 
-                if ((hiddenPassword == '' || aeskey == '')) {
+                // A new TOTP seed now needs the key just as much as a new password does: it is
+                // encrypted in the browser too, and no server-side fallback is left to pick the
+                // key up from the request body.
+                if (totpPlain != '' && aeskey == '') {
+                    alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
+                    event.preventDefault();
+                    return false;
+                }
+
+                if ((hiddenPassword == '' && totpPlain == '') || aeskey == '') {
                     {#alert('{{ __('Password will not be modified', 'accounts') }}');#}
                     {#return false;#}
                 } else if (!check_hash()) {
@@ -583,7 +622,10 @@
                     event.preventDefault();
                     return false;
                 } else {
-                    encrypt_password();
+                    if (hiddenPassword != '') {
+                        encrypt_password();
+                    }
+                    encrypt_totp_secret();
                 }
             });
         </script>

@@ -65,6 +65,13 @@ class Account extends CommonDBTM
 
     public static $rightname = "plugin_accounts";
 
+    /**
+     * Verifiers read from glpi_plugin_accounts_hashes, memoized per request.
+     *
+     * @var array<int, string>
+     */
+    private static array $verifier_cache = [];
+
     public static $types = [
         'Computer',
         'Monitor',
@@ -82,6 +89,17 @@ class Account extends CommonDBTM
     ];
 
     public $dohistory = true;
+
+    /**
+     * Log::constructHistory() records the former and the new value of every changed field
+     * that owns a search option, and encrypted_totp_secret owns option 31 -- its nosearch
+     * and nodisplay flags only concern the search engine, not the history. Every cryptogram
+     * ever written would therefore survive in glpi_logs under the key it was produced with,
+     * which Hash::updateHash() cannot rewrite: rotating the master key would stop revoking
+     * access to the TOTP seeds. encrypted_password is listed too, so that adding a search
+     * option to it later cannot open the same hole by accident.
+     */
+    public $history_blacklist = ['encrypted_totp_secret', 'encrypted_password'];
     protected $usenotepad = true;
 
     /**
@@ -466,8 +484,21 @@ class Account extends CommonDBTM
             );
         }
 
-        // Encrypt TOTP secret server-side if provided
-        $input = self::encryptTotpSecret($input, $input['plugin_accounts_hashes_id'] ?? 0);
+        // Unlike the update path this does not require plugin_accounts_hash UPDATE: a user
+        // with CREATE alone has to be able to pick the fingerprint of the new account, and
+        // stripping the value here would create an account whose password can never be read.
+        // The entity boundary is what is missing, and refusing beats silently unsetting: a
+        // hash-less account is a broken one.
+        if (isset($input['plugin_accounts_hashes_id'])
+            && (int) $input['plugin_accounts_hashes_id'] > 0
+            && !self::isHashReachable((int) $input['plugin_accounts_hashes_id'])) {
+            Session::addMessageAfterRedirect(
+                __('The selected fingerprint does not belong to an entity you can access', 'accounts'),
+                false,
+                ERROR,
+            );
+            return false;
+        }
 
         return $input;
     }
@@ -486,9 +517,9 @@ class Account extends CommonDBTM
     }
 
     /**
-     * @param datas $input
+     * @param array $input
      *
-     * @return datas
+     * @return array
      */
     public function prepareInputForUpdate($input)
     {
@@ -512,48 +543,126 @@ class Account extends CommonDBTM
             && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
             unset($input['plugin_accounts_hashes_id']);
         }
-        // Transparent re-encryption on save: upgrade legacy v1 records to v2, and early
-        // v2 records that still lack the HMAC segment to authenticated v2. Only possible
-        // when the fingerprint is available (AesKey table for the entity, or POSTed key).
+        // The right alone says nothing about the entity: it can be granted recursively or
+        // globally, so a holder of it could still move an account onto the fingerprint of an
+        // entity they cannot reach. Dropping the value leaves the account on its current one.
+        if (isset($input["plugin_accounts_hashes_id"])
+            && (int) $input['plugin_accounts_hashes_id'] > 0
+            && !self::isHashReachable((int) $input['plugin_accounts_hashes_id'])) {
+            Session::addMessageAfterRedirect(
+                __('The selected fingerprint does not belong to an entity you can access', 'accounts'),
+                false,
+                ERROR,
+            );
+            unset($input['plugin_accounts_hashes_id']);
+        }
+        // Downgrade guard: the ciphertext is built by the browser and posted as-is, so an
+        // authenticated record could be replaced by an unauthenticated one carrying the same
+        // key (MAC segment simply dropped). AES-CTR being malleable, that would silently
+        // give up integrity on the stored password. Never accept that transition.
         if (isset($input['encrypted_password']) && !empty($input['encrypted_password'])
-            && AccountCrypto::needsReencryption($input['encrypted_password'])
+            && !AccountCrypto::isAuthenticated($input['encrypted_password'])
+            && AccountCrypto::isAuthenticated((string) ($this->fields['encrypted_password'] ?? ''))
         ) {
-            $hash_id = (int) ($this->fields['plugin_accounts_hashes_id']
-                ?? ($input['plugin_accounts_hashes_id'] ?? 0));
+            Session::addMessageAfterRedirect(
+                __('The submitted password is not integrity protected and was ignored', 'accounts'),
+                false,
+                ERROR,
+            );
+            unset($input['encrypted_password']);
+        }
 
-            // Resolve the fingerprint via the shared helper, which validates a POSTed key
-            // against the stored hash. Never re-encrypt under an unverified key: legacy v1
-            // (AesCtr, no MAC) can decrypt to non-empty garbage with a wrong key, which
-            // would then be re-encrypted as v2 and silently corrupt the original password.
-            $fingerprint = self::resolveFingerprint($hash_id, $input['aeskey'] ?? null);
+        // Same guard for the TOTP seed, which is now encrypted by the browser as well and
+        // posted as an opaque cryptogram. Without it, replaying the form with the MAC segment
+        // stripped would turn an authenticated seed back into a malleable AES-CTR blob.
+        if (isset($input['encrypted_totp_secret']) && !empty($input['encrypted_totp_secret'])
+            && !AccountCrypto::isAuthenticated($input['encrypted_totp_secret'])
+            && AccountCrypto::isAuthenticated((string) ($this->fields['encrypted_totp_secret'] ?? ''))
+        ) {
+            Session::addMessageAfterRedirect(
+                __('The submitted TOTP secret is not integrity protected and was ignored', 'accounts'),
+                false,
+                ERROR,
+            );
+            unset($input['encrypted_totp_secret']);
+        }
+
+        // Transparent re-encryption on save: upgrade older records to the best format the hash
+        // record allows (v4 with PBKDF2-derived keys, v3 otherwise). Only possible when the
+        // fingerprint is available (AesKey table for the entity, or POSTed key).
+        $reencrypt_hash_id = (int) ($this->fields['plugin_accounts_hashes_id']
+            ?? ($input['plugin_accounts_hashes_id'] ?? 0));
+
+        if (isset($input['encrypted_password']) && !empty($input['encrypted_password'])
+            && AccountCrypto::needsReencryption(
+                $input['encrypted_password'],
+                self::getHashVerifier($reencrypt_hash_id),
+            )
+        ) {
+            // Resolve the fingerprint via the shared helper, which validates the key against
+            // the stored verifier whichever side it comes from. Never re-encrypt under an
+            // unverified key: legacy v1 (AesCtr, no MAC) can decrypt to non-empty garbage with
+            // a wrong key, which would then be written back as an authenticated record and
+            // silently destroy the original password.
+            $fingerprint = self::resolveFingerprint($reencrypt_hash_id, $input['aeskey'] ?? null);
 
             if ($fingerprint !== null) {
-                // decrypt() transparently reads both v1 and v2 (with/without MAC).
+                // decrypt() transparently reads v1, v2 (with/without MAC), v3 and v4.
                 $plaintext = AccountCrypto::decrypt($input['encrypted_password'], $fingerprint);
+                // Never rewrite a secret that could not be read back: an empty plaintext means
+                // the key did not fit or the record is damaged, and rewriting it would turn a
+                // recoverable record into a lost one.
                 if ($plaintext !== '') {
-                    // Re-encrypt as authenticated v2 (encrypt-then-MAC).
-                    $input['encrypted_password'] = AccountCrypto::encrypt($plaintext, $fingerprint);
+                    $input['encrypted_password'] = AccountCrypto::encrypt(
+                        $plaintext,
+                        $fingerprint,
+                        self::getHashVerifier($reencrypt_hash_id),
+                    );
                 }
             }
         }
-
-        // Encrypt TOTP secret server-side if a new one was provided
-        $hash_id = $input['plugin_accounts_hashes_id']
-            ?? ($this->fields['plugin_accounts_hashes_id'] ?? 0);
-        $input = self::encryptTotpSecret($input, $hash_id);
 
         return $input;
     }
 
     /**
+     * Tell whether the caller may attach an account to a given fingerprint.
+     *
+     * plugin_accounts_hashes_id is a plain foreign key: nothing in CommonDBTM confronts it
+     * with the entity of the caller. A forged post can therefore bind an account -- and,
+     * through resolveFingerprint(), the master key of another entity -- to a fingerprint the
+     * caller cannot reach. front/aeskey.form.php and front/hash.form.php already rebuild that
+     * boundary by hand for the same reason; this is the account side of it.
+     *
+     * @param int $hash_id The posted fingerprint ID
+     * @return bool        True when the fingerprint exists in a reachable entity
+     */
+    private static function isHashReachable(int $hash_id): bool
+    {
+        $hash = new Hash();
+
+        return $hash_id > 0
+            && $hash->getFromDB($hash_id)
+            && Session::haveAccessToEntity(
+                $hash->fields['entities_id'],
+                (bool) $hash->fields['is_recursive'],
+            );
+    }
+
+    /**
      * Resolve the encryption fingerprint (AES key) for a given hash record.
      *
-     * Prefers the AesKey stored in DB for that hash. Otherwise falls back to a key
-     * posted with the form, but ONLY after verifying it against the stored hash
-     * (double SHA-256) with hash_equals(). This prevents a wrong key from being used
-     * to (re-)encrypt a secret: legacy v1 (AesCtr, no MAC) can decrypt to non-empty
-     * garbage under a wrong key, so the plaintext non-emptiness check alone is not a
-     * safe guard. Returns null when no valid fingerprint is available.
+     * Prefers the AesKey stored in DB for that hash, then falls back to a key posted with the
+     * form. Whichever it comes from, the key is returned ONLY after being verified against the
+     * verifier stored on the hash record. The key read from the AesKey table is no more
+     * trustworthy than the posted one: it may have been typed wrong when the key was saved,
+     * or have been damaged, and nothing else ever confronts it with the verifier. A wrong key
+     * matters because it is used to re-encrypt: legacy v1 (AesCtr, no MAC) decrypts to
+     * non-empty garbage under a wrong key, and that garbage would then be written back as an
+     * authenticated v4 record, destroying the original password for good.
+     *
+     * Returns null when no verified fingerprint is available, which every caller must read as
+     * "leave the stored secret alone".
      *
      * @param int         $hash_id The hash (fingerprint) ID
      * @param string|null $posted  The key posted with the form ($input['aeskey']), if any
@@ -561,62 +670,93 @@ class Account extends CommonDBTM
      */
     private static function resolveFingerprint(int $hash_id, ?string $posted): ?string
     {
-        if (!$hash_id) {
+        // A hash record can never be created without a verifier (Hash::prepareInputForAdd
+        // refuses an empty one), so an empty value here means a damaged record: fail closed.
+        $verifier = self::getHashVerifier($hash_id);
+        if ($verifier === '') {
             return null;
         }
 
+        // AccountCrypto::verify handles both the salted PBKDF2 verifier and the legacy
+        // double SHA-256 one.
         $aeskey = new AesKey();
         if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
             && !empty($aeskey->fields['name'])) {
-            return $aeskey->getDecryptedName();
+            $stored = (string) $aeskey->getDecryptedName();
+            if ($stored !== '' && AccountCrypto::verify($stored, $verifier)) {
+                self::upgradeHashVerifier($hash_id, $stored, $verifier);
+                return $stored;
+            }
         }
 
-        // Key not stored in DB: accept the posted key only if it matches the stored
-        // verifier. AccountCrypto::verify handles both the new salted PBKDF2 format and
-        // legacy double SHA-256.
-        if (!empty($posted)) {
-            $hashRecord = new Hash();
-            if ($hashRecord->getFromDB($hash_id)
-                && AccountCrypto::verify($posted, (string) ($hashRecord->fields['hash'] ?? ''))) {
-                return $posted;
-            }
+        if (!empty($posted) && AccountCrypto::verify($posted, $verifier)) {
+            self::upgradeHashVerifier($hash_id, $posted, $verifier);
+            return $posted;
         }
 
         return null;
     }
 
     /**
-     * Encrypt the TOTP secret (submitted as plaintext via form POST) using
-     * the same fingerprint as the password. The plaintext field
-     * 'totp_secret_plain' is removed and replaced with 'encrypted_totp_secret'.
+     * Read the verifier stored on a hash record.
      *
-     * @param array $input   Form input
-     * @param int   $hash_id The hash (fingerprint) ID to use for encryption
-     * @return array Modified input
+     * Memoized: it is needed several times per save (re-encryption decision, re-encryption
+     * itself, TOTP secret) and never changes within a request.
+     *
+     * @param int $hash_id The hash (fingerprint) ID
+     * @return string      The stored verifier, or an empty string when there is none
      */
-    private static function encryptTotpSecret(array $input, int $hash_id): array
+    private static function getHashVerifier(int $hash_id): string
     {
-        if (!isset($input['totp_secret_plain']) || $input['totp_secret_plain'] === '') {
-            unset($input['totp_secret_plain']);
-            return $input;
+        if (!$hash_id) {
+            return '';
         }
 
-        $fingerprint = self::resolveFingerprint($hash_id, $input['aeskey'] ?? null);
-
-        if ($fingerprint !== null) {
-            $input['encrypted_totp_secret'] = addslashes(AccountCrypto::encrypt(
-                $input['totp_secret_plain'],
-                $fingerprint,
-            ));
-        } else {
-            Session::addMessageAfterRedirect(
-                __('TOTP secret not saved: no encryption key available. Please configure an encryption key first.', 'accounts'),
-                false,
-                ERROR,
-            );
+        if (!isset(self::$verifier_cache[$hash_id])) {
+            $hashRecord = new Hash();
+            self::$verifier_cache[$hash_id] = $hashRecord->getFromDB($hash_id)
+                ? (string) ($hashRecord->fields['hash'] ?? '')
+                : '';
         }
-        unset($input['totp_secret_plain']);
-        return $input;
+
+        return self::$verifier_cache[$hash_id];
+    }
+
+    /**
+     * Rewrite a legacy verifier as a salted PBKDF2 one, once the key it describes has just
+     * been verified against it.
+     *
+     * Same idea as rehashing a password on a successful login: the plaintext key is only ever
+     * available at that moment. It also unlocks the v4 ciphertext format, which borrows the
+     * salt and the iteration count from the verifier — as long as a hash record carries a bare
+     * double SHA-256 verifier, its accounts cannot be stored with PBKDF2-derived keys.
+     *
+     * The column is written directly rather than through Hash::update(): this is an internal
+     * representation change, the key itself is unchanged, and it happens while another item is
+     * being saved — it has no place in that item's history.
+     *
+     * @param int    $hash_id  The hash (fingerprint) ID
+     * @param string $key      The plaintext key, already verified against $verifier
+     * @param string $verifier The verifier currently stored
+     */
+    private static function upgradeHashVerifier(int $hash_id, string $key, string $verifier): void
+    {
+        global $DB;
+
+        if (str_starts_with($verifier, AccountCrypto::VERIFIER_PREFIX)) {
+            return;
+        }
+
+        $upgraded = AccountCrypto::makeVerifier($key);
+        $DB->update(
+            'glpi_plugin_accounts_hashes',
+            ['hash' => $upgraded],
+            ['id' => $hash_id],
+        );
+
+        // Replace the memoized value, otherwise the very save that upgraded the verifier
+        // would still encrypt with the old format.
+        self::$verifier_cache[$hash_id] = $upgraded;
     }
 
     /**
@@ -632,7 +772,10 @@ class Account extends CommonDBTM
      */
     public function showForm($ID, $options = [])
     {
-        if (!$this->canView()) {
+        // Defense in depth: canView() is the global right only. Every caller is supposed to
+        // have run check($ID, READ) beforehand, but this method renders the encrypted password
+        // and the fingerprint of the entity, so it re-runs the item level check itself.
+        if (!$this->can($ID, READ)) {
             return false;
         }
 
@@ -664,11 +807,16 @@ class Account extends CommonDBTM
             $hashclass->maybeRecursive(),
         );
         $hashes = getAllDataFromTable("glpi_plugin_accounts_hashes", $restrict);
-        $alerthash = "";
+        $hash             = "";
+        $alerthash        = "";
         $aeskey_uncrypted = false;
+        // Distinct name: $hash is the scalar verifier handed to the template further down, and the
+        // loop used to leave it holding the last row of $hashes. When getFromDBByCrit() below
+        // failed -- an account pointing at a deleted fingerprint -- that array reached Twig in
+        // place of a string, hiding the very warning meant to explain the situation.
         if (!empty($hashes)) {
-            foreach ($hashes as $hash) {
-                if (empty($hash['hash'])) {
+            foreach ($hashes as $hash_row) {
+                if (empty($hash_row['hash'])) {
                     $alert = __s('Your encryption key is malformed, please regenerate the fingerprint', 'accounts');
                     echo "<div class='alert alert-warning d-flex'>";
                     echo $alert;
@@ -689,7 +837,7 @@ class Account extends CommonDBTM
 
             $hashclass->getFromDBByCrit(['id' => $selected_hash_id]);
             if (count($hashclass->fields) > 0) {
-                $hash = $hashclass->fields["hash"];
+                $hash = (string) $hashclass->fields["hash"];
             } else {
                 $alerthash = __(
                     'There is no encryption key associated to this account, please select one above',
@@ -951,6 +1099,14 @@ class Account extends CommonDBTM
                     break;
                 }
                 foreach ($ids as $key) {
+                    // Linking an account to an asset writes on that asset: the identifiers come
+                    // straight from the POST and the core never rechecks them once a plugin
+                    // implements processMassiveActionsForOneItemtype(). Same per item guard as
+                    // the transfer, install and uninstall branches below.
+                    if (!$item->can($key, UPDATE)) {
+                        $ma->itemDone($item->getType(), $key, MassiveAction::NO_ACTION);
+                        continue;
+                    }
                     if (!$dbu->countElementsInTable(
                         'glpi_plugin_accounts_accounts_items',
                         [
@@ -977,17 +1133,46 @@ class Account extends CommonDBTM
             case "transfer":
                 $input = $ma->getInput();
                 if ($item->getType() == Account::class) {
+                    // The destination entity comes from the POST and is never checked by the core:
+                    // revalidate the posted value, otherwise an account could be moved into an
+                    // entity the caller has no access to (and re-encrypted with its key).
+                    $target_entity = isset($input['entities_id']) ? (int) $input['entities_id'] : -1;
+                    if ($target_entity < 0 || !Session::haveAccessToEntity($target_entity)) {
+                        foreach ($ids as $key) {
+                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                        }
+                        $ma->addMessage($item->getErrorMessage(ERROR_RIGHT));
+                        break;
+                    }
+
                     foreach ($ids as $key) {
+                        // The ids also come from the POST: MassiveAction filters them neither by
+                        // right nor by entity, so each account is checked here. Without it the
+                        // handler would decrypt an account of another entity and re-encrypt it
+                        // with the key of the caller's own entity.
+                        if (!$item->can($key, UPDATE)) {
+                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                            $ma->addMessage($item->getErrorMessage(ERROR_RIGHT));
+                            continue;
+                        }
                         $item->getFromDB($key);
                         // --- Step 1: Resolve account type in destination entity ---
                         $type = AccountType::transfer(
                             $item->fields["plugin_accounts_accounttypes_id"],
-                            $input['entities_id'],
+                            $target_entity,
                         );
 
                         // --- Step 2: Re-encrypt password with destination fingerprint ---
                         $reencrypted_password = null;
                         $new_hash_id = 0;
+                        // These three are only assigned inside the "has a password" block below, so
+                        // without an explicit reset they survive into the next iteration. An account
+                        // with a TOTP secret but no password would then have its seed decrypted with
+                        // the key of a previously processed account -- a different fingerprint, very
+                        // possibly a different entity -- and the empty result written back over it.
+                        $src_aes_key_value  = null;
+                        $dest_aes_key_value = null;
+                        $dest_verifier      = '';
 
                         if (!empty($item->fields['encrypted_password'])) {
                             // Get the AES key for the SOURCE fingerprint
@@ -1012,7 +1197,7 @@ class Account extends CommonDBTM
                                 $restrict = getEntitiesRestrictCriteria(
                                     'glpi_plugin_accounts_hashes',
                                     '',
-                                    $input['entities_id'],
+                                    $target_entity,
                                     $dest_hash->maybeRecursive(),
                                 );
                                 $dest_hashes = getAllDataFromTable('glpi_plugin_accounts_hashes', $restrict);
@@ -1021,6 +1206,11 @@ class Account extends CommonDBTM
                                     // Use first available fingerprint in destination entity
                                     $dest_hash_row = reset($dest_hashes);
                                     $new_hash_id = $dest_hash_row['id'];
+                                    // The destination verifier carries the PBKDF2 salt and
+                                    // iteration count encrypt() needs to emit v4. Without it the
+                                    // record would be rewritten as v3, whose key is a bare
+                                    // unsalted SHA-256 — a silent downgrade of the KDF.
+                                    $dest_verifier = (string) ($dest_hash_row['hash'] ?? '');
 
                                     $dest_aeskey = new AesKey();
                                     if ($dest_aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $new_hash_id])
@@ -1028,8 +1218,10 @@ class Account extends CommonDBTM
                                         $dest_aes_key_value = $dest_aeskey->getDecryptedName();
 
                                         // Re-encrypt with destination key (raw AES key as fingerprint).
-                                        $reencrypted_password = addslashes(
-                                            AccountCrypto::encrypt($plaintext, $dest_aes_key_value),
+                                        $reencrypted_password = AccountCrypto::encrypt(
+                                            $plaintext,
+                                            $dest_aes_key_value,
+                                            $dest_verifier,
                                         );
                                     }
                                 }
@@ -1056,20 +1248,55 @@ class Account extends CommonDBTM
                         // --- Step 2b: Re-encrypt TOTP secret with destination fingerprint ---
                         $reencrypted_totp = null;
                         if (!empty($item->fields['encrypted_totp_secret'])
-                            && isset($src_aes_key_value, $dest_aes_key_value)) {
+                            && $src_aes_key_value !== null && $dest_aes_key_value !== null) {
                             $plain_totp = AccountCrypto::decrypt(
                                 $item->fields['encrypted_totp_secret'],
                                 $src_aes_key_value,
                             );
-                            $reencrypted_totp = addslashes(
-                                AccountCrypto::encrypt($plain_totp, $dest_aes_key_value),
+                            // Same rule as Hash::updateHash(): decrypt() answers an empty string when
+                            // the MAC does not check out, and re-encrypting that would store a perfectly
+                            // valid cryptogram of nothing in place of the seed. Skip the whole record
+                            // rather than move it half-transferred, and say which one it was.
+                            if ($plain_totp === '') {
+                                Session::addMessageAfterRedirect(
+                                    sprintf(
+                                        __s(
+                                            'The TOTP secret of account "%s" could not be decrypted with the source key: the account was not transferred.',
+                                            'accounts',
+                                        ),
+                                        htmlescape($item->fields['name']),
+                                    ),
+                                    false,
+                                    ERROR,
+                                );
+                                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+                                continue;
+                            }
+                            $reencrypted_totp = AccountCrypto::encrypt(
+                                $plain_totp,
+                                $dest_aes_key_value,
+                                $dest_verifier,
                             );
                         } elseif (!empty($item->fields['encrypted_totp_secret']) && $reencrypted_password === null) {
+                            // No usable destination fingerprint: the account keeps the one it had, so the
+                            // seed would stay readable under a key of the source entity from inside the
+                            // destination one. It is cleared for that reason -- but never silently.
+                            Session::addMessageAfterRedirect(
+                                sprintf(
+                                    __s(
+                                        'Account "%s" transferred but no fingerprint found in destination entity. TOTP secret was cleared for security.',
+                                        'accounts',
+                                    ),
+                                    htmlescape($item->fields['name']),
+                                ),
+                                false,
+                                WARNING,
+                            );
                             $reencrypted_totp = '';
                         }
 
                         // --- Step 3: Build update values ---
-                        $values = ['id' => $key, 'entities_id' => $input['entities_id']];
+                        $values = ['id' => $key, 'entities_id' => $target_entity];
 
                         if ($type > 0) {
                             $values['plugin_accounts_accounttypes_id'] = $type;
@@ -1094,6 +1321,17 @@ class Account extends CommonDBTM
             case 'install':
                 $input = $ma->getInput();
 
+                // Same posted itemtype/id as the uninstall branch: validate the asset once,
+                // before linking any account to it.
+                $target = self::getMassiveActionTargetItem($input);
+                if ($target === null) {
+                    foreach ($ids as $key) {
+                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                    }
+                    $ma->addMessage($item->getErrorMessage(ERROR_RIGHT));
+                    break;
+                }
+
                 foreach ($ids as $key) {
                     if ($item->can($key, UPDATE)) {
                         $values = [
@@ -1114,7 +1352,25 @@ class Account extends CommonDBTM
                 break;
             case 'uninstall':
                 $input = $ma->getInput();
+                // Both the itemtype and the id of the asset come from the POST: resolve them
+                // against the linkable types and check UPDATE on the asset before touching any
+                // link, otherwise a forged mass action would break links on arbitrary items.
+                $target = self::getMassiveActionTargetItem($input);
+                if ($target === null) {
+                    foreach ($ids as $key) {
+                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                    }
+                    $ma->addMessage($item->getErrorMessage(ERROR_RIGHT));
+                    break;
+                }
+
                 foreach ($ids as $key) {
+                    // The account side is checked per item, as the install branch does.
+                    if (!$item->can($key, UPDATE)) {
+                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                        $ma->addMessage($item->getErrorMessage(ERROR_RIGHT));
+                        continue;
+                    }
                     if ($account_item->deleteItemByAccountsAndItem($key, $input['item_item'], $input['typeitem'])) {
                         $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                     } else {
@@ -1123,6 +1379,34 @@ class Account extends CommonDBTM
                 }
                 break;
         }
+    }
+
+    /**
+     * Resolves the asset a link mass action (install/uninstall) targets.
+     *
+     * Both `typeitem` and `item_item` are posted values MassiveAction hands over untouched, and
+     * `new $itemtype` is a sink: the itemtype is checked against the linkable types before it is
+     * instantiated, then UPDATE is checked on the asset itself.
+     *
+     * @param array $input input of the mass action
+     *
+     * @return CommonDBTM|null the asset, or null when the caller may not link anything to it
+     */
+    private static function getMassiveActionTargetItem(array $input): ?CommonDBTM
+    {
+        $itemtype = (string) ($input['typeitem'] ?? '');
+        $items_id = (int) ($input['item_item'] ?? 0);
+
+        if ($items_id <= 0 || !in_array($itemtype, self::getTypes(true), true)) {
+            return null;
+        }
+
+        $target = getItemForItemtype($itemtype);
+        if (!($target instanceof CommonDBTM) || !$target->can($items_id, UPDATE)) {
+            return null;
+        }
+
+        return $target;
     }
 
     /**
@@ -1175,7 +1459,9 @@ class Account extends CommonDBTM
         $notif = new NotificationState();
 
         $config->getFromDB('1');
-        $delay = $config->fields["delay_expired"];
+        // The column is a varchar and the configuration form stores it unfiltered: cast and
+        // quote it, it is interpolated into a raw SQL expression right below.
+        $delay = (int) $config->fields["delay_expired"];
 
         if ($delay) {
             $criteria = [
@@ -1186,7 +1472,7 @@ class Account extends CommonDBTM
                         'date_expiration' => null,
                     ],
                     'is_deleted' => 0,
-                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > $delay"),
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > " . $DB::quoteValue($delay)),
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > 0"),
                 ],
             ];
@@ -1212,7 +1498,8 @@ class Account extends CommonDBTM
         $notif = new NotificationState();
 
         $config->getFromDB('1');
-        $delay = $config->fields["delay_whichexpire"];
+        // Same as queryExpiredAccounts(): the raw configuration value never reaches the SQL.
+        $delay = (int) $config->fields["delay_whichexpire"];
 
         if ($delay) {
             $criteria = [
@@ -1221,7 +1508,7 @@ class Account extends CommonDBTM
                 'WHERE' => [
                     'NOT' => ['date_expiration' => null],
                     'is_deleted' => 0,
-                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > -$delay"),
+                    new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") > " . $DB::quoteValue(-$delay)),
                     new QueryExpression("DATEDIFF(CURDATE(), " . $DB->quoteName('date_expiration') . ") < 0"),
                 ],
             ];
@@ -1357,10 +1644,13 @@ class Account extends CommonDBTM
     /**
      * Search criteria restricting the account type tree to what the user may see.
      *
-     * Mirrors plugin_accounts_addDefaultWhere() (hook.php) so the tree exposes exactly
-     * what the account list would: entity scope, plus the "own accounts only" restriction
-     * when the profile lacks the plugin_accounts_see_all_users right. The tree is opened
-     * from a page gated on that right, but its endpoint is reachable on its own.
+     * Adapter over getVisibilityCriteria(), which is the single definition of "accounts
+     * visible to the current user" and the one plugin_accounts_addDefaultWhere() feeds the
+     * search engine with. Only what is specific to the tree is added here: the entity scope
+     * and the is_deleted filter. Spelling the ownership rule out a second time is what let
+     * the two drift apart -- the tree used to ignore users_id_tech and groups_id_tech, so a
+     * technician saw in the list accounts the tree hid from them. The tree is opened from a
+     * page gated on plugin_accounts_see_all_users, but its endpoint is reachable on its own.
      *
      * @return array
      */
@@ -1378,22 +1668,10 @@ class Account extends CommonDBTM
             ],
         ];
 
-        if (!Session::haveRight('plugin_accounts_see_all_users', 1)) {
-            $who = Session::getLoginUserID();
-
-            if (
-                count($_SESSION['glpigroups'] ?? [])
-                && Session::haveRight('plugin_accounts_my_groups', 1)
-            ) {
-                $criteria['AND'][] = [
-                    'OR' => [
-                        "$table.groups_id" => $_SESSION['glpigroups'],
-                        "$table.users_id"  => $who,
-                    ],
-                ];
-            } else {
-                $criteria['AND'][] = ["$table.users_id" => $who];
-            }
+        // Qualified with the table name: the tree queries join glpi_plugin_accounts_accounttypes.
+        $visibility = self::getVisibilityCriteria(true);
+        if ($visibility !== []) {
+            $criteria['AND'][] = $visibility;
         }
 
         return $criteria;
@@ -1836,8 +2114,20 @@ class Account extends CommonDBTM
             'WHERE' => [
                 'plugin_accounts_hashes_id' => 0,
                 'is_deleted' => 0,
+                // Without this the banner counted the whole tree, so a technician of one entity
+                // was told to go and fix accounts of entities they cannot even see -- and was
+                // told nothing when their own entity was clean. Same restriction as everywhere
+                // else in the plugin.
+                getEntitiesRestrictCriteria('glpi_plugin_accounts_accounts', '', '', true),
             ],
         ];
+
+        // getVisibilityCriteria() answers an empty array for a holder of the "see all" right,
+        // and an empty array is not a criterion the query builder can render.
+        $visibility = self::getVisibilityCriteria(true);
+        if ($visibility !== []) {
+            $criteria['WHERE'][] = $visibility;
+        }
 
         $iterator = $DB->request($criteria);
 
@@ -1863,27 +2153,32 @@ class Account extends CommonDBTM
      * - plugin_accounts_my_groups = 1     → own groups + own user
      * - default                           → own user only
      *
+     * @param bool $qualified Prefix the column names with the table name, as needed by the
+     *                        search engine where the query joins tables sharing those names.
+     *
      * @return array GLPI DBUtils criteria array, empty if no restriction needed
      */
-    public static function getVisibilityCriteria(): array
+    public static function getVisibilityCriteria(bool $qualified = false): array
     {
-        // Super-admin (config right) or explicit "see all" right: no restriction
-        if (Session::haveRight('plugin_accounts_see_all_users', READ)
-            || Session::haveRight('config', READ)) {
+        // Only the explicit "see all" right lifts the restriction: being allowed to
+        // administrate GLPI ('config') does not imply being allowed to read every password,
+        // and the default super-admin profile is granted 'see all' at install time anyway.
+        if (Session::haveRight('plugin_accounts_see_all_users', READ)) {
             return [];
         }
-        $who = Session::getLoginUserID();
+        $who    = Session::getLoginUserID();
+        $prefix = $qualified ? self::getTable() . '.' : '';
 
         // Group-based visibility
         if (Session::haveRight('plugin_accounts_my_groups', READ)
             && !empty($_SESSION['glpigroups'])) {
             $or = [
-                'users_id' => $who,
-                'groups_id' => $_SESSION['glpigroups'],
+                $prefix . 'users_id' => $who,
+                $prefix . 'groups_id' => $_SESSION['glpigroups'],
             ];
             if (Session::haveRight('plugin_accounts_my_tech_groups', READ)) {
-                $or['users_id_tech']  = $who;
-                $or['groups_id_tech'] = $_SESSION['glpigroups'];
+                $or[$prefix . 'users_id_tech']  = $who;
+                $or[$prefix . 'groups_id_tech'] = $_SESSION['glpigroups'];
             }
             return ['OR' => $or];
         }
@@ -1891,10 +2186,55 @@ class Account extends CommonDBTM
         // Personal only
         return [
             'OR' => [
-                'users_id' => $who,
-                'users_id_tech' => $who,
+                $prefix . 'users_id' => $who,
+                $prefix . 'users_id_tech' => $who,
             ],
         ];
+    }
+
+    /**
+     * Replay the visibility rule of getVisibilityCriteria() on the loaded item.
+     *
+     * The criteria only filter the lists: every direct access (form, tabs, PDF export,
+     * massive actions) reaches the item without ever going through the search engine, so the
+     * rule has to be enforced by the model itself, the single place all those paths share.
+     */
+    private function isVisibleToCurrentUser(): bool
+    {
+        if ($this->isNewItem()) {
+            return true;
+        }
+
+        $criteria = self::getVisibilityCriteria();
+        if ($criteria === []) {
+            return true;
+        }
+
+        foreach ($criteria['OR'] as $field => $expected) {
+            $value = (int) ($this->fields[$field] ?? 0);
+            if ($value === 0) {
+                // An unset owner never matches, whatever the expected value is.
+                continue;
+            }
+            foreach ((array) $expected as $candidate) {
+                if ($value === (int) $candidate) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function canViewItem(): bool
+    {
+        // parent::canViewItem() holds the entity boundary (checkEntity), it must stay first.
+        return parent::canViewItem() && $this->isVisibleToCurrentUser();
+    }
+
+    public function canUpdateItem(): bool
+    {
+        return parent::canUpdateItem() && $this->isVisibleToCurrentUser();
     }
 
     /**
@@ -1904,7 +2244,7 @@ class Account extends CommonDBTM
     public static function getDefaultWhere(): string
     {
         global $DB;
-        $criteria = self::getVisibilityCriteria();
+        $criteria = self::getVisibilityCriteria(true);
         if (empty($criteria)) {
             return '';
         }
@@ -1916,10 +2256,6 @@ class Account extends CommonDBTM
         if (empty($where)) {
             return '';
         }
-
-        $table = self::getTable();
-        // Prefix unqualified column references with the table name
-        $where = preg_replace('/\b(users_id|users_id_tech|groups_id|groups_id_tech)\b/', "`$table`.`$1`", $where);
 
         return " AND ($where)";
     }

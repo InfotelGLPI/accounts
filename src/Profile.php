@@ -291,7 +291,13 @@ class Profile extends \Profile
     {
         global $DB;
 
-        if (!$DB->tableExists('glpi_plugin_accounts_profiles')) {
+        // The guard used to name glpi_plugin_accounts_profiles, a table only the schemas up to
+        // 1.9.0 ever created: on anything installed since it does not exist, and this returned
+        // before removing a single right. Hoisting the call above the dropTable() loops of
+        // hook.php was therefore necessary but not sufficient -- the plugin_accounts* rights
+        // stayed in every open session either way. Name the table the plugin actually has, the
+        // same one getAllRights() just below and Account::removeRightsFromSession() both use.
+        if (!$DB->tableExists('glpi_plugin_accounts_accounts')) {
             return true;
         }
         foreach (self::getAllRights() as $right) {

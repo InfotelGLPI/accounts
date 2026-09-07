@@ -82,6 +82,19 @@ class Config extends CommonDBTM
         return true;
     }
 
+    public function prepareInputForUpdate($input)
+    {
+        // Both delays are stored in a varchar column and end up interpolated into the SQL
+        // expressions of the expiration crons: normalize them here, at the only write path.
+        foreach (['delay_expired', 'delay_whichexpire'] as $delay) {
+            if (isset($input[$delay])) {
+                $input[$delay] = max(0, (int) $input[$delay]);
+            }
+        }
+
+        return $input;
+    }
+
     /**
      * @param $target
      * @param $ID

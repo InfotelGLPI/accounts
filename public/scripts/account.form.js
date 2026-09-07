@@ -55,10 +55,8 @@ var decrypt_totp_secret = function (suffix) {
     if (!encrypted || !aeskey) return;
 
     var decrypted = '';
-    if (encrypted.startsWith('$v2$')) {
-        decrypted = decryptV2(encrypted, aeskey);
-    } else if (typeof AESDecryptCtr === 'function') {
-        decrypted = AESDecryptCtr(encrypted, SHA256(aeskey), 256);
+    if (typeof decrypt_cryptogram === 'function') {
+        decrypted = decrypt_cryptogram(encrypted, aeskey);
     } else {
         decrypted = encrypted;
     }

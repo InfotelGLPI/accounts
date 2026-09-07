@@ -57,13 +57,22 @@
                             {{__('WARNING : saving the encryption key is a security hole', 'accounts')}}
                         </div>
 
-                        {{ fields.passwordField('name', item.fields['name'], __('Encryption key', 'accounts'), {
+                        {# The stored value is the master key encrypted by GLPIKey. The password
+                         # macro emits a value= attribute, so passing it here would ship that
+                         # ciphertext to the browser and post it back unchanged, and the
+                         # prepareInput would then encrypt it a second time — every account of
+                         # the hash becoming unreadable. Always render the field empty: an empty
+                         # submission leaves the stored key untouched. #}
+                        {{ fields.passwordField('name', '', __('Encryption key', 'accounts'), {
                             can_regenerate: false,
-                            is_disclosable: true,
+                            is_disclosable: false,
                             clearable: false,
-                            is_copyable: true,
+                            is_copyable: false,
                             additional_attributes: {
                                 autocomplete: 'off',
+                                placeholder: item.isNewItem()
+                                    ? ''
+                                    : __('Leave empty to keep the current key', 'accounts'),
                             },
                         }) }}
 

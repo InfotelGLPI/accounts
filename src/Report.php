@@ -32,6 +32,7 @@ namespace GlpiPlugin\Accounts;
 use CommonDBTM;
 use DbUtils;
 use Dropdown;
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use Glpi\Search\Output\HTMLSearchOutput;
 use Glpi\Search\SearchEngine;
 use Html;
@@ -48,6 +49,40 @@ if (!defined('GLPI_ROOT')) {
 class Report extends CommonDBTM
 {
     /**
+     * Load the fingerprint the report is asked about, refusing one outside the caller's
+     * entities.
+     *
+     * The ID comes straight from the request (ajax/viewaccountslist.php reads $_POST['id'],
+     * front/report.dynamic.php $_POST['id'] as well) and the only right involved,
+     * plugin_accounts_see_all_users, is global. The account list further down is properly
+     * bounded by getEntitiesRestrictCriteria(), but the record itself is not: showAccountsList()
+     * publishes its 'hash' column -- the PBKDF2 verifier of the master key -- into the page for
+     * the browser to check the typed key against. Handing that out for another entity gives an
+     * offline oracle on a human-chosen passphrase, which is exactly what an attacker needs to
+     * confirm a dictionary hit without ever touching the application again. Same guard as
+     * front/hash.form.php and ajax/getHashOnSelectEncryptionKey.php.
+     *
+     * @param int $ID The requested fingerprint ID
+     * @return Hash   The loaded record
+     */
+    private static function loadReachableHash(int $ID): Hash
+    {
+        $hash = new Hash();
+        if (
+            $ID <= 0
+            || !$hash->getFromDB($ID)
+            || !Session::haveAccessToEntity(
+                $hash->fields['entities_id'],
+                (bool) $hash->fields['is_recursive'],
+            )
+        ) {
+            throw new AccessDeniedHttpException();
+        }
+
+        return $hash;
+    }
+
+    /**
      * @param $values
      *
      * @return array
@@ -56,12 +91,11 @@ class Report extends CommonDBTM
     {
         global $DB;
 
-        $ID     = $values["id"];
-        $aeskey = $values["aeskey"];
+        $ID     = (int) ($values["id"] ?? 0);
+        $aeskey = (string) ($values["aeskey"] ?? '');
 
-        $Hash = new Hash();
-        $Hash->getFromDB($ID);
-        $dbu = new DbUtils();
+        $Hash = self::loadReachableHash($ID);
+        $dbu  = new DbUtils();
 
         if ($Hash->isRecursive()) {
             $entities = $dbu->getSonsOf('glpi_entities', $Hash->getEntityID());
@@ -71,66 +105,160 @@ class Report extends CommonDBTM
 
         $entities = array_intersect($entities, $_SESSION["glpiactiveentities"]);
         $list     = [];
-        if ($aeskey) {
-            $criteria = [
-                'SELECT'    => [
-                    'glpi_plugin_accounts_accounts.*',
-                    'glpi_plugin_accounts_accounttypes.name AS typename',
-                ],
-                'FROM'      => 'glpi_plugin_accounts_accounts',
-                'LEFT JOIN'       => [
-                    'glpi_plugin_accounts_accounttypes' => [
-                        'ON' => [
-                            'glpi_plugin_accounts_accounts' => 'plugin_accounts_accounttypes_id',
-                            'glpi_plugin_accounts_accounttypes'          => 'id',
-                        ],
-                    ],
-                    'glpi_plugin_accounts_hashes' => [
-                        'ON' => [
-                            'glpi_plugin_accounts_accounts' => 'plugin_accounts_hashes_id',
-                            'glpi_plugin_accounts_hashes'          => 'id',
-                        ],
-                    ],
-                ],
-                'WHERE'     => [
-                    'glpi_plugin_accounts_accounts.is_deleted'  => 0,
-                    'glpi_plugin_accounts_hashes.id'  => $ID,
-                ],
-                'ORDERBY'   => 'glpi_plugin_accounts_accounts.name',
-            ];
+        $verifier = (string) $Hash->fields['hash'];
 
-            $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
-                'glpi_plugin_accounts_accounts',
-                $field = '',
-                $entities,
-                $Hash->maybeRecursive(),
-            );
+        if ($aeskey !== '') {
+            // The gate used to be "$aeskey is not empty": the string "x" opened the list, and on
+            // the CSV/PDF path that list is every cryptogram of the entity in one download.
+            // Confront the key with the stored verifier, exactly like front/hash.form.php does
+            // before a rotation.
+            if (!AccountCrypto::verify($aeskey, $verifier)) {
+                Session::addMessageAfterRedirect(
+                    __s('Wrong encryption key', 'accounts'),
+                    false,
+                    ERROR,
+                );
 
-            $iterator = $DB->request($criteria);
-
-            if (count($iterator) > 0) {
-                foreach ($iterator as $data) {
-                    $accounts[] = $data;
-                }
+                return $list;
             }
 
-            if (!empty($accounts)) {
-                $i = 0;
-                foreach ($accounts as $account) {
-                    $list[$i]["id"]   = $account["id"];
-                    $list[$i]["name"] = $account["name"];
-                    if (Session::isMultiEntitiesMode()) {
-                        $list[$i]["entities_id"] = Dropdown::getDropdownName("glpi_entities", $account["entities_id"]);
-                    }
-                    $list[$i]["type"]     = $account["typename"];
-                    $list[$i]["login"]    = $account["login"];
-                    $list[$i]["password"] = $account["encrypted_password"];
-                    $i++;
+            self::rememberVerification($ID, $verifier);
+        } elseif (!self::hasVerifiedKey($ID, $verifier)) {
+            // No key in this request, and none checked recently enough: the export forms built by
+            // printPager() no longer carry one, so this is the branch they land in.
+            Session::addMessageAfterRedirect(
+                __s('The encryption key is no longer available, please display the list again before exporting it', 'accounts'),
+                false,
+                ERROR,
+            );
+
+            return $list;
+        }
+
+        $criteria = [
+            'SELECT'    => [
+                'glpi_plugin_accounts_accounts.*',
+                'glpi_plugin_accounts_accounttypes.name AS typename',
+            ],
+            'FROM'      => 'glpi_plugin_accounts_accounts',
+            'LEFT JOIN'       => [
+                'glpi_plugin_accounts_accounttypes' => [
+                    'ON' => [
+                        'glpi_plugin_accounts_accounts' => 'plugin_accounts_accounttypes_id',
+                        'glpi_plugin_accounts_accounttypes'          => 'id',
+                    ],
+                ],
+                'glpi_plugin_accounts_hashes' => [
+                    'ON' => [
+                        'glpi_plugin_accounts_accounts' => 'plugin_accounts_hashes_id',
+                        'glpi_plugin_accounts_hashes'          => 'id',
+                    ],
+                ],
+            ],
+            'WHERE'     => [
+                'glpi_plugin_accounts_accounts.is_deleted'  => 0,
+                'glpi_plugin_accounts_hashes.id'  => $ID,
+            ],
+            'ORDERBY'   => 'glpi_plugin_accounts_accounts.name',
+        ];
+
+        $criteria['WHERE'] = $criteria['WHERE'] + getEntitiesRestrictCriteria(
+            'glpi_plugin_accounts_accounts',
+            $field = '',
+            $entities,
+            $Hash->maybeRecursive(),
+        );
+
+        $iterator = $DB->request($criteria);
+
+        if (count($iterator) > 0) {
+            foreach ($iterator as $data) {
+                $accounts[] = $data;
+            }
+        }
+
+        if (!empty($accounts)) {
+            $i = 0;
+            foreach ($accounts as $account) {
+                $list[$i]["id"]   = $account["id"];
+                $list[$i]["name"] = $account["name"];
+                if (Session::isMultiEntitiesMode()) {
+                    $list[$i]["entities_id"] = Dropdown::getDropdownName("glpi_entities", $account["entities_id"]);
                 }
+                $list[$i]["type"]     = $account["typename"];
+                $list[$i]["login"]    = $account["login"];
+                $list[$i]["password"] = $account["encrypted_password"];
+                $i++;
             }
         }
 
         return $list;
+    }
+
+    /**
+     * How long a checked key stays accepted by the pager and the export form, in seconds.
+     */
+    private const KEY_TTL = 900;
+
+    /**
+     * Record that a key has just been confronted with the stored verifier -- the fact of it,
+     * never the key.
+     *
+     * Every other screen of the plugin goes out of its way to keep the master key inside the
+     * browser: templates/account.html.twig deliberately leaves #aeskey without a name attribute
+     * so it cannot be posted at all. The report path could not do quite the same, because
+     * queryAccountsList() has to confront the key with the verifier before building a list of
+     * cryptograms; but it used to re-post it on every page turn and every export, which is one
+     * occasion per click for a logging proxy, an APM probe or a 500-page dump to record the one
+     * secret that opens every account of the entity.
+     *
+     * The obvious repair -- send it once, keep it server-side -- traded a transport exposure for
+     * a storage one: the master key would then sit in cleartext in whatever backs the session, a
+     * file or a Redis instance that outlives the request and lands in backups. It is not needed
+     * there. The server never decrypts anything: the CSV and PDF exports carry the same
+     * cryptograms as the screen does, and the browser is what turns them into passwords. All the
+     * export path has to establish is that the key was produced at some point during this
+     * session, so that is all that is kept.
+     *
+     * @param int    $hash_id  Fingerprint the key was checked against
+     * @param string $verifier Verifier it was checked against, to notice a rotation
+     */
+    private static function rememberVerification(int $hash_id, string $verifier): void
+    {
+        $_SESSION['plugin_accounts']['report_key'][$hash_id] = [
+            // Deliberately not the key. See the method doc.
+            'verified_until' => time() + self::KEY_TTL,
+            'verifier'       => $verifier,
+        ];
+    }
+
+    /**
+     * Whether the key of a fingerprint was checked recently enough to still open an export.
+     *
+     * An expired marker is dropped rather than merely ignored, and so is one left by a check
+     * against a verifier that has since been replaced -- a rotation means the key that was typed
+     * is no longer the key of the vault.
+     *
+     * @param int    $hash_id  Fingerprint concerned
+     * @param string $verifier Verifier currently stored for it
+     */
+    public static function hasVerifiedKey(int $hash_id, string $verifier): bool
+    {
+        $kept = $_SESSION['plugin_accounts']['report_key'][$hash_id] ?? null;
+        if (!is_array($kept)) {
+            return false;
+        }
+
+        if (
+            (int) ($kept['verified_until'] ?? 0) < time()
+            || (string) ($kept['verifier'] ?? '') !== $verifier
+        ) {
+            unset($_SESSION['plugin_accounts']['report_key'][$hash_id]);
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -139,11 +267,13 @@ class Report extends CommonDBTM
      */
     public static function showAccountsList($values, $list)
     {
-        $ID     = $values["id"];
-        $aeskey = $values["aeskey"];
+        $ID = (int) ($values["id"] ?? 0);
+        // Only the HTML rendering has a key to work with: it is the request that carries one,
+        // and its script block is the only consumer. The CSV and PDF renderings export the
+        // cryptograms as they stand, so they neither receive nor need it.
+        $aeskey = (string) ($values["aeskey"] ?? '');
 
-        $Hash = new Hash();
-        $Hash->getFromDB($ID);
+        $Hash      = self::loadReachableHash($ID);
         $hashvalue = $Hash->fields["hash"];
 
         $default_values["start"]  = $start = 0;
@@ -184,7 +314,11 @@ class Report extends CommonDBTM
             $nbcols--;
         }
 
-        $parameters = "id=" . $ID . "&amp;aeskey=" . $aeskey;
+        // printPager() turns this into the hidden fields of the export form. Only the fingerprint
+        // travels: the export is gated on the marker rememberVerification() left in the session
+        // when the key was checked, so it still takes having known the key -- without the key
+        // itself being re-posted on every click, or held anywhere afterwards.
+        $parameters = "id=" . $ID;
 
         if ($is_html_output && !empty($list)) {
             self::printPager($start, $numrows, $_SERVER['PHP_SELF'], $parameters, "Report");
@@ -199,7 +333,10 @@ class Report extends CommonDBTM
             }
             $headers[] = __s('Type');
             $headers[] = __s('Login');
-            $headers[] = __s('Decrypted password', 'accounts');
+            // CSV and PDF cannot run the decryption script, so what lands in those files is
+            // the cryptogram. Labelling it "Decrypted password" invited treating a vault dump
+            // as a harmless export.
+            $headers[] = __s('Encrypted password', 'accounts');
         } else {
             $header_num    = 1;
             $html_output .= $output::showNewLine();
@@ -259,36 +396,35 @@ class Report extends CommonDBTM
 
                 if ($is_html_output) {
                     $encrypted = $list[$i]["password"];
-                    echo Html::hidden("password[$IDc]");
+                    // No hidden field for the decrypted value. It used to be emitted here and
+                    // filled by the script below, inside the export form opened by printPager():
+                    // one click on Export then posted every password of the vault in cleartext to
+                    // front/report.dynamic.php, which never reads them -- it re-queries the
+                    // database. Same reasoning as templates/account.html.twig, where
+                    // #hidden_password deliberately carries no name attribute.
                     $pass = "<p name='show_password' id='show_password$$IDc'></p>";
                     // Encode all dynamic values as JS literals to prevent script injection
                     $js_aeskey    = json_encode($aeskey);
                     $js_encrypted = json_encode($encrypted);
                     $js_hashvalue = json_encode($hashvalue);
-                    $js_prefix    = json_encode(AccountCrypto::V2_PREFIX);
                     $js_wrongkey  = json_encode(__('Wrong encryption key', 'accounts'));
                     $pass .= Html::scriptBlock("
                                 var good_hash = $js_hashvalue;
                                 var aeskey = $js_aeskey;
                                 var encrypted = $js_encrypted;
-                                var prefix = $js_prefix;
 
                                 // Verify the typed key against the stored verifier. generic_check_hash
                                 // (crypt.js) handles both the salted PBKDF2 format and legacy double SHA-256.
                                 if (generic_check_hash(good_hash, aeskey)) {
-                                    // v2 authenticated format
-                                    pass = decryptV2(encrypted, aeskey);
-
-                                    // Legacy AES-CTR ciphertexts (no v2 prefix)
-                                    if (!encrypted.startsWith(prefix)) {
-                                        pass = AESDecryptCtr(encrypted, SHA256(aeskey), 256);
-                                    }
+                                    // decrypt_cryptogram dispatches on the version prefix (v3 with a
+                                    // mandatory MAC, v2 with an optional one) and falls back to the
+                                    // legacy AES-CTR format. Never pick the version here.
+                                    pass = decrypt_cryptogram(encrypted, aeskey);
                                 } else {
                                     pass = $js_wrongkey;
                                 }
 
-                                // Inject the password into the form field and the display cell
-                                document.getElementsByName(\"password[$IDc]\").item(0).value = pass;
+                                // Display cell only: the plaintext must never leave the browser.
                                 document.getElementById(\"show_password$$IDc\").textContent = pass;
 
                                 ");
@@ -306,8 +442,14 @@ class Report extends CommonDBTM
         }
 
         if ($is_html_output) {
-            Html::closeForm();
-            $output::showFooter(__s('Linked accounts list', 'accounts'), $numrows);
+            // Everything else on this path is accumulated into $html_output and echoed in one
+            // go below. Html::closeForm() prints straight away unless told otherwise, so the
+            // </form> used to be emitted before the table it closes; and showFooter() returns
+            // its fragment in GLPI 11 instead of printing it, so the end of the table and of
+            // the containers opened by showHeader() was computed and then dropped. The browser
+            // was left to guess, and swallowed whatever followed on the page.
+            $html_output .= Html::closeForm(false);
+            $html_output .= $output::showFooter(__s('Linked accounts list', 'accounts'), $numrows);
         }
 
         if ($is_html_output) {

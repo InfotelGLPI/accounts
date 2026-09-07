@@ -107,9 +107,10 @@ class NotificationState extends CommonDBTM
         $columns = [
             'name' => __('Name'),
         ];
-        $formatters = [
-            'name' => 'raw_html',
-        ];
+        // No formatter: the column only holds the state name, which the datatable component
+        // escapes by default. Declaring it as raw_html would turn any HTML stored in the
+        // dropdown name into a stored XSS in a page reserved to the super-administrator.
+        $formatters = [];
         $footers = [];
 
         $rand = mt_rand();

@@ -120,6 +120,13 @@ class AesKey extends CommonDBTM
 
         switch ($item->getType()) {
             case Hash::class:
+                // getTabNameForItem() only offers this tab to holders of the UPDATE right, but a tab
+                // is not a security boundary: ajax/common.tabs.php validates can($id, READ) on the
+                // Hash and nothing else. Replaying the condition here is what Hash itself already
+                // does in its own displayTabContentForItem().
+                if (!Session::haveRight(static::$rightname, UPDATE)) {
+                    return false;
+                }
                 $key = self::checkIfAesKeyExists($item->getID());
                 if ($key) {
                     $self->showAesKey($item->getID());
@@ -136,8 +143,10 @@ class AesKey extends CommonDBTM
 
 
     /**
-     * @param $plugin_accounts_hashes_id
-     * @return bool
+     * Return the decrypted master key stored for a fingerprint, or false when none is stored.
+     *
+     * @param int|string $plugin_accounts_hashes_id
+     * @return string|false
      */
     public static function checkIfAesKeyExists($plugin_accounts_hashes_id)
     {
@@ -152,13 +161,12 @@ class AesKey extends CommonDBTM
             if (!empty($devices)) {
                 foreach ($devices as $device) {
                     // Stored encrypted at rest -> return the decrypted master key
-                    $aeskey = (new \GLPIKey())->decrypt($device["name"]);
-                    return $aeskey;
+                    return self::decryptStoredKey($device["name"]);
                 }
-            } else {
-                return $aeskey;
             }
         }
+
+        return $aeskey;
     }
 
     /**
@@ -179,6 +187,21 @@ class AesKey extends CommonDBTM
      */
     public function showForm($ID, $options = [])
     {
+        // Reached from front/aeskey.form.php, which gates on UPDATE, and from the Hash tab, which
+        // did not until now. Account::showForm() opens the same way, and the entity has to be
+        // rebuilt by hand here because the table has no entities_id of its own.
+        if (!Session::haveRight(static::$rightname, UPDATE)) {
+            return false;
+        }
+        $aeskeys_id = (int) $ID;
+        $hashes_id  = (int) ($options['plugin_accounts_hashes_id'] ?? 0);
+        if ($aeskeys_id > 0 && !self::isReachable($aeskeys_id)) {
+            return false;
+        }
+        if ($aeskeys_id <= 0 && $hashes_id > 0 && !self::isHashReachable($hashes_id)) {
+            return false;
+        }
+
         $restrict = getEntitiesRestrictCriteria("glpi_plugin_accounts_hashes", '', '', $this->h->maybeRecursive());
         $nbhashes = countElementsInTable("glpi_plugin_accounts_hashes", $restrict);
 
@@ -191,8 +214,8 @@ class AesKey extends CommonDBTM
     }
 
     /**
-     * @param  $input
-     * @return mixed[]
+     * @param array<string, mixed> $input
+     * @return array<string, mixed>|false
      */
     public function prepareInputForAdd($input)
     {
@@ -200,10 +223,19 @@ class AesKey extends CommonDBTM
         if (!isset($input['plugin_accounts_hashes_id']) || $input['plugin_accounts_hashes_id'] <= 0) {
             return false;
         }
-        // Encrypt the master key at rest (stored as GLPIKey ciphertext)
-        if (isset($input['name']) && $input['name'] !== '') {
-            $input['name'] = (new \GLPIKey())->encrypt($input['name']);
+        // An empty record would be indistinguishable from "no key stored": refuse it.
+        if (!isset($input['name']) || $input['name'] === '') {
+            Session::addMessageAfterRedirect(
+                __('The encryption key cannot be empty', 'accounts'),
+                false,
+                ERROR,
+            );
+            return false;
         }
+
+        // Encrypt the master key at rest (stored as GLPIKey ciphertext)
+        $input['name'] = (new \GLPIKey())->encrypt($input['name']);
+
         return $input;
     }
 
@@ -213,10 +245,25 @@ class AesKey extends CommonDBTM
      */
     public function prepareInputForUpdate($input)
     {
-        // Encrypt the master key at rest (stored as GLPIKey ciphertext)
-        if (isset($input['name']) && $input['name'] !== '') {
-            $input['name'] = (new \GLPIKey())->encrypt($input['name']);
+        if (!isset($input['name']) || $input['name'] === '') {
+            // The form renders the field empty, so an untouched submission carries no key:
+            // leave the stored one alone rather than overwriting it with an empty value.
+            unset($input['name']);
+            return $input;
         }
+
+        // Belt and braces: should any other caller still hand back the stored ciphertext
+        // unchanged, encrypting it again would produce a double GLPIKey ciphertext and make
+        // every account of this hash undecryptable, with no way back. Treat an unchanged
+        // value as "not modified" instead of re-encrypting it.
+        if ($input['name'] === ($this->fields['name'] ?? null)) {
+            unset($input['name']);
+            return $input;
+        }
+
+        // Encrypt the master key at rest (stored as GLPIKey ciphertext)
+        $input['name'] = (new \GLPIKey())->encrypt($input['name']);
+
         return $input;
     }
 
@@ -227,7 +274,54 @@ class AesKey extends CommonDBTM
      */
     public function getDecryptedName()
     {
-        return (new \GLPIKey())->decrypt($this->fields['name'] ?? '');
+        return self::decryptStoredKey($this->fields['name'] ?? '');
+    }
+
+    /**
+     * Read back the master key stored in the `name` column.
+     *
+     * Also recovers vaults hit by the double encryption defect: the form used to resubmit the
+     * stored GLPIKey ciphertext, which prepareInputForUpdate() then encrypted a second time.
+     * A single decryption of such a record yields another ciphertext instead of the key, and
+     * every account attached to the hash reads as unreadable. Peeling the extra layer restores
+     * them. Note that decrypt() is never called speculatively: it emits a warning on anything
+     * that was not produced by GLPIKey, so the shape is checked first.
+     *
+     * @param string|null $stored Raw column value
+     * @return string             The master key, or an empty string when it cannot be read
+     */
+    private static function decryptStoredKey(?string $stored): string
+    {
+        $decrypted = (string) (new \GLPIKey())->decrypt((string) $stored);
+
+        if (self::looksLikeGlpiKeyCiphertext($decrypted)) {
+            $unwrapped = (string) (new \GLPIKey())->decrypt($decrypted);
+            if ($unwrapped !== '') {
+                return $unwrapped;
+            }
+        }
+
+        return $decrypted;
+    }
+
+    /**
+     * Tell whether a value has the shape of a GLPIKey ciphertext, i.e. strict base64 holding
+     * at least a nonce and an authentication tag. A master key typed by a human virtually
+     * never matches, which is what makes the extra decryption above safe to attempt.
+     */
+    private static function looksLikeGlpiKeyCiphertext(string $value): bool
+    {
+        if ($value === '') {
+            return false;
+        }
+
+        $raw = base64_decode($value, true);
+        if ($raw === false) {
+            return false;
+        }
+
+        return strlen($raw) > SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES
+            + SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_ABYTES;
     }
 
     /**
@@ -237,9 +331,15 @@ class AesKey extends CommonDBTM
     {
         global $DB;
 
+        if (!self::isHashReachable((int) $ID)) {
+            return;
+        }
         $this->h->getFromDB($ID);
 
-        Session::initNavigateListItems("AesKey", _n('Fingerprint', 'Fingerprints', 1, 'accounts') . " = " . $this->h->fields["name"]);
+        // The itemtype key of the navigation list must be the real class name: a bare "AesKey"
+        // matches nothing once the plugin is namespaced, and the previous/next arrows of the
+        // key form silently do nothing.
+        Session::initNavigateListItems(self::class, _n('Fingerprint', 'Fingerprints', 1, 'accounts') . " = " . $this->h->fields["name"]);
 
         $candelete = Session::haveRight(self::$rightname, DELETE);
 
@@ -273,7 +373,8 @@ class AesKey extends CommonDBTM
 
         if (count($iterator) > 0) {
             foreach ($iterator as $data) {
-                Session::addToNavigateListItems("AesKey", $data['id']);
+                // Same key as the initNavigateListItems() call above -- see the comment there.
+                Session::addToNavigateListItems(self::class, $data['id']);
                 $name = "item[" . $data["id"] . "]";
                 echo Html::hidden($name, ['value' => $ID]);
                 echo "<tr class='tab_bg_1 center'>";
@@ -307,12 +408,93 @@ class AesKey extends CommonDBTM
         echo "</div>";
     }
 
+    /**
+     * Tell whether the caller may reach the entity a fingerprint belongs to.
+     *
+     * glpi_plugin_accounts_aeskeys carries no entities_id: a stored master key is attached to an
+     * entity only through its parent Hash. CommonDBTM::checkEntity() therefore does nothing
+     * behind can(), and every access boils down to the global plugin_accounts_hash right, which
+     * may be granted recursively. This is the missing half of the check, and it lives on the
+     * class rather than in front/aeskey.form.php so that every path -- form, tab, massive
+     * action -- inherits it.
+     *
+     * @param int $hashes_id The fingerprint ID
+     * @return bool          True when the fingerprint exists in a reachable entity
+     */
+    public static function isHashReachable(int $hashes_id): bool
+    {
+        $hash = new Hash();
+
+        return $hashes_id > 0
+            && $hash->getFromDB($hashes_id)
+            && Session::haveAccessToEntity(
+                $hash->fields['entities_id'],
+                (bool) $hash->fields['is_recursive'],
+            );
+    }
+
+    /**
+     * Same check for a stored key, resolved through its parent fingerprint.
+     *
+     * @param int $aeskeys_id The stored key ID
+     * @return bool           True when the key hangs off a reachable fingerprint
+     */
+    public static function isReachable(int $aeskeys_id): bool
+    {
+        $target = new self();
+
+        return $aeskeys_id > 0
+            && $target->getFromDB($aeskeys_id)
+            && self::isHashReachable((int) ($target->fields['plugin_accounts_hashes_id'] ?? 0));
+    }
+
+    /**
+     * Entity of the loaded row, or of the fingerprint an unsaved row is being bound to.
+     */
+    private function isCurrentRowReachable(): bool
+    {
+        return self::isHashReachable((int) ($this->fields['plugin_accounts_hashes_id'] ?? 0));
+    }
+
+    public function canViewItem(): bool
+    {
+        return parent::canViewItem() && $this->isCurrentRowReachable();
+    }
+
+    public function canCreateItem(): bool
+    {
+        return parent::canCreateItem() && $this->isCurrentRowReachable();
+    }
+
+    public function canUpdateItem(): bool
+    {
+        return parent::canUpdateItem() && $this->isCurrentRowReachable();
+    }
+
+    public function canDeleteItem(): bool
+    {
+        return parent::canDeleteItem() && $this->isCurrentRowReachable();
+    }
+
+    public function canPurgeItem(): bool
+    {
+        return parent::canPurgeItem() && $this->isCurrentRowReachable();
+    }
+
     public function getForbiddenStandardMassiveAction()
     {
 
         $forbidden   = parent::getForbiddenStandardMassiveAction();
         $forbidden[] = 'update';
         $forbidden[] = 'add_note';
+        // Deleting a master key destroys every account of its fingerprint: the verifier only
+        // proves a key, it cannot rebuild one. That belongs on the single guarded path of
+        // front/aeskey.form.php, not on front/massiveaction.php, which iterates over whatever
+        // ids the request carries. The can*Item() overrides above already close the entity
+        // boundary; forbidding the action keeps the destructive route out of reach entirely.
+        $forbidden[] = 'delete';
+        $forbidden[] = 'purge';
+        $forbidden[] = 'restore';
         return $forbidden;
     }
 

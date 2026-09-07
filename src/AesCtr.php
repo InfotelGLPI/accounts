@@ -45,10 +45,20 @@ class AesCtr extends Aes
      *
      * Unicode multi-byte character safe
      *
-     * @param plaintext source text to be encrypted
-     * @param password  the password to use to generate a key
-     * @param nBits     number of bits to be used in the key (128, 192, or 256)
-     * @return          encrypted text
+     * @deprecated Kept for reading only. Nothing in the plugin calls this any more, and nothing
+     *             should: the v1 format it produces carries no MAC, so counter mode leaves it
+     *             malleable -- flipping a bit of the ciphertext flips the same bit of the
+     *             password, with no way for the reader to notice. Its nonce is drawn from
+     *             rand(), which is not a cryptographic generator either. New cryptograms are
+     *             written by AccountCrypto::encrypt() (v4: PBKDF2-derived keys,
+     *             encrypt-then-MAC); the decrypt() below stays only to keep records written
+     *             before that readable.
+     *
+     * @param string $plaintext Source text to be encrypted
+     * @param string $password  Password to use to generate a key
+     * @param int    $nBits     Number of bits to be used in the key (128, 192, or 256)
+     *
+     * @return string Encrypted text, or an empty string for an unsupported key size
      */
     public static function encrypt($plaintext, $password, $nBits)
     {
@@ -132,10 +142,11 @@ class AesCtr extends Aes
     /**
      * Decrypt a text encrypted by AES in counter mode of operation
      *
-     * @param ciphertext source text to be decrypted
-     * @param password   the password to use to generate a key
-     * @param nBits      number of bits to be used in the key (128, 192, or 256)
-     * @return           decrypted text
+     * @param string $ciphertext Source text to be decrypted
+     * @param string $password   Password to use to generate a key
+     * @param int    $nBits      Number of bits to be used in the key (128, 192, or 256)
+     *
+     * @return string Decrypted text, or an empty string for an unsupported key size
      */
     public static function decrypt($ciphertext, $password, $nBits)
     {
@@ -206,9 +217,10 @@ class AesCtr extends Aes
     /*
      * Unsigned right shift function, since PHP has neither >>> operator nor unsigned ints
      *
-     * @param a  number to be shifted (32-bit integer)
-     * @param b  number of bits to shift a to the right (0..31)
-     * @return   a right-shifted and zero-filled by b bits
+     * @param int $a Number to be shifted (32-bit integer)
+     * @param int $b Number of bits to shift $a to the right (0..31)
+     *
+     * @return int $a right-shifted and zero-filled by $b bits
      */
     private static function urs($a, $b)
     {

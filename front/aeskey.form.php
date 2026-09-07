@@ -49,22 +49,17 @@ $aeskey = new AesKey();
 // id (or a hash id) belonging to entity B by tampering with the POST (IDOR). Every write must be
 // pinned to the entity of the parent hash — same guard as front/hash.form.php:69 and
 // ajax/getHashOnSelectEncryptionKey.php.
+// The two predicates now live on AesKey so that the massive actions and the Hash tab go through
+// the same rule; these closures only turn a false into the HTTP answer this front expects.
 $assertHashEntityAccess = static function (int $hashes_id): void {
-    $hash = new Hash();
-    if (
-        $hashes_id <= 0
-        || !$hash->getFromDB($hashes_id)
-        || !Session::haveAccessToEntity($hash->fields['entities_id'])
-    ) {
+    if (!AesKey::isHashReachable($hashes_id)) {
         throw new AccessDeniedHttpException();
     }
 };
-$assertAesKeyEntityAccess = static function (int $aeskeys_id) use ($assertHashEntityAccess): void {
-    $target = new AesKey();
-    if ($aeskeys_id <= 0 || !$target->getFromDB($aeskeys_id)) {
+$assertAesKeyEntityAccess = static function (int $aeskeys_id): void {
+    if (!AesKey::isReachable($aeskeys_id)) {
         throw new AccessDeniedHttpException();
     }
-    $assertHashEntityAccess((int) $target->fields['plugin_accounts_hashes_id']);
 };
 
 Html::header(Account::getTypeName(2), '', "admin", Account::class, "hash");
@@ -107,8 +102,20 @@ if (isset($_POST["add"])) {
     }
     $aeskey->redirectToList();
 } else {
-    $aeskey->display(['id' => $_GET['id'],
-        'plugin_accounts_hashes_id' => $_GET["plugin_accounts_hashes_id"]]);
+    // display() runs a can($id, READ), but AesKey carries no entities_id, so the checkEntity()
+    // behind it is a no-op and only the global plugin_accounts_hash right is left. Without the
+    // same closure the four write branches use, a user of entity A could open the form of a key
+    // of entity B and learn which fingerprint it belongs to -- the key itself stays hidden, the
+    // template renders the field empty on purpose.
+    $id                        = (int) $_GET['id'];
+    $plugin_accounts_hashes_id = (int) $_GET['plugin_accounts_hashes_id'];
+    if ($id > 0) {
+        $assertAesKeyEntityAccess($id);
+    } elseif ($plugin_accounts_hashes_id > 0) {
+        $assertHashEntityAccess($plugin_accounts_hashes_id);
+    }
+    $aeskey->display(['id' => $id,
+        'plugin_accounts_hashes_id' => $plugin_accounts_hashes_id]);
 }
 
 Html::footer();

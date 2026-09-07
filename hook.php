@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\DBAL\QueryExpression;
 use Glpi\Search\SearchOption;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Account_Item;
@@ -291,11 +292,15 @@ function plugin_accounts_install()
                 ]);
                 if (count($iterator) > 0) {
                     foreach ($iterator as $data) {
-                        $iq = "INSERT INTO `glpi_notepads`
-                          (`itemtype`, `items_id`, `content`, `date`, `date_mod`)
-                   VALUES ('" . $dbu->getItemTypeForTable($t) . "', '" . $data['id'] . "',
-                           '" . addslashes($data['notepad']) . "', NOW(), NOW())";
-                        $DB->doQuery($iq, "0.85 migrate notepad data");
+                        // The note content is user input from the old version. addslashes() is not
+                        // a charset-aware SQL escape, so the query builder does the quoting here.
+                        $DB->insert('glpi_notepads', [
+                            'itemtype' => $dbu->getItemTypeForTable($t),
+                            'items_id' => $data['id'],
+                            'content'  => $data['notepad'],
+                            'date'     => new QueryExpression('NOW()'),
+                            'date_mod' => new QueryExpression('NOW()'),
+                        ]);
                     }
                 }
                 $query = "ALTER TABLE `glpi_plugin_accounts_accounts` DROP COLUMN `notepad`;";
@@ -421,6 +426,17 @@ function plugin_accounts_uninstall()
         $profileRight->deleteByCriteria(['name' => $right['field']]);
     }
 
+    // Both of these open with a tableExists() guard, so running them after the dropTable()
+    // loops below made them return immediately and clean nothing: the plugin_accounts* keys
+    // stayed in every open session, leaving ghost menus and tabs that answer with SQL errors
+    // until the next login. Same rule as the getAllRights() call above -- read the schema
+    // while it still exists.
+    Profile::removeRightsFromSession();
+
+    Account::removeRightsFromSession();
+
+    CronTask::unregister("Accounts");
+
     $tables = ["glpi_plugin_accounts_accounts",
         "glpi_plugin_accounts_accounts_items",
         "glpi_plugin_accounts_accounttypes",
@@ -516,12 +532,6 @@ function plugin_accounts_uninstall()
     if (class_exists('PluginDatainjectionModel')) {
         PluginDatainjectionModel::clean(['itemtype' => Account::class]);
     }
-
-    Profile::removeRightsFromSession();
-
-    Account::removeRightsFromSession();
-
-    CronTask::unregister("Accounts");
 
     return true;
 }
@@ -675,32 +685,18 @@ function plugin_accounts_getAddSearchOptions($itemtype)
 /**
  * @param $type
  *
- * @return string
+ * @return string|array Criteria array when the itemtype is restricted, empty string otherwise
  */
 function plugin_accounts_addDefaultWhere($type)
 {
     switch ($type) {
         case Account::class:
-            $who = Session::getLoginUserID();
-            if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
-                if (count($_SESSION["glpigroups"])
-                    && Session::haveRight("plugin_accounts_my_groups", 1)) {
-
-                    $criteria = [
-                        'OR' => [
-                            ['glpi_plugin_accounts_accounts.groups_id' => $_SESSION['glpigroups']],
-                            ['glpi_plugin_accounts_accounts.users_id' => $who],
-                        ],
-                    ];
-
-                    return $criteria;
-
-                } else { // Only personal ones
-                    //                    return " `glpi_plugin_accounts_accounts`.`users_id` = '$who' ";
-                    $criteria = ['glpi_plugin_accounts_accounts.users_id' => $who];
-
-                    return $criteria;
-                }
+            // Single source of truth: the rule lives in the model, which also replays it on
+            // each item (Account::canViewItem). Duplicating it here made the search engine and
+            // the item level guard drift apart, the technician fields being ignored here only.
+            $criteria = Account::getVisibilityCriteria(true);
+            if ($criteria !== []) {
+                return $criteria;
             }
     }
     return "";
@@ -782,10 +778,18 @@ function plugin_accounts_giveItem($type, $ID, $data, $num)
                     foreach ($device_iterator as $device) {
                         $itemtype = $device['itemtype'];
 
-                        if (!class_exists($itemtype)) {
+                        // class_exists() alone accepts any loadable class of GLPI or of another
+                        // plugin, constructor side effects included. The write paths do validate
+                        // against this very list, so a row outside it can only come from an import,
+                        // an upgrade from a version that did not filter, or a direct write -- which
+                        // is exactly when a sink must not trust its input.
+                        if (!in_array($itemtype, Account::getTypes(true), true) || !class_exists($itemtype)) {
                             continue;
                         }
                         $item = new $itemtype();
+                        if (!$item instanceof CommonDBTM) {
+                            continue;
+                        }
                         if (!$item->canView()) {
                             $out .= ' ';
                             continue;

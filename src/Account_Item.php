@@ -209,7 +209,13 @@ final class Account_Item extends CommonDBRelation
      */
     public function addItem($values)
     {
-        if (getItemForItemtype($values['itemtype']) === false) {
+        // getItemForItemtype() accepts any CommonGLPI subclass, so it alone would let a forged
+        // post store an itemtype the plugin never offers. The value is read back and instantiated
+        // later by plugin_accounts_giveItem(), so restrict it at the point of write to the very
+        // list the form proposes -- same check as Account::getMassiveActionTargetItem().
+        if (!isset($values['itemtype'])
+            || !in_array($values['itemtype'], Account::getTypes(true), true)
+            || getItemForItemtype($values['itemtype']) === false) {
             return false;
         }
 

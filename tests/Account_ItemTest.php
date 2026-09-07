@@ -30,10 +30,10 @@
 namespace GlpiPlugin\Accounts\Tests;
 
 use Computer;
+use Glpi\Tests\DbTestCase;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Account_Item;
 use GlpiPlugin\Accounts\Hash;
-use Glpi\Tests\DbTestCase;
 
 class Account_ItemTest extends DbTestCase
 {
@@ -153,6 +153,29 @@ class Account_ItemTest extends DbTestCase
             'plugin_accounts_accounts_id' => $account->getID(),
             'items_id'                    => 1,
             'itemtype'                    => 'NonExistentItemtype',
+        ]);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * A real GLPI class that the plugin never offers must be refused too: getItemForItemtype()
+     * accepts any CommonGLPI subclass, and the stored value is instantiated again later by
+     * plugin_accounts_giveItem().
+     */
+    public function testAddItemRejectsItemtypeOutsideTheOfferedList(): void
+    {
+        $this->login();
+
+        $account      = $this->createTestAccount();
+        $account_item = new Account_Item();
+
+        $this->assertNotContains(\Ticket::class, Account::getTypes(true));
+
+        $result = $account_item->addItem([
+            'plugin_accounts_accounts_id' => $account->getID(),
+            'items_id'                    => 0,
+            'itemtype'                    => \Ticket::class,
         ]);
 
         $this->assertFalse($result);

@@ -81,7 +81,10 @@ if (isset($_POST["add"])) {
     }
     Html::back();
 } elseif (isset($_POST["deleteitem"])) {
-    foreach ($_POST["item"] as $key => $val) {
+    // A form submitted with no box ticked posts "deleteitem" and nothing else, and PHP 8
+    // turns the resulting foreach into a TypeError -- fatal under GLPI_STRICT_ENV. The rights
+    // are checked per row below; this only decides whether there is a row at all.
+    foreach ((array) ($_POST["item"] ?? []) as $key => $val) {
         $input = ['id' => $key];
         if ($val == 1) {
             $account_item->check($key, UPDATE);
@@ -110,38 +113,10 @@ if (isset($_POST["add"])) {
         }
     }
 
+    // The ownership rule is enforced by Account::canViewItem(), replayed by check() here as
+    // well as by every other entry point (tabs, PDF export, massive actions).
     $account->check($_GET['id'], READ);
-    if (isset($_GET['id'])
-        && $_GET['id'] != 0
-        && !Session::haveRight("plugin_accounts_see_all_users", 1)) {
-        $access = 0;
-
-        if (Session::haveRight("plugin_accounts_my_groups", 1)) {
-            if ($account->fields["groups_id"]) {
-                if (count($_SESSION['glpigroups'])
-                    && in_array($account->fields["groups_id"], $_SESSION['glpigroups'])) {
-                    $access = 1;
-                }
-            }
-            if ($account->fields["users_id"]) {
-                if ($account->fields["users_id"] == Session::getLoginUserID()) {
-                    $access = 1;
-                }
-            }
-        }
-        if (!Session::haveRight("plugin_accounts_my_groups", 1)
-            && $account->fields["users_id"] == Session::getLoginUserID()) {
-            $access = 1;
-        }
-
-        if ($access != 1) {
-            throw new AccessDeniedHttpException();
-        } else {
-            $account->display(['id' => $_GET['id']]);
-        }
-    } else {
-        $account->display(['id' => $_GET['id']]);
-    }
+    $account->display(['id' => $_GET['id']]);
 
     if (Session::getCurrentInterface() != 'central'
         && Plugin::isPluginActive('servicecatalog')) {

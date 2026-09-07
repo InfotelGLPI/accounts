@@ -66,7 +66,7 @@ function log_line(string $msg): void
 // ── Main ──────────────────────────────────────────────────────────────────────
 global $DB;
 
-log_line($dry_run ? '=== DRY RUN — no changes will be written ===' : '=== Starting v1 → v2 encryption migration ===');
+log_line($dry_run ? '=== DRY RUN — no changes will be written ===' : '=== Starting legacy encryption migration ===');
 
 // 1. Load all fingerprints with their stored AES key
 $hashes = getAllDataFromTable('glpi_plugin_accounts_hashes');
@@ -76,17 +76,33 @@ if (empty($hashes)) {
     exit(0);
 }
 
-// Build a map: hash_id → plaintext fingerprint key (from glpi_plugin_accounts_aeskeys)
+// Build a map: hash_id → plaintext fingerprint key (from glpi_plugin_accounts_aeskeys), plus
+// the verifier of each record so the target format can be chosen.
+//
+// The stored key is used ONLY once it has been checked against the verifier. Nothing else ever
+// confronts the two, so a key typed wrong when it was saved would go unnoticed here — and a v1
+// record decrypts to non-empty garbage under a wrong key, which this script would then write
+// back as an authenticated record, destroying the password for good.
 $fingerprint_map = [];
+$verifier_map    = [];
 foreach ($hashes as $hash_row) {
-    $hash_id = $hash_row['id'];
-    $aeskey  = new AesKey();
-    if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
-        && !empty($aeskey->fields['name'])) {
-        $fingerprint_map[$hash_id] = $aeskey->getDecryptedName();
-    } else {
+    $hash_id  = $hash_row['id'];
+    $verifier = (string) ($hash_row['hash'] ?? '');
+    $aeskey   = new AesKey();
+    if (!$aeskey->getFromDBByCrit(['plugin_accounts_hashes_id' => $hash_id])
+        || empty($aeskey->fields['name'])) {
         log_line("WARNING: fingerprint ID $hash_id ({$hash_row['name']}) has no stored AES key — accounts using this fingerprint will be SKIPPED.");
+        continue;
     }
+
+    $key = (string) $aeskey->getDecryptedName();
+    if ($key === '' || !AccountCrypto::verify($key, $verifier)) {
+        log_line("WARNING: fingerprint ID $hash_id ({$hash_row['name']}) has a stored AES key that does not match its verifier — accounts using this fingerprint will be SKIPPED.");
+        continue;
+    }
+
+    $fingerprint_map[$hash_id] = $key;
+    $verifier_map[$hash_id]    = $verifier;
 }
 
 if (empty($fingerprint_map)) {
@@ -96,7 +112,7 @@ if (empty($fingerprint_map)) {
 
 log_line('Fingerprints with stored key: ' . implode(', ', array_keys($fingerprint_map)));
 
-// 2. Fetch all accounts that have a non-empty, non-v2 password
+// 2. Fetch all accounts that have a non-empty password
 $iterator = $DB->request([
     'SELECT' => ['id', 'name', 'encrypted_password', 'plugin_accounts_hashes_id'],
     'FROM'   => 'glpi_plugin_accounts_accounts',
@@ -120,8 +136,8 @@ foreach ($iterator as $row) {
     $ciphertext  = $row['encrypted_password'];
     $hash_id     = $row['plugin_accounts_hashes_id'];
 
-    // Already v2 — skip
-    if (str_starts_with($ciphertext, '$v2$')) {
+    // Already in a versioned format (v2, v3 or v4) — skip
+    if (!AccountCrypto::isLegacyFormat($ciphertext)) {
         $skipped++;
         continue;
     }
@@ -145,9 +161,11 @@ foreach ($iterator as $row) {
         continue;
     }
 
-    // Re-encrypt v2
+    // Re-encrypt in the current authenticated format
     try {
-        $new_ciphertext = AccountCrypto::encrypt($plaintext, $fingerprint);
+        // Passing the verifier lets encrypt() emit v4 (PBKDF2-derived keys) when the record
+        // carries the parameters to derive from; it falls back to v3 otherwise.
+        $new_ciphertext = AccountCrypto::encrypt($plaintext, $fingerprint, $verifier_map[$hash_id] ?? '');
     } catch (\Exception $e) {
         log_line("ERROR account #$id \"$name\" — encrypt failed: " . $e->getMessage());
         $errors++;
@@ -163,14 +181,14 @@ foreach ($iterator as $row) {
     }
 
     $migrated++;
-    log_line(($dry_run ? 'DRY   ' : 'OK    ') . "account #$id \"$name\" re-encrypted to v2.");
+    log_line(($dry_run ? 'DRY   ' : 'OK    ') . "account #$id \"$name\" re-encrypted to the current format.");
 }
 
 // ── Summary ───────────────────────────────────────────────────────────────────
 log_line('');
 log_line('=== Migration complete ===');
 log_line("  Migrated : $migrated");
-log_line("  Skipped  : $skipped (already v2 or no key available)");
+log_line("  Skipped  : $skipped (already versioned, or no verified key available)");
 log_line("  Errors   : $errors");
 
 if ($errors > 0) {

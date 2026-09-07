@@ -117,6 +117,12 @@ const initTree = (container) => {
         extensions: ['filter', 'glyph'],
         autoScroll: true,
 
+        // Node titles carry account and account-type names straight from the database, and
+        // fancytree defaults escapeTitles to false — it would concatenate them into the HTML of
+        // the title span. Escaping here rather than server side keeps a single escaping point:
+        // doing both would render a legitimate name containing & or < as its entity.
+        escapeTitles: true,
+
         // Account types carry no URL: a click on one unfolds it instead of leaving the tree.
         clickFolderMode: 3,
 

@@ -113,7 +113,7 @@ foreach ($iterator as $file) {
 
     // Mirror glpi/tools exclusions so this script and the CI check agree on scope.
     $excluded = false;
-    foreach (['vendor', 'node_modules', 'public/lib', 'lib', 'dist', 'var'] as $dir) {
+    foreach (['vendor', 'node_modules', 'public/scripts', 'public/lib', 'lib', 'dist', 'var'] as $dir) {
         if ($rel === $dir || str_starts_with($rel, $dir . '/')) {
             $excluded = true;
             break;

@@ -95,6 +95,12 @@
                                 {{ alertmsg }}
                             </div>
                         {% endif %}
+
+                        {% if is_legacy_verifier|default(false) %}
+                            <div class='alert alert-warning d-flex'>
+                                {{ __('This fingerprint still uses the former unsalted verifier, which is cheap to attack offline. Change the encryption key to migrate it to the salted format.', 'accounts') }}
+                            </div>
+                        {% endif %}
                     </div> {# .row #}
                 </div> {# .row #}
             </div> {# .flex-row #}
@@ -117,6 +123,15 @@
 
         if (!aeskey) {
             alert('{{ __('Please fill the encryption key', 'accounts') }}');
+            $('input[name="hash"]').val('');
+            return;
+        }
+
+        // Mirror of the server-side check front/hash.form.php makes on rotation. The key is
+        // never posted on this form -- the verifier below is derived here and that is all that
+        // travels -- so this is where the policy has to be applied at creation time.
+        if (aeskey.length < {{ constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH') }}) {
+            alert('{{ __('The encryption key must be at least %d characters long', 'accounts')|format(constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH')) }}');
             $('input[name="hash"]').val('');
             return;
         }

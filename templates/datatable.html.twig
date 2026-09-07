@@ -321,7 +321,7 @@
                                                             name='good_hash{{ entry_data['rand'] }}' value='{{ entry_data['good_hash'] }}'>
                                                         <input type='hidden' id='{{ entry_data['hidden-id'] }}{{ entry_data['rand'] }}'
                                                             name='{{ entry_data['hidden-name'] }}{{ entry_data['rand'] }}' value='{{ entry_data['hidden-value'] }}'>
-                                                    <div class="btn btn-outline-secondary btn-light" id='{{ entry_data['button-id'] }}'#} name='{{ entry_data['button-name'] }}'#} onclick="{{ entry_data['button-onclick'] }}">
+                                                    <div class="btn btn-outline-secondary btn-light" id='{{ entry_data['button-id'] }}' name='{{ entry_data['button-name'] }}' onclick="{{ entry_data['button-onclick'] }}">
                                                         <i class="ti ti-lock-open"></i>
                                                     </div>
                                                 </div>
@@ -338,8 +338,14 @@
                                                             ;
                                                         } else {
                                                             var decrypted_password = decrypt_password(root_accounts_doc, rand);
+                                                            // .after() parses its argument as HTML. What comes back here is the
+                                                            // plaintext of a password chosen by whoever created the account, and it
+                                                            // would be parsed in the very page where the master key has just been
+                                                            // typed. Build a text node so the value can only ever be displayed.
+                                                            var cell = document.createElement('span');
+                                                            cell.textContent = decrypted_password;
                                                             $('#check{{ entry_data['rand'] }}')
-                                                                .after(decrypted_password + '<br>')
+                                                                .after(cell, document.createElement('br'))
                                                                 // .remove()
                                                             ;
                                                         }

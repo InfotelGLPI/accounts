@@ -95,7 +95,7 @@ if (isset($_POST['password'])) {
          for (var i = 0; i < length; i++)
             result += chars[randomInt(chars.length)];
 
-      $('input[name=\"hidden_password\"]').val(result);
+      $('#hidden_password').val(result);
 
    ");
 }

@@ -67,13 +67,31 @@ if (isset($_POST["accounttype"])) {
         }
     }
 
+    // 'entity' comes straight from the request: the caller only ever sends the entity of the
+    // form it renders, but nothing stops a client from sending another one, and Dropdown::show()
+    // takes it as the authoritative restriction. Intersecting it with the active entities turns
+    // it back into a narrowing hint over what the session already grants.
+    $entity_restrict = Session::getMatchingActiveEntities($_POST['entity'] ?? []);
+
+    // Same rule as the account list itself: the entity says which accounts exist here, the
+    // visibility criteria say which of them this profile is allowed to read. Only the first half
+    // was applied, so the dropdown listed every account of the entity by name whatever the
+    // 'see all users' / 'my groups' rights of the caller.
+    $condition = [
+        'glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id' => $_POST["accounttype"],
+    ];
+    $visibility = Account::getVisibilityCriteria(true);
+    if ($visibility !== []) {
+        $condition[] = $visibility;
+    }
+
     Dropdown::show(
         Account::class,
         ['name' => $_POST['myname'],
             'used' => $used,
             'width' => '50%',
-            'entity' => $_POST['entity'],
+            'entity' => $entity_restrict,
             'rand' => $_POST['rand'],
-            'condition' => ['glpi_plugin_accounts_accounts.plugin_accounts_accounttypes_id' => $_POST["accounttype"]]],
+            'condition' => $condition],
     );
 }

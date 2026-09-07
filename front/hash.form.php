@@ -83,13 +83,30 @@ if (isset($_POST["add"])) {
                     ERROR,
                 );
                 Html::back();
-            } else {
-                // Clé correcte, mise à jour avec la nouvelle clé
-                Hash::updateHash($_POST["aeskey"], $_POST["aeskeynew"], $_POST["id"]);
+            } elseif (mb_strlen((string) $_POST["aeskeynew"]) < AccountCrypto::MIN_KEY_LENGTH) {
+                // One key opens every account of the entity, and everyone allowed to read one of
+                // them is handed the material to attack it offline. Refusing a short new key is
+                // the only lever the server has over that. See AccountCrypto::MIN_KEY_LENGTH.
                 Session::addMessageAfterRedirect(
-                    __s('Encryption key modified', 'accounts'),
+                    sprintf(
+                        __s('The encryption key must be at least %d characters long', 'accounts'),
+                        AccountCrypto::MIN_KEY_LENGTH,
+                    ),
                     true,
+                    ERROR,
                 );
+                Html::back();
+            } else {
+                // Right key, long enough new one: rotate.
+                // updateHash() rolls its transaction back and answers false when a record could
+                // not be re-encrypted: it has already explained which one, so announcing a
+                // successful rotation on top of that would be plainly wrong.
+                if (Hash::updateHash($_POST["aeskey"], $_POST["aeskeynew"], $_POST["id"])) {
+                    Session::addMessageAfterRedirect(
+                        __s('Encryption key modified', 'accounts'),
+                        true,
+                    );
+                }
                 Html::back();
             }
         }

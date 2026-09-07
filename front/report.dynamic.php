@@ -43,10 +43,17 @@ if (isset($_POST["display_type"])) {
     // in the pager form. The previous approach passed all account data through
     // per-row hidden inputs, hitting PHP's max_input_vars=1000 limit and
     // silently truncating the list at ~142 rows in multi-entities mode.
+    // printPager() emits the pairs of $parameters, whose first key is 'id'. Reading
+    // 'hash_id' here meant the export always ran against a null fingerprint.
+    $hash_id = (int) ($_POST["id"] ?? 0);
+
+    // No key here, in the request or anywhere else: the export writes the cryptograms out
+    // exactly as they are stored, and it is the browser that decrypts. queryAccountsList()
+    // gates this on the marker left in the session when the key was last checked, and answers
+    // an empty list -- with an explanation -- once that window has elapsed.
     $parm = [
         "display_type" => $_POST["display_type"],
-        "id"           => $_POST["hash_id"],
-        "aeskey"       => $_POST["aeskey"],
+        "id"           => $hash_id,
         "itemtype"     => $_POST["itemtype"],
     ];
 
