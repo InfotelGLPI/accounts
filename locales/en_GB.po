@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 07:38+0000\n"
+"POT-Creation-Date: 2026-09-07 08:21+0000\n"
 "PO-Revision-Date: 2020-07-19 17:55+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/Account.php:96 setup.php:136
+#: setup.php:136 src/Account.php:96
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Account"
@@ -52,7 +52,7 @@ msgstr "Accounts expiring in less than"
 msgid "Accounts which expire"
 msgstr ""
 
-#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
+#: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
 msgctxt "button"
 msgid "Add"
 msgstr ""
@@ -156,13 +156,13 @@ msgstr "Don't expire"
 msgid "Empty for infinite"
 msgstr "Empty for infinite"
 
-#: src/Account.php:1763 src/Account.php:1767 src/AesKey.php:76
-#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
-#: templates/account.html.twig:191 templates/account.html.twig:251
-#: templates/aeskey.html.twig:60 templates/hash.html.twig:63
+#: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
+#: src/Account.php:1763 src/Account.php:1767 templates/account.html.twig:191
+#: templates/account.html.twig:251 templates/aeskey.html.twig:60
+#: templates/hash.html.twig:63
 #, fuzzy
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] "Encryption key"
 msgstr[1] "Encryption key"
 
@@ -190,7 +190,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:324 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: src/AesKey.php:242 src/Account.php:324 src/Hash.php:62 src/Hash.php:180
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -284,8 +284,8 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:119 templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64
+#: templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:119
 msgid "Please fill the encryption key"
 msgstr "Please fill the encryption key"
 

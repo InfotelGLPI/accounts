@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 07:38+0000\n"
+"POT-Creation-Date: 2026-09-07 08:21+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/Account.php:96 setup.php:136
+#: setup.php:136 src/Account.php:96
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "アカウント"
@@ -58,7 +58,7 @@ msgstr "今後アカウント期限が切れるまで"
 msgid "Accounts which expire"
 msgstr "期限切れが近いアカウント"
 
-#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
+#: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
 msgctxt "button"
 msgid "Add"
 msgstr "追加"
@@ -160,12 +160,13 @@ msgstr "期限なし"
 msgid "Empty for infinite"
 msgstr "空で永続"
 
-#: src/Account.php:1763 src/Account.php:1767 src/AesKey.php:76
-#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
-#: templates/account.html.twig:191 templates/account.html.twig:251
-#: templates/aeskey.html.twig:60 templates/hash.html.twig:63
+#: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
+#: src/Account.php:1763 src/Account.php:1767 templates/account.html.twig:191
+#: templates/account.html.twig:251 templates/aeskey.html.twig:60
+#: templates/hash.html.twig:63
+#, fuzzy
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] "暗号鍵"
 
 #: front/hash.form.php:90 templates/aeskey.html.twig:52
@@ -192,7 +193,7 @@ msgstr "エクスポート"
 msgid "Filter"
 msgstr "フィルター"
 
-#: src/Account.php:324 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: src/AesKey.php:242 src/Account.php:324 src/Hash.php:62 src/Hash.php:180
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -287,8 +288,8 @@ msgstr ""
 "後で暗号キーを変更できなくなるため、 / \\ ' & といった特殊文字を暗号キーに用"
 "いないでください。"
 
-#: templates/hash.html.twig:119 templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64
+#: templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:119
 msgid "Please fill the encryption key"
 msgstr "暗号キーを入力してください"
 

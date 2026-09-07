@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 07:38+0000\n"
+"POT-Creation-Date: 2026-09-07 08:21+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>, 2026\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/infotelGLPI/"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: src/Account.php:96 setup.php:136
+#: setup.php:136 src/Account.php:96
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Cuenta"
@@ -61,7 +61,7 @@ msgstr "Cuentas que expiran en menos de"
 msgid "Accounts which expire"
 msgstr "Cuentas que expiran"
 
-#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
+#: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
 msgctxt "button"
 msgid "Add"
 msgstr "Agregar"
@@ -167,12 +167,13 @@ msgstr "No caduca nunca"
 msgid "Empty for infinite"
 msgstr "Dejar vacío para infinito"
 
-#: src/Account.php:1763 src/Account.php:1767 src/AesKey.php:76
-#: src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
-#: templates/account.html.twig:191 templates/account.html.twig:251
-#: templates/aeskey.html.twig:60 templates/hash.html.twig:63
+#: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:266 src/AesKey.php:287
+#: src/Account.php:1763 src/Account.php:1767 templates/account.html.twig:191
+#: templates/account.html.twig:251 templates/aeskey.html.twig:60
+#: templates/hash.html.twig:63
+#, fuzzy
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] "Clave de cifrado"
 msgstr[1] "Claves de cifrado"
 msgstr[2] "Claves de cifrado"
@@ -201,7 +202,7 @@ msgstr "Exportar"
 msgid "Filter"
 msgstr "Filtrar"
 
-#: src/Account.php:324 src/AesKey.php:242 src/Hash.php:62 src/Hash.php:180
+#: src/AesKey.php:242 src/Account.php:324 src/Hash.php:62 src/Hash.php:180
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -298,8 +299,8 @@ msgstr ""
 "Por favor, no utilice caracteres especiales como / \\ apóstrofo o & en las "
 "claves de cifrado, ya que no podrá modificarlas posteriormente."
 
-#: templates/hash.html.twig:119 templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64
+#: templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:119
 msgid "Please fill the encryption key"
 msgstr "Por favor, introduzca la clave de cifrado"
 
