@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 15:50+0200\n"
+"POT-Creation-Date: 2026-09-07 13:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:139 src/Account.php:114
+#: setup.php:136 src/Account.php:114
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] ""
@@ -59,7 +59,7 @@ msgstr ""
 msgid "Accounts which expire"
 msgstr ""
 
-#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
+#: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
 msgctxt "button"
 msgid "Add"
 msgstr ""
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Affected Group"
 msgstr ""
 
-#: src/Account.php:351 src/Account.php:359 src/Account_Item.php:502
+#: src/Account_Item.php:502 src/Account.php:351 src/Account.php:359
 #: src/NotificationTargetAccount.php:69 src/NotificationTargetAccount.php:192
 #: src/NotificationTargetAccount.php:246 src/NotificationTargetAccount.php:307
 #: templates/account.html.twig:420 templates/account.html.twig:429
@@ -167,12 +167,12 @@ msgstr ""
 msgid "Encrypted password"
 msgstr ""
 
-#: src/Account.php:2041 src/Account.php:2045 src/AesKey.php:76
-#: src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
-#: templates/account.html.twig:191 templates/account.html.twig:261
-#: templates/aeskey.html.twig:66 templates/hash.html.twig:63
+#: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
+#: src/Account.php:2041 src/Account.php:2045 templates/account.html.twig:191
+#: templates/account.html.twig:261 templates/aeskey.html.twig:66
+#: templates/hash.html.twig:63
 msgid "Encryption key"
-msgid_plural "Encryption keys"
+msgid_plural "Encryption key"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Account.php:342 src/AesKey.php:342 src/Hash.php:62 src/Hash.php:188
+#: src/AesKey.php:342 src/Account.php:342 src/Hash.php:62 src/Hash.php:188
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -235,7 +235,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Hash.php:100 src/Report.php:452
+#: src/Report.php:452 src/Hash.php:100
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr ""
@@ -298,8 +298,8 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 
-#: templates/hash.html.twig:125 templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64
+#: templates/hash_select_accounts.html.twig:39
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:125
 msgid "Please fill the encryption key"
 msgstr ""
 
@@ -453,7 +453,7 @@ msgid_plural "Types of account"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ajax/accounttree.php:53 front/account.php:63 front/account.php:73
+#: front/account.php:63 front/account.php:73 ajax/accounttree.php:53
 msgid "Type view"
 msgstr ""
 
