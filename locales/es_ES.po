@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 07:46+0000\n"
+"POT-Creation-Date: 2026-09-08 09:13+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>, 2026\n"
 "Language-Team: Spanish (Spain) (https://app.transifex.com/infotelGLPI/"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: setup.php:136 src/Account.php:114
+#: setup.php:135 src/Account.php:114
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Cuenta"
