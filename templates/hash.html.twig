@@ -57,13 +57,22 @@
                         {% endif %}
 
                         {% if item.isNewItem() %}
+                            {# Same wording as the alert raised by #generate_hash below and as the
+                               message front/hash.form.php answers with on rotation, and the same
+                               constant behind all three. #}
+                            {% set aeskey_helper %}
+                                <div class="form-text text-muted">
+                                    {{ __('The encryption key must be at least %d characters long', 'accounts')|format(constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH')) }}
+                                </div>
+                            {% endset %}
                             {{ fields.passwordField(
                                 "aeskey",
                                 "",
                                 __('Encryption key', 'accounts'), {
                                     additional_attributes: {
                                         autocomplete: 'off',
-                                    }
+                                    },
+                                    add_field_html: aeskey_helper,
                                 }
                             ) }}
                             <div class="center d-inline-block">

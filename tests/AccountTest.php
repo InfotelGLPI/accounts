@@ -450,6 +450,13 @@ class AccountTest extends DbTestCase
     {
         $this->login();
 
+        // What is under test here is the entity restriction, so the visibility restriction has
+        // to be out of the way -- otherwise the banner counts nothing and the test passes or
+        // fails on who owns the account. The rights are not granted by the installer on a CLI
+        // install (hook.php names $_SESSION['glpiactiveprofile']['id'], and there is no session
+        // to name), so set it here rather than depend on the state of the database.
+        $_SESSION['glpiactiveprofile']['plugin_accounts_see_all_users'] = READ;
+
         $entity = (int) reset($_SESSION['glpiactiveentities']);
         $this->createItem(Account::class, [
             'name'                      => 'Orphan Account',
@@ -491,10 +498,16 @@ class AccountTest extends DbTestCase
     public function testGetVisibilityCriteriaReturnsEmptyArrayForSeeAllRight(): void
     {
         $this->login('glpi', 'glpi');
+        $_SESSION['glpiactiveprofile']['plugin_accounts_see_all_users'] = READ;
 
         $criteria = Account::getVisibilityCriteria();
 
         $this->assertSame([], $criteria);
+
+        // And the right really is what lifts the restriction: without it the caller is held to
+        // the accounts they own.
+        $_SESSION['glpiactiveprofile']['plugin_accounts_see_all_users'] = 0;
+        $this->assertNotSame([], Account::getVisibilityCriteria());
     }
 
     public function testAccountCanBeCreatedAndRetrieved(): void

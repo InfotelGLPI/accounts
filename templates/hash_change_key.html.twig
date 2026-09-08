@@ -74,6 +74,9 @@
                            class="form-control"
                            autocomplete="off"
                            size="40">
+                    <div class="form-text text-muted">
+                        {{ __('The encryption key must be at least %d characters long', 'accounts')|format(constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH')) }}
+                    </div>
                 </div>
             </div>
             <div class="mt-3">
