@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 14:16+0000\n"
+"POT-Creation-Date: 2026-09-08 07:46+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -122,7 +122,7 @@ msgstr "Tout cocher"
 msgid "Clear"
 msgstr "Effacer"
 
-#: templates/account.html.twig:557 templates/hash.html.twig:89
+#: templates/account.html.twig:557 templates/hash.html.twig:98
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Commentaire"
@@ -184,7 +184,7 @@ msgstr "Mot de passe chiffré"
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
 #: src/Account.php:2041 src/Account.php:2045 templates/account.html.twig:191
 #: templates/account.html.twig:261 templates/aeskey.html.twig:66
-#: templates/hash.html.twig:63
+#: templates/hash.html.twig:71
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Clé de chiffrement"
@@ -227,7 +227,7 @@ msgstr[2] "Empreintes"
 msgid "Generate"
 msgstr "Générer"
 
-#: templates/hash.html.twig:71
+#: templates/hash.html.twig:80
 msgid "Generate fingerprint with this encryption key"
 msgstr "Générer l'empreinte à partir de cette clé de chiffrement"
 
@@ -318,7 +318,7 @@ msgstr ""
 "pouvoir les modifier ultérieurement"
 
 #: templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:125
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:134
 msgid "Please fill the encryption key"
 msgstr "Veuillez renseigner la clé de chiffrement"
 
@@ -415,7 +415,8 @@ msgstr ""
 "La clé de chiffrement n'est plus disponible. Veuillez afficher à nouveau la "
 "liste avant de l'exporter."
 
-#: front/hash.form.php:92 templates/hash.html.twig:134
+#: front/hash.form.php:92 templates/hash_change_key.html.twig:78
+#: templates/hash.html.twig:65 templates/hash.html.twig:143
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "La clé de chiffrement doit comporter au moins %d caractères"
@@ -460,7 +461,7 @@ msgstr ""
 msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
-#: templates/hash.html.twig:101
+#: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
 "attack offline. Change the encryption key to migrate it to the salted format."
@@ -492,7 +493,7 @@ msgstr[2] "Types de compte"
 msgid "Type view"
 msgstr "Vue par type"
 
-#: templates/hash_change_key.html.twig:84
+#: templates/hash_change_key.html.twig:87
 msgid "Update"
 msgstr "Mettre à jour"
 

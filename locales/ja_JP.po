@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 13:58+0000\n"
+"POT-Creation-Date: 2026-09-08 07:46+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -116,7 +116,7 @@ msgstr "すべてチェック"
 msgid "Clear"
 msgstr "初期化"
 
-#: templates/account.html.twig:557 templates/hash.html.twig:89
+#: templates/account.html.twig:557 templates/hash.html.twig:98
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "コメント"
@@ -174,7 +174,7 @@ msgstr ""
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
 #: src/Account.php:2041 src/Account.php:2045 templates/account.html.twig:191
 #: templates/account.html.twig:261 templates/aeskey.html.twig:66
-#: templates/hash.html.twig:63
+#: templates/hash.html.twig:71
 #, fuzzy
 msgid "Encryption key"
 msgid_plural "Encryption key"
@@ -214,7 +214,7 @@ msgstr[0] "フィンガープリント"
 msgid "Generate"
 msgstr "生成"
 
-#: templates/hash.html.twig:71
+#: templates/hash.html.twig:80
 msgid "Generate fingerprint with this encryption key"
 msgstr "この暗号キーでフィンガープリントを生成"
 
@@ -304,7 +304,7 @@ msgstr ""
 "いないでください。"
 
 #: templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:125
+#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:134
 msgid "Please fill the encryption key"
 msgstr "暗号キーを入力してください"
 
@@ -395,7 +395,8 @@ msgid ""
 "before exporting it"
 msgstr ""
 
-#: front/hash.form.php:92 templates/hash.html.twig:134
+#: front/hash.form.php:92 templates/hash_change_key.html.twig:78
+#: templates/hash.html.twig:65 templates/hash.html.twig:143
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr ""
@@ -433,7 +434,7 @@ msgstr "このアカウントに関連づいている暗号キーがありませ
 msgid "There is no encryption key for this entity"
 msgstr "このエンティティーには暗号キーがありません"
 
-#: templates/hash.html.twig:101
+#: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
 "attack offline. Change the encryption key to migrate it to the salted format."
@@ -460,7 +461,7 @@ msgstr[0] "アカウントの型"
 msgid "Type view"
 msgstr "型を表示"
 
-#: templates/hash_change_key.html.twig:84
+#: templates/hash_change_key.html.twig:87
 msgid "Update"
 msgstr "更新"
 
