@@ -40,7 +40,6 @@ define('PLUGIN_ACCOUNTS_VERSION', '3.2.4');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
     define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
-    //    define("PLUGIN_ACCOUNTS_WEBDIR", Plugin::getPhpDir("accounts", false));
     $root = $CFG_GLPI['root_doc'] . '/plugins/accounts';
     define("PLUGIN_ACCOUNTS_WEBDIR", $root);
 }
