@@ -38,10 +38,6 @@ use Html;
 use Migration;
 use Session;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Hash
  */
@@ -352,6 +348,17 @@ class Hash extends CommonDBTM
         if (isset($input['hash']) && empty($input['hash'])) {
             $message = __s('You must generate the fingerprint for your encryption key', 'accounts');
             Session::addMessageAfterRedirect($message, false, ERROR);
+            return false;
+        }
+
+        // The verifier is computed and posted by the browser: only accept the format
+        // generate_hash_verifier() emits, with a bounded iteration count (anti CPU DoS)
+        if (isset($input['hash']) && !AccountCrypto::isValidVerifier((string) $input['hash'])) {
+            Session::addMessageAfterRedirect(
+                __s('Invalid fingerprint for your encryption key', 'accounts'),
+                false,
+                ERROR,
+            );
             return false;
         }
 

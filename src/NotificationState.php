@@ -35,10 +35,6 @@ use Dropdown;
 use Glpi\Application\View\TemplateRenderer;
 use Migration;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class NotificationState
  */

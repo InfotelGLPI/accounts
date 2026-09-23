@@ -39,10 +39,6 @@ use Html;
 use Search;
 use Session;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Report
  */
@@ -375,7 +371,7 @@ class Report extends CommonDBTM
                 }
                 if (Session::isMultiEntitiesMode()) {
                     if ($is_html_output) {
-                        $html_output .= $output::showItem($list[$i]['entities_id'], $item_num, $row_num);
+                        $html_output .= $output::showItem(htmlspecialchars((string) $list[$i]['entities_id'], ENT_QUOTES, 'UTF-8'), $item_num, $row_num);
                     } else {
                         $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]['entities_id']];
                     }

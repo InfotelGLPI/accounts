@@ -32,11 +32,6 @@ namespace GlpiPlugin\Accounts;
 use CommonGLPI;
 use Session;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
-
 class Servicecatalog extends CommonGLPI
 {
     public static $rightname = 'plugin_accounts';

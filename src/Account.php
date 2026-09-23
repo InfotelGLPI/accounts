@@ -51,10 +51,6 @@ use NotificationEvent;
 use Plugin;
 use Session;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Account
  */
@@ -1191,6 +1187,24 @@ class Account extends CommonDBTM
                                     $item->fields['encrypted_password'],
                                     $src_aes_key_value,
                                 );
+                                // Same rule as the TOTP branch below and Hash::updateHash(): an
+                                // empty result means the source key does not open the record, and
+                                // re-encrypting it would silently replace the password by nothing.
+                                if ($plaintext === '') {
+                                    Session::addMessageAfterRedirect(
+                                        sprintf(
+                                            __s(
+                                                'The password of account "%s" could not be decrypted with the source key: the account was not transferred.',
+                                                'accounts',
+                                            ),
+                                            htmlescape($item->fields['name']),
+                                        ),
+                                        false,
+                                        ERROR,
+                                    );
+                                    $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+                                    continue;
+                                }
 
                                 // Find destination entity's fingerprint
                                 $dest_hash = new Hash();
@@ -1234,7 +1248,7 @@ class Account extends CommonDBTM
                                                 'Account "%s" transferred but no fingerprint found in destination entity. Password was cleared for security.',
                                                 'accounts',
                                             ),
-                                            $item->fields['name'],
+                                            htmlescape($item->fields['name']),
                                         ),
                                         false,
                                         WARNING,
@@ -1551,7 +1565,7 @@ class Account extends CommonDBTM
             if (!empty($query)) {
                 foreach ($DB->request($query) as $data) {
                     $entity = $data['entities_id'];
-                    $message = $data["name"] . ": "
+                    $message = htmlescape($data["name"]) . ": "
                         . Html::convDate($data["date_expiration"]) . "<br>\n";
                     $account_infos[$type][$entity][] = $data;
 
@@ -1590,10 +1604,10 @@ class Account extends CommonDBTM
                         $task->addVolume(1);
                     } else {
                         Session::addMessageAfterRedirect(
-                            Dropdown::getDropdownName(
+                            htmlescape(Dropdown::getDropdownName(
                                 "glpi_entities",
                                 $entity,
-                            ) . ":  $message",
+                            )) . ":  $message",
                         );
                     }
                 } else {
@@ -1604,7 +1618,7 @@ class Account extends CommonDBTM
                         );
                     } else {
                         Session::addMessageAfterRedirect(
-                            Dropdown::getDropdownName("glpi_entities", $entity)
+                            htmlescape(Dropdown::getDropdownName("glpi_entities", $entity))
                             . ":  Send accounts alert failed",
                             false,
                             ERROR,
@@ -1964,72 +1978,6 @@ class Account extends CommonDBTM
             unset($values[CREATE], $values[DELETE], $values[PURGE]);
         }
         return $values;
-    }
-
-    /**
-     * @param array $options Options
-     *
-     * @return bool
-     **@since 9.1
-     *
-     */
-    public function showDates($options = [])
-    {
-        $isNewID = ((isset($options['withtemplate']) && ($options['withtemplate'] == 2))
-            || $this->isNewID($this->getID()));
-
-        if ($isNewID) {
-            return true;
-        }
-
-        $date_creation_exists = ($this->getField('date_creation') != NOT_AVAILABLE);
-        $date_mod_exists = ($this->getField('date_mod') != NOT_AVAILABLE);
-
-        $colspan = $options['colspan'];
-        if ((!isset($options['withtemplate']) || ($options['withtemplate'] == 0))
-            && !empty($this->fields['template_name'])) {
-            $colspan = 1;
-        }
-
-        echo "<tr class='tab_bg_1 footerRow'>";
-        //Display when it's not a new asset being created
-        if ($date_creation_exists
-            && $this->getID() > 0
-            && (!isset($options['withtemplate']) || $options['withtemplate'] == 0 || $options['withtemplate'] == null)) {
-            echo "<th colspan='$colspan'>";
-            printf(__s('Created on %s'), Html::convDateTime($this->fields["date_creation"]));
-            echo "</th>";
-        } elseif (!isset($options['withtemplate']) || $options['withtemplate'] == 0 || !$date_creation_exists) {
-            echo "<th colspan='$colspan'>";
-            echo "</th>";
-        }
-
-        if (isset($options['withtemplate']) && $options['withtemplate']) {
-            echo "<th colspan='$colspan'>";
-            //TRANS: %s is the datetime of insertion
-            printf(__s('Created on %s'), Html::convDateTime($_SESSION["glpi_currenttime"]));
-            echo "</th>";
-        }
-
-        if ($date_mod_exists) {
-            echo "<th colspan='$colspan'>";
-            //TRANS: %s is the datetime of update
-            printf(__s('Last update on %s'), Html::convDateTime($this->fields["date_mod"]));
-            echo "</th>";
-        } else {
-            echo "<th colspan='$colspan'>";
-            echo "</th>";
-        }
-
-        if ((!isset($options['withtemplate']) || ($options['withtemplate'] == 0))
-            && !empty($this->fields['template_name'])) {
-            echo "<th colspan='" . ($colspan * 2) . "'>";
-            // Stored raw since GLPI 10+: escape before output like the other columns (name/login/type).
-            printf(__s('Created from the template %s'), htmlspecialchars((string) $this->fields['template_name'], ENT_QUOTES, 'UTF-8'));
-            echo "</th>";
-        }
-
-        echo "</tr>";
     }
 
     /**

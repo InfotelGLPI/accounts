@@ -95,6 +95,10 @@ class AccountCrypto
     // JavaScript implementation exactly (public/crypt.js) — keep both sides in sync.
     public const VERIFIER_PREFIX = '$pbkdf2$';
     private const VERIFIER_ITERATIONS = 100000;
+    // Upper bound for an iteration count read back from a verifier or a v4 record. The
+    // count is self-described (and a verifier is posted by the browser), so without a cap a
+    // forged value would make every verify()/decrypt() burn the CPU for minutes.
+    private const MAX_ITERATIONS = 1000000;
     private const VERIFIER_SALT_BYTES = 16;
 
     /**
@@ -224,6 +228,36 @@ class AccountCrypto
     }
 
     /**
+     * Check that a posted verifier is a well-formed salted PBKDF2 verifier
+     * whose iteration count stays within the accepted bounds.
+     *
+     * @param string $verifier The verifier to validate
+     * @return bool             True when the verifier can be stored
+     */
+    public static function isValidVerifier(string $verifier): bool
+    {
+        if (!str_starts_with($verifier, self::VERIFIER_PREFIX)) {
+            return false;
+        }
+
+        // ltrim the leading '$' then split: ['pbkdf2', iterations, salt_b64, hex]
+        $parts = explode('$', ltrim($verifier, '$'));
+        if (count($parts) !== 4 || !ctype_digit($parts[1])) {
+            return false;
+        }
+
+        $iterations = (int) $parts[1];
+        $salt       = base64_decode($parts[2], true);
+
+        return $iterations >= self::VERIFIER_ITERATIONS
+            && $iterations <= self::MAX_ITERATIONS
+            && $salt !== false
+            && strlen($salt) >= self::VERIFIER_SALT_BYTES
+            && strlen($parts[3]) === 64
+            && ctype_xdigit($parts[3]);
+    }
+
+    /**
      * Check a typed encryption key against a stored verifier.
      * PHP mirror of crypt.js generic_check_hash(): accepts both the new salted PBKDF2
      * verifier ($pbkdf2$<iterations>$<base64(salt)>$<hex(derived)>) and legacy bare
@@ -249,7 +283,7 @@ class AccountCrypto
             }
             $iterations = (int) $parts[1];
             $salt       = base64_decode($parts[2], true);
-            if ($iterations <= 0 || $salt === false) {
+            if ($iterations <= 0 || $iterations > self::MAX_ITERATIONS || $salt === false) {
                 return false;
             }
             $derived = hash_pbkdf2('sha256', $key, $salt, $iterations, 0, false);
@@ -336,7 +370,7 @@ class AccountCrypto
 
         $iterations = (int) $parts[1];
         $salt       = base64_decode($parts[2], true);
-        if ($iterations <= 0 || $salt === false || $salt === '') {
+        if ($iterations <= 0 || $iterations > self::MAX_ITERATIONS || $salt === false || $salt === '') {
             return null;
         }
 
@@ -392,7 +426,7 @@ class AccountCrypto
         $ct         = base64_decode($parts[4], true);
         $given      = base64_decode($parts[5], true);
 
-        if ($salt === false || $salt === '' || $iterations <= 0
+        if ($salt === false || $salt === '' || $iterations <= 0 || $iterations > self::MAX_ITERATIONS
             || $iv === false || $ct === false || $given === false) {
             return '';
         }
