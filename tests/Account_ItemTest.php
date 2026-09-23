@@ -33,6 +33,7 @@ use Computer;
 use Glpi\Tests\DbTestCase;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Accounts\Account_Item;
+use GlpiPlugin\Accounts\AccountCrypto;
 use GlpiPlugin\Accounts\Hash;
 
 class Account_ItemTest extends DbTestCase
@@ -41,7 +42,7 @@ class Account_ItemTest extends DbTestCase
     {
         $hash = $this->createItem(Hash::class, [
             'name'         => 'item-test-hash',
-            'hash'         => hash('sha256', hash('sha256', 'item-test-fp')),
+            'hash'         => AccountCrypto::makeVerifier('item-test-fp'),
             'entities_id'  => 0,
             'is_recursive' => 1,
         ]);

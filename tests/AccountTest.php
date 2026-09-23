@@ -154,17 +154,26 @@ class AccountTest extends DbTestCase
 
     public function testPrepareInputForUpdateReEncryptsLegacyPasswordWhenAesKeyAvailable(): void
     {
+        global $DB;
+
         $this->login();
 
         $fingerprint = 'migration-key-abc';
         $hash_value  = hash('sha256', $fingerprint);
 
+        // prepareInputForAdd() only accepts PBKDF2 verifiers: seed the legacy double
+        // SHA-256 verifier directly in DB, as a pre-migration record would hold it.
         $hash = $this->createItem(Hash::class, [
             'name'        => 'migration-hash',
-            'hash'        => hash('sha256', $hash_value),
+            'hash'        => AccountCrypto::makeVerifier($fingerprint),
             'entities_id' => 0,
             'is_recursive' => 1,
-        ]);
+        ], ['hash']);
+        $DB->update(
+            Hash::getTable(),
+            ['hash' => hash('sha256', $hash_value)],
+            ['id' => $hash->getID()],
+        );
 
         // AesKey stores its master key ('name') encrypted at rest via GLPIKey, so the
         // persisted value never equals the plaintext fingerprint: skip it in the check.
@@ -516,7 +525,7 @@ class AccountTest extends DbTestCase
 
         $hash = $this->createItem(Hash::class, [
             'name'         => 'crud-hash',
-            'hash'         => hash('sha256', hash('sha256', 'crud-fingerprint')),
+            'hash'         => AccountCrypto::makeVerifier('crud-fingerprint'),
             'entities_id'  => 0,
             'is_recursive' => 1,
         ]);
@@ -539,7 +548,7 @@ class AccountTest extends DbTestCase
 
         $hash = $this->createItem(Hash::class, [
             'name'         => 'purge-hash',
-            'hash'         => hash('sha256', hash('sha256', 'purge-fp')),
+            'hash'         => AccountCrypto::makeVerifier('purge-fp'),
             'entities_id'  => 0,
             'is_recursive' => 1,
         ]);
