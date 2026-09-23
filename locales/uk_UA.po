@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:10+0000\n"
+"POT-Creation-Date: 2026-09-23 15:22+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
 "Language-Team: Ukrainian (Ukraine) (https://app.transifex.com/infotelGLPI/"
@@ -55,8 +55,8 @@ msgstr "Закінчені облікові записи"
 msgid "Accounts expired for more than"
 msgstr "Облікові записи, закінчені більше чим"
 
-#: src/Account.php:1456 src/Account.php:1574
-#: src/NotificationTargetAccount.php:322
+#: src/NotificationTargetAccount.php:322 src/Account.php:1456
+#: src/Account.php:1574
 msgid "Accounts expired or accounts which expire"
 msgstr ""
 
@@ -68,7 +68,7 @@ msgstr "Облікові записи, що закінчуються менше 
 msgid "Accounts which expire"
 msgstr ""
 
-#: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
+#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
 msgctxt "button"
 msgid "Add"
 msgstr ""
@@ -83,10 +83,11 @@ msgstr ""
 msgid "Affected Group"
 msgstr "Причетна група"
 
-#: src/Account_Item.php:502 src/Account.php:347 src/Account.php:355
-#: src/NotificationTargetAccount.php:65 src/NotificationTargetAccount.php:188
-#: src/NotificationTargetAccount.php:242 src/NotificationTargetAccount.php:303
-#: templates/account.html.twig:420 templates/account.html.twig:429
+#: src/Account_Item.php:502 src/NotificationTargetAccount.php:65
+#: src/NotificationTargetAccount.php:188 src/NotificationTargetAccount.php:242
+#: src/NotificationTargetAccount.php:303 src/Account.php:347
+#: src/Account.php:355 templates/account.html.twig:420
+#: templates/account.html.twig:429
 msgid "Affected User"
 msgstr "Причетний користувач"
 
@@ -119,7 +120,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: templates/account.html.twig:557 templates/hash.html.twig:98
+#: templates/hash.html.twig:98 templates/account.html.twig:557
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] ""
@@ -180,12 +181,12 @@ msgstr "Порожнє для необмеженого"
 msgid "Encrypted password"
 msgstr ""
 
-#: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
-#: src/Account.php:1989 src/Account.php:1993 templates/account.html.twig:191
-#: templates/account.html.twig:261 templates/aeskey.html.twig:66
-#: templates/hash.html.twig:71
+#: src/Account.php:1989 src/Account.php:1993 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
+#: templates/hash.html.twig:71 templates/aeskey.html.twig:66
+#: templates/account.html.twig:191 templates/account.html.twig:261
 msgid "Encryption key"
-msgid_plural "Encryption key"
+msgid_plural "Encryption keys"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -215,7 +216,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/AesKey.php:342 src/Account.php:338 src/Hash.php:58 src/Hash.php:184
+#: src/Hash.php:58 src/Hash.php:184 src/Account.php:338 src/AesKey.php:342
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -256,7 +257,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/Report.php:448 src/Hash.php:96
+#: src/Hash.php:96 src/Report.php:448
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Перелік пов'язаних облікових записів"
@@ -273,7 +274,7 @@ msgstr ""
 msgid "Modification of the encryption key for all passwords"
 msgstr ""
 
-#: templates/account.html.twig:60 templates/hash.html.twig:54
+#: templates/hash.html.twig:54 templates/account.html.twig:60
 msgid "Name"
 msgstr ""
 
@@ -328,7 +329,7 @@ msgstr "Заповніть ключ шифрування"
 msgid "Plugin Setup"
 msgstr "Встановлення плугіну"
 
-#: templates/config.html.twig:66 templates/profile.html.twig:34
+#: templates/profile.html.twig:34 templates/config.html.twig:66
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -414,8 +415,8 @@ msgid ""
 "before exporting it"
 msgstr ""
 
-#: front/hash.form.php:92 templates/hash_change_key.html.twig:78
-#: templates/hash.html.twig:65 templates/hash.html.twig:143
+#: front/hash.form.php:92 templates/hash.html.twig:65
+#: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr ""

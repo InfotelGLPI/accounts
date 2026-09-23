@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:10+0000\n"
+"POT-Creation-Date: 2026-09-23 15:22+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -58,8 +58,8 @@ msgstr "Comptes expirés"
 msgid "Accounts expired for more than"
 msgstr "Comptes expirés depuis plus de"
 
-#: src/Account.php:1456 src/Account.php:1574
-#: src/NotificationTargetAccount.php:322
+#: src/NotificationTargetAccount.php:322 src/Account.php:1456
+#: src/Account.php:1574
 msgid "Accounts expired or accounts which expire"
 msgstr "Comptes expirés ou comptes qui vont expirer"
 
@@ -71,7 +71,7 @@ msgstr "Comptes qui vont expirer dans moins de"
 msgid "Accounts which expire"
 msgstr "Comptes qui vont expirer"
 
-#: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
+#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
 msgctxt "button"
 msgid "Add"
 msgstr "Ajouter"
@@ -86,10 +86,11 @@ msgstr "Ajouter un statut non utilisé dans l'envoi des emails d'expiration"
 msgid "Affected Group"
 msgstr "Groupe concerné"
 
-#: src/Account_Item.php:502 src/Account.php:347 src/Account.php:355
-#: src/NotificationTargetAccount.php:65 src/NotificationTargetAccount.php:188
-#: src/NotificationTargetAccount.php:242 src/NotificationTargetAccount.php:303
-#: templates/account.html.twig:420 templates/account.html.twig:429
+#: src/Account_Item.php:502 src/NotificationTargetAccount.php:65
+#: src/NotificationTargetAccount.php:188 src/NotificationTargetAccount.php:242
+#: src/NotificationTargetAccount.php:303 src/Account.php:347
+#: src/Account.php:355 templates/account.html.twig:420
+#: templates/account.html.twig:429
 msgid "Affected User"
 msgstr "Utilisateur concerné"
 
@@ -122,7 +123,7 @@ msgstr "Tout cocher"
 msgid "Clear"
 msgstr "Effacer"
 
-#: templates/account.html.twig:557 templates/hash.html.twig:98
+#: templates/hash.html.twig:98 templates/account.html.twig:557
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "Commentaire"
@@ -181,12 +182,13 @@ msgstr "Vide pour infini"
 msgid "Encrypted password"
 msgstr "Mot de passe chiffré"
 
-#: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
-#: src/Account.php:1989 src/Account.php:1993 templates/account.html.twig:191
-#: templates/account.html.twig:261 templates/aeskey.html.twig:66
-#: templates/hash.html.twig:71
+#: src/Account.php:1989 src/Account.php:1993 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
+#: templates/hash.html.twig:71 templates/aeskey.html.twig:66
+#: templates/account.html.twig:191 templates/account.html.twig:261
+#, fuzzy
 msgid "Encryption key"
-msgid_plural "Encryption key"
+msgid_plural "Encryption keys"
 msgstr[0] "Clé de chiffrement"
 msgstr[1] "Clés de chiffrement"
 msgstr[2] "Clés de chiffrement"
@@ -215,7 +217,7 @@ msgstr "Export"
 msgid "Filter"
 msgstr "Flitre"
 
-#: src/AesKey.php:342 src/Account.php:338 src/Hash.php:58 src/Hash.php:184
+#: src/Hash.php:58 src/Hash.php:184 src/Account.php:338 src/AesKey.php:342
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -255,7 +257,7 @@ msgstr "Laisser vide pour conserver l'existant"
 msgid "Length"
 msgstr "Longueur"
 
-#: src/Report.php:448 src/Hash.php:96
+#: src/Hash.php:96 src/Report.php:448
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Liste des comptes liés"
@@ -272,7 +274,7 @@ msgstr "Minuscule"
 msgid "Modification of the encryption key for all passwords"
 msgstr "Modification de la clé de chiffrement"
 
-#: templates/account.html.twig:60 templates/hash.html.twig:54
+#: templates/hash.html.twig:54 templates/account.html.twig:60
 msgid "Name"
 msgstr "Nom"
 
@@ -330,7 +332,7 @@ msgstr "Veuillez renseigner la clé de chiffrement"
 msgid "Plugin Setup"
 msgstr "Configuration du plugin"
 
-#: templates/config.html.twig:66 templates/profile.html.twig:34
+#: templates/profile.html.twig:34 templates/config.html.twig:66
 msgctxt "button"
 msgid "Save"
 msgstr "Sauver"
@@ -419,8 +421,8 @@ msgstr ""
 "La clé de chiffrement n'est plus disponible. Veuillez afficher à nouveau la "
 "liste avant de l'exporter."
 
-#: front/hash.form.php:92 templates/hash_change_key.html.twig:78
-#: templates/hash.html.twig:65 templates/hash.html.twig:143
+#: front/hash.form.php:92 templates/hash.html.twig:65
+#: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "La clé de chiffrement doit comporter au moins %d caractères"
