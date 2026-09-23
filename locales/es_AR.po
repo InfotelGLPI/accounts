@@ -1,28 +1,27 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Accounts Development Team
-# This file is distributed under the same license as the GLPI - Accounts plugin package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Luis Angel Uriarte <luisuriarte@gmail.com>, 2020
-#
+# Alan Lehoux, 2026
+# 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - Accounts plugin\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-08 09:13+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
-"Last-Translator: Luis Angel Uriarte <luisuriarte@gmail.com>, 2020\n"
-"Language-Team: Spanish (Argentina) (https://app.transifex.com/infotelGLPI/"
-"teams/12352/es_AR/)\n"
-"Language: es_AR\n"
+"Last-Translator: Alan Lehoux, 2026\n"
+"Language-Team: Spanish (Argentina) (https://app.transifex.com/infotelGLPI/teams/12352/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: setup.php:135 src/Account.php:114
 msgid "Account"
@@ -37,6 +36,8 @@ msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "Password was cleared for security."
 msgstr ""
+"La cuenta \"%s\" se transfirió, pero no se encontró la huella digital en la "
+"entidad de destino. Por seguridad, se borró la contraseña."
 
 #: src/Account.php:1287
 #, php-format
@@ -44,6 +45,8 @@ msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "TOTP secret was cleared for security."
 msgstr ""
+"La cuenta \"%s\" se transfirió, pero no se encontró la huella digital en la "
+"entidad de destino. Por seguridad, se borró el secreto TOTP."
 
 #: src/NotificationTargetAccount.php:58 src/NotificationTargetAccount.php:239
 msgid "Accounts expired"
@@ -56,24 +59,24 @@ msgstr "Cuentas vencidas por más de"
 #: src/Account.php:1442 src/Account.php:1560
 #: src/NotificationTargetAccount.php:326
 msgid "Accounts expired or accounts which expire"
-msgstr ""
+msgstr "Cuentas vencidas o cuentas por vencer"
 
 #: templates/config.html.twig:53
 msgid "Accounts expiring in less than"
-msgstr "Cuentas con vencimientos en menos de"
+msgstr "Cuentas por vencer en menos de"
 
 #: src/NotificationTargetAccount.php:59 src/NotificationTargetAccount.php:240
 msgid "Accounts which expire"
-msgstr ""
+msgstr "Cuentas por vencer"
 
 #: templates/status_cron.html.twig:61 templates/item_account.html.twig:58
 msgctxt "button"
 msgid "Add"
-msgstr ""
+msgstr "Agregar"
 
 #: templates/status_cron.html.twig:44
 msgid "Add an unused status for expiration mailing"
-msgstr ""
+msgstr "Agregar un estado sin usar para el envío de correo de vencimiento"
 
 #: src/NotificationTargetAccount.php:70 src/NotificationTargetAccount.php:195
 #: src/NotificationTargetAccount.php:247 src/NotificationTargetAccount.php:308
@@ -90,7 +93,7 @@ msgstr "Usuario afectado"
 
 #: templates/datatable.html.twig:199
 msgid "All"
-msgstr ""
+msgstr "Todas"
 
 #: src/NotificationTargetAccount.php:163 src/NotificationTargetAccount.php:323
 msgid "An account has been created"
@@ -98,12 +101,12 @@ msgstr "Se ha creado una cuenta"
 
 #: templates/account.html.twig:565
 msgid "Associable to a ticket"
-msgstr ""
+msgstr "Asociable a un ticket"
 
 #: src/Account.php:1006
 msgctxt "button"
 msgid "Associate"
-msgstr ""
+msgstr "Asociar"
 
 #: hook.php:875
 msgid "Associate to account"
@@ -111,45 +114,45 @@ msgstr "Asociar una cuenta"
 
 #: templates/datatable.html.twig:102
 msgid "Check all"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: templates/account.html.twig:251 templates/account.html.twig:367
 msgid "Clear"
-msgstr ""
+msgstr "Limpiar"
 
 #: templates/account.html.twig:557 templates/hash.html.twig:98
 msgid "Comment"
 msgid_plural "Comments"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Comentario"
+msgstr[1] "Comentarios"
+msgstr[2] "Comentarios"
 
 #: templates/account.html.twig:469
 msgid "Creation date"
-msgstr ""
+msgstr "Fecha de creación"
 
 #: templates/config.html.twig:50 templates/config.html.twig:58
 msgid "Day"
 msgid_plural "Days"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Día"
+msgstr[1] "Días"
+msgstr[2] "Días"
 
 #: src/Account_Item.php:470
 msgid "Decrypt"
-msgstr ""
+msgstr "Desencriptar"
 
 #: ajax/log_decrypt.php:50
 msgid "Decrypted from account"
-msgstr ""
+msgstr "Desencriptado de la cuenta"
 
 #: ajax/log_decrypt.php:52
 msgid "Decrypted from item"
-msgstr ""
+msgstr "Desencriptado del elemento"
 
 #: src/Report.php:349
 msgid "Decrypted password"
-msgstr ""
+msgstr "Contraseña desencriptada"
 
 #: src/NotificationTargetAccount.php:228 src/NotificationTargetAccount.php:302
 msgid "Direct link to created account"
@@ -157,12 +160,12 @@ msgstr "Enlace directo para crear cuenta"
 
 #: templates/hash_select_accounts.html.twig:53
 msgid "Display report"
-msgstr ""
+msgstr "Mostrar informe"
 
 #: src/Account.php:1010
 msgctxt "button"
 msgid "Dissociate"
-msgstr ""
+msgstr "Desasociar"
 
 #: src/Account.php:1938
 msgid "Don't expire"
@@ -174,7 +177,7 @@ msgstr "Vacío para infinito"
 
 #: src/Report.php:339
 msgid "Encrypted password"
-msgstr ""
+msgstr "Contraseña encriptada"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
 #: src/Account.php:2041 src/Account.php:2045 templates/account.html.twig:191
@@ -182,9 +185,9 @@ msgstr ""
 #: templates/hash.html.twig:71
 msgid "Encryption key"
 msgid_plural "Encryption key"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Clave de encriptación"
+msgstr[1] "Claves de encriptación"
+msgstr[2] "Claves de encriptación"
 
 #: front/hash.form.php:106 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
@@ -192,31 +195,31 @@ msgstr "Se modificó la clave de encriptado"
 
 #: front/aeskey.form.php:73
 msgid "Encryption key saved"
-msgstr ""
+msgstr "Clave de encriptación guardada"
 
 #: templates/datatable.html.twig:416
 msgid "Entries to show:"
-msgstr ""
+msgstr "Entradas a mostrar:"
 
 #: templates/account.html.twig:501
 msgid "Expiration date"
-msgstr ""
+msgstr "Fecha de vencimiento"
 
 #: templates/datatable.html.twig:143
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: templates/datatable.html.twig:137
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 #: src/AesKey.php:342 src/Account.php:342 src/Hash.php:62 src/Hash.php:188
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Huella digital"
+msgstr[1] "Huellas digitales"
+msgstr[2] "Huellas digitales"
 
 #: templates/account.html.twig:707
 msgid "Generate"
@@ -224,7 +227,7 @@ msgstr "Generar"
 
 #: templates/hash.html.twig:80
 msgid "Generate fingerprint with this encryption key"
-msgstr ""
+msgstr "Generar huella digital con esta clave de encriptación"
 
 #: templates/account.html.twig:652
 msgid "Generate password"
@@ -232,15 +235,15 @@ msgstr "Generar contraseña"
 
 #: templates/account.html.twig:513 templates/account.html.twig:523
 msgid "Group in charge"
-msgstr ""
+msgstr "Grupo a cargo"
 
 #: templates/account.html.twig:347
 msgid "Leave blank to keep current"
-msgstr ""
+msgstr "Dejar en blanco para mantener el actual"
 
 #: templates/aeskey.html.twig:75
 msgid "Leave empty to keep the current key"
-msgstr ""
+msgstr "Dejar vacío para mantener la clave actual"
 
 #: templates/account.html.twig:693
 msgid "Length"
@@ -253,7 +256,7 @@ msgstr "Lista de cuentas vinculadas"
 
 #: templates/account.html.twig:81
 msgid "Login"
-msgstr ""
+msgstr "Usuario"
 
 #: templates/account.html.twig:669
 msgid "Lowercase"
@@ -261,11 +264,11 @@ msgstr "Minúscula"
 
 #: src/Hash.php:102
 msgid "Modification of the encryption key for all passwords"
-msgstr ""
+msgstr "Modificación de la clave de encriptación para todas las contraseñas"
 
 #: templates/account.html.twig:60 templates/hash.html.twig:54
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: src/NotificationTargetAccount.php:57
 msgid "New account"
@@ -277,11 +280,11 @@ msgstr "Clave de encriptado nueva"
 
 #: templates/datatable.html.twig:204 templates/datatable.html.twig:373
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: templates/datatable.html.twig:64 templates/datatable.html.twig:389
 msgid "No results found"
-msgstr ""
+msgstr "No se encontraron resultados"
 
 #: templates/account.html.twig:662
 msgid "Numbers"
@@ -293,11 +296,11 @@ msgstr "Clave de encriptado vieja"
 
 #: templates/account.html.twig:537
 msgid "Others"
-msgstr ""
+msgstr "Otros"
 
 #: templates/account.html.twig:217 templates/account.html.twig:295
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: templates/account.html.twig:618
 msgid "Password will not be modified"
@@ -308,6 +311,8 @@ msgid ""
 "Please do not use special characters like / \\ apostrophe ampersand in "
 "encryption keys, or you cannot change it after."
 msgstr ""
+"Por favor, no uses caracteres especiales como / \\ apóstrofe ampersand en "
+"las claves de encriptación, o no vas a poder cambiarla después."
 
 #: templates/hash_select_accounts.html.twig:39
 #: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:134
@@ -321,7 +326,7 @@ msgstr "Configuración del plugin"
 #: templates/config.html.twig:66 templates/profile.html.twig:34
 msgctxt "button"
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: src/AesKey.php:100
 msgid "Save the encryption key"
@@ -333,7 +338,7 @@ msgstr "Ver las cuentas de mi grupo"
 
 #: src/Profile.php:164
 msgid "See accounts of my technician groups"
-msgstr ""
+msgstr "Ver cuentas de mis grupos de técnicos"
 
 #: src/Profile.php:170
 msgid "See all accounts"
@@ -341,27 +346,27 @@ msgstr "Ver todas las cuentas"
 
 #: src/Servicecatalog.php:89 src/Servicecatalog.php:96
 msgid "See your accounts"
-msgstr ""
+msgstr "Ver tus cuentas"
 
 #: ajax/generatepassword.php:68
 msgid "Select at least one checkbox"
-msgstr ""
+msgstr "Seleccioná al menos una casilla"
 
 #: templates/datatable.html.twig:238
 msgid "Select item"
-msgstr ""
+msgstr "Seleccionar elemento"
 
 #: templates/account_tree.html.twig:39
 msgid "Select the wanted account type"
-msgstr "Seleccione el tipo de cuenta que busca"
+msgstr "Seleccioná el tipo de cuenta deseado"
 
 #: templates/account_tree.html.twig:51 templates/account_tree.html.twig:52
 msgid "Show all"
-msgstr ""
+msgstr "Mostrar todo"
 
 #: templates/account.html.twig:352
 msgid "Show/hide"
-msgstr ""
+msgstr "Mostrar/ocultar"
 
 #: templates/account.html.twig:683
 msgid "Special characters"
@@ -376,15 +381,15 @@ msgstr[2] "Estados"
 
 #: templates/account.html.twig:376
 msgid "Stored TOTP Secret"
-msgstr ""
+msgstr "Secreto TOTP Guardado"
 
 #: src/Account.php:263 templates/account.html.twig:331
 msgid "TOTP Secret"
-msgstr ""
+msgstr "Secreto TOTP"
 
 #: templates/account.html.twig:480 templates/account.html.twig:489
 msgid "Technician in charge"
-msgstr ""
+msgstr "Técnico a cargo"
 
 #: src/Account.php:1264
 #, php-format
@@ -392,22 +397,26 @@ msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
 "key: the account was not transferred."
 msgstr ""
+"No se pudo desencriptar el secreto TOTP de la cuenta \"%s\" con la clave de "
+"origen: no se transfirió la cuenta."
 
 #: src/AesKey.php:229
 msgid "The encryption key cannot be empty"
-msgstr ""
+msgstr "La clave de encriptación no puede estar vacía"
 
 #: src/Report.php:130
 msgid ""
 "The encryption key is no longer available, please display the list again "
 "before exporting it"
 msgstr ""
+"La clave de encriptación ya no está disponible, por favor volvé a mostrar la"
+" lista antes de exportarla"
 
 #: front/hash.form.php:92 templates/hash_change_key.html.twig:78
 #: templates/hash.html.twig:65 templates/hash.html.twig:143
 #, php-format
 msgid "The encryption key must be at least %d characters long"
-msgstr ""
+msgstr "La clave de encriptación debe tener al menos %d caracteres"
 
 #: src/Hash.php:490
 #, php-format
@@ -415,6 +424,8 @@ msgid ""
 "The encryption key was not modified: the following accounts could not be "
 "read with the former key: %1$s"
 msgstr ""
+"No se modificó la clave de encriptación: no se pudieron leer las siguientes "
+"cuentas con la clave anterior: %1$s"
 
 #: front/hash.form.php:115
 msgid "The old or the new encryption key can not be empty"
@@ -423,20 +434,26 @@ msgstr "La vieja o nueva clave de encriptado no debe estar vacía"
 #: src/Account.php:496 src/Account.php:553
 msgid "The selected fingerprint does not belong to an entity you can access"
 msgstr ""
+"La huella digital seleccionada no pertenece a una entidad a la que tengas "
+"acceso"
 
 #: src/Account.php:583
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
+"El secreto TOTP enviado no tiene protección de integridad y fue ignorado"
 
 #: src/Account.php:568
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr ""
+"La contraseña enviada no tiene protección de integridad y fue ignorada"
 
 #: src/Account.php:843
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
+"No hay ninguna clave de encriptación asociada a esta cuenta, por favor "
+"seleccioná una arriba"
 
 #: src/Account.php:795 src/Account.php:848
 msgid "There is no encryption key for this entity"
@@ -445,20 +462,24 @@ msgstr "Esta no es una clave de encriptado para esta entidad"
 #: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
+"Esta huella digital todavía usa el verificador anterior sin 'salt', lo que "
+"la hace vulnerable a ataques fuera de línea. Cambiá la clave de encriptación"
+" para migrarla al formato con 'salt'."
 
 #: templates/config.html.twig:41
 msgid "Time of checking of expiration of accounts"
-msgstr ""
+msgstr "Hora de comprobación del vencimiento de cuentas"
 
 #: src/Account.php:1017
 msgid "Transfer"
-msgstr ""
+msgstr "Transferir"
 
 #: templates/account.html.twig:91
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: src/AccountType.php:51
 msgid "Type of account"
@@ -473,7 +494,7 @@ msgstr "Tipo de vista"
 
 #: templates/hash_change_key.html.twig:87
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: templates/account.html.twig:676
 msgid "Uppercase"
@@ -481,7 +502,7 @@ msgstr "Myúscula"
 
 #: templates/account.html.twig:52
 msgid "WARNING : an encryption key already exists for this entity"
-msgstr ""
+msgstr "ADVERTENCIA : ya existe una clave de encriptación para esta entidad"
 
 #: templates/hash_change_key.html.twig:32
 msgid ""
@@ -489,10 +510,14 @@ msgid ""
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr ""
+"ADVERTENCIA : si te equivocás al ingresar la clave anterior o la nueva, ya "
+"no vas a poder desencriptar tus contraseñas. Se recomienda ENFÁTICAMENTE "
+"hacer una copia de seguridad de la base de datos antes."
 
 #: templates/aeskey.html.twig:57
 msgid "WARNING : saving the encryption key is a security hole"
 msgstr ""
+"ADVERTENCIA : guardar la clave de encriptación es una brecha de seguridad"
 
 #: templates/account.html.twig:185
 msgid ""
@@ -500,12 +525,17 @@ msgid ""
 "able to correctly decrypt the password. You will also need to update the "
 "password."
 msgstr ""
+"ADVERTENCIA: Si cambiás la huella digital asociada, ya no vas a poder "
+"desencriptar la contraseña correctamente. Además vas a tener que actualizar "
+"la contraseña."
 
 #: src/Account.php:479
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
 msgstr ""
+"Advertencia: la contraseña encriptada es muy larga y puede indicar un "
+"problema con la clave de encriptación."
 
 #: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:117
 #: src/Report.php:410 templates/account.html.twig:222
@@ -516,108 +546,34 @@ msgstr "Clave de encriptado erronea"
 
 #: templates/datatable.html.twig:201 templates/datatable.html.twig:371
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: src/Account.php:2140
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
 msgstr ""
+"Tenés cuentas sin huella digital vinculada; por favor, agregala mediante "
+"acciones masivas o en los formularios"
 
 #: templates/account.html.twig:584 templates/account.html.twig:612
 msgid "You have not filled the password and encryption key"
-msgstr "No ha colocado la contraseña y la clave de encriptado"
+msgstr "No ingresaste la contraseña ni la clave de encriptación"
 
 #: src/Hash.php:353
 msgid "You must generate the fingerprint for your encryption key"
-msgstr ""
+msgstr "Debés generar la huella digital para tu clave de encriptación"
 
 #: src/Account.php:820
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
+"Tu clave de encriptación está mal formada; por favor, volvé a generar la "
+"huella digital"
 
 #: templates/account.html.twig:698
 msgid "characters"
-msgstr ""
+msgstr "caracteres"
 
 #: templates/account.html.twig:333
 msgid "new value"
-msgstr ""
-
-#~ msgid "Uncrypted"
-#~ msgstr "Desencriptado"
-
-#~ msgid "Select at least on checkbox"
-#~ msgstr "Seleccione al menos en la casilla de verificación"
-
-#~ msgctxt "button"
-#~ msgid "Associate a account"
-#~ msgstr "Asociar a una cuenta"
-
-#~ msgid "Uncrypt"
-#~ msgstr "Desencriptar"
-
-#~ msgid "Time of checking of of expiration of accounts"
-#~ msgstr "Periodo de comprobación de validez de las cuentas"
-
-#~ msgid " characters"
-#~ msgstr "Carácteres"
-
-#~ msgid "Accounts expired or accounts which expires"
-#~ msgstr "Cuentas expiradas o cuentas que espiran"
-
-#~ msgid "Warning : saving the encryption key is a security hole"
-#~ msgstr "Cuidado: guardar la clave de encriptado es inseguro"
-
-#~ msgid "Hash"
-#~ msgstr "Hash"
-
-#~ msgid "Accounts which expires"
-#~ msgstr "Cuentas que expiran"
-
-#~ msgid "Modification of the encryption key for all password"
-#~ msgstr "Modificar la clave de encriptado para todas las cuentas"
-
-#~ msgid "WARNING : a encryption key already exist for this entity"
-#~ msgstr "CUIDADO: ya existe una clave de encriptado para esta entidad"
-
-#~ msgid ""
-#~ "Warning : if you change used hash, the old accounts will use the old "
-#~ "encryption key"
-#~ msgstr ""
-#~ "Cuidado: Si cambia el hash usado, las cuentas viejas usarán la clave "
-#~ "vieja de encriptado"
-
-#~ msgid "Generate hash with this encryption key"
-#~ msgstr "Generar hash para esta clave de encriptado"
-
-#~ msgid ""
-#~ "Please do not use special characters like / \\ ' \" & in encryption keys, "
-#~ "or you cannot change it after."
-#~ msgstr ""
-#~ "Por favor, no usar caracteres especiales como / \\ ' \" & en claves de "
-#~ "encriptado, o no lo podrá cambiar después"
-
-#~ msgid ""
-#~ "Warning : if you make a mistake in entering the old or the new key, you "
-#~ "could no longer decrypt your passwords. It is STRONGLY recommended that "
-#~ "you make a backup of the database before."
-#~ msgstr ""
-#~ "CUIDADO : si se equivoca en la introducción de la antigua o la nueva "
-#~ "clave, no podrá volver a descifrar sus contraseñas. OBLIGATORIO realizar "
-#~ "una copia de la BD antes de proceder"
-
-#~ msgid "You want to change the key : "
-#~ msgstr "Puede cambiar la clave:"
-
-#~ msgid " by the key : "
-#~ msgstr "por la clave:"
-
-#~ msgid "Uncrypted password"
-#~ msgstr "Contraseña desencriptada"
-
-#~ msgid "Add a unused status for expiration mailing"
-#~ msgstr "Añadir un estado no utilizado en el envío de correos de caducidad"
-
-#~ msgid "Unused status for expiration mailing"
-#~ msgstr "Estados no utilizados en el envío de correos de caducidad"
+msgstr "nuevo valor"

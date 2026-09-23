@@ -2,28 +2,27 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Kaya Zeren <kayazeren@gmail.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 09:13+0000\n"
+"POT-Creation-Date: 2026-09-08 07:46+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
-"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/"
-"teams/12352/tr_TR/)\n"
-"Language: tr_TR\n"
+"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr_TR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: setup.php:135 src/Account.php:114
+#: setup.php:136 src/Account.php:114
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Hesap"
@@ -44,6 +43,8 @@ msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "TOTP secret was cleared for security."
 msgstr ""
+"\"%s\" hesabı aktarıldı ancak hedef kuruluşta parmak izi bulunamadı. "
+"Güvenlik nedeniyle tek kullanımlık parola temizlendi."
 
 #: src/NotificationTargetAccount.php:58 src/NotificationTargetAccount.php:239
 msgid "Accounts expired"
@@ -172,17 +173,16 @@ msgstr "Sonsuz olması için boş bırakın"
 
 #: src/Report.php:339
 msgid "Encrypted password"
-msgstr ""
+msgstr "Şifrelenmiş parola"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
 #: src/Account.php:2041 src/Account.php:2045 templates/account.html.twig:191
 #: templates/account.html.twig:261 templates/aeskey.html.twig:66
 #: templates/hash.html.twig:71
-#, fuzzy
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Şifreleme anahtarı"
-msgstr[1] "Şifreleme anahtarları"
+msgstr[1] "Şifreleme anahtarı"
 
 #: front/hash.form.php:106 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
@@ -237,7 +237,7 @@ msgstr "Geçerli parolayı korumak için boş bırakın"
 
 #: templates/aeskey.html.twig:75
 msgid "Leave empty to keep the current key"
-msgstr ""
+msgstr "Geçerli anahtarı tutmak için boş bırakın"
 
 #: templates/account.html.twig:693
 msgid "Length"
@@ -390,22 +390,26 @@ msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
 "key: the account was not transferred."
 msgstr ""
+"\"%s\" hesabının tek kullanımlık parolasının şifresi kaynak anahtar ile "
+"çözülemedi: Hesap aktarılmadı."
 
 #: src/AesKey.php:229
 msgid "The encryption key cannot be empty"
-msgstr ""
+msgstr "Şifreleme anahtarı boş olamaz"
 
 #: src/Report.php:130
 msgid ""
 "The encryption key is no longer available, please display the list again "
 "before exporting it"
 msgstr ""
+"Şifreleme anahtarı artık yok. Dışa aktarmadan önce listeyi yeniden "
+"görüntüleyin"
 
 #: front/hash.form.php:92 templates/hash_change_key.html.twig:78
 #: templates/hash.html.twig:65 templates/hash.html.twig:143
 #, php-format
 msgid "The encryption key must be at least %d characters long"
-msgstr ""
+msgstr "Şifreleme anahtarı en az %d karakter uzunluğunda olmalıdır"
 
 #: src/Hash.php:490
 #, php-format
@@ -413,6 +417,8 @@ msgid ""
 "The encryption key was not modified: the following accounts could not be "
 "read with the former key: %1$s"
 msgstr ""
+"Şifreleme anahtarı değiştirilmedi: Aşağıdaki hesaplar önceki anahtar ile "
+"okunamadı: %1$s"
 
 #: front/hash.form.php:115
 msgid "The old or the new encryption key can not be empty"
@@ -420,15 +426,16 @@ msgstr "Eski ya da yeni şifreleme anahtarı boş olamaz"
 
 #: src/Account.php:496 src/Account.php:553
 msgid "The selected fingerprint does not belong to an entity you can access"
-msgstr ""
+msgstr "Seçilmiş parmak izi erişebileceğiniz bir varlığa ait değil"
 
 #: src/Account.php:583
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
+"Gönderilen tek kullanımlık parola bütünlük koruması olmadığından yok sayıldı"
 
 #: src/Account.php:568
 msgid "The submitted password is not integrity protected and was ignored"
-msgstr ""
+msgstr "Gönderilen parolanın bütünlük koruması olmadığından yok sayıldı"
 
 #: src/Account.php:843
 msgid ""
@@ -445,8 +452,12 @@ msgstr "Bu birim için bir şifreleme anahtarı yok"
 #: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
+"Bu parmak izi hala çevrim dışı olarak saldırılabilecek eski çeşnisiz "
+"doğrulayıcıyı kullanıyor. Çeşnili biçime geçirmek için şifreleme anahtarını "
+"değiştirin."
 
 #: templates/config.html.twig:41
 msgid "Time of checking of expiration of accounts"
@@ -511,8 +522,8 @@ msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
 msgstr ""
-"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun "
-"olduğunu gösterebilir."
+"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun"
+" olduğunu gösterebilir."
 
 #: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:117
 #: src/Report.php:410 templates/account.html.twig:222
@@ -552,10 +563,3 @@ msgstr "karakter"
 #: templates/account.html.twig:333
 msgid "new value"
 msgstr "yeni değer"
-
-#~ msgid ""
-#~ "TOTP secret not saved: no encryption key available. Please configure an "
-#~ "encryption key first."
-#~ msgstr ""
-#~ "Tek kullanımlık parola kaydedilmedi. Kullanılabilecek bir şifreleme "
-#~ "anahtarı yok. Lütfen önce bir şifreleme anahtarı yapılandırın."
