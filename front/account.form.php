@@ -58,7 +58,8 @@ if (isset($_POST["add"])) {
     $account->delete($_POST);
     $account->redirectToList();
 } elseif (isset($_POST["restore"])) {
-    $account->check($_POST['id'], PURGE);
+    // Same right as the core: whoever may send an account to the trash may restore it.
+    $account->check($_POST['id'], DELETE);
     $account->restore($_POST);
     $account->redirectToList();
 } elseif (isset($_POST["purge"])) {

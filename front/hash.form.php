@@ -68,7 +68,12 @@ if (isset($_POST["add"])) {
         if ($hashClass->getFromDB($_POST["id"])) {
             // The UPDATE right can be recursive/global: restrict the targeted hash to an
             // entity the user actually has access to, so it can't rotate another entity's key.
-            if (!Session::haveAccessToEntity($hashClass->fields['entities_id'])) {
+            // A recursive hash defined in a parent entity is reachable from its sub-entities,
+            // as in Report::loadReachableHash() and getHashOnSelectEncryptionKey.php.
+            if (!Session::haveAccessToEntity(
+                $hashClass->fields['entities_id'],
+                (bool) $hashClass->fields['is_recursive'],
+            )) {
                 throw new AccessDeniedHttpException();
             }
             $oldAeskey = $_POST["aeskey"];

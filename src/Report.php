@@ -165,6 +165,14 @@ class Report extends CommonDBTM
             $Hash->maybeRecursive(),
         );
 
+        // Holding the entity key does not lift the per-user/per-group visibility: the key is
+        // shared by every user of the entity, so the same rule as the search engine, the
+        // dropdowns and canViewItem() must filter this list (and its CSV/PDF export).
+        $visibility = Account::getVisibilityCriteria(true);
+        if ($visibility !== []) {
+            $criteria['WHERE'][] = $visibility;
+        }
+
         $iterator = $DB->request($criteria);
 
         if (count($iterator) > 0) {
