@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:22+0000\n"
+"POT-Creation-Date: 2026-09-25 06:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Alan Lehoux, 2026\n"
 "Language-Team: Spanish (Argentina) (https://app.transifex.com/infotelGLPI/"
@@ -153,7 +153,7 @@ msgstr "Desencriptado de la cuenta"
 msgid "Decrypted from item"
 msgstr "Desencriptado del elemento"
 
-#: src/Report.php:345
+#: src/Report.php:353
 msgid "Decrypted password"
 msgstr "Contraseña desencriptada"
 
@@ -178,7 +178,7 @@ msgstr "No expira"
 msgid "Empty for infinite"
 msgstr "Vacío para infinito"
 
-#: src/Report.php:335
+#: src/Report.php:343
 msgid "Encrypted password"
 msgstr "Contraseña encriptada"
 
@@ -193,7 +193,7 @@ msgstr[0] "Clave de encriptación"
 msgstr[1] "Claves de encriptación"
 msgstr[2] "Claves de encriptación"
 
-#: front/hash.form.php:106 templates/aeskey.html.twig:52
+#: front/hash.form.php:111 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "Se modificó la clave de encriptado"
 
@@ -257,7 +257,7 @@ msgstr "Dejar vacío para mantener la clave actual"
 msgid "Length"
 msgstr "Longitud"
 
-#: src/Hash.php:96 src/Report.php:448
+#: src/Hash.php:96 src/Report.php:456
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Lista de cuentas vinculadas"
@@ -420,7 +420,7 @@ msgstr ""
 "La clave de encriptación ya no está disponible, por favor volvé a mostrar la "
 "lista antes de exportarla"
 
-#: front/hash.form.php:92 templates/hash.html.twig:65
+#: front/hash.form.php:97 templates/hash.html.twig:65
 #: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
@@ -435,7 +435,7 @@ msgstr ""
 "No se modificó la clave de encriptación: no se pudieron leer las siguientes "
 "cuentas con la clave anterior: %1$s"
 
-#: front/hash.form.php:115
+#: front/hash.form.php:120
 msgid "The old or the new encryption key can not be empty"
 msgstr "La vieja o nueva clave de encriptado no debe estar vacía"
 
@@ -550,8 +550,8 @@ msgstr ""
 "Advertencia: la contraseña encriptada es muy larga y puede indicar un "
 "problema con la clave de encriptación."
 
-#: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:113
-#: src/Report.php:406 templates/account.html.twig:222
+#: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
+#: src/Report.php:414 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"

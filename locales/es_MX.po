@@ -2,25 +2,27 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Carlos Moreno Rodríguez <carlosm.rodriguez@prodigy.net.mx>, 2023
 # Edwin Elias Alvarez <elias986@yahoo.com>, 2026
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:22+0000\n"
+"POT-Creation-Date: 2026-09-25 06:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Edwin Elias Alvarez <elias986@yahoo.com>, 2026\n"
-"Language-Team: Spanish (Mexico) (https://app.transifex.com/infotelGLPI/teams/12352/es_MX/)\n"
+"Language-Team: Spanish (Mexico) (https://app.transifex.com/infotelGLPI/"
+"teams/12352/es_MX/)\n"
+"Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_MX\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
 
 #: setup.php:135 src/Account.php:110
 msgid "Account"
@@ -150,7 +152,7 @@ msgstr "Descifrado desde cuenta"
 msgid "Decrypted from item"
 msgstr "Descifrado desde elemento"
 
-#: src/Report.php:345
+#: src/Report.php:353
 msgid "Decrypted password"
 msgstr "Contraseña descifrada"
 
@@ -175,7 +177,7 @@ msgstr "Nunca expira"
 msgid "Empty for infinite"
 msgstr "Dejar vacío para infinito"
 
-#: src/Report.php:335
+#: src/Report.php:343
 msgid "Encrypted password"
 msgstr "Contraseña cifrada"
 
@@ -189,7 +191,7 @@ msgstr[0] "Clave de cifrado"
 msgstr[1] "Claves de cifrado"
 msgstr[2] "Claves de cifrado"
 
-#: front/hash.form.php:106 templates/aeskey.html.twig:52
+#: front/hash.form.php:111 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "Clave de cifrado modificada"
 
@@ -253,7 +255,7 @@ msgstr "Dejar vacío para conservar la clave actual"
 msgid "Length"
 msgstr "Longitud"
 
-#: src/Hash.php:96 src/Report.php:448
+#: src/Hash.php:96 src/Report.php:456
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Lista de cuentas vinculadas"
@@ -416,7 +418,7 @@ msgstr ""
 "La clave de cifrado ya no está disponible, por favor muestre la lista "
 "nuevamente antes de exportarla"
 
-#: front/hash.form.php:92 templates/hash.html.twig:65
+#: front/hash.form.php:97 templates/hash.html.twig:65
 #: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
@@ -431,7 +433,7 @@ msgstr ""
 "La clave de cifrado no fue modificada: las siguientes cuentas no pudieron "
 "leerse con la clave anterior: %1$s"
 
-#: front/hash.form.php:115
+#: front/hash.form.php:120
 msgid "The old or the new encryption key can not be empty"
 msgstr "La clave de cifrado antigua o nueva no puede estar vacía"
 
@@ -453,8 +455,7 @@ msgstr ""
 #: src/Account.php:579
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
-"El secreto TOTP enviado no cuenta con protección de integridad y fue "
-"ignorado"
+"El secreto TOTP enviado no cuenta con protección de integridad y fue ignorado"
 
 #: src/Account.php:564
 msgid "The submitted password is not integrity protected and was ignored"
@@ -474,12 +475,11 @@ msgstr "No hay clave de cifrado para esta entidad"
 #: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted "
-"format."
+"attack offline. Change the encryption key to migrate it to the salted format."
 msgstr ""
-"Esta huella digital todavía utiliza el verificador anterior sin sal, el cual"
-" es fácil de atacar sin conexión. Cambie la clave de cifrado para migrarla "
-"al formato con sal."
+"Esta huella digital todavía utiliza el verificador anterior sin sal, el cual "
+"es fácil de atacar sin conexión. Cambie la clave de cifrado para migrarla al "
+"formato con sal."
 
 #: templates/config.html.twig:41
 msgid "Time of checking of expiration of accounts"
@@ -548,8 +548,8 @@ msgstr ""
 "Advertencia: la contraseña cifrada es muy larga y puede indicar un problema "
 "con la clave de cifrado."
 
-#: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:113
-#: src/Report.php:406 templates/account.html.twig:222
+#: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
+#: src/Report.php:414 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"

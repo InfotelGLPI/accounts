@@ -2,24 +2,25 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Kaya Zeren <kayazeren@gmail.com>, 2026
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:22+0000\n"
+"POT-Creation-Date: 2026-09-25 06:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
-"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
+"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/"
+"teams/12352/tr_TR/)\n"
+"Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr_TR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: setup.php:135 src/Account.php:110
@@ -147,7 +148,7 @@ msgstr "Hesaptan çözülmüş şifre"
 msgid "Decrypted from item"
 msgstr "Ögeden çözülmüş şifre"
 
-#: src/Report.php:345
+#: src/Report.php:353
 msgid "Decrypted password"
 msgstr "Şifresi çözülmüş parola"
 
@@ -172,7 +173,7 @@ msgstr "Süresi dolmaz"
 msgid "Empty for infinite"
 msgstr "Sonsuz olması için boş bırakın"
 
-#: src/Report.php:335
+#: src/Report.php:343
 msgid "Encrypted password"
 msgstr "Şifrelenmiş parola"
 
@@ -185,7 +186,7 @@ msgid_plural "Encryption keys"
 msgstr[0] "Şifreleme anahtarı"
 msgstr[1] "Şifreleme anahtarları"
 
-#: front/hash.form.php:106 templates/aeskey.html.twig:52
+#: front/hash.form.php:111 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "Şifreleme anahtarı değiştirildi"
 
@@ -248,7 +249,7 @@ msgstr "Geçerli anahtarı tutmak için boş bırakın"
 msgid "Length"
 msgstr "Uzunluk"
 
-#: src/Hash.php:96 src/Report.php:448
+#: src/Hash.php:96 src/Report.php:456
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Bağlantılı hesap listesi"
@@ -410,7 +411,7 @@ msgstr ""
 "Şifreleme anahtarı artık yok. Dışa aktarmadan önce listeyi yeniden "
 "görüntüleyin"
 
-#: front/hash.form.php:92 templates/hash.html.twig:65
+#: front/hash.form.php:97 templates/hash.html.twig:65
 #: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
@@ -425,7 +426,7 @@ msgstr ""
 "Şifreleme anahtarı değiştirilmedi: Aşağıdaki hesaplar önceki anahtar ile "
 "okunamadı: %1$s"
 
-#: front/hash.form.php:115
+#: front/hash.form.php:120
 msgid "The old or the new encryption key can not be empty"
 msgstr "Eski ya da yeni şifreleme anahtarı boş olamaz"
 
@@ -466,8 +467,7 @@ msgstr "Bu birim için bir şifreleme anahtarı yok"
 #: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted "
-"format."
+"attack offline. Change the encryption key to migrate it to the salted format."
 msgstr ""
 "Bu parmak izi hala çevrim dışı olarak saldırılabilecek eski çeşnisiz "
 "doğrulayıcıyı kullanıyor. Çeşnili biçime geçirmek için şifreleme anahtarını "
@@ -536,11 +536,11 @@ msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
 msgstr ""
-"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun"
-" olduğunu gösterebilir."
+"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun "
+"olduğunu gösterebilir."
 
-#: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:113
-#: src/Report.php:406 templates/account.html.twig:222
+#: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
+#: src/Report.php:414 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:22+0000\n"
+"POT-Creation-Date: 2026-09-25 06:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -143,7 +143,7 @@ msgstr "アカウントから復号化しました"
 msgid "Decrypted from item"
 msgstr "アイテムから復号化しました"
 
-#: src/Report.php:345
+#: src/Report.php:353
 msgid "Decrypted password"
 msgstr "復号化したパスワード"
 
@@ -168,7 +168,7 @@ msgstr "期限なし"
 msgid "Empty for infinite"
 msgstr "空で永続"
 
-#: src/Report.php:335
+#: src/Report.php:343
 msgid "Encrypted password"
 msgstr ""
 
@@ -181,7 +181,7 @@ msgid "Encryption key"
 msgid_plural "Encryption keys"
 msgstr[0] "暗号鍵"
 
-#: front/hash.form.php:106 templates/aeskey.html.twig:52
+#: front/hash.form.php:111 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "暗号キーを変更しました"
 
@@ -243,7 +243,7 @@ msgstr ""
 msgid "Length"
 msgstr "長さ"
 
-#: src/Hash.php:96 src/Report.php:448
+#: src/Hash.php:96 src/Report.php:456
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "リンクしたアカウントリスト"
@@ -400,7 +400,7 @@ msgid ""
 "before exporting it"
 msgstr ""
 
-#: front/hash.form.php:92 templates/hash.html.twig:65
+#: front/hash.form.php:97 templates/hash.html.twig:65
 #: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
@@ -413,7 +413,7 @@ msgid ""
 "read with the former key: %1$s"
 msgstr ""
 
-#: front/hash.form.php:115
+#: front/hash.form.php:120
 msgid "The old or the new encryption key can not be empty"
 msgstr "新旧の暗号キーは空に出来ません"
 
@@ -516,8 +516,8 @@ msgstr ""
 "注意 : 暗号化パスワードが非常に長く、暗号キーでの問題が発生する場合がありま"
 "す。"
 
-#: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:113
-#: src/Report.php:406 templates/account.html.twig:222
+#: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
+#: src/Report.php:414 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:22+0000\n"
+"POT-Creation-Date: 2026-09-25 06:33+0000\n"
 "PO-Revision-Date: 2020-07-19 17:55+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/"
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Decrypted from item"
 msgstr ""
 
-#: src/Report.php:345
+#: src/Report.php:353
 msgid "Decrypted password"
 msgstr ""
 
@@ -164,7 +164,7 @@ msgstr "Don't expire"
 msgid "Empty for infinite"
 msgstr "Empty for infinite"
 
-#: src/Report.php:335
+#: src/Report.php:343
 msgid "Encrypted password"
 msgstr ""
 
@@ -178,7 +178,7 @@ msgid_plural "Encryption keys"
 msgstr[0] "Encryption key"
 msgstr[1] "Encryption key"
 
-#: front/hash.form.php:106 templates/aeskey.html.twig:52
+#: front/hash.form.php:111 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "Encryption key modified"
 
@@ -241,7 +241,7 @@ msgstr ""
 msgid "Length"
 msgstr "Length"
 
-#: src/Hash.php:96 src/Report.php:448
+#: src/Hash.php:96 src/Report.php:456
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Linked accounts list"
@@ -397,7 +397,7 @@ msgid ""
 "before exporting it"
 msgstr ""
 
-#: front/hash.form.php:92 templates/hash.html.twig:65
+#: front/hash.form.php:97 templates/hash.html.twig:65
 #: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
 #, php-format
 msgid "The encryption key must be at least %d characters long"
@@ -410,7 +410,7 @@ msgid ""
 "read with the former key: %1$s"
 msgstr ""
 
-#: front/hash.form.php:115
+#: front/hash.form.php:120
 msgid "The old or the new encryption key can not be empty"
 msgstr "The old or the new encryption key can not be empty"
 
@@ -507,8 +507,8 @@ msgid ""
 "the encryption key."
 msgstr ""
 
-#: front/hash.form.php:81 src/Account_Item.php:541 src/Report.php:113
-#: src/Report.php:406 templates/account.html.twig:222
+#: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
+#: src/Report.php:414 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"
