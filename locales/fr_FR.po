@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,14 +14,12 @@ msgstr ""
 "POT-Creation-Date: 2026-09-25 06:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
-"Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
-"teams/12352/fr_FR/)\n"
-"Language: fr_FR\n"
+"Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
-"1000000 == 0 ? 1 : 2;\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: setup.php:135 src/Account.php:110
 msgid "Account"
@@ -334,11 +332,11 @@ msgstr "Configuration du plugin"
 #: templates/profile.html.twig:34 templates/config.html.twig:66
 msgctxt "button"
 msgid "Save"
-msgstr "Sauver"
+msgstr "Sauvegarder"
 
 #: src/AesKey.php:100
 msgid "Save the encryption key"
-msgstr "Enregistrer la clé de chiffrement"
+msgstr "Sauvegarder la clé de chiffrement"
 
 #: src/Profile.php:152
 msgid "See accounts of my groups"
@@ -437,7 +435,8 @@ msgstr ""
 
 #: front/hash.form.php:120
 msgid "The old or the new encryption key can not be empty"
-msgstr "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
+msgstr ""
+"L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
 #: src/Account.php:1197
 #, php-format
@@ -478,7 +477,8 @@ msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 #: templates/hash.html.twig:110
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
 "Cette empreinte numérique utilise encore l'ancien vérificateur non salé, "
 "facile à attaquer hors ligne. Modifiez la clé de chiffrement pour la faire "
@@ -525,8 +525,8 @@ msgid ""
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr ""
-"ATTENTION : si vous vous trompez dans la saisie de l'ancienne ou la nouvelle "
-"clé, vous ne pourrez plus déchiffrer vos mots de passe. Il est donc "
+"ATTENTION : si vous vous trompez dans la saisie de l'ancienne ou la nouvelle"
+" clé, vous ne pourrez plus déchiffrer vos mots de passe. Il est donc "
 "FORTEMENT conseillé de faire une sauvegarde de la base avant."
 
 #: templates/aeskey.html.twig:57
@@ -541,8 +541,8 @@ msgid ""
 "password."
 msgstr ""
 "ATTENTION : Si vous modifiez l’empreinte associée, vous ne pourrez plus "
-"déchiffrer correctement le mot de passe. Vous devrez également mettre à jour "
-"le mot de passe."
+"déchiffrer correctement le mot de passe. Vous devrez également mettre à jour"
+" le mot de passe."
 
 #: src/Account.php:475
 msgid ""
@@ -581,7 +581,8 @@ msgstr "Vous devez générer l'empreinte de votre clé de chiffrement"
 
 #: src/Account.php:816
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
-msgstr "Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
+msgstr ""
+"Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
 
 #: templates/account.html.twig:698
 msgid "characters"
