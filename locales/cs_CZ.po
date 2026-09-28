@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-25 06:33+0000\n"
+"POT-Creation-Date: 2026-09-28 14:29+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
 "Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: setup.php:135 src/Account.php:110
+#: setup.php:136 src/Account.php:110
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Účet"
@@ -32,14 +32,14 @@ msgstr[1] "Účty"
 msgstr[2] "Účtů"
 msgstr[3] "Účty"
 
-#: src/Account.php:1248
+#: src/Account.php:1240
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "Password was cleared for security."
 msgstr ""
 
-#: src/Account.php:1301
+#: src/Account.php:1293
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -54,8 +54,8 @@ msgstr "Účty kterým skončila platnost"
 msgid "Accounts expired for more than"
 msgstr "Účty, kterým platnost skončila před více než"
 
-#: src/NotificationTargetAccount.php:322 src/Account.php:1456
-#: src/Account.php:1574
+#: src/NotificationTargetAccount.php:322 src/Account.php:1448
+#: src/Account.php:1566
 msgid "Accounts expired or accounts which expire"
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr "Účet byl vytvořen"
 msgid "Associable to a ticket"
 msgstr ""
 
-#: src/Account.php:1002
+#: src/Account.php:994
 msgctxt "button"
 msgid "Associate"
 msgstr ""
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Decrypted from item"
 msgstr ""
 
-#: src/Report.php:353
+#: src/Report.php:321
 msgid "Decrypted password"
 msgstr ""
 
@@ -163,12 +163,12 @@ msgstr "Přímý odkaz na vytvořený účet"
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:1006
+#: src/Account.php:998
 msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:1952
+#: src/Account.php:1944
 msgid "Don't expire"
 msgstr "Platnost nikdy neskončí"
 
@@ -176,12 +176,12 @@ msgstr "Platnost nikdy neskončí"
 msgid "Empty for infinite"
 msgstr "Nevyplněné znamená nekonečno"
 
-#: src/Report.php:343
+#: src/Report.php:387
 msgid "Encrypted password"
 msgstr ""
 
-#: src/Account.php:1989 src/Account.php:1993 src/AesKey.php:76
-#: src/AesKey.php:85 src/AesKey.php:366 src/AesKey.php:388
+#: src/Account.php:1981 src/Account.php:1985 src/AesKey.php:76
+#: src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: templates/hash.html.twig:71 templates/aeskey.html.twig:66
 #: templates/account.html.twig:191 templates/account.html.twig:261
 #, fuzzy
@@ -209,6 +209,11 @@ msgid "Expiration date"
 msgstr ""
 
 #: templates/datatable.html.twig:143
+msgid "Export"
+msgstr ""
+
+#: templates/report_accounts_list.html.twig:40
+msgctxt "button"
 msgid "Export"
 msgstr ""
 
@@ -257,7 +262,7 @@ msgstr ""
 msgid "Length"
 msgstr "Délka"
 
-#: src/Hash.php:96 src/Report.php:456
+#: src/Hash.php:96 src/Report.php:363
 #: templates/hash_select_accounts.html.twig:32
 msgid "Linked accounts list"
 msgstr "Seznam souvisejících účtů"
@@ -398,7 +403,7 @@ msgstr ""
 msgid "Technician in charge"
 msgstr ""
 
-#: src/Account.php:1278
+#: src/Account.php:1270
 #, php-format
 msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
@@ -432,7 +437,7 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "Je třeba vyplnit jak původní, tak nový šifrovací klíč"
 
-#: src/Account.php:1197
+#: src/Account.php:1189
 #, php-format
 msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
@@ -451,13 +456,13 @@ msgstr ""
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:839
+#: src/Account.php:834
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:791 src/Account.php:844
+#: src/Account.php:790 src/Account.php:839
 msgid "There is no encryption key for this entity"
 msgstr "Pro tuto entitu neexistuje žádný šifrovací klíč"
 
@@ -471,7 +476,7 @@ msgstr ""
 msgid "Time of checking of expiration of accounts"
 msgstr ""
 
-#: src/Account.php:1013
+#: src/Account.php:1005
 msgid "Transfer"
 msgstr ""
 
@@ -531,7 +536,7 @@ msgid ""
 msgstr ""
 
 #: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
-#: src/Report.php:414 templates/account.html.twig:222
+#: templates/report_accounts_list.html.twig:49 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"
@@ -541,7 +546,7 @@ msgstr "Chybný šifrovací klíč"
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:2088
+#: src/Account.php:2091
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -555,7 +560,7 @@ msgstr "Nevyplnili jste heslo a šifrovací klíč"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr ""
 
-#: src/Account.php:816
+#: src/Account.php:814
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 
