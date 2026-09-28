@@ -89,7 +89,7 @@ if (isset($_POST["add"])) {
     Html::back();
 } elseif (isset($_POST["delete"])) {
     if ($aeskey->canCreate()) {
-        foreach ($_POST["check"] as $ID => $value) {
+        foreach ((array) ($_POST["check"] ?? []) as $ID => $value) {
             $assertAesKeyEntityAccess((int) $ID);
             $aeskey->delete(["id" => (int) $ID], 1);
         }

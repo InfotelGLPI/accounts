@@ -46,9 +46,16 @@
                        size="40">
             </div>
             <div class="col-12 col-md-auto">
+                {# Wired by public/scripts/hash_select.js #}
                 <button type="button"
                         id="showAccountsList{{ rand }}"
-                        class="btn btn-primary">
+                        class="btn btn-primary"
+                        data-accounts-show-list
+                        data-accounts-url="{{ root_accounts_doc }}/ajax/viewaccountslist.php"
+                        data-accounts-hash-id="{{ hash_id }}"
+                        data-accounts-key-input="key_{{ rand }}"
+                        data-accounts-target="viewaccountslist{{ rand }}"
+                        data-accounts-empty-message="{{ __('Please fill the encryption key', 'accounts') }}">
                     <i class="ti ti-search me-1"></i>
                     {{ __('Display report') }}
                 </button>
@@ -57,16 +64,3 @@
         <div id="viewaccountslist{{ rand }}" class="mt-3"></div>
     </div>
 </div>
-<script>
-    $(document).on('click', '#showAccountsList{{ rand }}', function () {
-        var key = $('#key_{{ rand }}').val();
-        if (key === '') {
-            alert('{{ __('Please fill the encryption key', 'accounts')|escape('js') }}');
-        } else {
-            $('#viewaccountslist{{ rand }}').load(
-                '{{ root_accounts_doc }}/ajax/viewaccountslist.php',
-                { id: {{ hash_id }}, key: key }
-            );
-        }
-    });
-</script>

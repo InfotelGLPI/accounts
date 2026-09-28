@@ -709,12 +709,7 @@ function plugin_accounts_addDefaultWhere($type)
  */
 function plugin_accounts_forceGroupBy($type)
 {
-    return true;
-    switch ($type) {
-        case Account::class:
-            return true;
-    }
-    return false;
+    return $type === Account::class;
 }
 
 /**

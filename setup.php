@@ -118,6 +118,8 @@ function plugin_init_accounts()
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/crypto-js.min.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "scripts/account.form.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/report.js";
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/hash_select.js";
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/password_generator.js";
 
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 

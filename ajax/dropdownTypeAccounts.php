@@ -29,10 +29,8 @@
 
 use GlpiPlugin\Accounts\Account;
 
-if (strpos($_SERVER['PHP_SELF'], "dropdownTypeAccounts.php")) {
-    header("Content-Type: text/html; charset=UTF-8");
-    Html::header_nocache();
-}
+header("Content-Type: text/html; charset=UTF-8");
+Html::header_nocache();
 
 global $DB;
 

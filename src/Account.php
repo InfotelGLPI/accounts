@@ -36,6 +36,7 @@ use CommonDBTM;
 use DBConnection;
 use DbUtils;
 use Dropdown;
+use Entity;
 use Glpi\Application\View\TemplateRenderer;
 use Glpi\DBAL\QueryExpression;
 use Glpi\DBAL\QueryFunction;
@@ -967,7 +968,10 @@ class Account extends CommonDBTM
             false,
         );
         if ($p['display']) {
-            echo $out;
+            TemplateRenderer::getInstance()->display('@accounts/massive_action_subform.html.twig', [
+                'widget' => $out,
+                'no_submit' => true,
+            ]);
             return $rand;
         }
         return $out;
@@ -1024,28 +1028,29 @@ class Account extends CommonDBTM
     {
         switch ($ma->getAction()) {
             case 'add_item':
-                self::dropdownAccount([]);
-                echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction', 'class' => 'btn btn-primary']);
-                return true;
+                $widget = self::dropdownAccount(['display' => false]);
+                break;
             case "uninstall":
             case "install":
-                Dropdown::showSelectItemFromItemtypes([
+                $widget = Dropdown::showSelectItemFromItemtypes([
                     'items_id_name' => 'item_item',
                     'itemtype_name' => 'typeitem',
-                    'itemtypes' => self::getTypes(true),
-                    'checkright'
-                    => true,
+                    'itemtypes'     => self::getTypes(true),
+                    'checkright'    => true,
+                    'display'       => false,
                 ]);
-                echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction', 'class' => 'btn btn-primary']);
-                return true;
                 break;
             case "transfer":
-                Dropdown::show('Entity');
-                echo Html::submit(_x('button', 'Post'), ['name' => 'massiveaction', 'class' => 'btn btn-primary']);
-                return true;
+                $widget = Dropdown::show(Entity::class, ['display' => false]);
                 break;
+            default:
+                return parent::showMassiveActionsSubForm($ma);
         }
-        return parent::showMassiveActionsSubForm($ma);
+
+        TemplateRenderer::getInstance()->display('@accounts/massive_action_subform.html.twig', [
+            'widget' => $widget,
+        ]);
+        return true;
     }
 
     /**
@@ -2187,27 +2192,17 @@ class Account extends CommonDBTM
         return parent::canUpdateItem() && $this->isVisibleToCurrentUser();
     }
 
-    /**
-     * Override to inject group-based visibility filtering into the search engine.
-     * This affects front/account.php list and all search-based views.
-     */
-    public static function getDefaultWhere(): string
+    // Delete, restore and purge go through can($id, DELETE|PURGE), which stops at checkEntity()
+    // unless these are overridden: an account out of the caller's visibility could be trashed or
+    // destroyed for good, from the form as from the core massive actions.
+    public function canDeleteItem(): bool
     {
-        global $DB;
-        $criteria = self::getVisibilityCriteria(true);
-        if (empty($criteria)) {
-            return '';
-        }
+        return parent::canDeleteItem() && $this->isVisibleToCurrentUser();
+    }
 
-        // Convert the criteria array to a SQL WHERE clause fragment
-        $iterator = new \DBmysqlIterator($DB);
-        $where = $iterator->analyseCrit($criteria);
-
-        if (empty($where)) {
-            return '';
-        }
-
-        return " AND ($where)";
+    public function canPurgeItem(): bool
+    {
+        return parent::canPurgeItem() && $this->isVisibleToCurrentUser();
     }
 
     public static function install(Migration $migration)

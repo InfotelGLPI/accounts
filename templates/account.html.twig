@@ -698,11 +698,12 @@
                     {{ __('characters', 'accounts') }}
                     </span>
                             </div>
-                            <div id="fakeupdate"></div>
+                            {# Wired by public/scripts/password_generator.js #}
                             <button type="button"
                                     id="generatePass"
                                     name="generatePass"
-                                    class="btn btn-primary">
+                                    class="btn btn-primary"
+                                    data-accounts-empty-message="{{ __('Select at least one checkbox', 'accounts') }}">
                                 <i class="ti ti-refresh me-1"></i>
                                 {{ __('Generate', 'accounts') }}
                             </button>
@@ -713,14 +714,4 @@
             </div>
         </div>
     </div>
-
-
-    {# Wire up the AJAX event (keep existing behaviour) #}
-    {% do call('Ajax::updateItemOnEvent', [
-        'generatePass',
-        'fakeupdate',
-        root_accounts_doc ~ '/ajax/generatepassword.php',
-        {'password': 1},
-        ['click']
-    ]) %}
 {% endif %}
