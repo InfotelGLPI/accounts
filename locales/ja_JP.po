@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 14:29+0000\n"
+"POT-Creation-Date: 2026-09-28 14:43+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -23,12 +23,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: setup.php:136 src/Account.php:110
+#: setup.php:138 src/Account.php:111
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "アカウント"
 
-#: src/Account.php:1240
+#: src/Account.php:1245
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -37,7 +37,7 @@ msgstr ""
 "「%s」アカウントを転送しましたが、行き先のエンティティーにフィンガープリント"
 "が見つかりません。セキュリティーのためにパスワードを消去しました。"
 
-#: src/Account.php:1293
+#: src/Account.php:1298
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -52,8 +52,8 @@ msgstr "期限切れアカウント"
 msgid "Accounts expired for more than"
 msgstr "アカウントの期限が切れてから "
 
-#: src/NotificationTargetAccount.php:322 src/Account.php:1448
-#: src/Account.php:1566
+#: src/NotificationTargetAccount.php:322 src/Account.php:1453
+#: src/Account.php:1571
 msgid "Accounts expired or accounts which expire"
 msgstr "既に期限切れ、期限切れが近いアカウント"
 
@@ -82,8 +82,8 @@ msgstr "影響するグループ"
 
 #: src/Account_Item.php:502 src/NotificationTargetAccount.php:65
 #: src/NotificationTargetAccount.php:188 src/NotificationTargetAccount.php:242
-#: src/NotificationTargetAccount.php:303 src/Account.php:347
-#: src/Account.php:355 templates/account.html.twig:420
+#: src/NotificationTargetAccount.php:303 src/Account.php:348
+#: src/Account.php:356 templates/account.html.twig:420
 #: templates/account.html.twig:429
 msgid "Affected User"
 msgstr "影響するユーザー"
@@ -100,12 +100,12 @@ msgstr "アカウントを作成しました"
 msgid "Associable to a ticket"
 msgstr "チケットに関連付ける"
 
-#: src/Account.php:994
+#: src/Account.php:998
 msgctxt "button"
 msgid "Associate"
 msgstr ""
 
-#: hook.php:875
+#: hook.php:870
 msgid "Associate to account"
 msgstr "アカウントに関連付ける"
 
@@ -151,16 +151,16 @@ msgstr "復号化したパスワード"
 msgid "Direct link to created account"
 msgstr "作成したアカウントへのリンク"
 
-#: templates/hash_select_accounts.html.twig:53
+#: templates/hash_select_accounts.html.twig:60
 msgid "Display report"
 msgstr "レポート表示"
 
-#: src/Account.php:998
+#: src/Account.php:1002
 msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:1944
+#: src/Account.php:1949
 msgid "Don't expire"
 msgstr "期限なし"
 
@@ -172,7 +172,7 @@ msgstr "空で永続"
 msgid "Encrypted password"
 msgstr ""
 
-#: src/Account.php:1981 src/Account.php:1985 src/AesKey.php:76
+#: src/Account.php:1986 src/Account.php:1990 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: templates/hash.html.twig:71 templates/aeskey.html.twig:66
 #: templates/account.html.twig:191 templates/account.html.twig:261
@@ -210,13 +210,13 @@ msgstr ""
 msgid "Filter"
 msgstr "フィルター"
 
-#: src/Hash.php:58 src/Hash.php:184 src/Account.php:338 src/AesKey.php:342
+#: src/Hash.php:58 src/Hash.php:184 src/Account.php:339 src/AesKey.php:342
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
 msgstr[0] "フィンガープリント"
 
-#: templates/account.html.twig:707
+#: templates/account.html.twig:708
 msgid "Generate"
 msgstr "生成"
 
@@ -314,13 +314,18 @@ msgstr ""
 "いないでください。"
 
 #: templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:134
+#: templates/hash_select_accounts.html.twig:58 templates/hash.html.twig:134
 msgid "Please fill the encryption key"
 msgstr "暗号キーを入力してください"
 
 #: src/Config.php:55
 msgid "Plugin Setup"
 msgstr "プラグインセットアップ"
+
+#: templates/massive_action_subform.html.twig:34
+msgctxt "button"
+msgid "Post"
+msgstr ""
 
 #: templates/profile.html.twig:34 templates/config.html.twig:66
 msgctxt "button"
@@ -347,7 +352,7 @@ msgstr "すべてのアカウントを表示する"
 msgid "See your accounts"
 msgstr "自分のアカウントを表示する"
 
-#: ajax/generatepassword.php:68
+#: templates/account.html.twig:706
 msgid "Select at least one checkbox"
 msgstr "チェックボックスのどれかを選択してください"
 
@@ -380,7 +385,7 @@ msgstr[0] "状態"
 msgid "Stored TOTP Secret"
 msgstr "保存済み2段階認証シークレット"
 
-#: src/Account.php:259 templates/account.html.twig:331
+#: src/Account.php:260 templates/account.html.twig:331
 msgid "TOTP Secret"
 msgstr "2段階認証シークレット"
 
@@ -388,7 +393,7 @@ msgstr "2段階認証シークレット"
 msgid "Technician in charge"
 msgstr "担当技術者"
 
-#: src/Account.php:1270
+#: src/Account.php:1275
 #, php-format
 msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
@@ -422,32 +427,32 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "新旧の暗号キーは空に出来ません"
 
-#: src/Account.php:1189
+#: src/Account.php:1194
 #, php-format
 msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
 "the account was not transferred."
 msgstr ""
 
-#: src/Account.php:492 src/Account.php:549
+#: src/Account.php:493 src/Account.php:550
 msgid "The selected fingerprint does not belong to an entity you can access"
 msgstr ""
 
-#: src/Account.php:579
+#: src/Account.php:580
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:564
+#: src/Account.php:565
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:834
+#: src/Account.php:835
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr "このアカウントに関連づいている暗号キーがありません。選択してください。"
 
-#: src/Account.php:790 src/Account.php:839
+#: src/Account.php:791 src/Account.php:840
 msgid "There is no encryption key for this entity"
 msgstr "このエンティティーには暗号キーがありません"
 
@@ -461,7 +466,7 @@ msgstr ""
 msgid "Time of checking of expiration of accounts"
 msgstr "アカウントの期限をチェックする時刻"
 
-#: src/Account.php:1005
+#: src/Account.php:1009
 msgid "Transfer"
 msgstr ""
 
@@ -513,7 +518,7 @@ msgstr ""
 "注意 : 関連するフィンガープリントを変更すると、パスワードを正しく復号化するこ"
 "とはできなくなります。パスワードも更新する必要があります。"
 
-#: src/Account.php:475
+#: src/Account.php:476
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -532,7 +537,7 @@ msgstr "暗号キーが違います"
 msgid "Yes"
 msgstr "はい"
 
-#: src/Account.php:2091
+#: src/Account.php:2096
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -548,7 +553,7 @@ msgstr "パスワードと暗号キーを入力していません"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "暗号キーのフィンガープリントを生成してください"
 
-#: src/Account.php:814
+#: src/Account.php:815
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr "暗号キーが不正な形式です。フィンガープリントを再生成してください"
 
