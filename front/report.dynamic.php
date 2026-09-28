@@ -43,7 +43,7 @@ if (isset($_POST["display_type"])) {
     // in the pager form. The previous approach passed all account data through
     // per-row hidden inputs, hitting PHP's max_input_vars=1000 limit and
     // silently truncating the list at ~142 rows in multi-entities mode.
-    // printPager() emits the pairs of $parameters, whose first key is 'id'. Reading
+    // templates/report_accounts_list.html.twig posts the fingerprint as 'id'. Reading
     // 'hash_id' here meant the export always ran against a null fingerprint.
     $hash_id = (int) ($_POST["id"] ?? 0);
 

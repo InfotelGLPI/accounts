@@ -35,7 +35,7 @@ use Dropdown;
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use Glpi\Search\Output\HTMLSearchOutput;
 use Glpi\Search\SearchEngine;
-use Html;
+use Glpi\Application\View\TemplateRenderer;
 use Search;
 use Session;
 
@@ -121,7 +121,7 @@ class Report extends CommonDBTM
             self::rememberVerification($ID, $verifier);
         } elseif (!self::hasVerifiedKey($ID, $verifier)) {
             // No key in this request, and none checked recently enough: the export forms built by
-            // printPager() no longer carry one, so this is the branch they land in.
+            // report_accounts_list.html.twig no longer carry one, so this is the branch they land in.
             Session::addMessageAfterRedirect(
                 __s('The encryption key is no longer available, please display the list again before exporting it', 'accounts'),
                 false,
@@ -273,12 +273,11 @@ class Report extends CommonDBTM
     {
         $ID = (int) ($values["id"] ?? 0);
         // Only the HTML rendering has a key to work with: it is the request that carries one,
-        // and its script block is the only consumer. The CSV and PDF renderings export the
+        // and public/scripts/report.js is its only consumer. The CSV and PDF renderings export the
         // cryptograms as they stand, so they neither receive nor need it.
         $aeskey = (string) ($values["aeskey"] ?? '');
 
-        $Hash      = self::loadReachableHash($ID);
-        $hashvalue = $Hash->fields["hash"];
+        $Hash = self::loadReachableHash($ID);
 
         $default_values["start"]  = $start = 0;
         $default_values["id"]     = $id = 0;
@@ -297,7 +296,6 @@ class Report extends CommonDBTM
         $output_type = $values["display_type"] ?? Search::HTML_OUTPUT;
         $output = SearchEngine::getOutputForLegacyKey($output_type);
         $is_html_output = $output instanceof HTMLSearchOutput;
-        $html_output = '';
 
         if (isset($values["display_type"])) {
             $output_type = $values["display_type"];
@@ -313,241 +311,129 @@ class Report extends CommonDBTM
             $end_display = $numrows;
         }
 
-        $nbcols     = 4;
-        if (!$is_html_output) {
-            $nbcols--;
-        }
-
-        // printPager() turns this into the hidden fields of the export form. Only the fingerprint
-        // travels: the export is gated on the marker rememberVerification() left in the session
-        // when the key was checked, so it still takes having known the key -- without the key
-        // itself being re-posted on every click, or held anywhere afterwards.
-        $parameters = "id=" . $ID;
-
-        if ($is_html_output && !empty($list)) {
-            self::printPager($start, $numrows, $_SERVER['PHP_SELF'], $parameters, "Report");
-        }
         if ($is_html_output) {
-            $html_output .= $output::showHeader($end_display - $start + 1, $nbcols);
-        }
-        if (!$is_html_output) {
-            $headers[] = __s('Name');
+            $columns = ['name' => __('Name')];
             if (Session::isMultiEntitiesMode()) {
-                $headers[] = __s('Entity');
+                $columns['entities_id'] = __('Entity');
             }
-            $headers[] = __s('Type');
-            $headers[] = __s('Login');
-            // CSV and PDF cannot run the decryption script, so what lands in those files is
-            // the cryptogram. Labelling it "Decrypted password" invited treating a vault dump
-            // as a harmless export.
-            $headers[] = __s('Encrypted password', 'accounts');
-        } else {
-            $header_num    = 1;
-            $html_output .= $output::showNewLine();
-            $html_output .= $output::showHeaderItem(__s('Name'), $header_num);
-            if (Session::isMultiEntitiesMode()) {
-                $html_output .= $output::showHeaderItem(__s('Entity'), $header_num);
-            }
-            $html_output .= $output::showHeaderItem(__s('Type'), $header_num);
-            $html_output .= $output::showHeaderItem(__s('Login'), $header_num);
-            $html_output .= $output::showHeaderItem(__s('Decrypted password', 'accounts'), $header_num);
-            $html_output .= $output::showEndLine($output_type);
-        }
-        $row_num = 0;
-        if (!empty($list)) {
-            for ($i = $start; ($i < $numrows) && ($i < $end_display); $i++) {
-                $row_num++;
-                $current_row = [];
-                $item_num = 1;
-                $colnum = 0;
-                if ($is_html_output) {
-                    $html_output .= $output::showNewLine($i % 2 === 1);
-                }
-                $IDc = $list[$i]["id"];
+            $columns['type']     = __('Type');
+            $columns['login']    = __('Login');
+            $columns['password'] = __('Decrypted password', 'accounts');
 
-                // Values come from the database and are stored raw since GLPI 10+: escape before HTML output (stored XSS)
-                $name = "<a href='" . PLUGIN_ACCOUNTS_WEBDIR . "/front/account.form.php?id=" . (int) $IDc . "'>"
-                    . htmlspecialchars((string) $list[$i]["name"], ENT_QUOTES, 'UTF-8');
+            $entries = [];
+            foreach ($list as $account) {
+                $IDc  = (int) $account['id'];
+                $name = htmlescape((string) $account['name']);
                 if ($_SESSION["glpiis_ids_visible"]) {
-                    $name .= " (" . (int) $IDc . ")";
+                    $name .= " (" . $IDc . ")";
                 }
-                $name .= "</a>";
-                if ($is_html_output) {
-                    $html_output .= $output::showItem($name, $item_num, $row_num);
-                } else {
-                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $name];
-                }
-                if (Session::isMultiEntitiesMode()) {
-                    if ($is_html_output) {
-                        $html_output .= $output::showItem(htmlspecialchars((string) $list[$i]['entities_id'], ENT_QUOTES, 'UTF-8'), $item_num, $row_num);
-                    } else {
-                        $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]['entities_id']];
-                    }
-                }
-                if ($is_html_output) {
-                    // Escape DB-stored value before HTML output (stored XSS)
-                    $html_output .= $output::showItem(htmlspecialchars((string) ($list[$i]["type"] ?? ""), ENT_QUOTES, 'UTF-8'), $item_num, $row_num);
-                } else {
-                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["type"] ?? ""];
-                }
-
-                if ($is_html_output) {
-                    // Escape DB-stored value before HTML output (stored XSS)
-                    $html_output .= $output::showItem(htmlspecialchars((string) ($list[$i]["login"] ?? ""), ENT_QUOTES, 'UTF-8'), $item_num, $row_num);
-                } else {
-                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["login"] ?? ""];
-                }
-
-                if ($is_html_output) {
-                    $encrypted = $list[$i]["password"];
-                    // No hidden field for the decrypted value. It used to be emitted here and
-                    // filled by the script below, inside the export form opened by printPager():
-                    // one click on Export then posted every password of the vault in cleartext to
-                    // front/report.dynamic.php, which never reads them -- it re-queries the
-                    // database. Same reasoning as templates/account.html.twig, where
-                    // #hidden_password deliberately carries no name attribute.
-                    $pass = "<p name='show_password' id='show_password$$IDc'></p>";
-                    // Encode all dynamic values as JS literals to prevent script injection
-                    $js_aeskey    = json_encode($aeskey);
-                    $js_encrypted = json_encode($encrypted);
-                    $js_hashvalue = json_encode($hashvalue);
-                    $js_wrongkey  = json_encode(__('Wrong encryption key', 'accounts'));
-                    $pass .= Html::scriptBlock("
-                                var good_hash = $js_hashvalue;
-                                var aeskey = $js_aeskey;
-                                var encrypted = $js_encrypted;
-
-                                // Verify the typed key against the stored verifier. generic_check_hash
-                                // (crypt.js) handles both the salted PBKDF2 format and legacy double SHA-256.
-                                if (generic_check_hash(good_hash, aeskey)) {
-                                    // decrypt_cryptogram dispatches on the version prefix (v3 with a
-                                    // mandatory MAC, v2 with an optional one) and falls back to the
-                                    // legacy AES-CTR format. Never pick the version here.
-                                    pass = decrypt_cryptogram(encrypted, aeskey);
-                                } else {
-                                    pass = $js_wrongkey;
-                                }
-
-                                // Display cell only: the plaintext must never leave the browser.
-                                document.getElementById(\"show_password$$IDc\").textContent = pass;
-
-                                ");
-
-                    $html_output .= $output::showItem($pass, $item_num, $row_num);
-                } else {
-                    $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["password"] ?? ""];
-                }
-
-                $rows[$row_num] = $current_row;
-                if ($is_html_output) {
-                    $html_output .= $output::showEndLine(false);
-                }
-            }
-        }
-
-        if ($is_html_output) {
-            // Everything else on this path is accumulated into $html_output and echoed in one
-            // go below. Html::closeForm() prints straight away unless told otherwise, so the
-            // </form> used to be emitted before the table it closes; and showFooter() returns
-            // its fragment in GLPI 11 instead of printing it, so the end of the table and of
-            // the containers opened by showHeader() was computed and then dropped. The browser
-            // was left to guess, and swallowed whatever followed on the page.
-            $html_output .= Html::closeForm(false);
-            $html_output .= $output::showFooter(__s('Linked accounts list', 'accounts'), $numrows);
-        }
-
-        if ($is_html_output) {
-            echo $html_output;
-        } else {
-            $params = [
-                'start' => 0,
-                'is_deleted' => 0,
-                'as_map' => 0,
-                'browse' => 0,
-                'unpublished' => 1,
-                'criteria' => [],
-                'metacriteria' => [],
-                'display_type' => 0,
-                'hide_controls' => true,
-            ];
-
-            $accounts_data = SearchEngine::prepareDataForSearch($itemtype, $params);
-            $accounts_data = array_merge($accounts_data, [
-                'itemtype' => $itemtype,
-                'data' => [
-                    'totalcount' => $numrows,
-                    'count' => $numrows,
-                    'search' => '',
-                    'cols' => [],
-                    'rows' => $rows,
-                ],
-            ]);
-
-            $colid = 0;
-            foreach ($headers as $header) {
-                $accounts_data['data']['cols'][] = [
-                    'name' => $header,
-                    'itemtype' => $itemtype,
-                    'id' => ++$colid,
+                $entries[] = [
+                    'name'        => '<a href="' . htmlescape(PLUGIN_ACCOUNTS_WEBDIR . '/front/account.form.php?id=' . $IDc) . '">' . $name . '</a>',
+                    'entities_id' => (string) ($account['entities_id'] ?? ''),
+                    'type'        => (string) ($account['type'] ?? ''),
+                    'login'       => (string) ($account['login'] ?? ''),
+                    // Filled by public/scripts/report.js. No hidden field for the decrypted value,
+                    // and nothing inside the export form: the plaintext must never leave the
+                    // browser (same reasoning as #hidden_password in templates/account.html.twig).
+                    'password'    => '<span data-accounts-encrypted="' . htmlescape((string) $account['password']) . '"></span>',
                 ];
             }
 
-            $output->displayData($accounts_data, []);
-        }
-    }
+            TemplateRenderer::getInstance()->display('@accounts/report_accounts_list.html.twig', [
+                // Only the fingerprint travels in the export form: the export is gated on the
+                // marker rememberVerification() left in the session when the key was checked,
+                // so it still takes having known the key -- without the key itself being
+                // re-posted on every click, or held anywhere afterwards.
+                'show_export'    => !empty($list) && Session::getCurrentInterface() == "central",
+                'export_url'     => PLUGIN_ACCOUNTS_WEBDIR . '/front/report.dynamic.php',
+                'hash_id'        => $ID,
+                'export_formats' => [
+                    '-' . Search::PDF_OUTPUT_LANDSCAPE => __('All pages in landscape PDF'),
+                    '-' . Search::PDF_OUTPUT_PORTRAIT  => __('All pages in portrait PDF'),
+                    '-' . Search::CSV_OUTPUT           => __('All pages in CSV'),
+                ],
+                // Only the HTML rendering has a key to work with: it is the request that carries
+                // one, and the decryption script is its only consumer.
+                'aeskey'           => $aeskey,
+                'verifier'         => (string) $Hash->fields['hash'],
+                'datatable_params' => [
+                    'is_tab'          => true,
+                    'nofilter'        => true,
+                    'nosort'          => true,
+                    'super_header'    => __('Linked accounts list', 'accounts'),
+                    'columns'         => $columns,
+                    'formatters'      => [
+                        'name'     => 'raw_html',
+                        'password' => 'raw_html',
+                    ],
+                    'entries'         => $entries,
+                    'total_number'    => count($entries),
+                    'filtered_number' => count($entries),
+                ],
+            ]);
 
-    /**
-     * @param     $start
-     * @param     $numrows
-     * @param     $target
-     * @param     $parameters
-     * @param int $item_type_output
-     * @param int $item_type_output_param
-     */
-    public static function printPager($start, $numrows, $target, $parameters, $item_type_output = 0, $item_type_output_param = 0)
-    {
-        global $CFG_GLPI;
-
-        // Print it
-
-        echo "<form method='POST' action=\"" . PLUGIN_ACCOUNTS_WEBDIR
-             . "/front/report.dynamic.php\" target='_blank'>\n";
-
-        echo "<table class='tab_cadre_pager'>\n";
-        echo "<tr>\n";
-
-        if (Session::getCurrentInterface() == "central") {
-            echo "<td class='tab_bg_2' width='30%'>";
-
-            echo Html::hidden('itemtype', ['value' => Report::class]);
-            if ($item_type_output_param != 0) {
-                echo Html::hidden('item_type_param', ['value' => serialize($item_type_output_param)]);
-            }
-            $explode = explode("&amp;", $parameters);
-            for ($i = 0; $i < count($explode); $i++) {
-                $pos = strpos($explode[$i], '=');
-                $name = substr($explode[$i], 0, $pos);
-                echo Html::hidden($name, ['value' => substr($explode[$i], $pos + 1)]);
-            }
-            self::showOutputFormat();
-
-            echo "</td>";
+            return;
         }
 
-        // End pager
-        echo "</tr>\n";
-        echo "</table><br>\n";
-    }
+        $headers[] = __s('Name');
+        if (Session::isMultiEntitiesMode()) {
+            $headers[] = __s('Entity');
+        }
+        $headers[] = __s('Type');
+        $headers[] = __s('Login');
+        // CSV and PDF cannot run the decryption script, so what lands in those files is
+        // the cryptogram. Labelling it "Decrypted password" invited treating a vault dump
+        // as a harmless export.
+        $headers[] = __s('Encrypted password', 'accounts');
 
-    public static function showOutputFormat()
-    {
-        $values['-' . Search::PDF_OUTPUT_LANDSCAPE] = __s('All pages in landscape PDF');
-        $values['-' . Search::PDF_OUTPUT_PORTRAIT]  = __s('All pages in portrait PDF');
-        $values['-' . Search::CSV_OUTPUT]           = __s('All pages in CSV');
+        $row_num = 0;
+        for ($i = $start; ($i < $numrows) && ($i < $end_display); $i++) {
+            $row_num++;
+            $current_row = [];
+            $colnum = 0;
+            $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["name"]];
+            if (Session::isMultiEntitiesMode()) {
+                $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]['entities_id']];
+            }
+            $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["type"] ?? ""];
+            $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["login"] ?? ""];
+            $current_row[$itemtype . '_' . (++$colnum)] = ['displayname' => $list[$i]["password"] ?? ""];
+            $rows[$row_num] = $current_row;
+        }
 
-        Dropdown::showFromArray('display_type', $values);
-        echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
+        $params = [
+            'start' => 0,
+            'is_deleted' => 0,
+            'as_map' => 0,
+            'browse' => 0,
+            'unpublished' => 1,
+            'criteria' => [],
+            'metacriteria' => [],
+            'display_type' => 0,
+            'hide_controls' => true,
+        ];
 
-        echo Html::submit(_sx('button', 'Export'), ['name' => 'export', 'class' => 'btn btn-primary']);
+        $accounts_data = SearchEngine::prepareDataForSearch($itemtype, $params);
+        $accounts_data = array_merge($accounts_data, [
+            'itemtype' => $itemtype,
+            'data' => [
+                'totalcount' => $numrows,
+                'count' => $numrows,
+                'search' => '',
+                'cols' => [],
+                'rows' => $rows,
+            ],
+        ]);
+
+        $colid = 0;
+        foreach ($headers as $header) {
+            $accounts_data['data']['cols'][] = [
+                'name' => $header,
+                'itemtype' => $itemtype,
+                'id' => ++$colid,
+            ];
+        }
+
+        $output->displayData($accounts_data, []);
     }
 }

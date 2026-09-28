@@ -787,9 +787,7 @@ class Account extends CommonDBTM
         $nbhashes = countElementsInTable("glpi_plugin_accounts_hashes", $restrict);
 
         if ($ID < 1 && $nbhashes == 0) {
-            echo "<div class='alert alert-warning d-flex'>";
-            echo __s('There is no encryption key for this entity', 'accounts');
-            echo "</div>";
+            self::displayWarning(__('There is no encryption key for this entity', 'accounts'));
             return false;
         }
 
@@ -813,10 +811,7 @@ class Account extends CommonDBTM
         if (!empty($hashes)) {
             foreach ($hashes as $hash_row) {
                 if (empty($hash_row['hash'])) {
-                    $alert = __s('Your encryption key is malformed, please regenerate the fingerprint', 'accounts');
-                    echo "<div class='alert alert-warning d-flex'>";
-                    echo $alert;
-                    echo "</div>";
+                    self::displayWarning(__('Your encryption key is malformed, please regenerate the fingerprint', 'accounts'));
                     return false;
                 }
             }
@@ -841,10 +836,7 @@ class Account extends CommonDBTM
                 );
             }
         } else {
-            $alert = __s('There is no encryption key for this entity', 'accounts');
-            echo "<div class='alert alert-warning d-flex'>";
-            echo $alert;
-            echo "</div>";
+            self::displayWarning(__('There is no encryption key for this entity', 'accounts'));
             return false;
         }
 
@@ -2050,6 +2042,18 @@ class Account extends CommonDBTM
         return true;
     }
 
+    /**
+     * Display a warning banner.
+     *
+     * @param string $message Unescaped message, escaped by the template
+     */
+    public static function displayWarning(string $message): void
+    {
+        TemplateRenderer::getInstance()->display('@accounts/alert_warning.html.twig', [
+            'message' => $message,
+        ]);
+    }
+
     public static function showAccountsWithoutHash()
     {
         global $DB;
@@ -2083,12 +2087,10 @@ class Account extends CommonDBTM
             foreach ($iterator as $data) {
                 $cpt = $data['cpt'];
                 if ($cpt > 0) {
-                    echo "<div class='alert alert-warning d-flex'>";
-                    echo __s(
+                    self::displayWarning(__(
                         'You have accounts without linked fingerprint, please add it with massive action or into forms',
                         'accounts',
-                    );
-                    echo "</div>";
+                    ));
                 }
             }
         }

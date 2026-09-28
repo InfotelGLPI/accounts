@@ -350,62 +350,39 @@ class AesKey extends CommonDBTM
             ],
         ]);
 
-        $rand = mt_rand();
-        echo "<div class='left'>";
-
-        echo Html::hidden('plugin_accounts_hashes_id', ['value' => $ID]);
-
-        if ($candelete && count($iterator) > 0) {
-            Html::openMassiveActionsForm('massaeskey' . $rand);
-            $massiveactionparams = ['item' => __CLASS__, 'container' => 'massaeskey' . $rand];
-            Html::showMassiveActions($massiveactionparams);
+        $entries = [];
+        $link    = Toolbox::getItemTypeFormURL(self::class);
+        foreach ($iterator as $data) {
+            // Same key as the initNavigateListItems() call above -- see the comment there.
+            Session::addToNavigateListItems(self::class, $data['id']);
+            $entries[] = [
+                'itemtype' => self::class,
+                'id'       => $data['id'],
+                'name'     => '<a href="' . htmlescape($link . '?id=' . (int) $data['id'] . '&plugin_accounts_hashes_id=' . (int) $ID) . '">'
+                    . __s('Encryption key', 'accounts') . '</a>',
+            ];
         }
 
-        echo "<table class='tab_cadre_fixe'>";
-
-        echo "<tr><th colspan='" . ($candelete ? 2 : 1) . "'>" . __s('Encryption key', 'accounts') . "</th></tr>";
-        echo "<tr>";
-        if ($candelete && count($iterator) > 0) {
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('massaeskey' . $rand) . "</th>";
-        }
-        echo "<th class='left'>" . __s('Name') . "</th>";
-        echo "</tr>";
-
-        if (count($iterator) > 0) {
-            foreach ($iterator as $data) {
-                // Same key as the initNavigateListItems() call above -- see the comment there.
-                Session::addToNavigateListItems(self::class, $data['id']);
-                $name = "item[" . $data["id"] . "]";
-                echo Html::hidden($name, ['value' => $ID]);
-                echo "<tr class='tab_bg_1 center'>";
-                if ($candelete) {
-                    echo "<td width='10'>";
-                    Html::showMassiveActionCheckBox(__CLASS__, $data["id"]);
-                    echo "</td>";
-                }
-                $link = Toolbox::getItemTypeFormURL(AesKey::class);
-                echo "<td class='left'><a href='" . $link . "?id=" . $data["id"] . "&plugin_accounts_hashes_id=" . $ID . "'>";
-                echo __s('Encryption key', 'accounts') . "</a></td>";
-                echo "</tr>";
-            }
-
-            echo "<tr>";
-            if ($candelete && count($iterator) > 0) {
-                echo "<th width='10'>" . Html::getCheckAllAsCheckbox('massaeskey' . $rand) . "</th>";
-            }
-            echo "<th class='left'>" . __s('Name') . "</th>";
-            echo "</tr>";
-            echo "</table>";
-
-            if ($candelete) {
-                $massiveactionparams['ontop'] = false;
-                Html::showMassiveActions($massiveactionparams);
-                Html::closeForm();
-            }
-        } else {
-            echo "</table>";
-        }
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('components/datatable.html.twig', [
+            'is_tab'       => true,
+            'nofilter'     => true,
+            'nosort'       => true,
+            'super_header' => __('Encryption key', 'accounts'),
+            'columns'      => [
+                'name' => __('Name'),
+            ],
+            'formatters'   => [
+                'name' => 'raw_html',
+            ],
+            'entries'             => $entries,
+            'total_number'        => count($entries),
+            'filtered_number'     => count($entries),
+            'showmassiveactions'  => $candelete && count($entries) > 0,
+            'massiveactionparams' => [
+                'num_displayed' => count($entries),
+                'container'     => 'massaeskey' . mt_rand(),
+            ],
+        ]);
     }
 
     /**
