@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 14:29+0000\n"
+"POT-Creation-Date: 2026-09-28 14:43+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
 "Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/"
@@ -23,13 +23,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: setup.php:136 src/Account.php:110
+#: setup.php:138 src/Account.php:111
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Hesap"
 msgstr[1] "Hesaplar"
 
-#: src/Account.php:1240
+#: src/Account.php:1245
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -38,7 +38,7 @@ msgstr ""
 "\"%s\" hesabı aktarıldı ancak hedef kuruluşta parmak izi bulunamadı. "
 "Güvenlik nedeniyle parola temizlendi."
 
-#: src/Account.php:1293
+#: src/Account.php:1298
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -55,8 +55,8 @@ msgstr "Süresi dolmuş hesaplar"
 msgid "Accounts expired for more than"
 msgstr "Şu zamandan önce süresi dolmuş hesaplar"
 
-#: src/NotificationTargetAccount.php:322 src/Account.php:1448
-#: src/Account.php:1566
+#: src/NotificationTargetAccount.php:322 src/Account.php:1453
+#: src/Account.php:1571
 msgid "Accounts expired or accounts which expire"
 msgstr "Süresi dolmuş ya da dolan hesaplar"
 
@@ -85,8 +85,8 @@ msgstr "Etkilenen grup"
 
 #: src/Account_Item.php:502 src/NotificationTargetAccount.php:65
 #: src/NotificationTargetAccount.php:188 src/NotificationTargetAccount.php:242
-#: src/NotificationTargetAccount.php:303 src/Account.php:347
-#: src/Account.php:355 templates/account.html.twig:420
+#: src/NotificationTargetAccount.php:303 src/Account.php:348
+#: src/Account.php:356 templates/account.html.twig:420
 #: templates/account.html.twig:429
 msgid "Affected User"
 msgstr "Etkilenen kullanıcı"
@@ -103,12 +103,12 @@ msgstr "Bir hesap oluşturuldu"
 msgid "Associable to a ticket"
 msgstr "Destek kaydı ile ilişkilendirilebilir"
 
-#: src/Account.php:994
+#: src/Account.php:998
 msgctxt "button"
 msgid "Associate"
 msgstr "İlişkilendir"
 
-#: hook.php:875
+#: hook.php:870
 msgid "Associate to account"
 msgstr "Hesapla ilişkilendir"
 
@@ -156,16 +156,16 @@ msgstr "Şifresi çözülmüş parola"
 msgid "Direct link to created account"
 msgstr "Oluşturulan hesaba doğrudan bağlantı"
 
-#: templates/hash_select_accounts.html.twig:53
+#: templates/hash_select_accounts.html.twig:60
 msgid "Display report"
 msgstr "Raporu görüntüle"
 
-#: src/Account.php:998
+#: src/Account.php:1002
 msgctxt "button"
 msgid "Dissociate"
 msgstr "Ayrıştır"
 
-#: src/Account.php:1944
+#: src/Account.php:1949
 msgid "Don't expire"
 msgstr "Süresi dolmaz"
 
@@ -177,7 +177,7 @@ msgstr "Sonsuz olması için boş bırakın"
 msgid "Encrypted password"
 msgstr "Şifrelenmiş parola"
 
-#: src/Account.php:1981 src/Account.php:1985 src/AesKey.php:76
+#: src/Account.php:1986 src/Account.php:1990 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: templates/hash.html.twig:71 templates/aeskey.html.twig:66
 #: templates/account.html.twig:191 templates/account.html.twig:261
@@ -215,14 +215,14 @@ msgstr ""
 msgid "Filter"
 msgstr "Süz"
 
-#: src/Hash.php:58 src/Hash.php:184 src/Account.php:338 src/AesKey.php:342
+#: src/Hash.php:58 src/Hash.php:184 src/Account.php:339 src/AesKey.php:342
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
 msgstr[0] "Parmak izi"
 msgstr[1] "Parmak izleri"
 
-#: templates/account.html.twig:707
+#: templates/account.html.twig:708
 msgid "Generate"
 msgstr "Oluştur"
 
@@ -320,13 +320,18 @@ msgstr ""
 "kullanmayın. Yoksa daha sonra değiştiremezsiniz."
 
 #: templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:134
+#: templates/hash_select_accounts.html.twig:58 templates/hash.html.twig:134
 msgid "Please fill the encryption key"
 msgstr "Lütfen şifreleme anahtarını yazın"
 
 #: src/Config.php:55
 msgid "Plugin Setup"
 msgstr "Eklenti ayarları"
+
+#: templates/massive_action_subform.html.twig:34
+msgctxt "button"
+msgid "Post"
+msgstr ""
 
 #: templates/profile.html.twig:34 templates/config.html.twig:66
 msgctxt "button"
@@ -353,7 +358,7 @@ msgstr "Tüm hesapları görüntüle"
 msgid "See your accounts"
 msgstr "Hesaplarımı görüntüle"
 
-#: ajax/generatepassword.php:68
+#: templates/account.html.twig:706
 msgid "Select at least one checkbox"
 msgstr "En az bir işaret kutusunu seçin"
 
@@ -387,7 +392,7 @@ msgstr[1] "Durumlar"
 msgid "Stored TOTP Secret"
 msgstr "Kaydedilmiş tek kullanımlık parola"
 
-#: src/Account.php:259 templates/account.html.twig:331
+#: src/Account.php:260 templates/account.html.twig:331
 msgid "TOTP Secret"
 msgstr "Tek kullanımlık parola"
 
@@ -395,7 +400,7 @@ msgstr "Tek kullanımlık parola"
 msgid "Technician in charge"
 msgstr "Sorumlu teknisyen"
 
-#: src/Account.php:1270
+#: src/Account.php:1275
 #, php-format
 msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
@@ -435,7 +440,7 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "Eski ya da yeni şifreleme anahtarı boş olamaz"
 
-#: src/Account.php:1189
+#: src/Account.php:1194
 #, php-format
 msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
@@ -444,20 +449,20 @@ msgstr ""
 "\"%s\" hesabının parolasının şifresi kaynak anahtar ile çözülemedi: Hesap "
 "aktarılmadı."
 
-#: src/Account.php:492 src/Account.php:549
+#: src/Account.php:493 src/Account.php:550
 msgid "The selected fingerprint does not belong to an entity you can access"
 msgstr "Seçilmiş parmak izi erişebileceğiniz bir varlığa ait değil"
 
-#: src/Account.php:579
+#: src/Account.php:580
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
 "Gönderilen tek kullanımlık parola bütünlük koruması olmadığından yok sayıldı"
 
-#: src/Account.php:564
+#: src/Account.php:565
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr "Gönderilen parolanın bütünlük koruması olmadığından yok sayıldı"
 
-#: src/Account.php:834
+#: src/Account.php:835
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
@@ -465,7 +470,7 @@ msgstr ""
 "Bu hesapla ilişkilendirilmiş bir şifreleme anahtarı yok. Lütfen yukarıdan "
 "birini seçin"
 
-#: src/Account.php:790 src/Account.php:839
+#: src/Account.php:791 src/Account.php:840
 msgid "There is no encryption key for this entity"
 msgstr "Bu birim için bir şifreleme anahtarı yok"
 
@@ -482,7 +487,7 @@ msgstr ""
 msgid "Time of checking of expiration of accounts"
 msgstr "Hesapların süresinin dolma denetiminin zamanı"
 
-#: src/Account.php:1005
+#: src/Account.php:1009
 msgid "Transfer"
 msgstr "Aktar"
 
@@ -536,7 +541,7 @@ msgstr ""
 "DİKKAT: İlişkilendirilmiş parmak izini değiştirirseniz, parolanın şifresini "
 "doğru şekilde çözemezsiniz. Ayrıca parolayı güncellemeniz gerekecek."
 
-#: src/Account.php:475
+#: src/Account.php:476
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -555,7 +560,7 @@ msgstr "Şifreleme anahtarı yanlış"
 msgid "Yes"
 msgstr "Evet"
 
-#: src/Account.php:2091
+#: src/Account.php:2096
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -571,7 +576,7 @@ msgstr "Parola ve şifreleme anahtarını yazmadınız"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "Şifreleme anahtarınız için bir parmak izi oluşturmalısınız"
 
-#: src/Account.php:814
+#: src/Account.php:815
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr "Şifreleme anahtarınız bozulmuş. Lütfen bir parmak izi oluşturun"
 

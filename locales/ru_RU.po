@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 14:29+0000\n"
+"POT-Creation-Date: 2026-09-28 14:43+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Viktor Golubev, 2023\n"
 "Language-Team: Russian (Russia) (https://app.transifex.com/infotelGLPI/"
@@ -25,7 +25,7 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: setup.php:136 src/Account.php:110
+#: setup.php:138 src/Account.php:111
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "Аккаунт"
@@ -33,14 +33,14 @@ msgstr[1] "Аккаунты"
 msgstr[2] "Аккаунты"
 msgstr[3] "Аккаунты"
 
-#: src/Account.php:1240
+#: src/Account.php:1245
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "Password was cleared for security."
 msgstr ""
 
-#: src/Account.php:1293
+#: src/Account.php:1298
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -55,8 +55,8 @@ msgstr "Истекшие аккаунты"
 msgid "Accounts expired for more than"
 msgstr "Аккаунты, истекшие более чем на"
 
-#: src/NotificationTargetAccount.php:322 src/Account.php:1448
-#: src/Account.php:1566
+#: src/NotificationTargetAccount.php:322 src/Account.php:1453
+#: src/Account.php:1571
 msgid "Accounts expired or accounts which expire"
 msgstr ""
 
@@ -85,8 +85,8 @@ msgstr "Затронутая группа"
 
 #: src/Account_Item.php:502 src/NotificationTargetAccount.php:65
 #: src/NotificationTargetAccount.php:188 src/NotificationTargetAccount.php:242
-#: src/NotificationTargetAccount.php:303 src/Account.php:347
-#: src/Account.php:355 templates/account.html.twig:420
+#: src/NotificationTargetAccount.php:303 src/Account.php:348
+#: src/Account.php:356 templates/account.html.twig:420
 #: templates/account.html.twig:429
 msgid "Affected User"
 msgstr "Затронутый пользователь"
@@ -103,12 +103,12 @@ msgstr "Аккаунт был создан"
 msgid "Associable to a ticket"
 msgstr ""
 
-#: src/Account.php:994
+#: src/Account.php:998
 msgctxt "button"
 msgid "Associate"
 msgstr ""
 
-#: hook.php:875
+#: hook.php:870
 msgid "Associate to account"
 msgstr "Связать с аккаунтом"
 
@@ -160,16 +160,16 @@ msgstr ""
 msgid "Direct link to created account"
 msgstr "Прямая ссылка на созданный аккаунт"
 
-#: templates/hash_select_accounts.html.twig:53
+#: templates/hash_select_accounts.html.twig:60
 msgid "Display report"
 msgstr ""
 
-#: src/Account.php:998
+#: src/Account.php:1002
 msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:1944
+#: src/Account.php:1949
 msgid "Don't expire"
 msgstr "Не истекать"
 
@@ -181,7 +181,7 @@ msgstr "Пустой для бесконечности"
 msgid "Encrypted password"
 msgstr ""
 
-#: src/Account.php:1981 src/Account.php:1985 src/AesKey.php:76
+#: src/Account.php:1986 src/Account.php:1990 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: templates/hash.html.twig:71 templates/aeskey.html.twig:66
 #: templates/account.html.twig:191 templates/account.html.twig:261
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Hash.php:58 src/Hash.php:184 src/Account.php:338 src/AesKey.php:342
+#: src/Hash.php:58 src/Hash.php:184 src/Account.php:339 src/AesKey.php:342
 #: templates/account.html.twig:146 templates/account.html.twig:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
@@ -231,7 +231,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: templates/account.html.twig:707
+#: templates/account.html.twig:708
 msgid "Generate"
 msgstr "Сгенерировать"
 
@@ -327,13 +327,18 @@ msgid ""
 msgstr ""
 
 #: templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:64 templates/hash.html.twig:134
+#: templates/hash_select_accounts.html.twig:58 templates/hash.html.twig:134
 msgid "Please fill the encryption key"
 msgstr "Заполните ключ шифрования"
 
 #: src/Config.php:55
 msgid "Plugin Setup"
 msgstr "Настройка дополнения"
+
+#: templates/massive_action_subform.html.twig:34
+msgctxt "button"
+msgid "Post"
+msgstr ""
 
 #: templates/profile.html.twig:34 templates/config.html.twig:66
 msgctxt "button"
@@ -360,7 +365,7 @@ msgstr "Все аккаунты"
 msgid "See your accounts"
 msgstr ""
 
-#: ajax/generatepassword.php:68
+#: templates/account.html.twig:706
 msgid "Select at least one checkbox"
 msgstr ""
 
@@ -396,7 +401,7 @@ msgstr[3] "Статусы"
 msgid "Stored TOTP Secret"
 msgstr ""
 
-#: src/Account.php:259 templates/account.html.twig:331
+#: src/Account.php:260 templates/account.html.twig:331
 msgid "TOTP Secret"
 msgstr ""
 
@@ -404,7 +409,7 @@ msgstr ""
 msgid "Technician in charge"
 msgstr ""
 
-#: src/Account.php:1270
+#: src/Account.php:1275
 #, php-format
 msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
@@ -438,32 +443,32 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "Старый или новый ключи шифрования не могут быть пустыми"
 
-#: src/Account.php:1189
+#: src/Account.php:1194
 #, php-format
 msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
 "the account was not transferred."
 msgstr ""
 
-#: src/Account.php:492 src/Account.php:549
+#: src/Account.php:493 src/Account.php:550
 msgid "The selected fingerprint does not belong to an entity you can access"
 msgstr ""
 
-#: src/Account.php:579
+#: src/Account.php:580
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:564
+#: src/Account.php:565
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:834
+#: src/Account.php:835
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
 
-#: src/Account.php:790 src/Account.php:839
+#: src/Account.php:791 src/Account.php:840
 msgid "There is no encryption key for this entity"
 msgstr "Нет ключей шифрования для этой организации"
 
@@ -477,7 +482,7 @@ msgstr ""
 msgid "Time of checking of expiration of accounts"
 msgstr ""
 
-#: src/Account.php:1005
+#: src/Account.php:1009
 msgid "Transfer"
 msgstr ""
 
@@ -527,7 +532,7 @@ msgid ""
 "password."
 msgstr ""
 
-#: src/Account.php:475
+#: src/Account.php:476
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -544,7 +549,7 @@ msgstr "Неверный ключ шифрования"
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:2091
+#: src/Account.php:2096
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -558,7 +563,7 @@ msgstr "Вы не заполнили поля пароль и ключ шифр�
 msgid "You must generate the fingerprint for your encryption key"
 msgstr ""
 
-#: src/Account.php:814
+#: src/Account.php:815
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
 
