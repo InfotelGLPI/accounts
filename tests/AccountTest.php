@@ -38,6 +38,7 @@ use GlpiPlugin\Accounts\AesCtr;
 use GlpiPlugin\Accounts\AesKey;
 use GlpiPlugin\Accounts\Hash;
 use GlpiPlugin\Accounts\Report;
+use Session;
 
 class AccountTest extends DbTestCase
 {
@@ -228,10 +229,15 @@ class AccountTest extends DbTestCase
             'is_recursive' => 1,
         ]);
 
+        // The list also goes through the per-user visibility rule. A CLI install grants no
+        // plugin right (see testShowAccountsWithoutHashIsScopedToTheEntity), so pin the
+        // restricted case here and own the fixture, rather than depend on the database.
+        $_SESSION['glpiactiveprofile']['plugin_accounts_see_all_users'] = 0;
         $this->createItem(Account::class, [
             'name'                      => 'Listed Account',
             'entities_id'               => $entity,
             'plugin_accounts_hashes_id' => $hash->getID(),
+            'users_id'                  => Session::getLoginUserID(),
         ]);
 
         $this->assertSame([], Report::queryAccountsList([
@@ -401,10 +407,15 @@ class AccountTest extends DbTestCase
             'entities_id'  => $entity,
             'is_recursive' => 1,
         ]);
+        // The list also goes through the per-user visibility rule. A CLI install grants no
+        // plugin right (see testShowAccountsWithoutHashIsScopedToTheEntity), so pin the
+        // restricted case here and own the fixture, rather than depend on the database.
+        $_SESSION['glpiactiveprofile']['plugin_accounts_see_all_users'] = 0;
         $this->createItem(Account::class, [
             'name'                      => 'Exported Account',
             'entities_id'               => $entity,
             'plugin_accounts_hashes_id' => $hash->getID(),
+            'users_id'                  => Session::getLoginUserID(),
         ]);
 
         // Nothing has been checked yet, so the export path is closed.
