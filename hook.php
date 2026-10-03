@@ -435,7 +435,9 @@ function plugin_accounts_uninstall()
 
     Account::removeRightsFromSession();
 
-    CronTask::unregister("Accounts");
+    // Deleted by its exact itemtype: CronTask::unregister()'s LIKE pattern does not match the
+    // backslashes of a namespaced itemtype, so the task stayed listed in the automatic actions.
+    $DB->delete('glpi_crontasks', ['itemtype' => Account::class]);
 
     $tables = ["glpi_plugin_accounts_accounts",
         "glpi_plugin_accounts_accounts_items",
