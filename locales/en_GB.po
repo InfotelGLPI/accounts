@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 14:43+0000\n"
+"POT-Creation-Date: 2026-10-03 08:57+0000\n"
 "PO-Revision-Date: 2020-07-19 17:55+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/"
@@ -99,7 +99,7 @@ msgctxt "button"
 msgid "Associate"
 msgstr ""
 
-#: hook.php:870
+#: hook.php:872
 msgid "Associate to account"
 msgstr "Associate to account"
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 14:43+0000\n"
+"POT-Creation-Date: 2026-10-03 08:57+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Rui Melo <viper5000pt@gmail.com>, 2020\n"
 "Language-Team: Portuguese (Portugal) (https://app.transifex.com/infotelGLPI/"
@@ -106,7 +106,7 @@ msgctxt "button"
 msgid "Associate"
 msgstr ""
 
-#: hook.php:870
+#: hook.php:872
 msgid "Associate to account"
 msgstr "Associar a conta"
 
