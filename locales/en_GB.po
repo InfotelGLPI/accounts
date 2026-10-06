@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-03 08:57+0000\n"
+"POT-Creation-Date: 2026-10-06 12:00+0000\n"
 "PO-Revision-Date: 2020-07-19 17:55+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Accounts expired"
 msgstr "Accounts expired"
 
-#: templates/config.html.twig:46
+#: templates/config.html.twig:45
 msgid "Accounts expired for more than"
 msgstr "Accounts expired for more than"
 
@@ -51,7 +51,7 @@ msgstr "Accounts expired for more than"
 msgid "Accounts expired or accounts which expire"
 msgstr ""
 
-#: templates/config.html.twig:53
+#: templates/config.html.twig:52
 msgid "Accounts expiring in less than"
 msgstr "Accounts expiring in less than"
 
@@ -59,12 +59,12 @@ msgstr "Accounts expiring in less than"
 msgid "Accounts which expire"
 msgstr ""
 
-#: templates/item_account.html.twig:58 templates/status_cron.html.twig:61
+#: templates/item_account.html.twig:57 templates/status_cron.html.twig:60
 msgctxt "button"
 msgid "Add"
 msgstr ""
 
-#: templates/status_cron.html.twig:44
+#: templates/status_cron.html.twig:43
 msgid "Add an unused status for expiration mailing"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr "Affected Group"
 msgid "Affected User"
 msgstr "Affected User"
 
-#: templates/datatable.html.twig:199
+#: templates/datatable.html.twig:198
 msgid "All"
 msgstr ""
 
@@ -99,11 +99,11 @@ msgctxt "button"
 msgid "Associate"
 msgstr ""
 
-#: hook.php:872
+#: hook.php:886
 msgid "Associate to account"
 msgstr "Associate to account"
 
-#: templates/datatable.html.twig:102
+#: templates/datatable.html.twig:101
 msgid "Check all"
 msgstr ""
 
@@ -121,7 +121,7 @@ msgstr[1] ""
 msgid "Creation date"
 msgstr ""
 
-#: templates/config.html.twig:50 templates/config.html.twig:58
+#: templates/config.html.twig:49 templates/config.html.twig:57
 msgid "Day"
 msgid_plural "Days"
 msgstr[0] ""
@@ -156,7 +156,7 @@ msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:1949
+#: src/Account.php:1962
 msgid "Don't expire"
 msgstr "Don't expire"
 
@@ -168,7 +168,7 @@ msgstr "Empty for infinite"
 msgid "Encrypted password"
 msgstr ""
 
-#: src/Account.php:1986 src/Account.php:1990 src/AesKey.php:76
+#: src/Account.php:1999 src/Account.php:2003 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: templates/hash.html.twig:71 templates/aeskey.html.twig:66
 #: templates/account.html.twig:191 templates/account.html.twig:261
@@ -186,7 +186,7 @@ msgstr "Encryption key modified"
 msgid "Encryption key saved"
 msgstr ""
 
-#: templates/datatable.html.twig:416
+#: templates/datatable.html.twig:415
 msgid "Entries to show:"
 msgstr ""
 
@@ -194,16 +194,16 @@ msgstr ""
 msgid "Expiration date"
 msgstr ""
 
-#: templates/datatable.html.twig:143
+#: templates/datatable.html.twig:142
 msgid "Export"
 msgstr ""
 
-#: templates/report_accounts_list.html.twig:40
+#: templates/report_accounts_list.html.twig:39
 msgctxt "button"
 msgid "Export"
 msgstr ""
 
-#: templates/datatable.html.twig:137
+#: templates/datatable.html.twig:136
 msgid "Filter"
 msgstr ""
 
@@ -271,15 +271,15 @@ msgstr ""
 msgid "New account"
 msgstr "New account"
 
-#: templates/hash_change_key.html.twig:65
+#: templates/hash_change_key.html.twig:64
 msgid "New encryption key"
 msgstr "New encryption key"
 
-#: templates/datatable.html.twig:204 templates/datatable.html.twig:373
+#: templates/datatable.html.twig:203 templates/datatable.html.twig:372
 msgid "No"
 msgstr ""
 
-#: templates/datatable.html.twig:64 templates/datatable.html.twig:389
+#: templates/datatable.html.twig:63
 msgid "No results found"
 msgstr ""
 
@@ -287,7 +287,7 @@ msgstr ""
 msgid "Numbers"
 msgstr "Numbers"
 
-#: templates/hash_change_key.html.twig:43
+#: templates/hash_change_key.html.twig:42
 msgid "Old encryption key"
 msgstr "Old encryption key"
 
@@ -323,7 +323,7 @@ msgctxt "button"
 msgid "Post"
 msgstr ""
 
-#: templates/profile.html.twig:34 templates/config.html.twig:66
+#: templates/profile.html.twig:34 templates/config.html.twig:65
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -332,15 +332,15 @@ msgstr ""
 msgid "Save the encryption key"
 msgstr "Save the encryption key"
 
-#: src/Profile.php:152
+#: src/Profile.php:157
 msgid "See accounts of my groups"
 msgstr "See accounts of my groups"
 
-#: src/Profile.php:160
+#: src/Profile.php:165
 msgid "See accounts of my technician groups"
 msgstr ""
 
-#: src/Profile.php:166
+#: src/Profile.php:171
 msgid "See all accounts"
 msgstr "See all accounts"
 
@@ -352,7 +352,7 @@ msgstr ""
 msgid "Select at least one checkbox"
 msgstr ""
 
-#: templates/datatable.html.twig:238
+#: templates/datatable.html.twig:237
 msgid "Select item"
 msgstr ""
 
@@ -408,7 +408,7 @@ msgid ""
 msgstr ""
 
 #: front/hash.form.php:97 templates/hash.html.twig:65
-#: templates/hash.html.twig:143 templates/hash_change_key.html.twig:78
+#: templates/hash.html.twig:143 templates/hash_change_key.html.twig:77
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr ""
@@ -459,7 +459,7 @@ msgid ""
 "attack offline. Change the encryption key to migrate it to the salted format."
 msgstr ""
 
-#: templates/config.html.twig:41
+#: templates/config.html.twig:40
 msgid "Time of checking of expiration of accounts"
 msgstr ""
 
@@ -477,11 +477,11 @@ msgid_plural "Types of account"
 msgstr[0] "Type of account"
 msgstr[1] "Types of account"
 
-#: front/account.php:63 front/account.php:73 ajax/accounttree.php:53
+#: front/account.php:64 front/account.php:74 ajax/accounttree.php:53
 msgid "Type view"
 msgstr "Type view"
 
-#: templates/hash_change_key.html.twig:87
+#: templates/hash_change_key.html.twig:86
 msgid "Update"
 msgstr ""
 
@@ -518,17 +518,17 @@ msgid ""
 msgstr ""
 
 #: front/hash.form.php:86 src/Account_Item.php:541 src/Report.php:113
-#: templates/report_accounts_list.html.twig:49 templates/account.html.twig:222
+#: templates/report_accounts_list.html.twig:48 templates/account.html.twig:222
 #: templates/account.html.twig:300 templates/account.html.twig:590
 #: templates/account.html.twig:621
 msgid "Wrong encryption key"
 msgstr "Wrong encryption key"
 
-#: templates/datatable.html.twig:201 templates/datatable.html.twig:371
+#: templates/datatable.html.twig:200 templates/datatable.html.twig:370
 msgid "Yes"
 msgstr ""
 
-#: src/Account.php:2096
+#: src/Account.php:2109
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
