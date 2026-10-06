@@ -25,7 +25,7 @@
  * --------------------------------------------------------------------------
  */
 
-/* global $ */
+/* global Wunderbaum */
 
 /**
  * Account type tree of the account list.
@@ -35,44 +35,38 @@
  * account_tree.html.twig pulls this module explicitly and the tree reads its parameters
  * from the data attributes of its container rather than from an inline script block.
  *
- * Built on the fancytree widget bundled in the core base.js (same as Glpi\Features\TreeBrowse),
- * so nothing extra is downloaded. Account types are the root level; expanding one lazy-loads
- * its accounts. fancytree is exposed as a jQuery widget only, hence the jQuery calls below --
- * there is no other way to drive the bundled build.
+ * Built on the Wunderbaum library bundled in the core base.js (same as
+ * Glpi\Features\TreeBrowse), so nothing extra is downloaded. Account types are the root
+ * level; expanding one lazy-loads its accounts.
  */
 
 /*
- * Tabler glyph map for fancytree. The `preset` option is mandatory for the glyph extension,
- * but every one of its entries is overridden here: the core ships Tabler icons, not Font
- * Awesome.
+ * Tabler glyph map: the core ships Tabler icons, not the Bootstrap icons Wunderbaum
+ * defaults to. Nodes that carry their own `icon` class (accounts, "Show all") keep it.
  */
-const TABLER_GLYPHS = {
-    _addClass: 'ti',
-    checkbox: 'ti-square',
-    checkboxSelected: 'ti-square-check',
-    checkboxUnknown: 'ti-square-minus fancytree-helper-indeterminate-cb',
-    radio: 'ti-circle',
-    radioSelected: 'ti-circle-dot',
-    radioUnknown: 'ti-circle-dot',
-    dragHelper: 'ti-arrow-right',
-    dropMarker: 'ti-arrow-narrow-right',
-    error: 'ti-alert-triangle',
-    expanderClosed: 'ti-chevron-right',
-    expanderLazy: 'ti-chevron-right',
-    expanderOpen: 'ti-chevron-down',
-    loading: 'ti-loader-2 fancytree-helper-spin',
-    nodata: 'ti-mood-empty',
-    noExpander: '',
-    doc: 'ti-file',
-    docOpen: 'ti-file',
-    folder: 'ti-folder',
-    folderOpen: 'ti-folder-open',
+const TABLER_ICONS = {
+    error: 'ti ti-alert-triangle',
+    loading: 'ti ti-loader-2 wb-spin',
+    noData: 'ti ti-mood-empty',
+    expanderExpanded: 'ti ti-chevron-down',
+    expanderCollapsed: 'ti ti-chevron-right',
+    expanderLazy: 'ti ti-chevron-right',
+    checkChecked: 'ti ti-square-check',
+    checkUnchecked: 'ti ti-square',
+    checkUnknown: 'ti ti-square-minus',
+    radioChecked: 'ti ti-circle-dot',
+    radioUnchecked: 'ti ti-circle',
+    radioUnknown: 'ti ti-circle-dot',
+    folder: 'ti ti-folder',
+    folderOpen: 'ti ti-folder-open',
+    folderLazy: 'ti ti-folder',
+    doc: 'ti ti-file',
 };
 
 /**
  * Open the page a node points to, if it carries one.
  *
- * @param {object} node fancytree node
+ * @param {object} node Wunderbaum node
  */
 const openNode = (node) => {
     const url = node.data ? node.data.url : null;
@@ -85,22 +79,27 @@ const openNode = (node) => {
 /**
  * Wire the filter input attached to a tree, if the template rendered one.
  *
+ * @param {object}      tree      Wunderbaum tree
  * @param {HTMLElement} container tree container
  */
-const bindFilter = (container) => {
+const bindFilter = (tree, container) => {
     const search = document.getElementById(container.dataset.searchId);
 
     if (!search) {
         return;
     }
 
-    search.addEventListener('keyup', () => {
-        const tree = $.ui.fancytree.getTree(container);
+    search.addEventListener('input', () => {
+        const query = search.value.trim();
 
-        if (search.value.length === 0) {
+        if (query.length === 0) {
             tree.clearFilter();
         } else {
-            tree.filterNodes(search.value);
+            tree.filterNodes(query, {
+                mode: 'hide',
+                autoExpand: true,
+                noData: container.dataset.noDataText,
+            });
         }
     });
 };
@@ -113,50 +112,43 @@ const bindFilter = (container) => {
 const initTree = (container) => {
     const typesUrl = `${container.dataset.rootDoc}/ajax/accounttreetypes.php`;
 
-    $(container).fancytree({
-        extensions: ['filter', 'glyph'],
-        autoScroll: true,
+    const tree = new Wunderbaum.Wunderbaum({
+        element: container,
+        iconMap: TABLER_ICONS,
 
-        // Node titles carry account and account-type names straight from the database, and
-        // fancytree defaults escapeTitles to false — it would concatenate them into the HTML of
-        // the title span. Escaping here rather than server side keeps a single escaping point:
-        // doing both would render a legitimate name containing & or < as its entity.
-        escapeTitles: true,
+        // Node titles are plain database values (account type and account names).
+        // Wunderbaum writes them with textContent (and escapes them before adding the
+        // filter <mark> tags), so a stored payload is never rendered as markup. No
+        // `render` callback is set on purpose: TreeBrowse uses one to inject HTML
+        // titles, which these nodes must not get.
 
-        // Account types carry no URL: a click on one unfolds it instead of leaving the tree.
-        clickFolderMode: 3,
+        // Root level; each account type then lazy-loads its own accounts.
+        source: {url: typesUrl, params: {node: '-1'}},
+        lazyLoad: (e) => ({url: typesUrl, params: {node: e.node.key}}),
 
-        glyph: {
-            preset: 'awesome4',
-            map: TABLER_GLYPHS,
+        // Account types carry no URL: a click on one unfolds it instead of leaving the
+        // tree. The target URL travels in the node payload, so the server never emits an
+        // event handler of its own. Bound to click / Enter rather than `activate`, which
+        // also fires while browsing the tree with the arrow keys.
+        click: (e) => {
+            if (!e.node || e.info.region === 'expander') {
+                return;
+            }
+            if (e.node.isExpandable()) {
+                e.node.setExpanded(!e.node.isExpanded());
+            } else {
+                openNode(e.node);
+            }
         },
-
-        // Root level; each folder node then lazy-loads its own children.
-        source: {
-            url: typesUrl,
-            data: {node: -1},
-            cache: false,
+        keydown: (e) => {
+            if (e.eventName === 'Enter' && e.node && !e.node.isExpandable()) {
+                openNode(e.node);
+                return false;
+            }
         },
-        lazyLoad: (event, data) => {
-            data.result = {
-                url: typesUrl,
-                data: {node: data.node.key},
-                cache: false,
-            };
-        },
-
-        filter: {
-            mode: 'hide',
-            autoExpand: true,
-            nodata: container.dataset.noDataText,
-        },
-
-        // The target URL travels in the node payload, so the server never emits an event
-        // handler of its own.
-        activate: (event, data) => openNode(data.node),
     });
 
-    bindFilter(container);
+    bindFilter(tree, container);
 };
 
 // Modules are deferred, so the container is already parsed when this runs.

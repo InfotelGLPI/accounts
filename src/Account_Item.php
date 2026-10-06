@@ -42,15 +42,15 @@ use Session;
 
 final class Account_Item extends CommonDBRelation
 {
-    public static $rightname = "plugin_accounts";
+    public static string $rightname = "plugin_accounts";
 
     // From CommonDBRelation
-    public static $itemtype_1    = Account::class;
-    public static $items_id_1    = 'plugin_accounts_accounts_id';
-    public static $take_entity_1 = false;
-    public static $itemtype_2    = 'itemtype';
-    public static $items_id_2    = 'items_id';
-    public static $take_entity_2 = true;
+    public static ?string $itemtype_1    = Account::class;
+    public static ?string $items_id_1    = 'plugin_accounts_accounts_id';
+    public static bool $take_entity_1 = false;
+    public static ?string $itemtype_2    = 'itemtype';
+    public static ?string $items_id_2    = 'items_id';
+    public static bool $take_entity_2 = true;
 
 
     /**
@@ -120,7 +120,7 @@ final class Account_Item extends CommonDBRelation
                 return _n('Associated item', 'Associated items', 2);
 
             } elseif (in_array($item->getType(), Account::getTypes(true))
-                       && Session::haveRight("plugin_accounts", READ)
+                       && Session::haveRight(Account::$rightname, READ)
             ) {
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     return self::createTabEntry(

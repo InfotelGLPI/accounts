@@ -79,11 +79,11 @@ function plugin_init_accounts()
         Account::registerType('Appliance');
         Account::registerType('DatabaseInstance');
 
-        if (Session::haveRight("plugin_accounts", READ)) {
+        if (Session::haveRight(Account::$rightname, READ)) {
             $PLUGIN_HOOKS[Hooks::MENU_TOADD]['accounts'] = ['admin' => Account::class];
         }
 
-        if (Session::haveRight("plugin_accounts", READ)
+        if (Session::haveRight(Account::$rightname, READ)
             && !Plugin::isPluginActive('servicecatalog')
         ) {
             $PLUGIN_HOOKS[Hooks::HELPDESK_MENU_ENTRY]['accounts']      = PLUGIN_ACCOUNTS_WEBDIR . '/front/account.php';
@@ -95,12 +95,12 @@ function plugin_init_accounts()
         }
 
         if (Plugin::isPluginActive('fields')
-            && Session::haveRight("plugin_accounts", READ)
+            && Session::haveRight(Account::$rightname, READ)
         ) {
             $PLUGIN_HOOKS['plugin_fields']['accounts'] = Account::class;
         }
 
-        if (Session::haveRight("plugin_accounts", UPDATE)) {
+        if (Session::haveRight(Account::$rightname, UPDATE)) {
             $PLUGIN_HOOKS[Hooks::USE_MASSIVE_ACTION]['accounts'] = 1;
         }
 
@@ -143,8 +143,8 @@ function plugin_version_accounts()
         'homepage'     => 'https://github.com/InfotelGLPI/accounts',
         'requirements' => [
             'glpi' => [
-                'min' => '11.0',
-                'max' => '12.0',
+                'min' => '11.0.99',
+                'max' => '12.0.99',
                 'dev' => false,
             ],
         ],

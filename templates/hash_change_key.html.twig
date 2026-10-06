@@ -34,7 +34,6 @@
     </div>
 </div>
 <form method="post" action="{{ 'GlpiPlugin\\Accounts\\Hash'|itemtype_form_path }}">
-    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" value="{{ hash_id }}">
     <div class="card">
         <div class="card-header">

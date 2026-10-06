@@ -28,11 +28,11 @@
 /* ------------------------------------------------------------------------ *
  * Account type tree
  *
- * Loaded by Account::showSelector() only, on the page served inside the modal
- * iframe. The page goes through Html::popHeader(), so Tabler and the core
- * bundle carrying fancytree are already there: what is left is the full-height
- * layout of the panel and the adjustments the bundled fancytree skin needs to
- * host Tabler webfont glyphs instead of its own sprite.
+ * Loaded by Account::showSelector() only, on the page served inside the
+ * modal iframe. The page goes through Html::popHeader(), so Tabler and the
+ * core bundle carrying Wunderbaum (and its stylesheet) are already there:
+ * what is left is the full-height layout of the panel and the Tabler colors
+ * of the tree, as the core sets them for Glpi\Features\TreeBrowse.
  * ------------------------------------------------------------------------ */
 
 body.in_modal > #page {
@@ -56,69 +56,38 @@ body.in_modal > #page {
 }
 
 .plugin_accounts_tree {
-    overflow-y: auto;
+    /* Wunderbaum virtualizes its rows: the container needs a real height. */
+    min-height: 0;
     flex: 1 1 auto;
-    padding: .25rem .5rem;
-    border: 1px solid var(--tblr-border-color);
+    /* Wunderbaum draws the border itself (and highlights it while the tree has the focus) */
     border-radius: var(--tblr-border-radius);
-    background-color: var(--tblr-bg-surface);
+
+    --wb-border-color: var(--tblr-border-color);
+    --wb-focus-border-color: var(--tblr-primary);
+    --wb-background-color: var(--tblr-bg-surface);
+    --wb-node-text-color: var(--tblr-body-color);
+    --wb-hover-color: var(--tblr-bg-surface-secondary);
+    --wb-active-color: var(--tblr-primary-lt);
+    --wb-active-color-grayscale: var(--tblr-primary-lt);
+    --wb-active-hover-color: var(--tblr-primary-lt);
+    --wb-active-hover-color-grayscale: var(--tblr-primary-lt);
+    --wb-active-border-color: transparent;
+    --wb-active-border-color-grayscale: transparent;
 }
 
-.plugin_accounts_tree .fancytree-container {
-    border: 0;
-    background: transparent;
-    outline: 0;
+.plugin_accounts_tree i.wb-icon {
+    color: var(--tblr-primary);
 }
 
-/* The bundled skin sizes its icon slots for a 10pt sprite; Tabler glyphs are a
-   webfont and need a real font-size and a matching box. */
-.plugin_accounts_tree span.fancytree-icon,
-.plugin_accounts_tree span.fancytree-expander,
-.plugin_accounts_tree span.fancytree-checkbox {
-    width: 1.25rem;
-    height: 1.25rem;
-    background-image: none;
-    font-size: 1.05rem;
-    line-height: 1.25rem;
-    text-align: center;
-    vertical-align: middle;
+.plugin_accounts_tree i.wb-expander {
+    color: var(--tblr-secondary);
 }
 
-.plugin_accounts_tree span.fancytree-expander { color: var(--tblr-secondary); }
-.plugin_accounts_tree span.fancytree-icon     { color: var(--tblr-primary); }
-
-.plugin_accounts_tree span.fancytree-node {
-    display: flex;
-    align-items: center;
-    gap: .25rem;
-    padding: .1rem 0;
-}
-
-.plugin_accounts_tree span.fancytree-title {
-    padding: .2rem .45rem;
-    border: 0;
-    border-radius: var(--tblr-border-radius);
-    margin-left: 0;
-    cursor: pointer;
-    line-height: 1.4;
-}
-
-.plugin_accounts_tree span.fancytree-node:hover span.fancytree-title,
-.plugin_accounts_tree span.fancytree-title:hover {
-    background-color: var(--tblr-bg-surface-secondary);
-}
-
-.plugin_accounts_tree .fancytree-active span.fancytree-title,
-.plugin_accounts_tree .fancytree-focused span.fancytree-title {
-    background-color: var(--tblr-primary-lt);
-    box-shadow: none;
-    color: inherit;
-}
-
-/* Matches of the filter extension: keep the emphasis readable on both themes. */
-.plugin_accounts_tree span.fancytree-title mark,
-.plugin_accounts_tree .fancytree-match span.fancytree-title {
+/* Matches of the filter: keep the emphasis readable on both themes. */
+.plugin_accounts_tree .wb-title mark {
+    padding: 0;
     background-color: transparent;
     color: inherit;
     font-weight: 600;
 }
+

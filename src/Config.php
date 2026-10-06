@@ -41,7 +41,7 @@ use Migration;
  */
 class Config extends CommonDBTM
 {
-    public static $rightname = "config";
+    public static string $rightname = "config";
     /**
      * @param CommonGLPI $item
      * @param int $withtemplate

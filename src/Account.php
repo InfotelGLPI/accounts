@@ -60,7 +60,7 @@ class Account extends CommonDBTM
     /** @use Clonable<static> */
     use Clonable;
 
-    public static $rightname = "plugin_accounts";
+    public static string $rightname = "plugin_accounts";
 
     /**
      * Verifiers read from glpi_plugin_accounts_hashes, memoized per request.
@@ -85,7 +85,7 @@ class Account extends CommonDBTM
         'Cluster',
     ];
 
-    public $dohistory = true;
+    public bool $dohistory = true;
 
     /**
      * Log::constructHistory() records the former and the new value of every changed field
@@ -96,8 +96,8 @@ class Account extends CommonDBTM
      * access to the TOTP seeds. encrypted_password is listed too, so that adding a search
      * option to it later cannot open the same hole by accident.
      */
-    public $history_blacklist = ['encrypted_totp_secret', 'encrypted_password'];
-    protected $usenotepad = true;
+    public array $history_blacklist = ['encrypted_totp_secret', 'encrypted_password'];
+    protected bool $usenotepad = true;
 
     /**
      * Return the localized name of the current Type
@@ -537,7 +537,7 @@ class Account extends CommonDBTM
         }
 
         if (isset($input["plugin_accounts_hashes_id"])
-            && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
+            && !Session::haveRight(Hash::$rightname, UPDATE)) {
             unset($input['plugin_accounts_hashes_id']);
         }
         // The right alone says nothing about the entity: it can be granted recursively or
@@ -841,7 +841,7 @@ class Account extends CommonDBTM
             return false;
         }
 
-        $canupdateHash = Session::haveRight('plugin_accounts_hash', UPDATE);
+        $canupdateHash = Session::haveRight(Hash::$rightname, UPDATE);
 
         // Serve the remembered master key in cleartext (and trigger auto-decrypt) only to users
         // allowed to manage the encryption key (plugin_accounts_hash UPDATE). A plain READ user
@@ -1002,7 +1002,7 @@ class Account extends CommonDBTM
                     'Dissociate',
                 );
 
-                if (Session::haveRight('transfer', READ)
+                if (Session::haveRight(\Transfer::$rightname, READ)
                     && Session::isMultiEntitiesMode()
                 ) {
                     $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __s(
@@ -1714,14 +1714,14 @@ class Account extends CommonDBTM
     }
 
     /**
-     * Build the fancytree nodes of the account type browser.
+     * Build the Wunderbaum nodes of the account type browser.
      *
      * The root level lists the account types holding at least one visible account;
      * expanding one lazy-loads its accounts. Leaf nodes carry their target URL in
      * data.url, which the script opens on activation, so no event handler is built
      * server side any more.
      *
-     * @param string $node fancytree key of the node being expanded, '-1' for the root
+     * @param string $node key of the node being expanded, '-1' for the root
      *
      * @return array
      */
@@ -1779,9 +1779,22 @@ class Account extends CommonDBTM
             $nodes[] = [
                 'key'     => 'accounttype-' . $type['id'],
                 'title'   => sprintf(__('%1$s (%2$s)'), $type['name'], $type['nb']),
-                'folder'  => true,
                 'lazy'    => true,
                 'tooltip' => AccountType::getTypeName(1) . ' - ' . $type['name'],
+            ];
+        }
+
+        // Accounts without a type are left out by the join above: list them under their own
+        // node, last, so that every account of the list is reachable from the tree
+        $criteria = self::getTreeVisibilityCriteria();
+        $criteria['AND'][] = ["$table.plugin_accounts_accounttypes_id" => 0];
+        $nb_untyped = countElementsInTable($table, $criteria);
+        if ($nb_untyped > 0) {
+            $nodes[] = [
+                'key'     => 'accounttype-0',
+                'title'   => sprintf(__('%1$s (%2$s)'), __('Undefined'), $nb_untyped),
+                'lazy'    => true,
+                'tooltip' => AccountType::getTypeName(1) . ' - ' . __('Undefined'),
             ];
         }
 
@@ -1862,7 +1875,7 @@ class Account extends CommonDBTM
         Plugin::loadLang('accounts');
 
         // The page goes through Html::popHeader(), which already brings the whole GLPI
-        // stylesheet and the core bundles carrying fancytree: only the tree own assets are
+        // stylesheet and the core bundles carrying Wunderbaum: only the tree own assets are
         // left to pull.
         $assets = Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/css/accounttree.css", [], false)
             . Html::script(PLUGIN_ACCOUNTS_WEBDIR . "/scripts/accounttree.js", ['type' => 'module'], false);
@@ -2118,20 +2131,20 @@ class Account extends CommonDBTM
         // Only the explicit "see all" right lifts the restriction: being allowed to
         // administrate GLPI ('config') does not imply being allowed to read every password,
         // and the default super-admin profile is granted 'see all' at install time anyway.
-        if (Session::haveRight('plugin_accounts_see_all_users', READ)) {
+        if (Session::haveRight(Profile::RIGHT_SEE_ALL_USERS, READ)) {
             return [];
         }
         $who    = Session::getLoginUserID();
         $prefix = $qualified ? self::getTable() . '.' : '';
 
         // Group-based visibility
-        if (Session::haveRight('plugin_accounts_my_groups', READ)
+        if (Session::haveRight(Profile::RIGHT_MY_GROUPS, READ)
             && !empty($_SESSION['glpigroups'])) {
             $or = [
                 $prefix . 'users_id' => $who,
                 $prefix . 'groups_id' => $_SESSION['glpigroups'],
             ];
-            if (Session::haveRight('plugin_accounts_my_tech_groups', READ)) {
+            if (Session::haveRight(Profile::RIGHT_MY_TECH_GROUPS, READ)) {
                 $or[$prefix . 'users_id_tech']  = $who;
                 $or[$prefix . 'groups_id_tech'] = $_SESSION['glpigroups'];
             }

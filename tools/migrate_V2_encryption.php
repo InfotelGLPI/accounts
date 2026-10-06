@@ -39,11 +39,12 @@ $application = new \Glpi\Console\Application($kernel);
 use GlpiPlugin\Accounts\AccountCrypto;
 use GlpiPlugin\Accounts\AesCtr;
 use GlpiPlugin\Accounts\AesKey;
+use GlpiPlugin\Accounts\Hash;
 
 // ── Auth guard (web only) ─────────────────────────────────────────────────────
 if (PHP_SAPI !== 'cli') {
 
-    if (!Session::checkRight("plugin_accounts_hash", UPDATE)) {
+    if (!Session::checkRight(Hash::$rightname, UPDATE)) {
         die('Right access error');
     }
 }

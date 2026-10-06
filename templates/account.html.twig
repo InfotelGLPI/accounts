@@ -462,7 +462,7 @@
                             {% endif %}
                         {% endif %}
 
-                        {% set current_day = time|date('Y-m-d') %}
+                        {% set current_day = 'now'|date('Y-m-d') %}
                         {% if item.isField('date_creation') %}
                             {{ fields.dateField('date_creation',
                                 item.fields['date_creation']|default(current_day),
@@ -634,7 +634,7 @@
     {#    {% include("components/form/inventory_info.html.twig") %} #}
 
 
-    {% if params['formfooter'] == null %}
+    {% if (params['formfooter'] ?? null) == null %}
         <div class="card-footer mx-n2 mb-n2 mt-4">
             {% include("components/form/dates.html.twig") %}
         </div>

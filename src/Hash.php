@@ -43,9 +43,9 @@ use Session;
  */
 class Hash extends CommonDBTM
 {
-    public static $rightname = "plugin_accounts_hash";
+    public static string $rightname = "plugin_accounts_hash";
 
-    public $dohistory = true;
+    public bool $dohistory = true;
 
     /**
      * @param int $nb

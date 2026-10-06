@@ -33,7 +33,7 @@ use GlpiPlugin\Accounts\Account;
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkRight("plugin_accounts", READ);
+Session::checkRight(Account::$rightname, READ);
 
 if (isset($_POST['idcrypt'])) {
     // Object-level check: only log (and thus acknowledge decryption of) an account the

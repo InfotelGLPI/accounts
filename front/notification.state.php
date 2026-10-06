@@ -30,7 +30,7 @@
 use GlpiPlugin\Accounts\NotificationState;
 use GlpiPlugin\Accounts\Config;
 
-Session::checkRight("config", UPDATE);
+Session::checkRight(\Config::$rightname, UPDATE);
 
 if (isset($_POST["add"])) {
     $notif = new NotificationState();

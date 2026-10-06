@@ -36,7 +36,7 @@ global $DB;
 
 Session::checkCentralAccess();
 
-Session::checkRight("plugin_accounts", READ);
+Session::checkRight(Account::$rightname, READ);
 
 // Make a select box
 if (isset($_POST["accounttype"])) {

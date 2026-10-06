@@ -41,7 +41,12 @@ use Session;
  */
 class Profile extends \Profile
 {
-    public static $rightname = "profile";
+    public static string $rightname = "profile";
+
+    public const RIGHT_MY_GROUPS      = 'plugin_accounts_my_groups';
+    public const RIGHT_MY_TECH_GROUPS = 'plugin_accounts_my_tech_groups';
+    public const RIGHT_SEE_ALL_USERS  = 'plugin_accounts_see_all_users';
+    public const RIGHT_OPEN_TICKET    = 'plugin_accounts_open_ticket';
 
     /**
      * @param CommonGLPI $item
@@ -150,7 +155,7 @@ class Profile extends \Profile
 
         $rights[] = ['itemtype' => Account::class,
             'label'    => __s('See accounts of my groups', 'accounts'),
-            'field'    => 'plugin_accounts_my_groups',
+            'field'    => self::RIGHT_MY_GROUPS,
             'rights' => [
                 READ  => __s('Read'),
             ],];
@@ -158,20 +163,20 @@ class Profile extends \Profile
         $rights[] = [
             'itemtype' => Account::class,
             'label'    => __s('See accounts of my technician groups', 'accounts'),
-            'field'    => 'plugin_accounts_my_tech_groups',
+            'field'    => self::RIGHT_MY_TECH_GROUPS,
             'rights'   => [READ => __s('Read')],
         ];
 
         $rights[] = ['itemtype' => Account::class,
             'label'    => __s('See all accounts', 'accounts'),
-            'field'    => 'plugin_accounts_see_all_users',
+            'field'    => self::RIGHT_SEE_ALL_USERS,
             'rights' => [
                 READ  => __s('Read'),
             ],];
 
         $rights[] = ['itemtype' => Account::class,
             'label'    => __s('Associable items to a ticket'),
-            'field'    => 'plugin_accounts_open_ticket',
+            'field'    => self::RIGHT_OPEN_TICKET,
             'rights' => [
                 READ  => __s('Read'),
             ],];
@@ -267,6 +272,11 @@ class Profile extends \Profile
         ]);
         foreach ($it as $prof) {
             self::migrateOneProfile($prof['id']);
+        }
+
+        // No session when installed from the console without --username
+        if (!isset($_SESSION['glpiactiveprofile']['id'])) {
+            return;
         }
         $it = $DB->request([
             'FROM' => 'glpi_profilerights',
