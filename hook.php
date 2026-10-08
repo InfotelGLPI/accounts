@@ -38,6 +38,7 @@ use GlpiPlugin\Accounts\Config;
 use GlpiPlugin\Accounts\AesKey;
 use GlpiPlugin\Accounts\Hash;
 use GlpiPlugin\Accounts\NotificationState;
+use GlpiPlugin\Accounts\PasswordHistory;
 use GlpiPlugin\Accounts\Profile;
 
 /**
@@ -418,6 +419,9 @@ function plugin_accounts_install()
         }
     }
 
+    // Runs for both fresh installs and upgrades; an existing table is left intact.
+    PasswordHistory::install(new Migration(PLUGIN_ACCOUNTS_VERSION));
+
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
 
     if (isset($_SESSION['glpiactiveprofile']['id'])) {
@@ -461,7 +465,8 @@ function plugin_accounts_uninstall()
         "glpi_plugin_accounts_hashs",
         "glpi_plugin_accounts_hashes",
         "glpi_plugin_accounts_aeskeys",
-        "glpi_plugin_accounts_notificationstates"];
+        "glpi_plugin_accounts_notificationstates",
+        PasswordHistory::TABLE];
 
     foreach ($tables as $table) {
         $DB->dropTable($table, true);
