@@ -600,3 +600,39 @@ msgstr "caractères"
 #: templates/account.html.twig:333
 msgid "new value"
 msgstr "Nouvelle valeur"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Password history"
+msgstr "Historique des mots de passe"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "No previous passwords."
+msgstr "Aucun ancien mot de passe."
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Replacement date"
+msgstr "Date de remplacement"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Previous password"
+msgstr "Ancien mot de passe"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Show password"
+msgstr "Afficher le mot de passe"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Copy password"
+msgstr "Copier le mot de passe"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Unable to decrypt this password history entry."
+msgstr "Impossible de déchiffrer cette entrée de l’historique."
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "Decrypted from password history"
+msgstr "Déchiffré depuis l’historique des mots de passe"
+
+#: templates/password_history.html.twig src/Hash.php ajax/log_decrypt.php
+msgid "The encryption key was not modified: a password history entry could not be decrypted."
+msgstr "La clé de chiffrement n’a pas été modifiée : une entrée de l’historique n’a pas pu être déchiffrée."

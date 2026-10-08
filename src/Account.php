@@ -99,6 +99,10 @@ class Account extends CommonDBTM
     public $history_blacklist = ['encrypted_totp_secret', 'encrypted_password'];
     protected $usenotepad = true;
 
+    // Internal state, never taken from posted flags such as _no_history.
+    private bool $password_reencryption = false;
+    private bool $password_format_upgrade = false;
+
     /**
      * Return the localized name of the current Type
      *
@@ -126,6 +130,10 @@ class Account extends CommonDBTM
      */
     public function cleanDBonPurge()
     {
+        global $DB;
+
+        $DB->delete(PasswordHistory::TABLE, ['plugin_accounts_accounts_id' => $this->getID()]);
+
         $temp = new Account_Item();
         $temp->deleteByCriteria(['plugin_accounts_accounts_id' => $this->fields['id']]);
 
@@ -590,6 +598,7 @@ class Account extends CommonDBTM
         $reencrypt_hash_id = (int) ($this->fields['plugin_accounts_hashes_id']
             ?? ($input['plugin_accounts_hashes_id'] ?? 0));
 
+        $this->password_format_upgrade = false;
         if (isset($input['encrypted_password']) && !empty($input['encrypted_password'])
             && AccountCrypto::needsReencryption(
                 $input['encrypted_password'],
@@ -610,6 +619,8 @@ class Account extends CommonDBTM
                 // the key did not fit or the record is damaged, and rewriting it would turn a
                 // recoverable record into a lost one.
                 if ($plaintext !== '') {
+                    $this->password_format_upgrade = $input['encrypted_password']
+                        === ($this->fields['encrypted_password'] ?? '');
                     $input['encrypted_password'] = AccountCrypto::encrypt(
                         $plaintext,
                         $fingerprint,
@@ -620,6 +631,67 @@ class Account extends CommonDBTM
         }
 
         return $input;
+    }
+
+    /** Serialize password updates so two saves archive the actual preceding values. */
+    public function update(array $input, $history = true, $options = [])
+    {
+        global $DB;
+
+        if ($DB->isSlave() || empty($input['id'])) {
+            return false;
+        }
+        $DB->beginTransaction();
+        try {
+            $id = (int) $input['id'];
+            $table = self::getTable();
+            $DB->doQuery("SELECT `id` FROM `$table` WHERE `id` = $id FOR UPDATE");
+            $result = parent::update($input, $history, $options);
+            if ($result) {
+                $DB->commit();
+            } else {
+                $DB->rollBack();
+            }
+            return $result;
+        } catch (\Throwable $e) {
+            $DB->rollBack();
+            throw $e;
+        } finally {
+            $this->password_format_upgrade = false;
+        }
+    }
+
+    /** Internal rotations/transfers preserve the password, so do not add history. */
+    public function updateReencrypted(array $input): bool
+    {
+        $this->password_reencryption = true;
+        try {
+            return $this->update($input);
+        } finally {
+            $this->password_reencryption = false;
+        }
+    }
+
+    public function updateInDB($updates, $oldvalues = [])
+    {
+        global $DB;
+
+        // history_blacklist intentionally prevents GLPI from keeping old ciphertexts
+        // in glpi_logs. Read the locked database row rather than GLPI's oldvalues.
+        $previous = null;
+        if (in_array('encrypted_password', $updates, true)
+            && !$this->password_reencryption && !$this->password_format_upgrade) {
+            $previous = $DB->request([
+                'FROM' => self::getTable(),
+                'WHERE' => ['id' => $this->getID()],
+            ])->current();
+        }
+        $result = parent::updateInDB($updates, $oldvalues);
+        if ($result && $previous !== null && $previous !== false
+            && (string) $previous['encrypted_password'] !== (string) $this->fields['encrypted_password']) {
+            PasswordHistory::record($previous);
+        }
+        return $result;
     }
 
     /**
@@ -868,6 +940,7 @@ class Account extends CommonDBTM
             'params' => $options,
             'has_totp' => !empty($this->fields['encrypted_totp_secret']),
             'show_password_generator' => empty($ID) ? true : false,
+            'password_history' => $ID > 0 ? PasswordHistory::getForAccount($this) : [],
         ]);
 
         return true;
@@ -1125,7 +1198,7 @@ class Account extends CommonDBTM
 
             case "transfer":
                 $input = $ma->getInput();
-                if ($item->getType() == Account::class) {
+                if ($item instanceof self) {
                     // The destination entity comes from the POST and is never checked by the core:
                     // revalidate the posted value, otherwise an account could be moved into an
                     // entity the caller has no access to (and re-encrypted with its key).
@@ -1321,7 +1394,11 @@ class Account extends CommonDBTM
                             $values['encrypted_totp_secret'] = $reencrypted_totp;
                         }
 
-                        if ($item->update($values)) {
+                        // A transfer that only re-encrypts the current password must not
+                        // consume a history slot. Previous entries retain their own keys.
+                        $updated = $reencrypted_password !== null && $reencrypted_password !== ''
+                            ? $item->updateReencrypted($values) : $item->update($values);
+                        if ($updated) {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);

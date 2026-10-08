@@ -220,6 +220,44 @@ The plugin also registers accounts in the GLPI **impact map** (`impact_asset_typ
 
 ---
 
+## Password history
+
+The **Password history** disclosure, directly below the **Password** field,
+opens a scrollable floating panel without shifting the form. It retains the
+**five most recently replaced passwords**, newest first, following
+[Bitwarden's password history](https://bitwarden.com/help/password-and-generator-history/).
+It uses the account's existing read, entity, owner and group access rules. Each entry
+shows the replacement date, user and encryption fingerprint.
+
+Expand an entry, enter its encryption key and click **Decrypt**. An empty key field
+uses the key entered in the account form. Reveal and copy buttons become available
+after successful decryption. Closing the panel clears its decrypted values and keys.
+Neither keys nor plaintext are posted; the existing GLPI audit mechanism receives
+only the account and history entry IDs.
+
+Successful replacement or clearing archives the previous ciphertext. Creation,
+saving an unchanged password in the form, format upgrades and internal re-encryption
+do not consume history slots. Imports using the account model are covered; direct
+SQL writes bypass it. Password updates and history insertion are transactional.
+
+The dedicated `glpi_plugin_accounts_passwordhistories` table stores ciphertext,
+fingerprint ID/name and a snapshot of the key verifier, never the plaintext key.
+After switching fingerprints or transferring an account, previous entries still
+require their own keys. Keep those keys while their entries are needed. Deleting
+a fingerprint does not remove the historical verifier snapshot.
+
+Key **rotation** re-encrypts current secrets and all history associated with that
+fingerprint, including entries of accounts now using another fingerprint. Afterwards,
+history requires the new key and the old key no longer opens the stored entries.
+An unreadable entry aborts and rolls back the entire rotation.
+
+Trash and restore preserve history. Permanent account purge, eviction beyond the
+five-entry limit and plugin uninstallation remove it. Clones do not inherit history.
+
+To install this development version (`3.2.6-dev`), replace the plugin files and run
+its update under **Setup › Plugins**. Installation and upgrades create the table
+idempotently. Passwords overwritten before this upgrade cannot be recovered.
+
 ## Uninstallation
 
 1. Go to **Setup › Plugins**.

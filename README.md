@@ -16,6 +16,7 @@ This plugin enables you to manage the accounts of your network and associate the
 * **Password encryption**: passwords are encrypted and decrypted client-side (JavaScript) using a fingerprint-derived AES key — the plaintext never transits unencrypted.
 * **Fingerprints and encryption keys**: manage shared secrets used to derive encryption keys, with a dedicated right (`plugin_accounts_hash`).
 * **TOTP support**: optionally store a two-factor authentication secret (RFC 6238) alongside the password.
+* **Password history**: view and copy the five most recently replaced passwords, encrypted with their own key information. Key rotation re-encrypts history atomically.
 * **Inventory association**: link accounts to any GLPI object (computer, network equipment, software, contract, entity…).
 * **Helpdesk interface**: accounts can be consulted and associated with tickets from the simplified interface.
 * **Expiration alerts**: automatic task sends e-mail notifications for expired or soon-to-expire accounts.
@@ -49,6 +50,7 @@ Ce plugin vous permet de gérer les comptes de votre réseau et de les associer 
 * **Chiffrement des mots de passe** : chiffrement et déchiffrement côté client (JavaScript) via une clé AES dérivée d'une empreinte — le mot de passe en clair ne transite jamais.
 * **Empreintes et clés de chiffrement** : gestion des secrets partagés servant à dériver les clés AES, avec un droit dédié (`plugin_accounts_hash`).
 * **Support TOTP** : stockage optionnel d'un secret d'authentification à deux facteurs (RFC 6238).
+* **Historique des mots de passe** : consulter et copier les cinq dernières anciennes valeurs, chiffrées avec les informations de leur propre clé. Une rotation de clé rechiffre aussi l'historique dans la même transaction.
 * **Association à l'inventaire** : liaisons avec n'importe quel objet GLPI (ordinateur, équipement réseau, logiciel, contrat, entité…).
 * **Interface helpdesk** : les comptes sont consultables et associables à des tickets depuis l'interface simplifiée.
 * **Alertes d'expiration** : tâche automatique d'envoi de mails pour les comptes expirés ou bientôt expirés.
