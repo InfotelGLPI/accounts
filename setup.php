@@ -36,11 +36,11 @@ use GlpiPlugin\Accounts\Config;
 use GlpiPlugin\Accounts\Profile;
 use GlpiPlugin\Accounts\Servicecatalog;
 
-define('PLUGIN_ACCOUNTS_VERSION', '3.2.5');
+define('PLUGIN_ACCOUNTS_VERSION', '3.2.6-dev');
 
 if (!defined("PLUGIN_ACCOUNTS_DIR")) {
     define("PLUGIN_ACCOUNTS_DIR", Plugin::getPhpDir("accounts"));
-    $root = $CFG_GLPI['root_doc'] . '/plugins/accounts';
+    $root = ($CFG_GLPI['root_doc'] ?? '') . '/plugins/accounts';
     define("PLUGIN_ACCOUNTS_WEBDIR", $root);
 }
 
@@ -117,6 +117,7 @@ function plugin_init_accounts()
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/lightcrypt.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "lib/crypto-js.min.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "scripts/account.form.js";
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['accounts'][] = "scripts/password_history.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/report.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/hash_select.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/password_generator.js";

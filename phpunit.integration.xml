@@ -3,6 +3,7 @@
       <testsuite name="Integration">
          <file>tests/AccountTest.php</file>
          <file>tests/Account_ItemTest.php</file>
+         <file>tests/PasswordHistoryTest.php</file>
       </testsuite>
    </testsuites>
 </phpunit>

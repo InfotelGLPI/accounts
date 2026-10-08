@@ -58,6 +58,10 @@ jobs:
           --testsuite Unit
         working-directory: glpi
 
+      - name: Run password history JavaScript tests
+        run: node --test tests/password_history.test.cjs
+        working-directory: glpi/plugins/accounts
+
   # ── Job 2 : tests d'intégration (avec base de données GLPI) ────────────────
   integration-tests:
     name: "Integration tests (PHP ${{ matrix.php-version }} / ${{ matrix.db-image }})"

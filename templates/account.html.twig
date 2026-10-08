@@ -186,7 +186,7 @@
                         </div>
                         <input type="hidden" id="change_good_hash"/>
                         {% if aeskey_uncrypted is not defined or aeskey_uncrypted == false %}
-                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2 accounts-encryption-field">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
                                     {{ __('Encryption key', 'accounts') }}
                                 </label>
@@ -212,7 +212,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2 accounts-password-field">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
                                     {{ __('Password') }}
                                 </label>
@@ -252,11 +252,12 @@
                                         </label>
                                     </span>
                                     {% endif %}
+                                    {% include '@accounts/password_history.html.twig' %}
                                 </div>
                             </div>
 
                         {% else %}
-                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2 accounts-encryption-field">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
                                     {{ __('Encryption key', 'accounts') }}
                                 </label>
@@ -290,7 +291,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2">
+                            <div class="form-field row align-items-center col-12 col-sm-6 mb-2 accounts-password-field">
                                 <label class="col-form-label col-xxl-5 text-xxl-end">
                                     {{ __('Password') }}
                                 </label>
@@ -320,6 +321,7 @@
                                             <i class="ti ti-clipboard-copy disclose"></i>
                                         </div>
                                     </div>
+                                    {% include '@accounts/password_history.html.twig' %}
                                 </div>
                             </div>
                         {% endif %}
@@ -462,7 +464,7 @@
                             {% endif %}
                         {% endif %}
 
-                        {% set current_day = time|date('Y-m-d') %}
+                        {% set current_day = 'now'|date('Y-m-d') %}
                         {% if item.isField('date_creation') %}
                             {{ fields.dateField('date_creation',
                                 item.fields['date_creation']|default(current_day),
@@ -570,6 +572,7 @@
                     </div> {# .row #}
                 </div> {# .row #}
             </div> {# .flex-row #}
+
         </div>
 
     </div> {# .card-body #}
@@ -634,7 +637,7 @@
     {#    {% include("components/form/inventory_info.html.twig") %} #}
 
 
-    {% if params['formfooter'] == null %}
+    {% if params['formfooter']|default(null) == null %}
         <div class="card-footer mx-n2 mb-n2 mt-4">
             {% include("components/form/dates.html.twig") %}
         </div>

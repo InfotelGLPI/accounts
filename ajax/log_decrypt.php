@@ -29,6 +29,7 @@
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
+use GlpiPlugin\Accounts\PasswordHistory;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -46,7 +47,21 @@ if (isset($_POST['idcrypt'])) {
     //History log
     $changes[0] = 15;
     $changes[1] = "";
-    if (isset($_POST['from']) && $_POST['from'] == 'account') {
+    if (isset($_POST['from']) && $_POST['from'] === 'history') {
+        global $DB;
+
+        $entry = $DB->request([
+            'FROM' => PasswordHistory::TABLE,
+            'WHERE' => [
+                'id' => (int) ($_POST['history_id'] ?? 0),
+                'plugin_accounts_accounts_id' => (int) $_POST['idcrypt'],
+            ],
+        ])->current();
+        if (!$entry) {
+            throw new AccessDeniedHttpException();
+        }
+        $changes[2] = __s('Decrypted from password history', 'accounts') . ' (#' . (int) $entry['id'] . ')';
+    } elseif (isset($_POST['from']) && $_POST['from'] == 'account') {
         $changes[2] = __s('Decrypted from account', 'accounts');
     } else {
         $changes[2] = __s('Decrypted from item', 'accounts');
