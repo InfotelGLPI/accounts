@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-06 12:00+0000\n"
+"POT-Creation-Date: 2026-10-10 23:26+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -23,6 +23,18 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
 "1000000 == 0 ? 1 : 2;\n"
 
+#: templates/hash.html.twig:111
+#, php-format
+msgid ""
+"%d account of this fingerprint is still encrypted in a former format, which "
+"is cheap to attack offline."
+msgid_plural ""
+"%d accounts of this fingerprint are still encrypted in a former format, "
+"which is cheap to attack offline."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: setup.php:138 src/Account.php:111
 msgid "Account"
 msgid_plural "Accounts"
@@ -30,7 +42,14 @@ msgstr[0] "Compte"
 msgstr[1] "Comptes"
 msgstr[2] "Comptes"
 
-#: src/Account.php:1245
+#: src/Account.php:1198
+#, php-format
+msgid ""
+"Account \"%s\" holds a password or a TOTP secret: transferring it requires "
+"the right to manage the encryption keys."
+msgstr ""
+
+#: src/Account.php:1297
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -40,7 +59,7 @@ msgstr ""
 "trouvée sur le compte de destination. Le mot de passe a été effacé par "
 "mesure de sécurité."
 
-#: src/Account.php:1298
+#: src/Account.php:1350
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -58,8 +77,8 @@ msgstr "Comptes expirés"
 msgid "Accounts expired for more than"
 msgstr "Comptes expirés depuis plus de"
 
-#: src/NotificationTargetAccount.php:322 src/Account.php:1453
-#: src/Account.php:1571
+#: src/NotificationTargetAccount.php:322 src/Account.php:1505
+#: src/Account.php:1623
 msgid "Accounts expired or accounts which expire"
 msgstr "Comptes expirés ou comptes qui vont expirer"
 
@@ -106,7 +125,7 @@ msgstr "Un nouveau compte a été créé"
 msgid "Associable to a ticket"
 msgstr "Associable à un ticket"
 
-#: src/Account.php:998
+#: src/Account.php:1031
 msgctxt "button"
 msgid "Associate"
 msgstr "Associer"
@@ -165,12 +184,12 @@ msgstr "Lien direct vers le compte créé"
 msgid "Display report"
 msgstr "Afficher le rapport"
 
-#: src/Account.php:1002
+#: src/Account.php:1035
 msgctxt "button"
 msgid "Dissociate"
 msgstr "Dissocier"
 
-#: src/Account.php:1962
+#: src/Account.php:2014
 msgid "Don't expire"
 msgstr "N'expire pas"
 
@@ -182,7 +201,7 @@ msgstr "Vide pour infini"
 msgid "Encrypted password"
 msgstr "Mot de passe chiffré"
 
-#: src/Account.php:1999 src/Account.php:2003 src/AesKey.php:76
+#: src/Account.php:2051 src/Account.php:2055 src/AesKey.php:76
 #: src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: templates/hash.html.twig:71 templates/aeskey.html.twig:66
 #: templates/account.html.twig:191 templates/account.html.twig:261
@@ -192,7 +211,7 @@ msgstr[0] "Clé de chiffrement"
 msgstr[1] "Clés de chiffrement"
 msgstr[2] "Clés de chiffrement"
 
-#: front/hash.form.php:111 templates/aeskey.html.twig:52
+#: front/hash.form.php:116 templates/aeskey.html.twig:52
 msgid "Encryption key modified"
 msgstr "Clé de chiffrement modifiée"
 
@@ -245,7 +264,7 @@ msgstr "Générer un mot de passe"
 msgid "Group in charge"
 msgstr "Groupe responsable"
 
-#: src/Hash.php:358
+#: src/Hash.php:364
 msgid "Invalid fingerprint for your encryption key"
 msgstr "Empreinte numérique invalide pour votre clé de chiffrement"
 
@@ -328,7 +347,7 @@ msgstr ""
 "pouvoir les modifier ultérieurement"
 
 #: templates/hash_select_accounts.html.twig:39
-#: templates/hash_select_accounts.html.twig:58 templates/hash.html.twig:134
+#: templates/hash_select_accounts.html.twig:58 templates/hash.html.twig:145
 msgid "Please fill the encryption key"
 msgstr "Veuillez renseigner la clé de chiffrement"
 
@@ -340,6 +359,12 @@ msgstr "Configuration du plugin"
 msgctxt "button"
 msgid "Post"
 msgstr "Envoyer"
+
+#: templates/hash.html.twig:114
+msgid ""
+"Re-encrypt them with the encryption key: tab \"Modification of the "
+"encryption key for all passwords\", typing the same key as old and new key."
+msgstr ""
 
 #: templates/profile.html.twig:34 templates/config.html.twig:65
 msgctxt "button"
@@ -409,7 +434,7 @@ msgstr "Clé secrète TOTP"
 msgid "Technician in charge"
 msgstr "Technicien responsable"
 
-#: src/Account.php:1275
+#: src/Account.php:1327
 #, php-format
 msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
@@ -430,13 +455,13 @@ msgstr ""
 "La clé de chiffrement n'est plus disponible. Veuillez afficher à nouveau la "
 "liste avant de l'exporter."
 
-#: front/hash.form.php:97 templates/hash.html.twig:65
-#: templates/hash.html.twig:143 templates/hash_change_key.html.twig:77
+#: front/hash.form.php:102 templates/hash.html.twig:65
+#: templates/hash.html.twig:154 templates/hash_change_key.html.twig:77
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "La clé de chiffrement doit comporter au moins %d caractères"
 
-#: src/Hash.php:497
+#: src/Hash.php:528
 #, php-format
 msgid ""
 "The encryption key was not modified: the following accounts could not be "
@@ -445,11 +470,11 @@ msgstr ""
 "La clé de chiffrement n'a pas été modifiée : les comptes suivants n'ont pas "
 "pu être lus avec l'ancienne clé : %1$s"
 
-#: front/hash.form.php:120
+#: front/hash.form.php:125
 msgid "The old or the new encryption key can not be empty"
 msgstr "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
-#: src/Account.php:1194
+#: src/Account.php:1246
 #, php-format
 msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
@@ -458,22 +483,26 @@ msgstr ""
 "Le mot de passe du compte \"%s\" n'a pas pu être déchiffré avec la clé "
 "source : le compte n'a pas été transféré."
 
-#: src/Account.php:493 src/Account.php:550
+#: src/Account.php:509 src/Account.php:566
 msgid "The selected fingerprint does not belong to an entity you can access"
 msgstr ""
 "L'empreinte sélectionnée n'appartient pas à une entité à laquelle vous "
 "pouvez accéder."
 
-#: src/Account.php:580
+#: src/Account.php:596
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
 "Le code TOTP soumis n'est pas protégé contre les intrusions et a été ignoré"
 
-#: src/Account.php:565
+#: src/Account.php:581
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr "Le mot de passe soumis n'est pas protégé et a été ignoré"
 
-#: src/Account.php:835
+#: src/Account.php:492 src/Account.php:646
+msgid "The submitted secret uses a former encryption format and was ignored"
+msgstr ""
+
+#: src/Account.php:868
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
@@ -481,11 +510,11 @@ msgstr ""
 "Aucune clé de chiffrement n'est associée à ce compte. Veuillez en "
 "sélectionner une ci-dessus."
 
-#: src/Account.php:791 src/Account.php:840
+#: src/Account.php:824 src/Account.php:873
 msgid "There is no encryption key for this entity"
 msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 
-#: templates/hash.html.twig:110
+#: templates/hash.html.twig:121
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
 "attack offline. Change the encryption key to migrate it to the salted format."
@@ -498,7 +527,7 @@ msgstr ""
 msgid "Time of checking of expiration of accounts"
 msgstr "Délai de vérification d'expiration des comptes"
 
-#: src/Account.php:1009
+#: src/Account.php:1042
 msgid "Transfer"
 msgstr "Transférer"
 
@@ -573,7 +602,7 @@ msgstr "Mauvaise clé de chiffrement"
 msgid "Yes"
 msgstr "Oui"
 
-#: src/Account.php:2109
+#: src/Account.php:2161
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -585,11 +614,11 @@ msgstr ""
 msgid "You have not filled the password and encryption key"
 msgstr "Veuillez renseigner le mot de passe et/ou la clé de chiffrement"
 
-#: src/Hash.php:349
+#: src/Hash.php:355
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "Vous devez générer l'empreinte de votre clé de chiffrement"
 
-#: src/Account.php:815
+#: src/Account.php:848
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr "Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
 
