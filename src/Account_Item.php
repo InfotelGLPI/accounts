@@ -538,7 +538,7 @@ final class Account_Item extends CommonDBRelation
                 'footers' => $footers,
                 'total_number' => count($entries),
                 'filtered_number' => count($entries),
-                'alert_encryption' => __s('Wrong encryption key', 'accounts'),
+                'alert_encryption' => __('Wrong encryption key', 'accounts'),
                 'showmassiveactions' => $can_edit,
                 'massiveactionparams' => [
                     'container' => 'massiveactioncontainer' . $mtrand,

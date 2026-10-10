@@ -581,13 +581,13 @@
                 let aeskey = $('#aeskey').val();
 
                 if (!hiddenPassword || !aeskey) {
-                    alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
+                    alert('{{ __('You have not filled the password and encryption key', 'accounts')|e('js') }}');
                     event.preventDefault();
                     return false;
                 }
 
                 if (!check_hash()) {
-                    alert('{{ __('Wrong encryption key', 'accounts') }}');
+                    alert('{{ __('Wrong encryption key', 'accounts')|e('js') }}');
                     event.preventDefault();
                     return false;
                 }
@@ -609,16 +609,16 @@
                 // encrypted in the browser too, and no server-side fallback is left to pick the
                 // key up from the request body.
                 if (totpPlain != '' && aeskey == '') {
-                    alert('{{ __('You have not filled the password and encryption key', 'accounts') }}');
+                    alert('{{ __('You have not filled the password and encryption key', 'accounts')|e('js') }}');
                     event.preventDefault();
                     return false;
                 }
 
                 if ((hiddenPassword == '' && totpPlain == '') || aeskey == '') {
-                    {#alert('{{ __('Password will not be modified', 'accounts') }}');#}
+                    {#alert('{{ __('Password will not be modified', 'accounts')|e('js') }}');#}
                     {#return false;#}
                 } else if (!check_hash()) {
-                    alert('{{ __('Wrong encryption key', 'accounts') }}');
+                    alert('{{ __('Wrong encryption key', 'accounts')|e('js') }}');
                     event.preventDefault();
                     return false;
                 } else {

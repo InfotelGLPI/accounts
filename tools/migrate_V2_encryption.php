@@ -41,12 +41,12 @@ use GlpiPlugin\Accounts\AesCtr;
 use GlpiPlugin\Accounts\AesKey;
 use GlpiPlugin\Accounts\Hash;
 
-// ── Auth guard (web only) ─────────────────────────────────────────────────────
+// ── CLI only ──────────────────────────────────────────────────────────────────
+// A web branch had no method check and could not honour --dry-run (read from $argv): the
+// tool rewrites every record, so it only runs from the command line.
 if (PHP_SAPI !== 'cli') {
-
-    if (!Session::checkRight(Hash::$rightname, UPDATE)) {
-        die('Right access error');
-    }
+    http_response_code(403);
+    exit('This tool runs from the command line only.');
 }
 
 $dry_run = in_array('--dry-run', $argv ?? []);

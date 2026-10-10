@@ -105,6 +105,17 @@
                             </div>
                         {% endif %}
 
+                        {% if legacy_records|default(0) > 0 %}
+                            <div class='alert alert-warning d-flex flex-column'>
+                                <div>
+                                    {{ _n('%d account of this fingerprint is still encrypted in a former format, which is cheap to attack offline.', '%d accounts of this fingerprint are still encrypted in a former format, which is cheap to attack offline.', legacy_records, 'accounts')|format(legacy_records) }}
+                                </div>
+                                {% if can_migrate|default(false) %}
+                                    <div class='mt-1'>{{ __('Re-encrypt them with the encryption key: tab "Modification of the encryption key for all passwords", typing the same key as old and new key.', 'accounts') }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
                         {% if is_legacy_verifier|default(false) %}
                             <div class='alert alert-warning d-flex'>
                                 {{ __('This fingerprint still uses the former unsalted verifier, which is cheap to attack offline. Change the encryption key to migrate it to the salted format.', 'accounts') }}
@@ -131,7 +142,7 @@
         var aeskey = $('input[name="aeskey"]').val();
 
         if (!aeskey) {
-            alert('{{ __('Please fill the encryption key', 'accounts') }}');
+            alert('{{ __('Please fill the encryption key', 'accounts')|e('js') }}');
             $('input[name="hash"]').val('');
             return;
         }
@@ -140,7 +151,7 @@
         // never posted on this form -- the verifier below is derived here and that is all that
         // travels -- so this is where the policy has to be applied at creation time.
         if (aeskey.length < {{ constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH') }}) {
-            alert('{{ __('The encryption key must be at least %d characters long', 'accounts')|format(constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH')) }}');
+            alert('{{ __('The encryption key must be at least %d characters long', 'accounts')|format(constant('GlpiPlugin\\Accounts\\AccountCrypto::MIN_KEY_LENGTH'))|e('js') }}');
             $('input[name="hash"]').val('');
             return;
         }

@@ -282,8 +282,14 @@ class Hash extends CommonDBTM
         $is_legacy_verifier = $stored_verifier !== ''
             && !str_starts_with($stored_verifier, AccountCrypto::VERIFIER_PREFIX);
 
+        // Records still in a former format (v1 to v3): their key is an unsalted SHA-256 of the
+        // master key, so any one of them can be attacked offline cheaply, whatever the verifier
+        $legacy_records = $ID > 0 ? self::countLegacyRecords((int) $ID) : 0;
+
         $this->initForm($ID, $options);
         TemplateRenderer::getInstance()->display('@accounts/hash.html.twig', [
+            'legacy_records' => $legacy_records,
+            'can_migrate'    => $legacy_records > 0 && Session::haveRight(static::$rightname, UPDATE),
             'item' => $this,
             'nbhashes' => $nbhashes,
             'alertmsg' => $alert,
@@ -363,6 +369,31 @@ class Hash extends CommonDBTM
         }
 
         return $input;
+    }
+
+    /**
+     * Accounts of the fingerprint whose password or TOTP secret is not a v4 record yet
+     */
+    public static function countLegacyRecords(int $hash_id): int
+    {
+        global $DB;
+
+        $count = 0;
+        foreach ($DB->request([
+            'SELECT' => ['encrypted_password', 'encrypted_totp_secret'],
+            'FROM'   => Account::getTable(),
+            'WHERE'  => ['plugin_accounts_hashes_id' => $hash_id],
+        ]) as $row) {
+            foreach (['encrypted_password', 'encrypted_totp_secret'] as $secret) {
+                $value = (string) ($row[$secret] ?? '');
+                if ($value !== '' && !str_starts_with($value, AccountCrypto::V4_PREFIX)) {
+                    $count++;
+                    break;
+                }
+            }
+        }
+
+        return $count;
     }
 
     /**

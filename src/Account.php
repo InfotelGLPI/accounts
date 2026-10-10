@@ -481,6 +481,22 @@ class Account extends CommonDBTM
             );
         }
 
+        // A fingerprint with a salted verifier only takes v4 records (AccountCrypto::isAcceptedFor())
+        $format_hash_id = (int) ($input['plugin_accounts_hashes_id'] ?? ($this->fields['plugin_accounts_hashes_id'] ?? 0));
+        foreach (['encrypted_password', 'encrypted_totp_secret'] as $secret) {
+            if (
+                !empty($input[$secret])
+                && !AccountCrypto::isAcceptedFor((string) $input[$secret], self::getHashVerifier($format_hash_id))
+            ) {
+                Session::addMessageAfterRedirect(
+                    __('The submitted secret uses a former encryption format and was ignored', 'accounts'),
+                    false,
+                    ERROR,
+                );
+                unset($input[$secret]);
+            }
+        }
+
         // Unlike the update path this does not require plugin_accounts_hash UPDATE: a user
         // with CREATE alone has to be able to pick the fingerprint of the new account, and
         // stripping the value here would create an account whose password can never be read.
@@ -618,6 +634,23 @@ class Account extends CommonDBTM
                 }
             }
         }
+
+        // A fingerprint with a salted verifier only takes v4 records (AccountCrypto::isAcceptedFor())
+        $format_hash_id = (int) ($input['plugin_accounts_hashes_id'] ?? ($this->fields['plugin_accounts_hashes_id'] ?? 0));
+        foreach (['encrypted_password', 'encrypted_totp_secret'] as $secret) {
+            if (
+                !empty($input[$secret])
+                && !AccountCrypto::isAcceptedFor((string) $input[$secret], self::getHashVerifier($format_hash_id))
+            ) {
+                Session::addMessageAfterRedirect(
+                    __('The submitted secret uses a former encryption format and was ignored', 'accounts'),
+                    false,
+                    ERROR,
+                );
+                unset($input[$secret]);
+            }
+        }
+
 
         return $input;
     }
@@ -1149,6 +1182,25 @@ class Account extends CommonDBTM
                             continue;
                         }
                         $item->getFromDB($key);
+
+                        // The secrets are re-encrypted from the source key to the destination one,
+                        // both read from the stored keys: only for a caller already entitled to them
+                        // (plugin_accounts_hash UPDATE, the right the account form serves the stored
+                        // key to). Otherwise the transfer would hand the password of an entity whose
+                        // key the caller does not know, re-encrypted under a key they hold. That
+                        // right is also the one that may rebind the account to the destination
+                        // fingerprint: without it, prepareInputForUpdate() would keep the source one,
+                        // leaving a record no key opens.
+                        if ((!empty($item->fields['encrypted_password']) || !empty($item->fields['encrypted_totp_secret']))
+                            && !Session::haveRight(Hash::$rightname, UPDATE)) {
+                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                            $ma->addMessage(sprintf(
+                                __s('Account "%s" holds a password or a TOTP secret: transferring it requires the right to manage the encryption keys.', 'accounts'),
+                                htmlescape($item->fields['name']),
+                            ));
+                            continue;
+                        }
+
                         // --- Step 1: Resolve account type in destination entity ---
                         $type = AccountType::transfer(
                             $item->fields["plugin_accounts_accounttypes_id"],

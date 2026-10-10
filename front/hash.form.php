@@ -88,7 +88,12 @@ if (isset($_POST["add"])) {
                     ERROR,
                 );
                 Html::back();
-            } elseif (mb_strlen((string) $_POST["aeskeynew"]) < AccountCrypto::MIN_KEY_LENGTH) {
+            } elseif (
+                mb_strlen((string) $_POST["aeskeynew"]) < AccountCrypto::MIN_KEY_LENGTH
+                // Typing the same key again only re-encrypts the records in the v4 format
+                // (migration of a vault): the key in force is not a new key to judge
+                && $_POST['aeskeynew'] !== $_POST['aeskey']
+            ) {
                 // One key opens every account of the entity, and everyone allowed to read one of
                 // them is handed the material to attack it offline. Refusing a short new key is
                 // the only lever the server has over that. See AccountCrypto::MIN_KEY_LENGTH.
