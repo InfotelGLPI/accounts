@@ -289,7 +289,7 @@ class Report extends CommonDBTM
             }
         }
         $itemtype     = Account::class;
-        if (!Session::haveRight("plugin_accounts_see_all_users", 1)) {
+        if (!Session::haveRight(Profile::RIGHT_SEE_ALL_USERS, 1)) {
             return false;
         }
         // Set display type for export if define

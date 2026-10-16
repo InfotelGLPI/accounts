@@ -32,9 +32,9 @@ use GlpiPlugin\Accounts\Account;
 header("Content-Type: application/json; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkRight("plugin_accounts", READ);
+Session::checkRight(Account::$rightname, READ);
 
-// fancytree asks for the root level without a node key, then for the key of the node it
+// The tree asks for the root level with node=-1, then for the key of the node it
 // lazy-loads. Account::getTreeNodes() validates that key and applies the same visibility
 // criteria as the account list, so the endpoint stays a thin dispatcher.
 echo json_encode(Account::getTreeNodes($_GET['node'] ?? '-1'));

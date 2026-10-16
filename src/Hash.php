@@ -43,9 +43,9 @@ use Session;
  */
 class Hash extends CommonDBTM
 {
-    public static $rightname = "plugin_accounts_hash";
+    public static string $rightname = "plugin_accounts_hash";
 
-    public $dohistory = true;
+    public bool $dohistory = true;
 
     /**
      * @param int $nb
@@ -282,8 +282,14 @@ class Hash extends CommonDBTM
         $is_legacy_verifier = $stored_verifier !== ''
             && !str_starts_with($stored_verifier, AccountCrypto::VERIFIER_PREFIX);
 
+        // Records still in a former format (v1 to v3): their key is an unsalted SHA-256 of the
+        // master key, so any one of them can be attacked offline cheaply, whatever the verifier
+        $legacy_records = $ID > 0 ? self::countLegacyRecords((int) $ID) : 0;
+
         $this->initForm($ID, $options);
         TemplateRenderer::getInstance()->display('@accounts/hash.html.twig', [
+            'legacy_records' => $legacy_records,
+            'can_migrate'    => $legacy_records > 0 && Session::haveRight(static::$rightname, UPDATE),
             'item' => $this,
             'nbhashes' => $nbhashes,
             'alertmsg' => $alert,
@@ -366,6 +372,31 @@ class Hash extends CommonDBTM
     }
 
     /**
+     * Accounts of the fingerprint whose password or TOTP secret is not a v4 record yet
+     */
+    public static function countLegacyRecords(int $hash_id): int
+    {
+        global $DB;
+
+        $count = 0;
+        foreach ($DB->request([
+            'SELECT' => ['encrypted_password', 'encrypted_totp_secret'],
+            'FROM'   => Account::getTable(),
+            'WHERE'  => ['plugin_accounts_hashes_id' => $hash_id],
+        ]) as $row) {
+            foreach (['encrypted_password', 'encrypted_totp_secret'] as $secret) {
+                $value = (string) ($row[$secret] ?? '');
+                if ($value !== '' && !str_starts_with($value, AccountCrypto::V4_PREFIX)) {
+                    $count++;
+                    break;
+                }
+            }
+        }
+
+        return $count;
+    }
+
+    /**
      * @param $ID
      */
     public static function showSelectAccountsList($ID)
@@ -425,8 +456,33 @@ class Hash extends CommonDBTM
     {
         global $DB;
 
+        $hash_id = (int) $hash_id;
+        $DB->beginTransaction();
+        try {
+            return self::rotateHash($oldaeskey, $newaeskey, $hash_id);
+        } catch (\Throwable $e) {
+            $DB->rollBack();
+            throw $e;
+        }
+    }
+
+    /** The transaction is opened by updateHash(). */
+    private static function rotateHash(string $oldaeskey, string $newaeskey, int $hash_id): bool
+    {
+        global $DB;
+
+        $table = self::getTable();
+        $DB->doQuery("SELECT `id` FROM `$table` WHERE `id` = $hash_id FOR UPDATE");
         $Hash = new self();
-        $Hash->getFromDB($hash_id);
+        if (!$Hash->getFromDB($hash_id)
+            || !AccountCrypto::verify($oldaeskey, (string) $Hash->fields['hash'])) {
+            $DB->rollBack();
+            return false;
+        }
+
+        $account_table = Account::getTable();
+        $DB->doQuery("SELECT `id` FROM `$account_table`
+            WHERE `plugin_accounts_hashes_id` = $hash_id ORDER BY `id` FOR UPDATE");
 
         $account = new Account();
         $aeskey  = new AesKey();
@@ -447,14 +503,10 @@ class Hash extends CommonDBTM
         $rotated_ids = [];
         $blocking    = [];
 
-        // beginTransaction() opens a savepoint when one is already underway, so this stays
-        // correct if a caller ever wraps the rotation in a transaction of its own.
-        $DB->beginTransaction();
-
         if (count($iterator) > 0) {
             foreach ($iterator as $data) {
                 $rotated_ids[] = (int) $data['id'];
-                $oldpassword = AccountCrypto::decrypt($data['encrypted_password'], $oldaeskey);
+                $oldpassword = AccountCrypto::decrypt((string) ($data['encrypted_password'] ?? ''), $oldaeskey);
 
                 // decrypt() returns an empty string on failure (invalid MAC, damaged cryptogram,
                 // record encrypted under a key other than the one attached to this hash). Feeding
@@ -472,7 +524,8 @@ class Hash extends CommonDBTM
                 // here would rewrite every v4 record of the hash in the weaker format.
                 $update = [
                     'id'                 => $data["id"],
-                    'encrypted_password' => AccountCrypto::encrypt($oldpassword, $newaeskey, $newhashstore),
+                    'encrypted_password' => empty($data['encrypted_password']) ? ''
+                        : AccountCrypto::encrypt($oldpassword, $newaeskey, $newhashstore),
                 ];
                 // Re-encrypt TOTP secret if present
                 if (!empty($data['encrypted_totp_secret'])) {
@@ -486,7 +539,9 @@ class Hash extends CommonDBTM
                     }
                     $update['encrypted_totp_secret'] = AccountCrypto::encrypt($oldtotp, $newaeskey, $newhashstore);
                 }
-                $account->update($update);
+                if (!$account->updateReencrypted($update)) {
+                    $blocking[] = $data['name'];
+                }
             }
         }
         if ($blocking !== []) {
@@ -503,6 +558,16 @@ class Hash extends CommonDBTM
                 ERROR,
             );
 
+            return false;
+        }
+
+        if (!PasswordHistory::rotate($hash_id, $oldaeskey, $newaeskey, $newhashstore)) {
+            $DB->rollBack();
+            Session::addMessageAfterRedirect(
+                __('The encryption key was not modified: a password history entry could not be decrypted.', 'accounts'),
+                false,
+                ERROR,
+            );
             return false;
         }
 
@@ -523,13 +588,17 @@ class Hash extends CommonDBTM
         // confirmed the former key against the stored one, and every account has just been
         // re-encrypted under the new one inside this transaction.
         $Hash->verifier_write_allowed = true;
-        $Hash->update(['id' => $hash_id, 'hash' => $newhashstore]);
+        if (!$Hash->update(['id' => $hash_id, 'hash' => $newhashstore])) {
+            throw new \RuntimeException('Unable to update the encryption key verifier.');
+        }
         $Hash->verifier_write_allowed = false;
 
         if ($aeskey->getFromDBByCrit(['plugin_accounts_hashes_id'  => $hash_id]) && isset($aeskey->fields["name"])) {
             $values["id"]   = $aeskey->fields["id"];
             $values["name"] = $newaeskey;
-            $aeskey->update($values);
+            if (!$aeskey->update($values)) {
+                throw new \RuntimeException('Unable to update the stored encryption key.');
+            }
         }
 
         $DB->commit();

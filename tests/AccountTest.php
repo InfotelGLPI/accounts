@@ -310,7 +310,8 @@ class AccountTest extends DbTestCase
         ]);
 
         // Encrypted under a key unrelated to the one the rotation will present.
-        $foreign = AccountCrypto::encrypt('unreachable', 'some-other-key', '');
+        // v4 under the salt of the hash, so that the format is accepted on this fingerprint.
+        $foreign = AccountCrypto::encrypt('unreachable', 'some-other-key', $hash->fields['hash']);
 
         $account = $this->createItem(Account::class, [
             'name'                      => 'Desynchronised',
