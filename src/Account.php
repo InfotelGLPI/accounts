@@ -792,7 +792,7 @@ class Account extends CommonDBTM
             return false;
         }
 
-        $options["form_id"] = "account_form";
+        $options["form_id"] = "main-form";
 
         //hash
         $restrict = getEntitiesRestrictCriteria(

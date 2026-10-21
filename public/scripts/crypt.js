@@ -313,7 +313,7 @@ function decrypt_password(root_accounts_doc, suffix) {
 
     var idcrypt, from;
     if (document.location.pathname.indexOf('accounts') > 0) {
-        idcrypt = $('form#account_form input[name=id]').val();
+        idcrypt = $('form#main-form input[name=id]').val();
         from = 'account';
     } else {
         idcrypt = accounts_id;
@@ -423,7 +423,7 @@ function encrypt_cryptogram(plaintext, fingerprint, verifier) {
 //     // }
 //
 //     $('#encrypted_password').val(encrypted_password);
-//     $('#account_form').submit();
+//     $('#main-form').submit();
 // };
 
 var encrypt_password = function(suffix) {

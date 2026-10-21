@@ -575,7 +575,7 @@
     </div> {# .card-body #}
     {% if item.isNewItem() %}
         <script type="text/javascript">
-            $(document).on('submit', '#account_form', function () {
+            $(document).on('submit', '#main-form', function () {
 
                 let hiddenPassword = $('#hidden_password').val();
                 let aeskey = $('#aeskey').val();
@@ -599,7 +599,7 @@
         </script>
     {% else %}
         <script type="text/javascript">
-            $(document).on('submit', '#account_form', function(event) {
+            $(document).on('submit', '#main-form', function(event) {
 
                 let hiddenPassword = $('#hidden_password').val();
                 let aeskey = $('#aeskey').val();
