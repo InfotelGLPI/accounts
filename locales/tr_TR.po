@@ -2,11 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Kaya Zeren <kayazeren@gmail.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -15,12 +15,11 @@ msgstr ""
 "POT-Creation-Date: 2026-10-21 09:24+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
-"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/"
-"12352/tr_TR/)\n"
-"Language: tr_TR\n"
+"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr_TR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ⁨standard input⁩:111
@@ -32,11 +31,11 @@ msgid_plural ""
 "%d accounts of this fingerprint are still encrypted in a former format, "
 "which is cheap to attack offline."
 msgstr[0] ""
-"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir "
-"biçimde şifrelenmiş."
+"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir"
+" biçimde şifrelenmiş."
 msgstr[1] ""
-"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir "
-"biçimde şifrelenmiş."
+"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir"
+" biçimde şifrelenmiş."
 
 #: setup.php:138 src/Account.php:111
 msgid "Account"
@@ -201,13 +200,12 @@ msgid "Encrypted password"
 msgstr "Şifrelenmiş parola"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
-#: src/Account.php:2051 src/Account.php:2055 ⁨standard input⁩:66
-#: ⁨standard input⁩:71 ⁨standard input⁩:191 ⁨standard input⁩:261
-#, fuzzy
+#: src/Account.php:2051 src/Account.php:2055 ⁨standard input⁩:66 ⁨standard
+#: input⁩:71 ⁨standard input⁩:191 ⁨standard input⁩:261
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Şifreleme anahtarı"
-msgstr[1] "Şifreleme anahtarları"
+msgstr[1] "Şifreleme anahtarı"
 
 #: front/hash.form.php:116 ⁨standard input⁩:52
 msgid "Encryption key modified"
@@ -451,8 +449,8 @@ msgstr ""
 "Şifreleme anahtarı artık yok. Dışa aktarmadan önce listeyi yeniden "
 "görüntüleyin"
 
-#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65
-#: ⁨standard input⁩:154
+#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65 ⁨standard
+#: input⁩:154
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "Şifreleme anahtarı en az %d karakter uzunluğunda olmalıdır"
@@ -494,7 +492,8 @@ msgstr "Gönderilen parolanın bütünlük koruması olmadığından yok sayıld
 
 #: src/Account.php:492 src/Account.php:646
 msgid "The submitted secret uses a former encryption format and was ignored"
-msgstr "Gönderilen parola eski bir şifreleme biçimi kullandığından yok sayıldı"
+msgstr ""
+"Gönderilen parola eski bir şifreleme biçimi kullandığından yok sayıldı"
 
 #: src/Account.php:868
 msgid ""
@@ -511,7 +510,8 @@ msgstr "Bu birim için bir şifreleme anahtarı yok"
 #: ⁨standard input⁩:121
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
 "Bu parmak izi hala çevrim dışı olarak saldırılabilecek eski çeşnisiz "
 "doğrulayıcıyı kullanıyor. Çeşnili biçime geçirmek için şifreleme anahtarını "
@@ -580,12 +580,12 @@ msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
 msgstr ""
-"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun "
-"olduğunu gösterebilir."
+"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun"
+" olduğunu gösterebilir."
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
-#: ⁨standard input⁩:48 ⁨standard input⁩:222 ⁨standard input⁩:300 ⁨standard input⁩:590
-#: ⁨standard input⁩:621
+#: ⁨standard input⁩:48 ⁨standard input⁩:222 ⁨standard input⁩:300 ⁨standard
+#: input⁩:590 ⁨standard input⁩:621
 msgid "Wrong encryption key"
 msgstr "Şifreleme anahtarı yanlış"
 
