@@ -40,7 +40,7 @@ use Migration;
  */
 class NotificationState extends CommonDBTM
 {
-    public static string $rightname = "config";
+    public static $rightname = "config";
     /**
      * @return array
      */

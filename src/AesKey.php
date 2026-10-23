@@ -44,14 +44,14 @@ use Toolbox;
  */
 class AesKey extends CommonDBTM
 {
-    public static string $rightname = "plugin_accounts_hash";
+    public static $rightname = "plugin_accounts_hash";
 
     /**
      * The master AES key is stored encrypted at rest with GLPIKey and must never
      * be disclosed in logs, history or exports.
      * @var string[]
      */
-    public static array $undisclosedFields = ['name'];
+    public static $undisclosedFields = ['name'];
 
     /**
      * @var hash

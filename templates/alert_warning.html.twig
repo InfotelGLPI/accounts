@@ -25,4 +25,6 @@
  # --------------------------------------------------------------------------
  #}
 
-<twig:Alert:Warning :content="message" />
+{% import 'components/alerts_macros.html.twig' as alerts %}
+
+{{ alerts.alert_warning('', message) }}

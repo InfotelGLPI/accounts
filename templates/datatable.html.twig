@@ -25,6 +25,7 @@
  # --------------------------------------------------------------------------
  #}
 
+{% import 'components/alerts_macros.html.twig' as alerts %}
 
 {% set datatable_id = datatable_id|default('datatable' ~ random()) %}
 {% set filters = filters|default([]) %}
@@ -385,7 +386,7 @@
                 {% else %}
                     <tr>
                         <td colspan="{{ total_cols }}">
-                            <twig:Alert :content="__('No results found')" />
+                            {{ alerts.alert_info(__('No results found')) }}
                         </td>
                     </tr>
                 {% endif %}

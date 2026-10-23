@@ -31,7 +31,6 @@ use Glpi\Application\View\TemplateRenderer;
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Account;
 use GlpiPlugin\Servicecatalog\Main;
-use GlpiPlugin\Accounts\Profile;
 
 if (Session::getCurrentInterface() == 'central') {
 
@@ -54,7 +53,7 @@ $account = new Account();
 $account->checkGlobal(READ);
 
 if ($account->canView()) {
-    if (Session::haveRight(Profile::RIGHT_SEE_ALL_USERS, 1)) {
+    if (Session::haveRight("plugin_accounts_see_all_users", 1)) {
         // The modal markup and the script that opens it come from the core helper: ask for
         // the string, so the template stays in charge of the layout.
         $modal = (string) Ajax::createIframeModalWindow(

@@ -26,6 +26,7 @@
  */
 
 
+/* global getAjaxCsrfToken */
 
 /**
  * "Display report" button of templates/hash_select_accounts.html.twig: posts the key typed by the
@@ -58,6 +59,7 @@ async function showAccountsList(button) {
         method: 'POST',
         body: body,
         headers: {
+            'X-Glpi-Csrf-Token': getAjaxCsrfToken(),
             'X-Requested-With': 'XMLHttpRequest',
         },
     });
