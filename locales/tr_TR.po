@@ -2,25 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Kaya Zeren <kayazeren@gmail.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 11:52+0000\n"
+"POT-Creation-Date: 2026-10-23 11:54+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2026\n"
-"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/"
-"12352/tr_TR/)\n"
-"Language: tr_TR\n"
+"Language-Team: Turkish (Turkey) (https://app.transifex.com/infotelGLPI/teams/12352/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr_TR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ⁨standard input⁩:111
@@ -32,11 +31,11 @@ msgid_plural ""
 "%d accounts of this fingerprint are still encrypted in a former format, "
 "which is cheap to attack offline."
 msgstr[0] ""
-"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir "
-"biçimde şifrelenmiş."
+"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir"
+" biçimde şifrelenmiş."
 msgstr[1] ""
-"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir "
-"biçimde şifrelenmiş."
+"Bu parmak izinin %d hesabı hala çevrim dışı olarak saldırılabilecek eski bir"
+" biçimde şifrelenmiş."
 
 #: setup.php:139 src/Account.php:115
 msgid "Account"
@@ -145,7 +144,7 @@ msgstr "Temizle"
 
 #: ⁨standard input⁩:44
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
 #: ⁨standard input⁩:98 ⁨standard input⁩:559
 msgid "Comment"
@@ -155,7 +154,7 @@ msgstr[1] "Yorumlar"
 
 #: ⁨standard input⁩:86
 msgid "Copy password"
-msgstr ""
+msgstr "Parolayı kopyala"
 
 #: ⁨standard input⁩:471
 msgid "Creation date"
@@ -181,7 +180,7 @@ msgstr "Ögeden çözülmüş şifre"
 
 #: ajax/log_decrypt.php:63
 msgid "Decrypted from password history"
-msgstr ""
+msgstr "Parola geçmişinden şifresi çözüldü"
 
 #: src/Report.php:321
 msgid "Decrypted password"
@@ -213,8 +212,8 @@ msgid "Encrypted password"
 msgstr "Şifrelenmiş parola"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
-#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70
-#: ⁨standard input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
+#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70 ⁨standard
+#: input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Şifreleme anahtarı"
@@ -322,7 +321,7 @@ msgstr "Hayır"
 
 #: ⁨standard input⁩:49
 msgid "No previous passwords."
-msgstr ""
+msgstr "Daha önce bir parola yok."
 
 #: ⁨standard input⁩:63
 msgid "No results found"
@@ -346,7 +345,7 @@ msgstr "Parola"
 
 #: ⁨standard input⁩:36 ⁨standard input⁩:42
 msgid "Password history"
-msgstr ""
+msgstr "Parola geçmişi"
 
 #: ⁨standard input⁩:621
 msgid "Password will not be modified"
@@ -375,7 +374,7 @@ msgstr "Gönder"
 
 #: ⁨standard input⁩:80
 msgid "Previous password"
-msgstr ""
+msgstr "Önceki parola"
 
 #: ⁨standard input⁩:114
 msgid ""
@@ -429,7 +428,7 @@ msgstr "Tümünü görüntüle"
 
 #: ⁨standard input⁩:82
 msgid "Show password"
-msgstr ""
+msgstr "Parolayı görüntüle"
 
 #: ⁨standard input⁩:354
 msgid "Show/hide"
@@ -478,8 +477,8 @@ msgstr ""
 "Şifreleme anahtarı artık yok. Dışa aktarmadan önce listeyi yeniden "
 "görüntüleyin"
 
-#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65
-#: ⁨standard input⁩:154
+#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65 ⁨standard
+#: input⁩:154
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "Şifreleme anahtarı en az %d karakter uzunluğunda olmalıdır"
@@ -489,6 +488,8 @@ msgid ""
 "The encryption key was not modified: a password history entry could not be "
 "decrypted."
 msgstr ""
+"Şifreleme anahtarı değiştirilmedi: Bir parola geçmişi kaydının şifresi "
+"çözülemedi."
 
 #: src/Hash.php:552
 #, php-format
@@ -527,7 +528,8 @@ msgstr "Gönderilen parolanın bütünlük koruması olmadığından yok sayıld
 
 #: src/Account.php:500 src/Account.php:657
 msgid "The submitted secret uses a former encryption format and was ignored"
-msgstr "Gönderilen parola eski bir şifreleme biçimi kullandığından yok sayıldı"
+msgstr ""
+"Gönderilen parola eski bir şifreleme biçimi kullandığından yok sayıldı"
 
 #: src/Account.php:940
 msgid ""
@@ -544,7 +546,8 @@ msgstr "Bu birim için bir şifreleme anahtarı yok"
 #: ⁨standard input⁩:121
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
 "Bu parmak izi hala çevrim dışı olarak saldırılabilecek eski çeşnisiz "
 "doğrulayıcıyı kullanıyor. Çeşnili biçime geçirmek için şifreleme anahtarını "
@@ -574,7 +577,7 @@ msgstr "Tür görünümü"
 
 #: ⁨standard input⁩:33
 msgid "Unable to decrypt this password history entry."
-msgstr ""
+msgstr "Bu parola geçmişi kaydının şifresi çözülemedi."
 
 #: ⁨standard input⁩:86
 msgid "Update"
@@ -617,12 +620,12 @@ msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
 msgstr ""
-"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun "
-"olduğunu gösterebilir."
+"Uyarı: Şifrelenmiş parola çok uzun. Bu durum şifreleme anahtarında bir sorun"
+" olduğunu gösterebilir."
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
-#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard input⁩:301
-#: ⁨standard input⁩:593 ⁨standard input⁩:624
+#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard
+#: input⁩:301 ⁨standard input⁩:593 ⁨standard input⁩:624
 msgid "Wrong encryption key"
 msgstr "Şifreleme anahtarı yanlış"
 
