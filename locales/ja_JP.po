@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-21 09:24+0000\n"
+"POT-Creation-Date: 2026-10-23 11:52+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/teams/"
@@ -33,19 +33,19 @@ msgid_plural ""
 "which is cheap to attack offline."
 msgstr[0] ""
 
-#: setup.php:138 src/Account.php:111
+#: setup.php:139 src/Account.php:115
 msgid "Account"
 msgid_plural "Accounts"
 msgstr[0] "アカウント"
 
-#: src/Account.php:1198
+#: src/Account.php:1271
 #, php-format
 msgid ""
 "Account \"%s\" holds a password or a TOTP secret: transferring it requires "
 "the right to manage the encryption keys."
 msgstr ""
 
-#: src/Account.php:1297
+#: src/Account.php:1370
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -54,7 +54,7 @@ msgstr ""
 "「%s」アカウントを転送しましたが、行き先のエンティティーにフィンガープリント"
 "が見つかりません。セキュリティーのためにパスワードを消去しました。"
 
-#: src/Account.php:1350
+#: src/Account.php:1423
 #, php-format
 msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
@@ -69,8 +69,8 @@ msgstr "期限切れアカウント"
 msgid "Accounts expired for more than"
 msgstr "アカウントの期限が切れてから "
 
-#: src/NotificationTargetAccount.php:322 src/Account.php:1505
-#: src/Account.php:1623
+#: src/NotificationTargetAccount.php:322 src/Account.php:1582
+#: src/Account.php:1700
 msgid "Accounts expired or accounts which expire"
 msgstr "既に期限切れ、期限切れが近いアカウント"
 
@@ -93,14 +93,14 @@ msgstr "期限切れのメール送信に未使用の状態を追加する"
 
 #: src/NotificationTargetAccount.php:66 src/NotificationTargetAccount.php:191
 #: src/NotificationTargetAccount.php:243 src/NotificationTargetAccount.php:304
-#: ⁨standard input⁩:446 ⁨standard input⁩:456
+#: ⁨standard input⁩:448 ⁨standard input⁩:458
 msgid "Affected Group"
 msgstr "影響するグループ"
 
 #: src/Account_Item.php:502 src/NotificationTargetAccount.php:65
 #: src/NotificationTargetAccount.php:188 src/NotificationTargetAccount.php:242
-#: src/NotificationTargetAccount.php:303 src/Account.php:348
-#: src/Account.php:356 ⁨standard input⁩:420 ⁨standard input⁩:429
+#: src/NotificationTargetAccount.php:303 src/Account.php:356
+#: src/Account.php:364 ⁨standard input⁩:422 ⁨standard input⁩:431
 msgid "Affected User"
 msgstr "影響するユーザー"
 
@@ -112,16 +112,16 @@ msgstr "すべて"
 msgid "An account has been created"
 msgstr "アカウントを作成しました"
 
-#: ⁨standard input⁩:565
+#: ⁨standard input⁩:567
 msgid "Associable to a ticket"
 msgstr "チケットに関連付ける"
 
-#: src/Account.php:1031
+#: src/Account.php:1104
 msgctxt "button"
 msgid "Associate"
 msgstr ""
 
-#: hook.php:886
+#: hook.php:891
 msgid "Associate to account"
 msgstr "アカウントに関連付ける"
 
@@ -129,16 +129,24 @@ msgstr "アカウントに関連付ける"
 msgid "Check all"
 msgstr "すべてチェック"
 
-#: ⁨standard input⁩:251 ⁨standard input⁩:367
+#: ⁨standard input⁩:251 ⁨standard input⁩:369
 msgid "Clear"
 msgstr "初期化"
 
-#: ⁨standard input⁩:98 ⁨standard input⁩:557
+#: ⁨standard input⁩:44
+msgid "Close"
+msgstr ""
+
+#: ⁨standard input⁩:98 ⁨standard input⁩:559
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] "コメント"
 
-#: ⁨standard input⁩:469
+#: ⁨standard input⁩:86
+msgid "Copy password"
+msgstr ""
+
+#: ⁨standard input⁩:471
 msgid "Creation date"
 msgstr "作成日"
 
@@ -147,17 +155,21 @@ msgid "Day"
 msgid_plural "Days"
 msgstr[0] "日"
 
-#: src/Account_Item.php:470
+#: src/Account_Item.php:470 ⁨standard input⁩:74
 msgid "Decrypt"
 msgstr "復号"
 
-#: ajax/log_decrypt.php:50
+#: ajax/log_decrypt.php:65
 msgid "Decrypted from account"
 msgstr "アカウントから復号化しました"
 
-#: ajax/log_decrypt.php:52
+#: ajax/log_decrypt.php:67
 msgid "Decrypted from item"
 msgstr "アイテムから復号化しました"
+
+#: ajax/log_decrypt.php:63
+msgid "Decrypted from password history"
+msgstr ""
 
 #: src/Report.php:321
 msgid "Decrypted password"
@@ -171,16 +183,16 @@ msgstr "作成したアカウントへのリンク"
 msgid "Display report"
 msgstr "レポート表示"
 
-#: src/Account.php:1035
+#: src/Account.php:1108
 msgctxt "button"
 msgid "Dissociate"
 msgstr ""
 
-#: src/Account.php:2014
+#: src/Account.php:2091
 msgid "Don't expire"
 msgstr "期限なし"
 
-#: ⁨standard input⁩:502
+#: ⁨standard input⁩:504
 msgid "Empty for infinite"
 msgstr "空で永続"
 
@@ -189,8 +201,8 @@ msgid "Encrypted password"
 msgstr ""
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
-#: src/Account.php:2051 src/Account.php:2055 ⁨standard input⁩:66
-#: ⁨standard input⁩:71 ⁨standard input⁩:191 ⁨standard input⁩:261
+#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70
+#: ⁨standard input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
 #, fuzzy
 msgid "Encryption key"
 msgid_plural "Encryption key"
@@ -208,7 +220,7 @@ msgstr "暗号キーを保存しました"
 msgid "Entries to show:"
 msgstr "表示するエントリー : "
 
-#: ⁨standard input⁩:501
+#: ⁨standard input⁩:503
 msgid "Expiration date"
 msgstr "期限日"
 
@@ -225,13 +237,13 @@ msgstr ""
 msgid "Filter"
 msgstr "フィルター"
 
-#: src/AesKey.php:342 src/Hash.php:58 src/Hash.php:184 src/Account.php:339
+#: src/AesKey.php:342 src/Hash.php:58 src/Hash.php:184 src/Account.php:347
 #: ⁨standard input⁩:146 ⁨standard input⁩:168
 msgid "Fingerprint"
 msgid_plural "Fingerprints"
 msgstr[0] "フィンガープリント"
 
-#: ⁨standard input⁩:708
+#: ⁨standard input⁩:711
 msgid "Generate"
 msgstr "生成"
 
@@ -239,11 +251,11 @@ msgstr "生成"
 msgid "Generate fingerprint with this encryption key"
 msgstr "この暗号キーでフィンガープリントを生成"
 
-#: ⁨standard input⁩:652
+#: ⁨standard input⁩:655
 msgid "Generate password"
 msgstr "パスワード生成"
 
-#: ⁨standard input⁩:513 ⁨standard input⁩:523
+#: ⁨standard input⁩:515 ⁨standard input⁩:525
 msgid "Group in charge"
 msgstr "担当グループ"
 
@@ -251,7 +263,7 @@ msgstr "担当グループ"
 msgid "Invalid fingerprint for your encryption key"
 msgstr ""
 
-#: ⁨standard input⁩:347
+#: ⁨standard input⁩:349
 msgid "Leave blank to keep current"
 msgstr "空欄のままで現状維持"
 
@@ -259,7 +271,7 @@ msgstr "空欄のままで現状維持"
 msgid "Leave empty to keep the current key"
 msgstr ""
 
-#: ⁨standard input⁩:693
+#: ⁨standard input⁩:696
 msgid "Length"
 msgstr "長さ"
 
@@ -271,7 +283,7 @@ msgstr "リンクしたアカウントリスト"
 msgid "Login"
 msgstr "ログイン"
 
-#: ⁨standard input⁩:669
+#: ⁨standard input⁩:672
 msgid "Lowercase"
 msgstr "小文字"
 
@@ -295,11 +307,15 @@ msgstr "新しい暗号キー"
 msgid "No"
 msgstr "いいえ"
 
+#: ⁨standard input⁩:49
+msgid "No previous passwords."
+msgstr ""
+
 #: ⁨standard input⁩:63
 msgid "No results found"
 msgstr "見つかりませんでした"
 
-#: ⁨standard input⁩:662
+#: ⁨standard input⁩:665
 msgid "Numbers"
 msgstr "数字"
 
@@ -307,15 +323,19 @@ msgstr "数字"
 msgid "Old encryption key"
 msgstr "古い暗号キー"
 
-#: ⁨standard input⁩:537
+#: ⁨standard input⁩:539
 msgid "Others"
 msgstr "その他"
 
-#: ⁨standard input⁩:217 ⁨standard input⁩:295
+#: ⁨standard input⁩:217 ⁨standard input⁩:296
 msgid "Password"
 msgstr "パスワード"
 
-#: ⁨standard input⁩:618
+#: ⁨standard input⁩:36 ⁨standard input⁩:42
+msgid "Password history"
+msgstr ""
+
+#: ⁨standard input⁩:621
 msgid "Password will not be modified"
 msgstr "パスワードは変更しません"
 
@@ -338,6 +358,10 @@ msgstr "プラグインセットアップ"
 #: ⁨standard input⁩:34
 msgctxt "button"
 msgid "Post"
+msgstr ""
+
+#: ⁨standard input⁩:80
+msgid "Previous password"
 msgstr ""
 
 #: ⁨standard input⁩:114
@@ -371,7 +395,7 @@ msgstr "すべてのアカウントを表示する"
 msgid "See your accounts"
 msgstr "自分のアカウントを表示する"
 
-#: ⁨standard input⁩:706
+#: ⁨standard input⁩:709
 msgid "Select at least one checkbox"
 msgstr "チェックボックスのどれかを選択してください"
 
@@ -387,11 +411,15 @@ msgstr "アカウントの種類を選択してください"
 msgid "Show all"
 msgstr ""
 
-#: ⁨standard input⁩:352
+#: ⁨standard input⁩:82
+msgid "Show password"
+msgstr ""
+
+#: ⁨standard input⁩:354
 msgid "Show/hide"
 msgstr "表示・非表示"
 
-#: ⁨standard input⁩:683
+#: ⁨standard input⁩:686
 msgid "Special characters"
 msgstr "記号"
 
@@ -400,19 +428,19 @@ msgid "Status"
 msgid_plural "Statuses"
 msgstr[0] "状態"
 
-#: ⁨standard input⁩:376
+#: ⁨standard input⁩:378
 msgid "Stored TOTP Secret"
 msgstr "保存済み2段階認証シークレット"
 
-#: src/Account.php:260 ⁨standard input⁩:331
+#: src/Account.php:268 ⁨standard input⁩:333
 msgid "TOTP Secret"
 msgstr "2段階認証シークレット"
 
-#: ⁨standard input⁩:480 ⁨standard input⁩:489
+#: ⁨standard input⁩:482 ⁨standard input⁩:491
 msgid "Technician in charge"
 msgstr "担当技術者"
 
-#: src/Account.php:1327
+#: src/Account.php:1400
 #, php-format
 msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
@@ -435,7 +463,13 @@ msgstr ""
 msgid "The encryption key must be at least %d characters long"
 msgstr ""
 
-#: src/Hash.php:528
+#: tests/PasswordHistoryTest.php:209 src/Hash.php:567
+msgid ""
+"The encryption key was not modified: a password history entry could not be "
+"decrypted."
+msgstr ""
+
+#: src/Hash.php:552
 #, php-format
 msgid ""
 "The encryption key was not modified: the following accounts could not be "
@@ -446,36 +480,36 @@ msgstr ""
 msgid "The old or the new encryption key can not be empty"
 msgstr "新旧の暗号キーは空に出来ません"
 
-#: src/Account.php:1246
+#: src/Account.php:1319
 #, php-format
 msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
 "the account was not transferred."
 msgstr ""
 
-#: src/Account.php:509 src/Account.php:566
+#: src/Account.php:517 src/Account.php:574
 msgid "The selected fingerprint does not belong to an entity you can access"
 msgstr ""
 
-#: src/Account.php:596
+#: src/Account.php:604
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:581
+#: tests/PasswordHistoryTest.php:295 src/Account.php:589
 msgid "The submitted password is not integrity protected and was ignored"
 msgstr ""
 
-#: src/Account.php:492 src/Account.php:646
+#: src/Account.php:500 src/Account.php:657
 msgid "The submitted secret uses a former encryption format and was ignored"
 msgstr ""
 
-#: src/Account.php:868
+#: src/Account.php:940
 msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr "このアカウントに関連づいている暗号キーがありません。選択してください。"
 
-#: src/Account.php:824 src/Account.php:873
+#: src/Account.php:896 src/Account.php:945
 msgid "There is no encryption key for this entity"
 msgstr "このエンティティーには暗号キーがありません"
 
@@ -489,7 +523,7 @@ msgstr ""
 msgid "Time of checking of expiration of accounts"
 msgstr "アカウントの期限をチェックする時刻"
 
-#: src/Account.php:1042
+#: src/Account.php:1115
 msgid "Transfer"
 msgstr ""
 
@@ -506,11 +540,15 @@ msgstr[0] "アカウントの型"
 msgid "Type view"
 msgstr "型を表示"
 
+#: ⁨standard input⁩:33
+msgid "Unable to decrypt this password history entry."
+msgstr ""
+
 #: ⁨standard input⁩:86
 msgid "Update"
 msgstr "更新"
 
-#: ⁨standard input⁩:676
+#: ⁨standard input⁩:679
 msgid "Uppercase"
 msgstr "大文字"
 
@@ -541,7 +579,7 @@ msgstr ""
 "注意 : 関連するフィンガープリントを変更すると、パスワードを正しく復号化するこ"
 "とはできなくなります。パスワードも更新する必要があります。"
 
-#: src/Account.php:476
+#: src/Account.php:484
 msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
@@ -550,8 +588,8 @@ msgstr ""
 "す。"
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
-#: ⁨standard input⁩:48 ⁨standard input⁩:222 ⁨standard input⁩:300 ⁨standard input⁩:590
-#: ⁨standard input⁩:621
+#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard input⁩:301
+#: ⁨standard input⁩:593 ⁨standard input⁩:624
 msgid "Wrong encryption key"
 msgstr "暗号キーが違います"
 
@@ -559,7 +597,7 @@ msgstr "暗号キーが違います"
 msgid "Yes"
 msgstr "はい"
 
-#: src/Account.php:2161
+#: src/Account.php:2238
 msgid ""
 "You have accounts without linked fingerprint, please add it with massive "
 "action or into forms"
@@ -567,7 +605,7 @@ msgstr ""
 "リンクしたフィンガープリントがありません。一括操作で追加するか、フォームに入"
 "力してください"
 
-#: ⁨standard input⁩:584 ⁨standard input⁩:612
+#: ⁨standard input⁩:587 ⁨standard input⁩:615
 msgid "You have not filled the password and encryption key"
 msgstr "パスワードと暗号キーを入力していません"
 
@@ -575,15 +613,15 @@ msgstr "パスワードと暗号キーを入力していません"
 msgid "You must generate the fingerprint for your encryption key"
 msgstr "暗号キーのフィンガープリントを生成してください"
 
-#: src/Account.php:848
+#: src/Account.php:920
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr "暗号キーが不正な形式です。フィンガープリントを再生成してください"
 
-#: ⁨standard input⁩:698
+#: ⁨standard input⁩:701
 msgid "characters"
 msgstr "文字"
 
-#: ⁨standard input⁩:333
+#: ⁨standard input⁩:335
 msgid "new value"
 msgstr "新しい値"
 
