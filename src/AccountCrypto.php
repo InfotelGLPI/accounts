@@ -333,6 +333,21 @@ class AccountCrypto
      * @param string $ciphertext The stored value
      * @param string $verifier   The verifier stored on the hash record, when available
      */
+    /**
+     * Whether a ciphertext may be stored under a fingerprint: once its verifier is salted
+     * (PBKDF2), only v4 records, whose keys derive from that salt. An older record would let
+     * whoever reads it test guesses of the master key offline at the speed of one SHA-256.
+     * Without a salted verifier, any authenticated format is still accepted.
+     */
+    public static function isAcceptedFor(string $ciphertext, string $verifier): bool
+    {
+        if ($ciphertext === '' || self::parseVerifier($verifier) === null) {
+            return true;
+        }
+
+        return str_starts_with($ciphertext, self::V4_PREFIX);
+    }
+
     public static function needsReencryption(string $ciphertext, string $verifier = ''): bool
     {
         // Never ask to rewrite a record that is already above the target: without a verifier

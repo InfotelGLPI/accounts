@@ -60,7 +60,7 @@ class Account extends CommonDBTM
     /** @use Clonable<static> */
     use Clonable;
 
-    public static $rightname = "plugin_accounts";
+    public static string $rightname = "plugin_accounts";
 
     /**
      * Verifiers read from glpi_plugin_accounts_hashes, memoized per request.
@@ -85,7 +85,7 @@ class Account extends CommonDBTM
         'Cluster',
     ];
 
-    public $dohistory = true;
+    public bool $dohistory = true;
 
     /**
      * Log::constructHistory() records the former and the new value of every changed field
@@ -96,8 +96,12 @@ class Account extends CommonDBTM
      * access to the TOTP seeds. encrypted_password is listed too, so that adding a search
      * option to it later cannot open the same hole by accident.
      */
-    public $history_blacklist = ['encrypted_totp_secret', 'encrypted_password'];
-    protected $usenotepad = true;
+    public array $history_blacklist = ['encrypted_totp_secret', 'encrypted_password'];
+    protected bool $usenotepad = true;
+
+    // Internal state, never taken from posted flags such as _no_history.
+    private bool $password_reencryption = false;
+    private bool $password_format_upgrade = false;
 
     /**
      * Return the localized name of the current Type
@@ -126,6 +130,10 @@ class Account extends CommonDBTM
      */
     public function cleanDBonPurge()
     {
+        global $DB;
+
+        $DB->delete(PasswordHistory::TABLE, ['plugin_accounts_accounts_id' => $this->getID()]);
+
         $temp = new Account_Item();
         $temp->deleteByCriteria(['plugin_accounts_accounts_id' => $this->fields['id']]);
 
@@ -481,6 +489,22 @@ class Account extends CommonDBTM
             );
         }
 
+        // A fingerprint with a salted verifier only takes v4 records (AccountCrypto::isAcceptedFor())
+        $format_hash_id = (int) ($input['plugin_accounts_hashes_id'] ?? ($this->fields['plugin_accounts_hashes_id'] ?? 0));
+        foreach (['encrypted_password', 'encrypted_totp_secret'] as $secret) {
+            if (
+                !empty($input[$secret])
+                && !AccountCrypto::isAcceptedFor((string) $input[$secret], self::getHashVerifier($format_hash_id))
+            ) {
+                Session::addMessageAfterRedirect(
+                    __('The submitted secret uses a former encryption format and was ignored', 'accounts'),
+                    false,
+                    ERROR,
+                );
+                unset($input[$secret]);
+            }
+        }
+
         // Unlike the update path this does not require plugin_accounts_hash UPDATE: a user
         // with CREATE alone has to be able to pick the fingerprint of the new account, and
         // stripping the value here would create an account whose password can never be read.
@@ -537,7 +561,7 @@ class Account extends CommonDBTM
         }
 
         if (isset($input["plugin_accounts_hashes_id"])
-            && !Session::haveRight('plugin_accounts_hash', UPDATE)) {
+            && !Session::haveRight(Hash::$rightname, UPDATE)) {
             unset($input['plugin_accounts_hashes_id']);
         }
         // The right alone says nothing about the entity: it can be granted recursively or
@@ -590,6 +614,7 @@ class Account extends CommonDBTM
         $reencrypt_hash_id = (int) ($this->fields['plugin_accounts_hashes_id']
             ?? ($input['plugin_accounts_hashes_id'] ?? 0));
 
+        $this->password_format_upgrade = false;
         if (isset($input['encrypted_password']) && !empty($input['encrypted_password'])
             && AccountCrypto::needsReencryption(
                 $input['encrypted_password'],
@@ -610,6 +635,8 @@ class Account extends CommonDBTM
                 // the key did not fit or the record is damaged, and rewriting it would turn a
                 // recoverable record into a lost one.
                 if ($plaintext !== '') {
+                    $this->password_format_upgrade = $input['encrypted_password']
+                        === ($this->fields['encrypted_password'] ?? '');
                     $input['encrypted_password'] = AccountCrypto::encrypt(
                         $plaintext,
                         $fingerprint,
@@ -619,7 +646,85 @@ class Account extends CommonDBTM
             }
         }
 
+        // A fingerprint with a salted verifier only takes v4 records (AccountCrypto::isAcceptedFor())
+        $format_hash_id = (int) ($input['plugin_accounts_hashes_id'] ?? ($this->fields['plugin_accounts_hashes_id'] ?? 0));
+        foreach (['encrypted_password', 'encrypted_totp_secret'] as $secret) {
+            if (
+                !empty($input[$secret])
+                && !AccountCrypto::isAcceptedFor((string) $input[$secret], self::getHashVerifier($format_hash_id))
+            ) {
+                Session::addMessageAfterRedirect(
+                    __('The submitted secret uses a former encryption format and was ignored', 'accounts'),
+                    false,
+                    ERROR,
+                );
+                unset($input[$secret]);
+            }
+        }
+
+
         return $input;
+    }
+
+    /** Serialize password updates so two saves archive the actual preceding values. */
+    public function update(array $input, $history = true, $options = [])
+    {
+        global $DB;
+
+        if ($DB->isSlave() || empty($input['id'])) {
+            return false;
+        }
+        $DB->beginTransaction();
+        try {
+            $id = (int) $input['id'];
+            $table = self::getTable();
+            $DB->doQuery("SELECT `id` FROM `$table` WHERE `id` = $id FOR UPDATE");
+            $result = parent::update($input, $history, $options);
+            if ($result) {
+                $DB->commit();
+            } else {
+                $DB->rollBack();
+            }
+            return $result;
+        } catch (\Throwable $e) {
+            $DB->rollBack();
+            throw $e;
+        } finally {
+            $this->password_format_upgrade = false;
+        }
+    }
+
+    /** Internal rotations/transfers preserve the password, so do not add history. */
+    public function updateReencrypted(array $input): bool
+    {
+        $this->password_reencryption = true;
+        try {
+            return $this->update($input);
+        } finally {
+            $this->password_reencryption = false;
+        }
+    }
+
+    public function updateInDB($updates, $oldvalues = [])
+    {
+        global $DB;
+
+        // history_blacklist intentionally prevents GLPI from keeping old ciphertexts
+        // in glpi_logs. Read the locked database row rather than GLPI's oldvalues.
+        $previous = null;
+        if (in_array('encrypted_password', $updates, true)
+            && !$this->password_reencryption && !$this->password_format_upgrade) {
+            $previous = $DB->request([
+                'FROM' => self::getTable(),
+                'WHERE' => ['id' => $this->getID()],
+            ])->current();
+        }
+        $result = parent::updateInDB($updates, $oldvalues);
+        if ($result && $previous !== null && $previous !== false
+            && (string) $previous['encrypted_password'] !== (string) $this->fields['encrypted_password']) {
+            PasswordHistory::record($previous);
+        }
+        return $result;
     }
 
     /**
@@ -841,7 +946,7 @@ class Account extends CommonDBTM
             return false;
         }
 
-        $canupdateHash = Session::haveRight('plugin_accounts_hash', UPDATE);
+        $canupdateHash = Session::haveRight(Hash::$rightname, UPDATE);
 
         // Serve the remembered master key in cleartext (and trigger auto-decrypt) only to users
         // allowed to manage the encryption key (plugin_accounts_hash UPDATE). A plain READ user
@@ -868,6 +973,7 @@ class Account extends CommonDBTM
             'params' => $options,
             'has_totp' => !empty($this->fields['encrypted_totp_secret']),
             'show_password_generator' => empty($ID) ? true : false,
+            'password_history' => $ID > 0 ? PasswordHistory::getForAccount($this) : [],
         ]);
 
         return true;
@@ -1002,7 +1108,7 @@ class Account extends CommonDBTM
                     'Dissociate',
                 );
 
-                if (Session::haveRight('transfer', READ)
+                if (Session::haveRight(\Transfer::$rightname, READ)
                     && Session::isMultiEntitiesMode()
                 ) {
                     $actions[Account::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'transfer'] = __s(
@@ -1125,7 +1231,7 @@ class Account extends CommonDBTM
 
             case "transfer":
                 $input = $ma->getInput();
-                if ($item->getType() == Account::class) {
+                if ($item instanceof self) {
                     // The destination entity comes from the POST and is never checked by the core:
                     // revalidate the posted value, otherwise an account could be moved into an
                     // entity the caller has no access to (and re-encrypted with its key).
@@ -1149,6 +1255,25 @@ class Account extends CommonDBTM
                             continue;
                         }
                         $item->getFromDB($key);
+
+                        // The secrets are re-encrypted from the source key to the destination one,
+                        // both read from the stored keys: only for a caller already entitled to them
+                        // (plugin_accounts_hash UPDATE, the right the account form serves the stored
+                        // key to). Otherwise the transfer would hand the password of an entity whose
+                        // key the caller does not know, re-encrypted under a key they hold. That
+                        // right is also the one that may rebind the account to the destination
+                        // fingerprint: without it, prepareInputForUpdate() would keep the source one,
+                        // leaving a record no key opens.
+                        if ((!empty($item->fields['encrypted_password']) || !empty($item->fields['encrypted_totp_secret']))
+                            && !Session::haveRight(Hash::$rightname, UPDATE)) {
+                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_NORIGHT);
+                            $ma->addMessage(sprintf(
+                                __s('Account "%s" holds a password or a TOTP secret: transferring it requires the right to manage the encryption keys.', 'accounts'),
+                                htmlescape($item->fields['name']),
+                            ));
+                            continue;
+                        }
+
                         // --- Step 1: Resolve account type in destination entity ---
                         $type = AccountType::transfer(
                             $item->fields["plugin_accounts_accounttypes_id"],
@@ -1321,7 +1446,11 @@ class Account extends CommonDBTM
                             $values['encrypted_totp_secret'] = $reencrypted_totp;
                         }
 
-                        if ($item->update($values)) {
+                        // A transfer that only re-encrypts the current password must not
+                        // consume a history slot. Previous entries retain their own keys.
+                        $updated = $reencrypted_password !== null && $reencrypted_password !== ''
+                            ? $item->updateReencrypted($values) : $item->update($values);
+                        if ($updated) {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                         } else {
                             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
@@ -1714,14 +1843,14 @@ class Account extends CommonDBTM
     }
 
     /**
-     * Build the fancytree nodes of the account type browser.
+     * Build the Wunderbaum nodes of the account type browser.
      *
      * The root level lists the account types holding at least one visible account;
      * expanding one lazy-loads its accounts. Leaf nodes carry their target URL in
      * data.url, which the script opens on activation, so no event handler is built
      * server side any more.
      *
-     * @param string $node fancytree key of the node being expanded, '-1' for the root
+     * @param string $node key of the node being expanded, '-1' for the root
      *
      * @return array
      */
@@ -1779,9 +1908,22 @@ class Account extends CommonDBTM
             $nodes[] = [
                 'key'     => 'accounttype-' . $type['id'],
                 'title'   => sprintf(__('%1$s (%2$s)'), $type['name'], $type['nb']),
-                'folder'  => true,
                 'lazy'    => true,
                 'tooltip' => AccountType::getTypeName(1) . ' - ' . $type['name'],
+            ];
+        }
+
+        // Accounts without a type are left out by the join above: list them under their own
+        // node, last, so that every account of the list is reachable from the tree
+        $criteria = self::getTreeVisibilityCriteria();
+        $criteria['AND'][] = ["$table.plugin_accounts_accounttypes_id" => 0];
+        $nb_untyped = countElementsInTable($table, $criteria);
+        if ($nb_untyped > 0) {
+            $nodes[] = [
+                'key'     => 'accounttype-0',
+                'title'   => sprintf(__('%1$s (%2$s)'), __('Undefined'), $nb_untyped),
+                'lazy'    => true,
+                'tooltip' => AccountType::getTypeName(1) . ' - ' . __('Undefined'),
             ];
         }
 
@@ -1862,7 +2004,7 @@ class Account extends CommonDBTM
         Plugin::loadLang('accounts');
 
         // The page goes through Html::popHeader(), which already brings the whole GLPI
-        // stylesheet and the core bundles carrying fancytree: only the tree own assets are
+        // stylesheet and the core bundles carrying Wunderbaum: only the tree own assets are
         // left to pull.
         $assets = Html::css(PLUGIN_ACCOUNTS_WEBDIR . "/css/accounttree.css", [], false)
             . Html::script(PLUGIN_ACCOUNTS_WEBDIR . "/scripts/accounttree.js", ['type' => 'module'], false);
@@ -2118,20 +2260,20 @@ class Account extends CommonDBTM
         // Only the explicit "see all" right lifts the restriction: being allowed to
         // administrate GLPI ('config') does not imply being allowed to read every password,
         // and the default super-admin profile is granted 'see all' at install time anyway.
-        if (Session::haveRight('plugin_accounts_see_all_users', READ)) {
+        if (Session::haveRight(Profile::RIGHT_SEE_ALL_USERS, READ)) {
             return [];
         }
         $who    = Session::getLoginUserID();
         $prefix = $qualified ? self::getTable() . '.' : '';
 
         // Group-based visibility
-        if (Session::haveRight('plugin_accounts_my_groups', READ)
+        if (Session::haveRight(Profile::RIGHT_MY_GROUPS, READ)
             && !empty($_SESSION['glpigroups'])) {
             $or = [
                 $prefix . 'users_id' => $who,
                 $prefix . 'groups_id' => $_SESSION['glpigroups'],
             ];
-            if (Session::haveRight('plugin_accounts_my_tech_groups', READ)) {
+            if (Session::haveRight(Profile::RIGHT_MY_TECH_GROUPS, READ)) {
                 $or[$prefix . 'users_id_tech']  = $who;
                 $or[$prefix . 'groups_id_tech'] = $_SESSION['glpigroups'];
             }

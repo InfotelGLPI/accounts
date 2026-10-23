@@ -433,6 +433,13 @@ var encrypt_password = function(suffix) {
     var aeskey = $("#aeskey" + suffix).val();
     var plaintext = $("#hidden_password" + suffix).val();
 
+    // Reuse the ciphertext when the password itself did not change. A random new
+    // IV on every ordinary save would otherwise fill the five history slots.
+    var previous = $("#encrypted_password" + suffix).val();
+    if (previous && plaintext !== '' && decrypt_cryptogram(previous, aeskey) === plaintext) {
+        return;
+    }
+
     // Pass the verifier so the cryptogram is derived from the same salt the key was checked
     // against; without it the record falls back to v3 and loses the PBKDF2 derivation.
     var encrypted_password = encrypt_cryptogram(plaintext, aeskey, get_active_verifier(suffix));

@@ -77,7 +77,7 @@
                         }) }}
 
                         {{ fields.hiddenField('plugin_accounts_hashes_id',
-                            params['plugin_accounts_hashes_id'] is not empty
+                            (params['plugin_accounts_hashes_id'] ?? null) is not empty
                             ? params['plugin_accounts_hashes_id']
                             : item.fields['plugin_accounts_hashes_id']) }}
 
@@ -92,7 +92,7 @@
     {#    {% include("components/form/inventory_info.html.twig") %}#}
 
 
-    {% if params['formfooter'] == null %}
+    {% if (params['formfooter'] ?? null) == null %}
         <div class="card-footer mx-n2 mb-n2 mt-4">
             {% include("components/form/dates.html.twig") %}
         </div>

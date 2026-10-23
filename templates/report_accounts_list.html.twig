@@ -30,7 +30,6 @@
 {# Only the fingerprint travels: the export is gated on the verification marker kept in the session. #}
 {% if show_export %}
     <form method="post" action="{{ export_url }}" target="_blank" class="d-flex align-items-center gap-2 mb-3">
-        {{ inputs.hidden('_glpi_csrf_token', csrf_token()) }}
         {{ inputs.hidden('itemtype', 'GlpiPlugin\\Accounts\\Report') }}
         {{ inputs.hidden('id', hash_id) }}
         <div class="col-auto">

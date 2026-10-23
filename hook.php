@@ -38,6 +38,7 @@ use GlpiPlugin\Accounts\Config;
 use GlpiPlugin\Accounts\AesKey;
 use GlpiPlugin\Accounts\Hash;
 use GlpiPlugin\Accounts\NotificationState;
+use GlpiPlugin\Accounts\PasswordHistory;
 use GlpiPlugin\Accounts\Profile;
 
 /**
@@ -51,6 +52,18 @@ function plugin_accounts_install()
     $update78  = false;
     $update171 = false;
     $update85 = false;
+
+    // Grants full access to the profiles that can update the core configuration (super-admins),
+    // as createFirstAccess() below only serves the active profile, absent from a console or CI
+    // install. Done before initProfile(), which creates the rights with no access for every
+    // profile: addRight() only fills the profiles that do not have the right yet, so that an
+    // update keeps the profiles settings.
+    $rights_migration = new Migration(PLUGIN_ACCOUNTS_VERSION);
+    $rights_migration->addRight(Account::$rightname, ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, [\Config::$rightname => UPDATE]);
+    $rights_migration->addRight(Hash::$rightname, ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, [\Config::$rightname => UPDATE]);
+    foreach ([Profile::RIGHT_MY_GROUPS, Profile::RIGHT_OPEN_TICKET, Profile::RIGHT_SEE_ALL_USERS] as $right) {
+        $rights_migration->addRight($right, 1, [\Config::$rightname => UPDATE]);
+    }
 
     Profile::initProfile();
 
@@ -406,9 +419,14 @@ function plugin_accounts_install()
         }
     }
 
+    // Runs for both fresh installs and upgrades; an existing table is left intact.
+    PasswordHistory::install(new Migration(PLUGIN_ACCOUNTS_VERSION));
+
     CronTask::Register(Account::class, 'AccountsAlert', DAY_TIMESTAMP);
 
-    Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
+    if (isset($_SESSION['glpiactiveprofile']['id'])) {
+        Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
+    }
 
     return true;
 }
@@ -447,7 +465,8 @@ function plugin_accounts_uninstall()
         "glpi_plugin_accounts_hashs",
         "glpi_plugin_accounts_hashes",
         "glpi_plugin_accounts_aeskeys",
-        "glpi_plugin_accounts_notificationstates"];
+        "glpi_plugin_accounts_notificationstates",
+        PasswordHistory::TABLE];
 
     foreach ($tables as $table) {
         $DB->dropTable($table, true);
@@ -559,7 +578,7 @@ function plugin_accounts_postinit()
  */
 function plugin_accounts_AssignToTicket($types)
 {
-    if (Session::haveRight("plugin_accounts_open_ticket", "1")) {
+    if (Session::haveRight(Profile::RIGHT_OPEN_TICKET, "1")) {
         $types[Account::class] = Account::getTypeName(2);
     }
 
@@ -631,7 +650,7 @@ function plugin_accounts_getAddSearchOptions($itemtype)
     $sopt = [];
 
     if (in_array($itemtype, Account::getTypes(true))) {
-        if (Session::haveRight("plugin_accounts", READ)) {
+        if (Session::haveRight(Account::$rightname, READ)) {
             $sopt[1900]['table']         = 'glpi_plugin_accounts_accounts';
             $sopt[1900]['field']         = 'name';
             $sopt[1900]['name']          = Account::getTypeName(2) . " - " . __s('Name');

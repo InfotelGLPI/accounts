@@ -220,6 +220,51 @@ Le plugin enregistre également les comptes dans la **carte d'impact** GLPI (`im
 
 ---
 
+## Historique des mots de passe
+
+La fiche d'un compte contient un accès **Historique des mots de passe** sous
+le champ **Mot de passe**, accessible
+avec les mêmes droits de lecture, restrictions d'entité, d'utilisateur et de groupe
+que le compte. Il conserve les **cinq dernières valeurs remplacées**, les plus
+récentes en premier, comme l'[historique Bitwarden](https://bitwarden.com/help/password-and-generator-history/).
+Chaque entrée indique la date de remplacement, l'utilisateur et l'empreinte utilisée.
+
+Ouvrir le volet et l'entrée souhaitée, saisir sa clé puis cliquer sur **Déchiffrer** pour
+déchiffrer. Une clé laissée vide utilise celle saisie dans la fiche du compte.
+Les boutons permettent d'afficher ou de copier l'ancien mot de passe. Refermer le
+volet efface les valeurs déchiffrées et les clés saisies dans l'historique.
+Ces champs ne sont jamais envoyés au serveur ; le journal GLPI reçoit seulement
+l'identifiant de l'entrée consultée, selon le mécanisme de journalisation existant.
+
+L'ancienne valeur est enregistrée après chaque remplacement ou effacement réussi.
+Une création, une sauvegarde sans changement du mot de passe dans le formulaire,
+une migration du format de chiffrement et un simple rechiffrement ne créent pas
+d'entrée. Les changements faits via le modèle du plugin (y compris les imports)
+sont également historisés. Des écritures SQL directes contournent ce modèle.
+
+L'historique possède sa propre table `glpi_plugin_accounts_passwordhistories`.
+Chaque entrée contient uniquement le cryptogramme et une copie du vérificateur de
+clé et du nom de l'empreinte, jamais la clé en clair. Après un changement d'empreinte
+ou un transfert d'entité, les anciennes entrées restent lisibles avec leurs propres
+clés. Il faut donc conserver ces clés tant que ces entrées sont nécessaires. La
+suppression d'une empreinte ne supprime pas les informations copiées dans l'historique.
+
+Une **rotation** d'empreinte rechiffre les mots de passe actuels et toutes les entrées
+historiques attachées à cette empreinte avec la nouvelle clé, même si le compte utilise
+désormais une autre empreinte. Elles se lisent ensuite avec la nouvelle clé ;
+l'ancienne clé est révoquée pour les valeurs conservées par le plugin. Si une entrée
+ne peut pas être déchiffrée, la rotation entière est annulée. Le changement de mot
+de passe et l'ajout à l'historique sont également enregistrés dans la même transaction.
+
+L'historique est conservé dans la corbeille et lors d'une restauration. La purge
+définitive du compte, la suppression des entrées au-delà de cinq et la désinstallation
+du plugin le suppriment. Les clones ne recopient pas l'historique.
+
+Pour installer cette version de développement (`3.2.6-dev`), remplacer les fichiers
+du plugin puis lancer sa mise à jour depuis **Configuration › Plugins**. L'installation
+et la mise à jour créent la table de manière idempotente. Aucun ancien mot de passe
+déjà écrasé avant cette mise à jour ne peut être récupéré.
+
 ## Désinstallation
 
 1. Aller dans **Configuration › Plugins**.

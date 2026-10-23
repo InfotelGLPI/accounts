@@ -29,6 +29,97 @@
     display: none;
 }
 
+/* Compact password history, aligned with the password field and GLPI colors. */
+.accounts-password-history {
+    position: relative;
+    margin-top: .5rem;
+}
+
+/* History unfolds over the form, so opening it never changes the grid height. */
+.accounts-password-field,
+.accounts-encryption-field {
+    align-self: flex-start;
+    align-items: flex-start !important;
+}
+
+.accounts-password-history .history-panel-body {
+    position: absolute;
+    top: calc(100% + .25rem);
+    inset-inline: 0;
+    z-index: 1000;
+    padding: .75rem;
+    max-height: min(24rem, 50vh);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--tblr-bg-surface, #fff);
+    border: 1px solid var(--tblr-border-color);
+    border-radius: var(--tblr-border-radius, .25rem);
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .12);
+}
+
+.accounts-password-history .history-panel-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.accounts-password-history summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.accounts-password-history summary::-webkit-details-marker {
+    display: none;
+}
+
+.accounts-password-history .history-panel-summary,
+.accounts-password-history .history-entry-summary {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+
+.accounts-password-history .history-panel-summary {
+    color: var(--tblr-link-color);
+}
+
+.accounts-password-history .history-panel-summary > span:first-of-type {
+    min-width: 0;
+}
+
+.accounts-password-history .history-panel-chevron,
+.accounts-password-history .history-entry-chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.accounts-password-history[open] > summary .history-panel-chevron,
+.accounts-password-history-entry[open] > summary .history-entry-chevron {
+    transform: rotate(180deg);
+}
+
+.accounts-password-history .history-entry-metadata {
+    display: grid;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.accounts-password-history .history-entry-body {
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+
+.accounts-password-history .history-entry-body .form-control {
+    min-width: 0;
+}
+
+.accounts-password-history .history-error:empty {
+    display: none;
+}
+
 /* ------------------------------------------------------------------------ *
  * Account type tree modal
  *
