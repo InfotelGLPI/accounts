@@ -29,12 +29,11 @@
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Accounts\Report;
-use GlpiPlugin\Accounts\Account;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkRight(Account::$rightname, READ);
+Session::checkRight("plugin_accounts", READ);
 
 if (isset($_POST["key"])) {
     $options = ['id' => $_POST["id"],

@@ -28,11 +28,10 @@
  */
 
 use GlpiPlugin\Accounts\Report;
-use GlpiPlugin\Accounts\Account;
 
 Session::checkCentralAccess();
 
-Session::checkRight(Account::$rightname, READ);
+Session::checkRight("plugin_accounts", READ);
 
 if (isset($_POST["display_type"])) {
     if ($_POST["display_type"] < 0) {

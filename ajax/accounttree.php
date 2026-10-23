@@ -31,7 +31,7 @@ use GlpiPlugin\Accounts\Account;
 
 Html::header_nocache();
 
-Session::checkRight(Account::$rightname, READ);
+Session::checkRight("plugin_accounts", READ);
 
 global $CFG_GLPI;
 
@@ -48,7 +48,7 @@ if (
 }
 
 // The page is loaded in the iframe of a modal: emit the standard modal document so the tree
-// inherits the whole GLPI stylesheet (Tabler) and the core bundles carrying Wunderbaum,
+// inherits the whole GLPI stylesheet (Tabler) and the core bundles carrying fancytree,
 // instead of rendering a bare fragment in quirks mode.
 Html::popHeader(__('Type view', 'accounts'), '', true);
 

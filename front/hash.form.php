@@ -36,7 +36,7 @@ if (!isset($_GET["id"])) {
     $_GET["id"] = "";
 }
 
-Session::checkRight(Hash::$rightname, READ);
+Session::checkRight("plugin_accounts_hash", READ);
 
 $hashClass = new Hash();
 $dbu       = new DbUtils();
@@ -62,7 +62,7 @@ if (isset($_POST["add"])) {
 
     // Mass re-encryption of every password/TOTP secret of the entity: require the UPDATE right,
     // like the other write branches (the READ header check alone is not enough for a write operation).
-    Session::checkRight(Hash::$rightname, UPDATE);
+    Session::checkRight("plugin_accounts_hash", UPDATE);
 
     if (isset($_POST["aeskeynew"]) && isset($_POST["aeskey"])) {
         if ($hashClass->getFromDB($_POST["id"])) {
@@ -88,12 +88,7 @@ if (isset($_POST["add"])) {
                     ERROR,
                 );
                 Html::back();
-            } elseif (
-                mb_strlen((string) $_POST["aeskeynew"]) < AccountCrypto::MIN_KEY_LENGTH
-                // Typing the same key again only re-encrypts the records in the v4 format
-                // (migration of a vault): the key in force is not a new key to judge
-                && $_POST['aeskeynew'] !== $_POST['aeskey']
-            ) {
+            } elseif (mb_strlen((string) $_POST["aeskeynew"]) < AccountCrypto::MIN_KEY_LENGTH) {
                 // One key opens every account of the entity, and everyone allowed to read one of
                 // them is handed the material to attack it offline. Refusing a short new key is
                 // the only lever the server has over that. See AccountCrypto::MIN_KEY_LENGTH.
