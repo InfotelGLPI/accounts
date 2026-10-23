@@ -54,6 +54,9 @@ if (!$DB->tableExists('glpi_plugin_accounts_accounts')) {
     require_once dirname(__DIR__) . '/hook.php';
     plugin_accounts_install();
 }
+// Tables added by an upgrade: created here because each test runs inside a transaction,
+// where GLPI refuses DDL statements
+\GlpiPlugin\Accounts\PasswordHistory::install(new Migration(PLUGIN_ACCOUNTS_VERSION));
 
 // The test environment does not load the plugin, so its Twig namespace may be missing
 $twig_loader = \Glpi\Application\View\TemplateRenderer::getInstance()->getEnvironment()->getLoader();
