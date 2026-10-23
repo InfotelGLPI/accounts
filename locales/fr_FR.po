@@ -2,26 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 11:52+0000\n"
+"POT-Creation-Date: 2026-10-23 11:54+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
-"Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/"
-"12352/fr_FR/)\n"
-"Language: fr_FR\n"
+"Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/12352/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
-"1000000 == 0 ? 1 : 2;\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: ⁨standard input⁩:111
 #, php-format
@@ -151,7 +149,7 @@ msgstr "Effacer"
 
 #: ⁨standard input⁩:44
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: ⁨standard input⁩:98 ⁨standard input⁩:559
 msgid "Comment"
@@ -162,7 +160,7 @@ msgstr[2] "Commentaires"
 
 #: ⁨standard input⁩:86
 msgid "Copy password"
-msgstr ""
+msgstr "Copier le mot de passe"
 
 #: ⁨standard input⁩:471
 msgid "Creation date"
@@ -189,7 +187,7 @@ msgstr "Déchiffré depuis l'objet"
 
 #: ajax/log_decrypt.php:63
 msgid "Decrypted from password history"
-msgstr ""
+msgstr "Déchiffré à partir de l'historique des mots de passe"
 
 #: src/Report.php:321
 msgid "Decrypted password"
@@ -221,8 +219,8 @@ msgid "Encrypted password"
 msgstr "Mot de passe chiffré"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
-#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70
-#: ⁨standard input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
+#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70 ⁨standard
+#: input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Clé de chiffrement"
@@ -332,7 +330,7 @@ msgstr "Non"
 
 #: ⁨standard input⁩:49
 msgid "No previous passwords."
-msgstr ""
+msgstr "Aucun mot de passe précédent."
 
 #: ⁨standard input⁩:63
 msgid "No results found"
@@ -356,7 +354,7 @@ msgstr "Mot de passe"
 
 #: ⁨standard input⁩:36 ⁨standard input⁩:42
 msgid "Password history"
-msgstr ""
+msgstr "Historique des mots de passe"
 
 #: ⁨standard input⁩:621
 msgid "Password will not be modified"
@@ -386,7 +384,7 @@ msgstr "Envoyer"
 
 #: ⁨standard input⁩:80
 msgid "Previous password"
-msgstr ""
+msgstr "Mot de passe précédent"
 
 #: ⁨standard input⁩:114
 msgid ""
@@ -439,7 +437,7 @@ msgstr "Voir tous"
 
 #: ⁨standard input⁩:82
 msgid "Show password"
-msgstr ""
+msgstr "Voir le mot de passe"
 
 #: ⁨standard input⁩:354
 msgid "Show/hide"
@@ -489,8 +487,8 @@ msgstr ""
 "La clé de chiffrement n'est plus disponible. Veuillez afficher à nouveau la "
 "liste avant de l'exporter."
 
-#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65
-#: ⁨standard input⁩:154
+#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65 ⁨standard
+#: input⁩:154
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "La clé de chiffrement doit comporter au moins %d caractères"
@@ -500,6 +498,8 @@ msgid ""
 "The encryption key was not modified: a password history entry could not be "
 "decrypted."
 msgstr ""
+"La clé de chiffrement n'a pas été modifiée : une entrée de l'historique des "
+"mots de passe n'a pas pu être déchiffrée."
 
 #: src/Hash.php:552
 #, php-format
@@ -512,7 +512,8 @@ msgstr ""
 
 #: front/hash.form.php:125
 msgid "The old or the new encryption key can not be empty"
-msgstr "L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
+msgstr ""
+"L'ancienne ou la nouvelle clé de chiffrement ne peuvent pas être vides"
 
 #: src/Account.php:1319
 #, php-format
@@ -558,7 +559,8 @@ msgstr "Il n'existe pas de clé de chiffrement pour cette entité"
 #: ⁨standard input⁩:121
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
 "Cette empreinte numérique utilise encore l'ancien vérificateur non salé, "
 "facile à attaquer hors ligne. Modifiez la clé de chiffrement pour la faire "
@@ -590,6 +592,7 @@ msgstr "Vue par type"
 #: ⁨standard input⁩:33
 msgid "Unable to decrypt this password history entry."
 msgstr ""
+"Impossible de déchiffrer cette entrée de l'historique des mots de passe."
 
 #: ⁨standard input⁩:86
 msgid "Update"
@@ -609,8 +612,8 @@ msgid ""
 "could no longer decrypt your passwords. It is STRONGLY recommended that you "
 "make a backup of the database before."
 msgstr ""
-"ATTENTION : si vous vous trompez dans la saisie de l'ancienne ou la nouvelle "
-"clé, vous ne pourrez plus déchiffrer vos mots de passe. Il est donc "
+"ATTENTION : si vous vous trompez dans la saisie de l'ancienne ou la nouvelle"
+" clé, vous ne pourrez plus déchiffrer vos mots de passe. Il est donc "
 "FORTEMENT conseillé de faire une sauvegarde de la base avant."
 
 #: ⁨standard input⁩:57
@@ -625,8 +628,8 @@ msgid ""
 "password."
 msgstr ""
 "ATTENTION : Si vous modifiez l’empreinte associée, vous ne pourrez plus "
-"déchiffrer correctement le mot de passe. Vous devrez également mettre à jour "
-"le mot de passe."
+"déchiffrer correctement le mot de passe. Vous devrez également mettre à jour"
+" le mot de passe."
 
 #: src/Account.php:484
 msgid ""
@@ -637,8 +640,8 @@ msgstr ""
 "problème avec la clé de chiffrement."
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
-#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard input⁩:301
-#: ⁨standard input⁩:593 ⁨standard input⁩:624
+#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard
+#: input⁩:301 ⁨standard input⁩:593 ⁨standard input⁩:624
 msgid "Wrong encryption key"
 msgstr "Mauvaise clé de chiffrement"
 
@@ -664,7 +667,8 @@ msgstr "Vous devez générer l'empreinte de votre clé de chiffrement"
 
 #: src/Account.php:920
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
-msgstr "Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
+msgstr ""
+"Votre clé de chiffrement est malformée, veuillez regénérer l'empreinte"
 
 #: ⁨standard input⁩:701
 msgid "characters"
