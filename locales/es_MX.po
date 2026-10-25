@@ -2,27 +2,25 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Carlos Moreno Rodríguez <carlosm.rodriguez@prodigy.net.mx>, 2023
 # Edwin Elias Alvarez <elias986@yahoo.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 11:52+0000\n"
+"POT-Creation-Date: 2026-10-23 11:54+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Edwin Elias Alvarez <elias986@yahoo.com>, 2026\n"
-"Language-Team: Spanish (Mexico) (https://app.transifex.com/infotelGLPI/teams/"
-"12352/es_MX/)\n"
-"Language: es_MX\n"
+"Language-Team: Spanish (Mexico) (https://app.transifex.com/infotelGLPI/teams/12352/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Language: es_MX\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: ⁨standard input⁩:111
 #, php-format
@@ -150,7 +148,7 @@ msgstr "Limpiar"
 
 #: ⁨standard input⁩:44
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: ⁨standard input⁩:98 ⁨standard input⁩:559
 msgid "Comment"
@@ -161,7 +159,7 @@ msgstr[2] "Comentarios"
 
 #: ⁨standard input⁩:86
 msgid "Copy password"
-msgstr ""
+msgstr "Copiar contraseña"
 
 #: ⁨standard input⁩:471
 msgid "Creation date"
@@ -188,7 +186,7 @@ msgstr "Descifrado desde elemento"
 
 #: ajax/log_decrypt.php:63
 msgid "Decrypted from password history"
-msgstr ""
+msgstr "Descifrado a partir del historial de contraseñas"
 
 #: src/Report.php:321
 msgid "Decrypted password"
@@ -220,8 +218,8 @@ msgid "Encrypted password"
 msgstr "Contraseña cifrada"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
-#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70
-#: ⁨standard input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
+#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:70 ⁨standard
+#: input⁩:71 ⁨standard input⁩:66 ⁨standard input⁩:191 ⁨standard input⁩:262
 msgid "Encryption key"
 msgid_plural "Encryption key"
 msgstr[0] "Clave de cifrado"
@@ -331,7 +329,7 @@ msgstr "No"
 
 #: ⁨standard input⁩:49
 msgid "No previous passwords."
-msgstr ""
+msgstr "Sin contraseñas anteriores."
 
 #: ⁨standard input⁩:63
 msgid "No results found"
@@ -355,7 +353,7 @@ msgstr "Contraseña"
 
 #: ⁨standard input⁩:36 ⁨standard input⁩:42
 msgid "Password history"
-msgstr ""
+msgstr "Historial de contraseñas"
 
 #: ⁨standard input⁩:621
 msgid "Password will not be modified"
@@ -384,7 +382,7 @@ msgstr "Publicar"
 
 #: ⁨standard input⁩:80
 msgid "Previous password"
-msgstr ""
+msgstr "Contraseña anterior"
 
 #: ⁨standard input⁩:114
 msgid ""
@@ -438,7 +436,7 @@ msgstr "Mostrar todo"
 
 #: ⁨standard input⁩:82
 msgid "Show password"
-msgstr ""
+msgstr "Mostrar contraseña"
 
 #: ⁨standard input⁩:354
 msgid "Show/hide"
@@ -488,8 +486,8 @@ msgstr ""
 "La clave de cifrado ya no está disponible, por favor muestre la lista "
 "nuevamente antes de exportarla"
 
-#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65
-#: ⁨standard input⁩:154
+#: front/hash.form.php:102 ⁨standard input⁩:77 ⁨standard input⁩:65 ⁨standard
+#: input⁩:154
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "La clave de cifrado debe tener al menos %d caracteres"
@@ -499,6 +497,8 @@ msgid ""
 "The encryption key was not modified: a password history entry could not be "
 "decrypted."
 msgstr ""
+"La clave de cifrado no se modificó: no fue posible descifrar una entrada del"
+" historial de contraseñas."
 
 #: src/Hash.php:552
 #, php-format
@@ -531,7 +531,8 @@ msgstr ""
 #: src/Account.php:604
 msgid "The submitted TOTP secret is not integrity protected and was ignored"
 msgstr ""
-"El secreto TOTP enviado no cuenta con protección de integridad y fue ignorado"
+"El secreto TOTP enviado no cuenta con protección de integridad y fue "
+"ignorado"
 
 #: tests/PasswordHistoryTest.php:295 src/Account.php:589
 msgid "The submitted password is not integrity protected and was ignored"
@@ -556,11 +557,12 @@ msgstr "No hay clave de cifrado para esta entidad"
 #: ⁨standard input⁩:121
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
-"Esta huella digital todavía utiliza el verificador anterior sin sal, el cual "
-"es fácil de atacar sin conexión. Cambie la clave de cifrado para migrarla al "
-"formato con sal."
+"Esta huella digital todavía utiliza el verificador anterior sin sal, el cual"
+" es fácil de atacar sin conexión. Cambie la clave de cifrado para migrarla "
+"al formato con sal."
 
 #: ⁨standard input⁩:40
 msgid "Time of checking of expiration of accounts"
@@ -587,7 +589,7 @@ msgstr "Tipo de visualización"
 
 #: ⁨standard input⁩:33
 msgid "Unable to decrypt this password history entry."
-msgstr ""
+msgstr "No es posible descifrar esta entrada del historial de contraseñas."
 
 #: ⁨standard input⁩:86
 msgid "Update"
@@ -634,8 +636,8 @@ msgstr ""
 "con la clave de cifrado."
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
-#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard input⁩:301
-#: ⁨standard input⁩:593 ⁨standard input⁩:624
+#: ⁨standard input⁩:48 ⁨standard input⁩:32 ⁨standard input⁩:222 ⁨standard
+#: input⁩:301 ⁨standard input⁩:593 ⁨standard input⁩:624
 msgid "Wrong encryption key"
 msgstr "Clave de cifrado incorrecta"
 
