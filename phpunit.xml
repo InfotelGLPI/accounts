@@ -2,6 +2,7 @@
    <testsuites>
       <testsuite name="Unit">
          <file>tests/AccountCryptoTest.php</file>
+         <file>tests/CspMarkupTest.php</file>
       </testsuite>
    </testsuites>
 </phpunit>

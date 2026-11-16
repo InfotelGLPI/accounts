@@ -120,6 +120,8 @@ function plugin_init_accounts()
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/report.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/hash_select.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/password_generator.js";
+        // Delegated listeners replacing the inline event handlers (CSP)
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_MODULE]['accounts'][] = "scripts/csp_handlers.js";
 
         $PLUGIN_HOOKS['migratetypes']['accounts'] = 'plugin_datainjection_migratetypes_accounts';
 
@@ -141,6 +143,9 @@ function plugin_version_accounts()
         'license'      => 'GPLv3+',
         'author'       => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD, Franck WAECHTER",
         'homepage'     => 'https://github.com/InfotelGLPI/accounts',
+        // No inline event handler, javascript: URL nor script without nonce: the plugin works
+        // under the Content Security Policy of GLPI (public/scripts/csp_handlers.js)
+        'csp_compliant' => true,
         'requirements' => [
             'glpi' => [
                 'min' => '11.0',

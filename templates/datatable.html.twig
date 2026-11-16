@@ -100,7 +100,7 @@
                                 <div>
                                     <input class="form-check-input massive_action_checkbox" type="checkbox" id="checkall_{{ massiveactionparams['container'] }}"
                                         value="" aria-label="{{ __('Check all') }}"
-                                        onclick="checkAsCheckboxes(this, '{{ massiveactionparams['container']|e('js') }}', '.massive_action_checkbox');" />
+                                        data-accounts-check-all="{{ massiveactionparams['container'] }}" />
                                 </div>
                             </th>
                         {% endif %}
@@ -114,11 +114,12 @@
                                 {% set new_order = (order == 'ASC' ? 'DESC' : 'ASC') %}
                             {% endif %}
 
-                            {% set sort_href = "javascript:reloadTab('sort=" ~ colkey ~ "&order=" ~ new_order ~ "&" ~ additional_params ~ "');" %}
+                            {# Reloads the tab sorted on the column, by public/scripts/csp_handlers.js (no javascript: URL: CSP) #}
+                            {% set sort_query = "sort=" ~ colkey ~ "&order=" ~ new_order ~ "&" ~ additional_params %}
 
                             <th>
                                 {% if not nosort and not (column is array and column['nosort'] is defined) %}
-                                    <a href="{{ sort_href }}">
+                                    <a href="#" role="button" data-accounts-reload-tab="{{ sort_query }}">
                                     <i class="{{ sort_icon }}"></i>
                                 {% endif %}
                                 <span>{{ raw_header ? column_label|raw : column_label }}</span>
@@ -321,7 +322,7 @@
                                                             name='good_hash{{ entry_data['rand'] }}' value='{{ entry_data['good_hash'] }}'>
                                                         <input type='hidden' id='{{ entry_data['hidden-id'] }}{{ entry_data['rand'] }}'
                                                             name='{{ entry_data['hidden-name'] }}{{ entry_data['rand'] }}' value='{{ entry_data['hidden-value'] }}'>
-                                                    <div class="btn btn-outline-secondary btn-light" id='{{ entry_data['button-id'] }}' name='{{ entry_data['button-name'] }}' onclick="{{ entry_data['button-onclick'] }}">
+                                                    <div class="btn btn-outline-secondary btn-light" id='{{ entry_data['button-id'] }}' name='{{ entry_data['button-name'] }}'>
                                                         <i class="ti ti-lock-open"></i>
                                                     </div>
                                                 </div>
@@ -350,6 +351,11 @@
                                                             ;
                                                         }
                                                     }
+
+                                                    // Bound here rather than in an inline handler (CSP): the function carries the rand
+                                                    document.getElementById('{{ entry_data['button-id'] }}').addEventListener('click', () => {
+                                                        decryptCheckbtn{{ entry_data['rand'] }}();
+                                                    });
 
                                                 </script>
                                             {% endif %}

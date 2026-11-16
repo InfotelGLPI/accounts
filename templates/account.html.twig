@@ -206,7 +206,7 @@
                                                autocomplete="off"
                                                value="{{ item.fields['encrypted_password'] }}"/>
                                         <div class="btn btn-outline-secondary btn-light"
-                                             onclick="uncryptpassword()">
+                                             data-accounts-uncrypt-password>
                                             <i class="ti ti-lock-open"></i>
                                         </div>
                                     </div>
@@ -231,14 +231,12 @@
                                                size='30'>
 
                                         <div class="btn btn-outline-secondary btn-light"
-                                             onmousedown="showDisclosablePasswordField('hidden_password')"
-                                             onmouseup="hideDisclosablePasswordField('hidden_password')"
-                                             onmouseout="hideDisclosablePasswordField('hidden_password')">
+                                             data-accounts-disclose="hidden_password">
                                             <i class="ti ti-eye disclose"></i>
                                         </div>
 
                                         <div class="btn btn-outline-secondary btn-light"
-                                             onclick="copyDisclosablePasswordFieldToClipboard('hidden_password')">
+                                             data-accounts-copy="hidden_password">
                                             <i class="ti ti-clipboard-copy disclose"></i>
                                         </div>
 
@@ -309,14 +307,12 @@
                                                size='30'>
 
                                         <div class="btn btn-outline-secondary"
-                                             onmousedown="showDisclosablePasswordField('hidden_password')"
-                                             onmouseup="hideDisclosablePasswordField('hidden_password')"
-                                             onmouseout="hideDisclosablePasswordField('hidden_password')">
+                                             data-accounts-disclose="hidden_password">
                                             <i class="ti ti-eye disclose"></i>
                                         </div>
 
                                         <div class="btn btn-outline-secondary btn-light"
-                                             onclick="copyDisclosablePasswordFieldToClipboard('hidden_password')">
+                                             data-accounts-copy="hidden_password">
                                             <i class="ti ti-clipboard-copy disclose"></i>
                                         </div>
                                     </div>
@@ -380,13 +376,11 @@
                                             <input type="password" id="hidden_totp_secret" class="form-control"
                                                    size="30" readonly>
                                             <div class="btn btn-outline-secondary btn-light"
-                                                 onmousedown="showDisclosablePasswordField('hidden_totp_secret')"
-                                                 onmouseup="hideDisclosablePasswordField('hidden_totp_secret')"
-                                                 onmouseout="hideDisclosablePasswordField('hidden_totp_secret')">
+                                                 data-accounts-disclose="hidden_totp_secret">
                                                 <i class="ti ti-eye disclose"></i>
                                             </div>
                                             <div class="btn btn-outline-secondary btn-light"
-                                                 onclick="copyDisclosablePasswordFieldToClipboard('hidden_totp_secret')">
+                                                 data-accounts-copy="hidden_totp_secret">
                                                 <i class="ti ti-clipboard-copy disclose"></i>
                                             </div>
                                         </div>

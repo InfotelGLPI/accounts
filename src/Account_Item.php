@@ -475,7 +475,7 @@ final class Account_Item extends CommonDBRelation
                     'accountID'      => $accountID,
                     'items_id'       => $item->getID(),
                     'itemtype'       => $item->getType(),
-                    'button-onclick' => "decryptCheckbtn$accountID()",
+                    // The button calls decryptCheckbtn<rand>(), bound by templates/datatable.html.twig
                     'hidden-value'   => $value['encrypted_password'],
                     'hidden-id'      => "encrypted_password",
                     'hidden-name'    => "encrypted_password",

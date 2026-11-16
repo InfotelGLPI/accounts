@@ -39,6 +39,12 @@ function injectHtml(container, html) {
     container.querySelectorAll('script').forEach((old) => {
         const script = document.createElement('script');
         [...old.attributes].forEach((attr) => script.setAttribute(attr.name, attr.value));
+        // Content Security Policy: the nonce attribute reads empty once the script is in the
+        // document (nonce hiding), only the property keeps it. Without it, the copy is blocked.
+        const nonce = old.nonce || window.CFG_GLPI?.csp_nonce;
+        if (nonce) {
+            script.nonce = nonce;
+        }
         script.textContent = old.textContent;
         old.replaceWith(script);
     });
