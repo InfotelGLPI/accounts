@@ -370,7 +370,7 @@ msgstr ""
 
 #: ⁨standard input⁩:39 ⁨standard input⁩:58 ⁨standard input⁩:145
 msgid "Please fill the encryption key"
-msgstr "Por favor coloque la clave de encriptación"
+msgstr "Por favor, completá la clave de cifrado"
 
 #: src/Config.php:55
 msgid "Plugin Setup"
