@@ -366,7 +366,7 @@ msgid ""
 "encryption keys, or you cannot change it after."
 msgstr ""
 "Por favor, no uses caracteres especiales como / \\ apóstrofe ampersand en "
-"las claves de encriptación, o no vas a poder cambiarla después."
+"las claves de cifrado, o no vas a poder cambiarla después."
 
 #: ⁨standard input⁩:39 ⁨standard input⁩:58 ⁨standard input⁩:145
 msgid "Please fill the encryption key"
