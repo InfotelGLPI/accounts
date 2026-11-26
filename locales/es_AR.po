@@ -512,7 +512,9 @@ msgstr ""
 
 #: front/hash.form.php:125
 msgid "The old or the new encryption key can not be empty"
-msgstr "La vieja o nueva clave de encriptado no debe estar vacía"
+msgstr ""
+"La clave de cifrado anterior o la clave de cifrado nueva no pueden estar "
+"vacías"
 
 #: src/Account.php:1319
 #, php-format
