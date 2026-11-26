@@ -563,9 +563,9 @@ msgid ""
 "attack offline. Change the encryption key to migrate it to the salted "
 "format."
 msgstr ""
-"Esta huella todavía usa el verificador anterior sin sal, que es fácil de "
-"atacar sin conexión. Cambiá la clave de cifrado para migrarla al formato con"
-" sal."
+"Esta huella digital todavía usa el verificador anterior sin sal, que es "
+"fácil de atacar sin conexión. Cambiá la clave de cifrado para migrarla al "
+"formato con sal."
 
 #: ⁨standard input⁩:40
 msgid "Time of checking of expiration of accounts"
