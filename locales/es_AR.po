@@ -2,28 +2,26 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Luis Angel Uriarte <luisuriarte@gmail.com>, 2020
 # Alan Lehoux, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-16 07:58+0000\n"
+"POT-Creation-Date: 2026-11-16 10:00+0000\n"
 "PO-Revision-Date: 2020-11-02 15:26+0000\n"
 "Last-Translator: Alan Lehoux, 2026\n"
-"Language-Team: Spanish (Argentina) (https://app.transifex.com/infotelGLPI/"
-"teams/12352/es_AR/)\n"
-"Language: es_AR\n"
+"Language-Team: Spanish (Argentina) (https://app.transifex.com/infotelGLPI/teams/12352/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: ⁨standard input⁩:111
 #, php-format
@@ -34,8 +32,14 @@ msgid_plural ""
 "%d accounts of this fingerprint are still encrypted in a former format, "
 "which is cheap to attack offline."
 msgstr[0] ""
+"%d cuenta de esta huella sigue cifrada en un formato anterior, que es fácil "
+"de atacar sin conexión."
 msgstr[1] ""
+"%d cuentas de esta huella siguen cifradas en un formato anterior, que es "
+"fácil de atacar sin conexión."
 msgstr[2] ""
+"%d cuentas de esta huella siguen cifradas en un formato anterior, que es "
+"fácil de atacar sin conexión."
 
 #: setup.php:141 src/Account.php:115
 msgid "Account"
@@ -50,6 +54,8 @@ msgid ""
 "Account \"%s\" holds a password or a TOTP secret: transferring it requires "
 "the right to manage the encryption keys."
 msgstr ""
+"La cuenta \"%s\" contiene una contraseña o un secreto TOTP: transferirla "
+"requiere el permiso para administrar las claves de cifrado."
 
 #: src/Account.php:1370
 #, php-format
@@ -107,8 +113,8 @@ msgstr "Grupo afectado"
 
 #: src/NotificationTargetAccount.php:65 src/NotificationTargetAccount.php:188
 #: src/NotificationTargetAccount.php:242 src/NotificationTargetAccount.php:303
-#: src/Account_Item.php:502 src/Account.php:356 src/Account.php:364
-#: ⁨standard input⁩:416 ⁨standard input⁩:425
+#: src/Account_Item.php:502 src/Account.php:356 src/Account.php:364 ⁨standard
+#: input⁩:416 ⁨standard input⁩:425
 msgid "Affected User"
 msgstr "Usuario afectado"
 
@@ -143,7 +149,7 @@ msgstr "Limpiar"
 
 #: ⁨standard input⁩:44
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: ⁨standard input⁩:98 ⁨standard input⁩:553
 msgid "Comment"
@@ -154,7 +160,7 @@ msgstr[2] "Comentarios"
 
 #: ⁨standard input⁩:86
 msgid "Copy password"
-msgstr ""
+msgstr "Copiar contraseña"
 
 #: ⁨standard input⁩:465
 msgid "Creation date"
@@ -181,7 +187,7 @@ msgstr "Desencriptado del elemento"
 
 #: ajax/log_decrypt.php:63
 msgid "Decrypted from password history"
-msgstr ""
+msgstr "Descifrado desde el historial de contraseñas"
 
 #: src/Report.php:321
 msgid "Decrypted password"
@@ -213,14 +219,13 @@ msgid "Encrypted password"
 msgstr "Contraseña encriptada"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
-#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:71
-#: ⁨standard input⁩:191 ⁨standard input⁩:260 ⁨standard input⁩:66 ⁨standard input⁩:70
-#, fuzzy
+#: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:71 ⁨standard
+#: input⁩:191 ⁨standard input⁩:260 ⁨standard input⁩:66 ⁨standard input⁩:70
 msgid "Encryption key"
 msgid_plural "Encryption key"
-msgstr[0] "Clave de encriptación"
-msgstr[1] "Claves de encriptación"
-msgstr[2] "Claves de encriptación"
+msgstr[0] "Clave de cifrado"
+msgstr[1] "Claves de cifrado"
+msgstr[2] "Claves de cifrado"
 
 #: front/hash.form.php:116 ⁨standard input⁩:52
 msgid "Encryption key modified"
@@ -245,7 +250,7 @@ msgstr "Exportar"
 #: ⁨standard input⁩:39
 msgctxt "button"
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: ⁨standard input⁩:137
 msgid "Filter"
@@ -277,7 +282,7 @@ msgstr "Grupo a cargo"
 
 #: src/Hash.php:364
 msgid "Invalid fingerprint for your encryption key"
-msgstr ""
+msgstr "Huella no válida para tu clave de cifrado"
 
 #: ⁨standard input⁩:345
 msgid "Leave blank to keep current"
@@ -325,7 +330,7 @@ msgstr "No"
 
 #: ⁨standard input⁩:49
 msgid "No previous passwords."
-msgstr ""
+msgstr "Sin contraseñas anteriores."
 
 #: ⁨standard input⁩:63
 msgid "No results found"
@@ -349,7 +354,7 @@ msgstr "Contraseña"
 
 #: ⁨standard input⁩:36 ⁨standard input⁩:42
 msgid "Password history"
-msgstr ""
+msgstr "Historial de contraseñas"
 
 #: ⁨standard input⁩:615
 msgid "Password will not be modified"
@@ -374,17 +379,20 @@ msgstr "Configuración del plugin"
 #: ⁨standard input⁩:34
 msgctxt "button"
 msgid "Post"
-msgstr ""
+msgstr "Ejecutar"
 
 #: ⁨standard input⁩:80
 msgid "Previous password"
-msgstr ""
+msgstr "Contraseña anterior"
 
 #: ⁨standard input⁩:114
 msgid ""
 "Re-encrypt them with the encryption key: tab \"Modification of the "
 "encryption key for all passwords\", typing the same key as old and new key."
 msgstr ""
+"Recifralas con la clave de cifrado: pestaña \"Modificación de la clave de "
+"cifrado para todas las contraseñas\", ingresando la misma clave como clave "
+"anterior y clave nueva."
 
 #: ⁨standard input⁩:34 ⁨standard input⁩:65
 msgctxt "button"
@@ -429,7 +437,7 @@ msgstr "Mostrar todo"
 
 #: ⁨standard input⁩:82
 msgid "Show password"
-msgstr ""
+msgstr "Mostrar contraseña"
 
 #: ⁨standard input⁩:350
 msgid "Show/hide"
@@ -476,11 +484,11 @@ msgid ""
 "The encryption key is no longer available, please display the list again "
 "before exporting it"
 msgstr ""
-"La clave de encriptación ya no está disponible, por favor volvé a mostrar la "
-"lista antes de exportarla"
+"La clave de encriptación ya no está disponible, por favor volvé a mostrar la"
+" lista antes de exportarla"
 
-#: front/hash.form.php:102 ⁨standard input⁩:65 ⁨standard input⁩:154
-#: ⁨standard input⁩:77
+#: front/hash.form.php:102 ⁨standard input⁩:65 ⁨standard input⁩:154 ⁨standard
+#: input⁩:77
 #, php-format
 msgid "The encryption key must be at least %d characters long"
 msgstr "La clave de encriptación debe tener al menos %d caracteres"
@@ -490,6 +498,8 @@ msgid ""
 "The encryption key was not modified: a password history entry could not be "
 "decrypted."
 msgstr ""
+"No se modificó la clave de cifrado: no se pudo descifrar una entrada del "
+"historial de contraseñas."
 
 #: src/Hash.php:552
 #, php-format
@@ -510,6 +520,8 @@ msgid ""
 "The password of account \"%s\" could not be decrypted with the source key: "
 "the account was not transferred."
 msgstr ""
+"No se pudo descifrar la contraseña de la cuenta \"%s\" con la clave de "
+"origen: no se transfirió la cuenta."
 
 #: src/Account.php:517 src/Account.php:574
 msgid "The selected fingerprint does not belong to an entity you can access"
@@ -524,11 +536,12 @@ msgstr ""
 
 #: src/Account.php:589 tests/PasswordHistoryTest.php:295
 msgid "The submitted password is not integrity protected and was ignored"
-msgstr "La contraseña enviada no tiene protección de integridad y fue ignorada"
+msgstr ""
+"La contraseña enviada no tiene protección de integridad y fue ignorada"
 
 #: src/Account.php:500 src/Account.php:657
 msgid "The submitted secret uses a former encryption format and was ignored"
-msgstr ""
+msgstr "El secreto enviado usa un formato de cifrado anterior y se ignoró"
 
 #: src/Account.php:940
 msgid ""
@@ -545,11 +558,12 @@ msgstr "Esta no es una clave de encriptado para esta entidad"
 #: ⁨standard input⁩:121
 msgid ""
 "This fingerprint still uses the former unsalted verifier, which is cheap to "
-"attack offline. Change the encryption key to migrate it to the salted format."
+"attack offline. Change the encryption key to migrate it to the salted "
+"format."
 msgstr ""
 "Esta huella digital todavía usa el verificador anterior sin 'salt', lo que "
-"la hace vulnerable a ataques fuera de línea. Cambiá la clave de encriptación "
-"para migrarla al formato con 'salt'."
+"la hace vulnerable a ataques fuera de línea. Cambiá la clave de encriptación"
+" para migrarla al formato con 'salt'."
 
 #: ⁨standard input⁩:40
 msgid "Time of checking of expiration of accounts"
@@ -576,7 +590,7 @@ msgstr "Tipo de vista"
 
 #: ⁨standard input⁩:33
 msgid "Unable to decrypt this password history entry."
-msgstr ""
+msgstr "No se puede descifrar esta entrada del historial de contraseñas."
 
 #: ⁨standard input⁩:86
 msgid "Update"
@@ -624,8 +638,8 @@ msgstr ""
 "problema con la clave de encriptación."
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
-#: ⁨standard input⁩:222 ⁨standard input⁩:299 ⁨standard input⁩:587 ⁨standard input⁩:618
-#: ⁨standard input⁩:48 ⁨standard input⁩:32
+#: ⁨standard input⁩:222 ⁨standard input⁩:299 ⁨standard input⁩:587 ⁨standard
+#: input⁩:618 ⁨standard input⁩:48 ⁨standard input⁩:32
 msgid "Wrong encryption key"
 msgstr "Clave de encriptado erronea"
 
