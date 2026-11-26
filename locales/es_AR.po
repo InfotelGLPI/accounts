@@ -662,7 +662,7 @@ msgstr "No ingresaste la contraseña ni la clave de cifrado"
 
 #: src/Hash.php:355
 msgid "You must generate the fingerprint for your encryption key"
-msgstr "Debés generar la huella para tu clave de cifrado"
+msgstr "Debés generar la huella digital para tu clave de cifrado"
 
 #: src/Account.php:920
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
