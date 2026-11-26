@@ -322,7 +322,7 @@ msgstr "Cuenta nueva"
 
 #: ⁨standard input⁩:64
 msgid "New encryption key"
-msgstr "Clave de encriptado nueva"
+msgstr "Clave de cifrado nueva"
 
 #: ⁨standard input⁩:204 ⁨standard input⁩:378
 msgid "No"
