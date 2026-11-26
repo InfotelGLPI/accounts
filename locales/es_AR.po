@@ -618,8 +618,7 @@ msgstr ""
 
 #: ⁨standard input⁩:57
 msgid "WARNING : saving the encryption key is a security hole"
-msgstr ""
-"ADVERTENCIA : guardar la clave de encriptación es una brecha de seguridad"
+msgstr "ADVERTENCIA : guardar la clave de cifrado es una brecha de seguridad"
 
 #: ⁨standard input⁩:185
 msgid ""
