@@ -667,7 +667,8 @@ msgstr "Debés generar la huella digital para tu clave de cifrado"
 #: src/Account.php:920
 msgid "Your encryption key is malformed, please regenerate the fingerprint"
 msgstr ""
-"Tu clave de cifrado está mal formada; por favor, volvé a generar la huella"
+"Tu clave de cifrado está mal formada; por favor, volvé a generar la huella "
+"digital"
 
 #: ⁨standard input⁩:695
 msgid "characters"
