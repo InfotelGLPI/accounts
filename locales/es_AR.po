@@ -484,14 +484,14 @@ msgid ""
 "The encryption key is no longer available, please display the list again "
 "before exporting it"
 msgstr ""
-"La clave de encriptación ya no está disponible, por favor volvé a mostrar la"
-" lista antes de exportarla"
+"La clave de cifrado ya no está disponible, por favor volvé a mostrar la "
+"lista antes de exportarla"
 
 #: front/hash.form.php:102 ⁨standard input⁩:65 ⁨standard input⁩:154 ⁨standard
 #: input⁩:77
 #, php-format
 msgid "The encryption key must be at least %d characters long"
-msgstr "La clave de encriptación debe tener al menos %d caracteres"
+msgstr "La clave de cifrado debe tener al menos %d caracteres"
 
 #: src/Hash.php:567 tests/PasswordHistoryTest.php:209
 msgid ""
