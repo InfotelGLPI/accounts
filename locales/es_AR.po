@@ -642,7 +642,7 @@ msgstr ""
 #: ⁨standard input⁩:222 ⁨standard input⁩:299 ⁨standard input⁩:587 ⁨standard
 #: input⁩:618 ⁨standard input⁩:48 ⁨standard input⁩:32
 msgid "Wrong encryption key"
-msgstr "Clave de encriptado erronea"
+msgstr "Clave de cifrado incorrecta"
 
 #: ⁨standard input⁩:201 ⁨standard input⁩:376
 msgid "Yes"
