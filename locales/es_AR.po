@@ -477,7 +477,7 @@ msgstr ""
 
 #: src/AesKey.php:229
 msgid "The encryption key cannot be empty"
-msgstr "La clave de encriptación no puede estar vacía"
+msgstr "La clave de cifrado no puede estar vacía"
 
 #: src/Report.php:126
 msgid ""
