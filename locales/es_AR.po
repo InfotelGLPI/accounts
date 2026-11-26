@@ -555,7 +555,7 @@ msgstr ""
 
 #: src/Account.php:896 src/Account.php:945
 msgid "There is no encryption key for this entity"
-msgstr "Esta no es una clave de encriptado para esta entidad"
+msgstr "No hay una clave de cifrado para esta entidad"
 
 #: ⁨standard input⁩:121
 msgid ""
