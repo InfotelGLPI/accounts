@@ -229,7 +229,7 @@ msgstr[2] "Claves de cifrado"
 
 #: front/hash.form.php:116 ⁨standard input⁩:52
 msgid "Encryption key modified"
-msgstr "Se modificó la clave de encriptado"
+msgstr "Clave de cifrado modificada"
 
 #: front/aeskey.form.php:73
 msgid "Encryption key saved"
