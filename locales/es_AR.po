@@ -310,7 +310,7 @@ msgstr "Minúscula"
 
 #: src/Hash.php:98
 msgid "Modification of the encryption key for all passwords"
-msgstr "Modificación de la clave de encriptación para todas las contraseñas"
+msgstr "Modificación de la clave de cifrado para todas las contraseñas"
 
 #: ⁨standard input⁩:54 ⁨standard input⁩:60
 msgid "Name"
