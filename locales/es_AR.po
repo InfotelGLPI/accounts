@@ -282,7 +282,7 @@ msgstr "Grupo a cargo"
 
 #: src/Hash.php:364
 msgid "Invalid fingerprint for your encryption key"
-msgstr "Huella no válida para tu clave de cifrado"
+msgstr "Huella digital no válida para tu clave de cifrado"
 
 #: ⁨standard input⁩:345
 msgid "Leave blank to keep current"
