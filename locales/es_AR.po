@@ -216,7 +216,7 @@ msgstr "Vacío para infinito"
 
 #: src/Report.php:387
 msgid "Encrypted password"
-msgstr "Contraseña encriptada"
+msgstr "Contraseña cifrada"
 
 #: src/AesKey.php:76 src/AesKey.php:85 src/AesKey.php:362 src/AesKey.php:370
 #: src/Account.php:2128 src/Account.php:2132 ⁨standard input⁩:71 ⁨standard
