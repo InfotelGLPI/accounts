@@ -183,7 +183,7 @@ msgstr "Descifrado de la cuenta"
 
 #: ajax/log_decrypt.php:67
 msgid "Decrypted from item"
-msgstr "Desencriptado del elemento"
+msgstr "Descifrado del elemento"
 
 #: ajax/log_decrypt.php:63
 msgid "Decrypted from password history"
