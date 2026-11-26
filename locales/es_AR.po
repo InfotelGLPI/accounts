@@ -627,8 +627,8 @@ msgid ""
 "password."
 msgstr ""
 "ADVERTENCIA: Si cambiás la huella digital asociada, ya no vas a poder "
-"desencriptar la contraseña correctamente. Además vas a tener que actualizar "
-"la contraseña."
+"descifrar la contraseña correctamente. Además vas a tener que actualizar la "
+"contraseña."
 
 #: src/Account.php:484
 msgid ""
