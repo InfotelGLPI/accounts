@@ -604,7 +604,7 @@ msgstr "Myúscula"
 
 #: ⁨standard input⁩:52
 msgid "WARNING : an encryption key already exists for this entity"
-msgstr "ADVERTENCIA : ya existe una clave de encriptación para esta entidad"
+msgstr "ADVERTENCIA : ya existe una clave de cifrado para esta entidad"
 
 #: ⁨standard input⁩:32
 msgid ""
