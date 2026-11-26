@@ -191,7 +191,7 @@ msgstr "Descifrado desde el historial de contraseñas"
 
 #: src/Report.php:321
 msgid "Decrypted password"
-msgstr "Contraseña desencriptada"
+msgstr "Contraseña descifrada"
 
 #: src/NotificationTargetAccount.php:224 src/NotificationTargetAccount.php:298
 msgid "Direct link to created account"
