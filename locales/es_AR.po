@@ -179,7 +179,7 @@ msgstr "Descifrar"
 
 #: ajax/log_decrypt.php:65
 msgid "Decrypted from account"
-msgstr "Descifrado de la cuenta"
+msgstr "Descifrado desde la cuenta"
 
 #: ajax/log_decrypt.php:67
 msgid "Decrypted from item"
