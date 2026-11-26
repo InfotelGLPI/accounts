@@ -270,7 +270,7 @@ msgstr "Generar"
 
 #: ⁨standard input⁩:80
 msgid "Generate fingerprint with this encryption key"
-msgstr "Generar huella con esta clave de cifrado"
+msgstr "Generar huella digital con esta clave de cifrado"
 
 #: ⁨standard input⁩:649
 msgid "Generate password"
