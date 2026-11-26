@@ -507,7 +507,7 @@ msgid ""
 "The encryption key was not modified: the following accounts could not be "
 "read with the former key: %1$s"
 msgstr ""
-"No se modificó la clave de encriptación: no se pudieron leer las siguientes "
+"No se modificó la clave de cifrado: no se pudieron leer las siguientes "
 "cuentas con la clave anterior: %1$s"
 
 #: front/hash.form.php:125
