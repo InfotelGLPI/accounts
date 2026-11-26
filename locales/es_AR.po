@@ -401,7 +401,7 @@ msgstr "Guardar"
 
 #: src/AesKey.php:100
 msgid "Save the encryption key"
-msgstr "Guardar la clave de encriptado"
+msgstr "Guardar la clave de cifrado"
 
 #: src/Profile.php:157
 msgid "See accounts of my groups"
