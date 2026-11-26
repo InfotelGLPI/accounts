@@ -550,8 +550,8 @@ msgid ""
 "There is no encryption key associated to this account, please select one "
 "above"
 msgstr ""
-"No hay ninguna clave de encriptación asociada a esta cuenta, por favor "
-"seleccioná una arriba"
+"No hay ninguna clave de cifrado asociada a esta cuenta, por favor seleccioná"
+" una arriba"
 
 #: src/Account.php:896 src/Account.php:945
 msgid "There is no encryption key for this entity"
