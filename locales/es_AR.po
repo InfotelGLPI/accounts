@@ -342,7 +342,7 @@ msgstr "Números"
 
 #: ⁨standard input⁩:42
 msgid "Old encryption key"
-msgstr "Clave de encriptado vieja"
+msgstr "Clave de cifrado vieja"
 
 #: ⁨standard input⁩:533
 msgid "Others"
