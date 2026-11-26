@@ -635,8 +635,8 @@ msgid ""
 "Warning: the encrypted password is very long and may indicate an issue with "
 "the encryption key."
 msgstr ""
-"Advertencia: la contraseña encriptada es muy larga y puede indicar un "
-"problema con la clave de encriptación."
+"Advertencia: la contraseña cifrada es muy larga y puede indicar un problema "
+"con la clave de cifrado."
 
 #: front/hash.form.php:86 src/Report.php:113 src/Account_Item.php:541
 #: ⁨standard input⁩:222 ⁨standard input⁩:299 ⁨standard input⁩:587 ⁨standard
