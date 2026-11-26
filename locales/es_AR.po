@@ -72,8 +72,8 @@ msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "TOTP secret was cleared for security."
 msgstr ""
-"La cuenta \"%s\" se transfirió, pero no se encontró la huella en la entidad "
-"de destino. Por seguridad, se borró el secreto TOTP."
+"La cuenta \"%s\" se transfirió, pero no se encontró la huella digital en la "
+"entidad de destino. Por seguridad, se borró el secreto TOTP."
 
 #: src/NotificationTargetAccount.php:54 src/NotificationTargetAccount.php:235
 msgid "Accounts expired"
