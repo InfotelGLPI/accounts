@@ -63,8 +63,8 @@ msgid ""
 "Account \"%s\" transferred but no fingerprint found in destination entity. "
 "Password was cleared for security."
 msgstr ""
-"La cuenta \"%s\" se transfirió, pero no se encontró la huella digital en la "
-"entidad de destino. Por seguridad, se borró la contraseña."
+"La cuenta \"%s\" se transfirió, pero no se encontró la huella en la entidad "
+"de destino. Por seguridad, se borró la contraseña."
 
 #: src/Account.php:1423
 #, php-format
