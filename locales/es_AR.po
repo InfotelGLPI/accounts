@@ -613,8 +613,8 @@ msgid ""
 "make a backup of the database before."
 msgstr ""
 "ADVERTENCIA : si te equivocás al ingresar la clave anterior o la nueva, ya "
-"no vas a poder desencriptar tus contraseñas. Se recomienda ENFÁTICAMENTE "
-"hacer una copia de seguridad de la base de datos antes."
+"no vas a poder descifrar tus contraseñas. Se recomienda ENFÁTICAMENTE hacer "
+"una copia de seguridad de la base de datos antes."
 
 #: ⁨standard input⁩:57
 msgid "WARNING : saving the encryption key is a security hole"
