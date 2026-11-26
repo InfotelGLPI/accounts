@@ -658,7 +658,7 @@ msgstr ""
 
 #: ⁨standard input⁩:581 ⁨standard input⁩:609
 msgid "You have not filled the password and encryption key"
-msgstr "No ingresaste la contraseña ni la clave de encriptación"
+msgstr "No ingresaste la contraseña ni la clave de cifrado"
 
 #: src/Hash.php:355
 msgid "You must generate the fingerprint for your encryption key"
