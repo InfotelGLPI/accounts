@@ -233,7 +233,7 @@ msgstr "Clave de cifrado modificada"
 
 #: front/aeskey.form.php:73
 msgid "Encryption key saved"
-msgstr "Clave de encriptación guardada"
+msgstr "Clave de cifrado guardada"
 
 #: ⁨standard input⁩:421
 msgid "Entries to show:"
