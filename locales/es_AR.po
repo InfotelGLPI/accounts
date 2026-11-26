@@ -175,7 +175,7 @@ msgstr[2] "Días"
 
 #: src/Account_Item.php:470 ⁨standard input⁩:74
 msgid "Decrypt"
-msgstr "Desencriptar"
+msgstr "Descifrar"
 
 #: ajax/log_decrypt.php:65
 msgid "Decrypted from account"
