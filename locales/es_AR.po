@@ -472,7 +472,7 @@ msgid ""
 "The TOTP secret of account \"%s\" could not be decrypted with the source "
 "key: the account was not transferred."
 msgstr ""
-"No se pudo desencriptar el secreto TOTP de la cuenta \"%s\" con la clave de "
+"No se pudo descifrar el secreto TOTP de la cuenta \"%s\" con la clave de "
 "origen: no se transfirió la cuenta."
 
 #: src/AesKey.php:229
